@@ -1,0 +1,2 @@
+" No cursorline
+setlocal nocursorline
