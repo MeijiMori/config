@@ -12,55 +12,25 @@ let s:generator_item_length=88
 let g:useable_key_count = 0
 
 let g:useable_colors_key = {}
-
-if has('gui_running')
-  " gui "{{{
-  let g:useable_colors_key = {
-        \ '0': '0',
-        \ '1': '1',
-        \ '2': '2',
-        \ '3': '3',
-        \ '4': '4',
-        \ '5': '5',
-        \ '6': '6',
-        \ '7': '7',
-        \ '8': '8',
-        \ '9': '9',
-        \ '10' : 'a',
-        \ '11' : 'b',
-        \ '12' : 'c',
-        \ '13' : 'd',
-        \ '14' : 'e',
-        \ '15' : 'f',
-        \ }
-  "}}}
-else
-  " cui "{{{
-  let i = 0
-   while i < g:useable_key_count
-     let g:useable_colors_key[i] = i
-     let i = i + 1
-   endwhile
-   "}}}
-endif
+let g:useable_colors_key = {}
 
 " Highlight rule
 let s:hl_item  = {
-      \ 'hl_rule' : [],
-      \ }
+    \ 'hl_rule' : [],
+    \ }
 
 "}}}
 
 " Source
 let s:source = {
-      \ 'name'           : 'color_generator',
-      \ 'description'    : 'Source for color generator',
-      \ 'default_action' : 'execute',
-      \ 'max_candidates' : s:generator_item_length,
-      \ 'hooks'          : {},
-      \ 'action_table'   : {},
-      \ 'syntax'         : 'uniteSource__Colorgenerator',
-      \ }
+    \ 'name'           : 'color_generator',
+    \ 'description'    : 'Source for color generator',
+    \ 'default_action' : 'execute',
+    \ 'max_candidates' : s:generator_item_length,
+    \ 'hooks'          : {},
+    \ 'action_table'   : {},
+    \ 'syntax'         : 'uniteSource__Colorgenerator',
+    \ }
 
 " Functions "{{{
 
@@ -76,6 +46,7 @@ function! s:source.gather_candidates(args, context) "{{{
 
   let cl = g:useable_colors_key
   let limit = g:useable_key_count
+  let item_count = 0
 
   if has('gui_running')
     " gui
@@ -83,7 +54,6 @@ function! s:source.gather_candidates(args, context) "{{{
     let one = 0
     let two = 0
 
-    let item_count = 0
     let color_item = {}
     let step_range = 1
     let cs = 'f'
@@ -146,23 +116,22 @@ function! s:source.gather_candidates(args, context) "{{{
 
   else
     " cui
-    let item_count = 0
 
     while item_count < limit
 
       " For debug"{{{
-      echomsg "color_item : " . cl[item_count]
+      " echomsg "color_item : " . cl[item_count]
       "}}}
 
       " For syntax
       call add(hl_rule, {
       \ 'name' : cl[item_count],
-      \ 'pattern' : '/\<' . cl[item_count] . '\>/'
+      \ 'pattern' : '/\* ' . cl[item_count] . ' \*/'
       \})
 
       call add(result, {
       \ "word" : cl[item_count],
-      \ "abbr" : printf('%-16s', '-' . cl[item_count] . '-'),
+      \ "abbr" : printf('%-16s', ' * ' . cl[item_count] . ' * '),
       \ "kind" : "command",
       \ "action__command" : "highlight lCursor ctermfg=" . cl[item_count] . " ctermbg=0 cterm=NONE"
       \})
@@ -186,6 +155,43 @@ endfunction "}}}
 " Init
 function! s:source.hooks.on_init(args, context) "{{{
   let g:useable_key_count = has('gui_running') ? 16 : &t_Co
+  " color item key
+  if has('gui_running')
+    " gui "{{{
+    let g:useable_colors_key = {
+    \ '0': '0',
+    \ '1': '1',
+    \ '2': '2',
+    \ '3': '3',
+    \ '4': '4',
+    \ '5': '5',
+    \ '6': '6',
+    \ '7': '7',
+    \ '8': '8',
+    \ '9': '9',
+    \ '10' : 'a',
+    \ '11' : 'b',
+    \ '12' : 'c',
+    \ '13' : 'd',
+    \ '14' : 'e',
+    \ '15' : 'f',
+    \ }
+    "}}}
+  else
+    " cui "{{{
+    let i = 0
+    while i < g:useable_key_count
+      let g:useable_colors_key[i] = i
+      let i = i + 1
+    endwhile
+    " For debug"{{{
+    " while i < g:useable_key_count
+    "   echomsg g:useable_colors_key[i]
+    "   let i = i+1
+    " endwhile
+    "}}}
+    "}}}
+  endif
   " For debug"{{{
   " echomsg "g:useable_key_count : " . g:useable_key_count
   "}}}
@@ -193,12 +199,16 @@ endfunction "}}}
 " Syntax
 function! s:source.hooks.on_syntax(args, context) "{{{
 
+  let env = has('gui_running') ? 'gui' : 'cterm'
+  let sepa = has('gui_running') ? '#' : ''
+
   for hl_rule in s:hl_item.hl_rule
-  " execute 'syntax match uniteSource__Colorgenerator_' . hl_rule.name '/#[0-9a-f]\{,6}/'
-  execute 'syntax match uniteSource__Colorgenerator_' . hl_rule.name hl_rule.pattern
-  \ . ' contained containedin=uniteSource__Colorgenerator'
-  execute 'highlight uniteSource__Colorgenerator_' . hl_rule.name
-  \ . ' guifg=#'. hl_rule.name . ' guibg=#' . hl_rule.name . ' gui=NONE'
+    " execute 'syntax match uniteSource__Colorgenerator_' . hl_rule.name '/#[0-9a-f]\{,6}/'
+    execute 'syntax match uniteSource__Colorgenerator_' . hl_rule.name hl_rule.pattern
+    \ . ' contained containedin=uniteSource__Colorgenerator'
+    execute 'highlight uniteSource__Colorgenerator_' . hl_rule.name
+    \ . ' ' . env .'fg=' . sepa . hl_rule.name . ' ' . env . 'bg=' . sepa . hl_rule.name
+    \ . ' ' . env . '=NONE'
   endfor
 
 endfunction "}}}
