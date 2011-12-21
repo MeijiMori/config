@@ -1,0 +1,105 @@
+! Basic? !{{{
+! =====
+Rxvt.geometry: 80x25
+
+Rxvt.scrollBar: true
+! Rxvt.scrollBar_align: ...
+! Rxvt.scrollBar_floating: ...
+Rxvt.scrollBar_right: false
+Rxvt.scrollstyle: plain
+
+! Rxvt.backgroundPixmap: ...
+Rxvt.externalBorder: 0
+! Rxvt.iconName: ...
+Rxvt.inheritPixmap: false
+! Rxvt.inheritPixmapforce: ...
+Rxvt.internalBorder: 0
+Rxvt.lineSpace: 0
+Rxvt.reverseVideo: false
+! Rxvt.thickness: ...
+! Rxvt.title: ...
+! Rxvt.ufbackground: ...
+Rxvt.visualBell: false
+
+! Rxvt.keysym.SYM: ...
+
+! Rxvt.answerbackString: ...
+! Rxvt.backspacekey: ...
+! Rxvt.cutchars: ...
+! Rxvt.deletekey: ...
+! Rxvt.greek_keyboard: ...
+! Rxvt.greektoggle_key: ...
+! Rxvt.inputMethod: ...
+Rxvt.jumpScroll: true
+Rxvt.loginShell: false
+Rxvt.mapAlert: false
+! Rxvt.menu: ...
+Rxvt.meta8: false
+Rxvt.modifier: alt
+Rxvt.mouseWheelScrollPage: false
+Rxvt.multibyte_cursor: true
+Rxvt.multichar_encoding: sjis
+! Rxvt.path: ...
+! Rxvt.preeditType: ...
+! Rxvt.print-pipe: ...
+! Rxvt.saveLines: ...
+Rxvt.scrollTtyKeypress: true
+Rxvt.scrollTtyOutput: false
+Rxvt.scrollWithBuffer: false
+! Rxvt.selectstyle: ...
+Rxvt.termName: rxvt
+! Rxvt.tripleclickwords: ...
+Rxvt.utmpInhibit: false
+! }}}
+! Font !{{{
+! =====
+! Inconsolata
+URxvt.font:\
+    xft:Inconsolata:style=Medium:size=13:antialias=true,\
+    xft:Ricty:style=Regular-Mono
+URxvt.boldFont:\
+    xft:Inconsolata,\
+    xft:Ricty:style=Regular-Mono
+URxvt.italicFont:\
+    xft:Inconsolata,\
+    xft:Ricty:style=Regular-Mono
+URxvt.boldItalicFont:\
+    xft:Inconsolata,\
+    xft:Ricty:style=Regular-Mono
+!}}}
+! Color !{{{
+! =====
+Rxvt.background: #20202f
+Rxvt.foreground: #cccccc
+
+Rxvt.color0: #000000
+Rxvt.color1: #995f5f
+Rxvt.color2: #009900
+Rxvt.color3: #999900
+Rxvt.color4: #5f5fcf
+Rxvt.color5: #990099
+Rxvt.color6: #009999
+Rxvt.color7: #cccccc
+Rxvt.color8: #666666
+Rxvt.color9: #cc0000
+Rxvt.color10: #00cc00
+Rxvt.color11: #cccc00
+Rxvt.color12: #7fafff
+Rxvt.color13: #cc00cc
+Rxvt.color14: #00cccc
+Rxvt.color15: #ffffff
+
+Rxvt.cursorColor: #cccccc
+Rxvt.cursorColor2: #000000
+
+! Rxvt.colorBD: ...
+! Rxvt.colorRV: ...
+! Rxvt.colorUL: ...
+! Rxvt.borderColor: ...
+Rxvt.scrollColor: #1f2f5f
+! Rxvt.troughColor: #666666
+! Rxvt.pointerColor: ...
+! }}}
+
+! __END__
+! vim: filetype=xdefaults
