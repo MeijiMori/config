@@ -15,10 +15,10 @@ if version > 580
 endif
 
 " #- This colorscheme name -# "{{{1
-let g:colors_name = "JsIml"
+let g:colors_name = "Jager"
 
 " #- Highlighting groups for various occasions -# "{{{1
-highlight Normal guifg=#000000 guibg=#fcf5ff gui=NONE
+highlight Normal guifg=#000000 guibg=#fff0fa gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight SpecialKey guifg=#7f5f8f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
