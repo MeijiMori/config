@@ -24,16 +24,16 @@ unlet s:tmp
 
 " Position of vim runtime "{{{
 if s:iswin
-  " let g:vimdir = expand('~/vimfiles')
-  let g:vimdir = expand('~/.vim')
+  " let g:vim_dir = expand('~/vimfiles')
+  let g:vim_dir = expand('~/.vim')
 else
   " Define $DOTVIM is ~/.vim on *nix
-  let g:vimdir = expand('~/.vim')
+  let g:vim_dir = expand('~/.vim')
 endif
-let g:vim_info_dir = g:vimdir . '/initfiles'
+let g:vim_info_dir = g:vim_dir . '/initfiles'
 " Make directory "{{{
-if !isdirectory(g:vimdir)
-  call mkdir(g:vimdir, 'p')
+if !isdirectory(g:vim_dir)
+  call mkdir(g:vim_dir, 'p')
 endif
 if !isdirectory(g:vim_info_dir)
   call mkdir(g:vim_info_dir, 'p')
@@ -77,7 +77,7 @@ endif
 " In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
 if s:iswin
   "let $DOTVIM = expand('$VIM')
-  let $DOTVIM =  g:vimdir
+  let $DOTVIM =  g:vim_dir
 else
   "let $DOTVIM = expand('~/.vim')
   let $DOTVIM = expand('~/.vim')
@@ -96,9 +96,14 @@ endif
 " Setting for only first booting "{{{
 if has('vim_starting')
   if s:iswin
-    " Setting of path for use gow (windows)
-    let s:gow_pass = 'z:\usr\bin\gow\bin'
-    let $PATH = s:gow_pass . ';' . $PATH
+    " Setting of path for use tools
+    let mingw_pass = 'z:\MinGW'
+    let msys_pass = 'z:\msys'
+    let git_pass = 'z:\usr\bin\Git'
+    let gow_pass = 'z:\usr\bin\gow'
+    let plus_bin = '\bin'
+    let $PATH = msys_pass . plus_bin . ';' . mingw_pass . plus_bin . ';' . git_pass . plus_bin . ';' . gow_pass . ';' . $PATH
+    unlet gow_pass
   else
   " Set path.
   let $PATH = expand('~/ws/local/bin') . ':/usr/local/bin:' . $PATH
@@ -181,11 +186,13 @@ let &rtp = substitute(&rtp,
   \ escape($HOME, '\') . '/vimfiles', escape($HOME, '\') . '/.vim', 'g')
 
 " Set runtimepath.
-if s:iswin
-  let &runtimepath = join([g:vimdir, g:vimdir . '/after', g:vimdir . '/bundle/rtputil', expand('$VIM'), expand('$VIMRUNTIME')], ',')
+let pmps = expand('~/.vim/bundle/rtputil.vim')
+if isdirectory(pmps)
+  let &runtimepath = join([g:vim_dir, g:vim_dir . '/after', pmps, expand('$VIM'), expand('$VIMRUNTIME')], ',')
 else
-    let &runtimepath = join([g:vimdir, g:vimdir . '/bundle/rtputil', expand('~/.vim/after'),expand('$VIM'), expand('$VIMRUNTIME')], ',')
+  let &runtimepath = join([g:vim_dir, g:vim_dir . '/after', expand('$VIM'), expand('$VIMRUNTIME')], ',')
 endif
+unlet pmps
 
 "}}}
 
@@ -711,11 +718,8 @@ function! s:my_tabline() "{{{
   endfor
 
   " let l:s .= '%#TabLineFill#%T%=%#TabLine#|%999X %X'
-  if globpath(&rtp, 'bundle/cfi.vim') != ''
-    let l:s .= '%#TabLineFill#%T%=%#TabLine#%{cfi#format("[%s()]", "[no function]")} [%999X %{fnamemodify(getcwd(), ":~")} ]'
-  else
     let l:s .= '%#TabLineFill#%T%=%#TabLine#[%999X %{fnamemodify(getcwd(), ":~")} ]'
-  endif
+  "endif
   return l:s
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
@@ -1053,16 +1057,17 @@ let g:lisp_rainbow = 1
 "---------------------------------------------------------------------------
 " Plugin:"{{{
 "
-" #- rtputil -# "{{{
-" path manager
-if globpath(&rtp, 'bundle/rtputil') != ''
+
+" #- rtputil.vim -# "{{{
+if globpath(&rtp, 'bundle/rtputil.vim') != ''
+  " path manager
   call rtputil#bundle()
   call rtputil#helptags()
 endif
-" }}}
+"}}}
 
 " #- neocomplcache.vim -# "{{{
-if globpath(&rtp, 'bundle/neocomplcache') != ''
+if globpath(&rtp, 'bundle/neocomplcache.vim') != ''
   " Setting of directory for neocomplcache "{{{
   let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
   " For snippets
@@ -1105,11 +1110,11 @@ if globpath(&rtp, 'bundle/neocomplcache') != ''
   " Define dictionary.
   let g:neocomplcache_dictionary_filetype_lists = {
         \ 'default' : '',
-        \ 'vimshell' : g:vimdir . '/initfiles/.vimshell/.vimshell_hist',
+        \ 'vimshell' : g:vim_info_dir . '/.vimshell/.vimshell_hist',
         \ 'scheme' : expand('$DOTVIM/gosh_completions'),
         \ 'scala' : expand('$DOTVIM/dict/scala.dict'),
         \ 'ruby' : expand('$DOTVIM/dict/ruby.dict'),
-        \ 'int-termtter' : g:vimdir . '/initfiles/.vimshell/int-history/int-termtter',
+        \ 'int-termtter' : g:vim_info_dir . '/.vimshell/int-history/int-termtter',
         \ }
 
   if !s:iswin
@@ -1276,11 +1281,8 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
     " }}}
   endif
 
-  let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-  " let g:vimshell_user_prompt = "3\ngetcwd()"
-  " let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-  " let g:vimshell_user_prompt = 'printf("%s  %50s", fnamemodify(getcwd(), ":~"), vimshell#vcs#info("(%s)-[%b]"))'
-  "let g:vimshell_right_prompt = 'fnamemodify(getcwd(), ":~")'
+  " let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+  let g:vimshell_right_prompt = 'fnamemodify(getcwd(), ":~")'
 
   " Initialize execute file list.
   let g:vimshell_execute_file_list = {}
@@ -1738,7 +1740,7 @@ endif
 " #- surround.vim -# "{{{
 if globpath(&rtp, 'bundle/surround.vim') != ''
   " Setting of surround for kana
-  let surround = g:vimdir . '/bundle/surround.vim/plugin/surround.vim'
+  let surround = g:vim_dir . '/bundle/surround.vim/plugin/surround.vim'
   if filereadable(surround)
     execute 'source ' . surround
     unlet surround
@@ -2140,6 +2142,15 @@ if globpath(&rtp, 'bundle/open-browser.vim') != ''
 endif
 "}}}
 
+" #- winmove -# "{{{
+if globpath(&rtp, "bundle/winmove.vim")
+  let g:wm_move_up = '<Up>'
+  let g:wm_move_right = '<Right>'
+  let g:wm_move_down = '<Down>'
+  let g:wm_move_left = '<Left>'
+endif
+"}}}
+
 "}}}
 
 "---------------------------------------------------------------------------
@@ -2257,7 +2268,7 @@ nmap :  <sid>(command-line-enter)
 xmap :  <sid>(command-line-enter)
 "
 autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
-function! s:init_cmdwin() " "{{{
+function! s:init_cmdwin()  "{{{
   nnoremap <buffer> q :<C-u>quit<CR>
   nnoremap <buffer> <TAB> :<C-u>quit<CR>
   nnoremap <buffer> ; :
@@ -2265,11 +2276,11 @@ function! s:init_cmdwin() " "{{{
 
   " Neocomplcache
   if globpath(&rtp, 'bundle/neocomplcache') != ''
-    inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
-    inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
-    inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
+   " inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
+   " inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
+   " inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
   " Completion.
-  inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
+  "inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
   endif
 
   " Altercmd.
@@ -2281,8 +2292,8 @@ function! s:init_cmdwin() " "{{{
 
   " ambicmd
   if globpath(&rtp, "bundle/ambicmd") != ''
-    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-    inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
+    "inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+    "inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
   endif
 
   startinsert!
@@ -3209,7 +3220,7 @@ endfunction
 " #########################################################################
 command! -nargs=0 JunkFile call s:open_junk_file()
 function! s:open_junk_file()
-  let l:junk_dir = g:vimdir . '/junk'. strftime('/%Y')
+  let l:junk_dir = g:vim_dir . '/junk'. strftime('/%Y')
   if !isdirectory(l:junk_dir)
     call mkdir(l:junk_dir, 'p')
   endif
