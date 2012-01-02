@@ -1,0 +1,132 @@
+;;こっちに書くと全てのユーザーで有効になる。速度はsiteinit.lの方が速い
+
+;;trace on
+(toggle-trace-on-error)
+
+;;------------------------------------------------------------------------
+;;php-mode
+
+(require "php-mode")
+(require "php-misc")
+
+;;(pushnew '("\\.php$" . php-mode) *auto-mode-alist* :test 'equal)
+;;(pushnew '("\\.inc$" . php-mode) *auto-mode-alist* :test 'equal)
+
+(setq *php-doc-base-path* "http://www.php.net/manual/ja/html/")
+
+;;for search loacal
+(setq *php-doc-base-path* "C:/path/to/html/manual/")
+;;for HTML HELP
+(setq *php-html-help-path*
+      (merge-pathnames "etc/php_manual_ja.chm" (si:system-root)))
+;;C-; で、カーソル行のコメントをトグル、または、セレクションをコメントにする
+
+(define-key ed::*php-mode-map* #\C-\;
+            #'(lambda () (interactive)
+                (encomment-selection-or-comment-toggle-line "//")))
+
+;;C-M-; で、セレクションをコメントでなくする
+(define-key ed::*php-mode-map* #\M-\C-\;
+            #'(lambda () (interactive)
+                (outcomment-selection "//")))
+;;------------------------------------------------------------------------
+;;javascript-mode
+(load-library "javascript-mode")
+(push '("\\.js$" . javascript-mode) *auto-mode-alist*)
+;;-------------------------------------------------------------------------
+;;www-mode
+;;(autoload 'www "www/www" t)                ; 通常起動
+;;(autoload 'www-open-url "www/www" t)            ; URLを指定して起動
+;;(autoload 'www-open-local-file "www/www" t)     ; ローカルのファイルを指定して開く
+;;(autoload 'www-open-current-buffer "www/www" t) ; 現在のバッファのファイルを開く
+
+;;2ch-mode
+;;(autoload '2ch "2ch/main" t)
+
+;;-------------------------------------------------------------------------
+;;javatinyconsole siteinit.lに記述するとメニューバーが表示されない
+(require "java")
+(require "jtc/jtc")
+(define-key ed::*java-mode-map* #\F1 'jtc::jtc-info)
+
+;;-------------------------------------------------------------------------
+;;my-dired
+;;(require "my-dired")
+
+;;------------------------------------------------------------------------
+;;insert2
+(setq *default-inset-file-directory* "c:\ws\tmp")
+
+;;-----------------------------------------------------------------------
+;;clip
+(require "clipselect")
+
+;;-----------------------------------------------------------------------
+;;filer
+;;filer-setting
+
+;;default direcotry left right
+;;(setq *filer-primary-direcotry* "c:\ws")
+;;(setq *filer-secondary-direcotry* "c:\")
+
+;;special direcotries (for example sendto)
+(setq *filer-direcotries*
+      (list
+        '("[My Web Site]" . "c:/users/jyunpei/")
+        '(" c:/" . "c:/")
+        (cons "[xyzzy/etc/help]" (concat (si:system-root) "etc/help"))
+        '("[Program Files]" . "c:/Program Files")
+        (cons "[Windows]" (get-windows-directory))
+        (cons "[Desktop]" (map-backslash-to-slash
+                            (get-special-folder-location :desktop)))
+        ))
+;;--------------------------------------------------------------------
+;;;;cftp
+
+(autoload 'cftp "cftp" t)
+;;ローカルのデフォルトのディレクトリ
+(setq *cftp-default-directory* "C:/xyzzy/ftp")
+;;Anonymous FTP サーバー用パスワード
+(setq *cftp-anonymous-password* "your@email.address")
+;;パスワードを保存しない場合
+(setq *cftp-save-password* nil)
+;;Passive Modeをデフォルトにする(see "lisp/wip/ftp.l")
+(setq *ftp-passive-mode* t)
+
+;;ftpdown
+(autoload 'ftpdown "ftpdown" t)
+;; ダウンロードするサーバ
+(setq *ftpdown-server* "xyzzy.net")
+;; ユーザー名
+(setq *ftpdown-user* "xyzzy")
+;; パスワード
+(setq *ftpdown-pass* "hogehoge")
+;;
+;; ダウンロードディレクトリの指定
+;; (public_html/* => site-lisp/*)
+;;
+;; サーバーのダウンロードする基準のトップディレクトリ
+(setq *ftpdown-remote-path* "public_html")
+;; ローカルのダウンロードする基準のトップディレクトリ
+(setq *ftpdown-local-path* "C:/xyzzy/site-lisp")
+;; ダウンロードするファイルのワイルドカード指定(使えるのは"*"と"?"だけ）
+;;(setq *ftpdown-file-wild-card* "*")
+
+;;ftpupdate
+(autoload 'ftpupdate "ftpupdate" t)
+(autoload 'ftpupdate-this-file "ftpupdate" t)
+(autoload 'ftpupdate-all "ftpupdate" t)
+(autoload 'ftpupdate-update-time "ftpupdate" t)
+;; アップロードするサーバ
+(setq *ftpupdate-server* "xyzzy.net")
+;; ユーザー名
+(setq *ftpupdate-user* "xyzzy")
+;; パスワード
+(setq *ftpupdate-pass* "hogehoge")
+;; サーバーのアップロードする基準のトップディレクトリ
+(setq *ftpupdate-remote-path* "public_html")
+;; ローカルのアップロードする基準のトップディレクトリ
+(setq *ftpupdate-local-path* "I:/xyzzy/site-lisp")
+;; アップロードしないファイルの正規表現(小文字で指定)
+;;(setq *ftpupdate-file-ignore-regexp*
+;;	"~$\\|\.lc\\|\.bak$\\|\.log$\\|\.dat$\\|/cvs/\\|/rcs/\\|tags$")
