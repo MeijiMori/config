@@ -1,0 +1,108 @@
+# -----------------------------------------------------------------
+#  $ID. My menu file (on windows)
+# -----------------------------------------------------------------
+
+# Available menu commands are listed in the documentation.
+# Paths with spaces should have quotes:
+
+[begin] (<Start>)
+  [nop]
+  # [submenu] (Launcher)
+  #   [exec] (shorter launch) {"bin\shorter launcher\shorter.exe"}
+  # [end]
+  [exec] (Launcher) {"bin\shorter launcher\shorter.exe"}
+  [submenu] (Tool)
+    [submenu] (net)
+      [exec] (firefox) {"bin\Firefox\firefox.exe"}
+      [exec] (chrome)  {"c:\Program Files (x86)\Google\Chrome\Application\chrome.exe"}
+    [end]
+    [submenu] (shell)
+      # [exec] (cmd) {"c:\Windows\System32\cmd.exe"}
+      # [exec] (posershell) {"c:\windows\System32\WindowsPowerShell\v1.0\powershell.exe"}
+      [exec] (nyaos) {"bin\ckw\ckw.exe"}
+    [end]
+    [submenu] (edit)
+      [exec] (GVim) {"bin\vim73\gvim.exe"}
+      [exec] (xyzzy) {"bin\xyzzy\xyzzycli.exe"}
+    [end]
+    [submenu] (filer)
+      [exec] (xfinder) {"bin\xf11-7\XF.exe"}
+      # [exec] (xyzzyfiler) {"bin\xyzzy\xyzzycli.exe -f open-filer"}
+      # [exec] (vimfiler) {"bin\vim73\gvim.exe -c VimFilerDouble"}
+    [end]
+    [submenu] (player)
+      [submenu] (movie)
+        [exec] (vlc) {"bin\VLC\vlc.exe"}
+      [end]
+      [submenu] (music)
+        [exec] (SongBird) {"bin\Sonbird_1.10\songbird.exe"}
+        [exec] (XApply) {"bin\x-APPLICATION\x-APPLICATION.exe"}
+        [exec] (foobar2000) {"bin\foobar2000\foobar2000.exe"}
+      [end]
+    [end]
+  [end]
+  [nop]
+  [submenu] (HOME)
+    [path] (HOME)         {PROFILE}
+    [path] (Drives)       {DRIVES}
+    [path] (MyPictures)   {MYPICTURES}
+    [path] (MyMusic)      {MYMUSIC}
+    [path] (MyDocument)   {MYDOCUMENT}
+  [end]
+  [nop]
+  [submenu] (System)
+    [path] (My Computer) {DRIVES}
+    [path] (Controls) {CONTROLS}
+    # Uncomment this line to check out all available system folders
+    # [include] {shellfolders.rc}
+    [run]  (Run)
+    [submenu] (BlackBox)
+      [config] (Configuration)
+      [include] {plugins\bbLeanSkin\bbLeanSkinMenu.rc}
+      [submenu] (Edit)
+        [editmenu] (menu.rc)
+        [editblackbox] (blackbox.rc)
+        [editextensions] (extensions.rc)
+        [editplugins] (plugins.rc)
+        [edit] (bbKeys.rc) {plugins\bbKeys\bbKeys.rc}
+      [end]
+      [nop]
+      # Also note that relative paths refer to the blackbox directory
+      [exec] (Documentation) {docs\bblean.htm}
+      [exec] (Install/Uninstall) {bsetshell.exe}
+      [nop]
+      [reconfig] (Reconfigure)
+      [restart] (Restart)
+      [exit]  (Quit)
+      [nop]
+      [submenu] (style)
+        [stylesmenu] (Styles) {styles}
+        [exec] (bbStyleMaker) {bbstylemaker.exe}
+        [editstyle] (Current Style)
+        [aboutstyle] (About Style)
+      [end]
+      [nop]
+      [submenu] (About)
+        [aboutstyle] (About Style)
+        [aboutplugins] (About Plugins)
+        [about] (About bbLean)
+      [end]
+    [end]
+  [end]
+  [nop]
+  [submenu] (Goodbye)
+      [lockworkstation] (Lock)
+      [logoff] (Logoff)
+      [suspend] (Standby)
+      [reboot] (Reboot)
+      [shutdown] (Shutdown)
+  [end]
+  # [nop]
+  # [path] (Start) {STARTMENU|COMMON_STARTMENU}
+  # [path] (Desktop) {DESKTOPDIRECTORY|COMMON_DESKTOPDIRECTORY}
+  # [path] (Quick) {APPDATA\Microsoft\Internet Explorer\Quick Launch}
+[end]
+
+# __End__
+# vim: fen:fdm=marker:fmr=[submenu],[end]
+# vim: filetype=config
