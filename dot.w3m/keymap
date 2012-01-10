@@ -1,0 +1,192 @@
+# My configuretion .w3m/keymap
+#
+# Note: {{{1
+# Ctrl : C-, ^
+# Escape: ESC-, M-, ^[
+# Space : SPC, ' '
+# Tab : TAB, ^i, ^I
+# Delete: DEL, ^?
+# Up : UP, ^[[A
+# Down : DOWN, ^[[B
+# Right : RIGHT, ^[[C
+# Left : LEFT, ^[[D
+
+
+# Basic Operators #{{{1
+# Move #{{{2
+keymap j MOVE_DOWN
+keymap k MOVE_UP
+keymap h MOVE_LEFT
+keymap l MOVE_RIGHT
+keymap g BEGIN
+keymap G END
+
+keymap C-a LINE_BEGIN
+keymap C-e LINE_END
+keymap C-b UP
+keymap C-f DOWN
+
+keymap w NEXT_WORD
+keymap W PREV_WORD
+
+keymap UP MOVE_UP
+keymap DOWN MOVE_DOWN
+keymap RIGHT MOVE_RIGHT
+keymap LEFT MOVE_LEFT
+
+# Close #{{{2
+keymap q QUIT
+keymap Q EXIT
+# keymap Q ABORT
+# History (include history back) #{{{2
+keymap b BACK
+keymap C-h HISTORY
+# Search #{{{2
+keymap / SEARCH
+keymap ? SEARCH_BACK
+keymap n SEARCH_NEXT
+keymap N SEARCH_PREV
+keymap C-s ISEARCH
+keymap C-r ISEARCH_BACK
+
+# Tab #{{{2
+# Basic #{{{3
+keymap t TAB_GOTO
+keymap C-T TAB_GOTO_RELATIVE
+# Open, Close #{{{3
+keymap C-t TAB_LINK
+# keymap M-TAB PREV_LINK
+keymap ", o" NEW_TAB
+keymap ", c" CLOSE_TAB
+# Menu #{{{3
+keymap M-t TAB_MENU
+# Move (include tab's self)#{{{3
+# keymap C-LEFT TAB_LEFT
+# keymap C-RIGHT TAB_RIGHT
+keymap C-n NEXT_TAB
+keymap C-p PREV_TAB
+
+#}}}2
+# Mark (Url, Link) #{{{2
+keymap m MARK
+keymap e GOTO
+keymap : MARK_URL
+keymap ";" MARK_WORD
+keymap M-: MARK_MID
+
+# Help #{{{2
+keymap "g C-h" HELP
+
+
+# }}}1
+# Book Marks #{{{1
+keymap M-b BOOKMARK
+keymap M-a ADD_BOOKMARK
+keymap M-v VIEW_BOOKMAR
+
+
+# Misc. #{{{1
+keymap O OPTIONS
+keymap C-l REDRAW
+
+
+# Mouse #{{{2
+# keymap M-m MOUSE_TOGGLE
+# keymap M-M MOVE_MOUSE
+# keymap M-e MENU_MOUSE
+# keymap M-t TAB_MOUSE
+# keymap M-c CLOSE_TAB_MOUSE
+#}}}2
+
+
+
+# Not settings #{{{1
+keymap C-g LINE_INFO
+keymap C-j GOTO_LINK
+keymap C-k COOKIE
+keymap C-m GOTO_LINK
+keymap C-u PREV_LINK
+keymap C-v NEXT_PAGE
+keymap C-w WRAP_TOGGLE
+keymap C-z SUSPEND
+
+keymap TAB NEXT_LINK
+keymap SPC NEXT_PAGE
+keymap ! SHELL
+keymap \" REG_MARK
+keymap # PIPE_SHELL
+keymap $ LINE_END
+keymap ( UNDO
+keymap ) REDO
+keymap + NEXT_PAGE
+keymap , LEFT
+keymap - PREV_PAGE
+keymap . RIGHT
+keymap < SHIFT_LEFT
+keymap = INFO
+keymap > SHIFT_RIGHT
+keymap @ READ_SHELL
+keymap D DOWNLOAD_LIST
+keymap E EDIT
+keymap F FRAME
+keymap I VIEW_IMAGE
+keymap J UP
+keymap K DOWN
+keymap L LIST
+keymap M EXTERN
+keymap Q EXIT
+keymap R RELOAD
+keymap S SAVE_SCREEN
+keymap V LOAD
+keymap W PREV_WORD
+keymap Z CENTER_H
+keymap [ LINK_BEGIN
+keymap ] LINK_END
+keymap \^ LINE_BEGIN
+keymap a SAVE_LINK
+keymap b PREV_PAGE
+keymap c PEEK
+keymap i PEEK_IMG
+keymap r VERSION
+keymap s SELECT_MENU
+keymap u PEEK_LINK
+keymap v VIEW
+keymap w NEXT_WORD
+keymap z CENTER_V
+keymap | PIPE_BUF
+
+keymap M-C-j SAVE_LINK
+keymap M-C-m SAVE_LINK
+
+keymap M-< BEGIN
+keymap M-> END
+keymap M-I SAVE_IMAGE
+keymap M-M EXTERN_LINK
+keymap M-W DICT_WORD_AT
+keymap M-c COMMAND
+keymap M-e EDIT_SCREEN
+keymap M-g GOTO_LINE
+keymap M-k DEFINE_KEY
+keymap M-l LIST_MENU
+keymap M-m MOVE_LIST_MENU
+keymap M-n NEXT_MARK
+keymap M-o SET_OPTION
+keymap M-p PREV_MARK
+keymap M-s SAVE
+keymap M-u GOTO_RELATIVE
+keymap M-v PREV_PAGE
+keymap M-w DICT_WORD
+
+
+keymap M-[E MENU
+keymap M-[L MENU
+keymap M-[Z PREV_LINK
+
+keymap M-[1~ BEGIN
+keymap M-[2~ MENU
+keymap M-[4~ END
+keymap M-[5~ PREV_PAGE
+keymap M-[6~ NEXT_PAGE
+keymap M-[28~ MENU
+
+
