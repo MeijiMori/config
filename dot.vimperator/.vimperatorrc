@@ -1,38 +1,41 @@
-"3.2 (created: 2011/06/03 11:51:34)
+﻿" My vimperatorrc (created: 2011/11/13 17:32:12)
 
-" vim:set ft=vimperator fdm=marker:
+" ==================== Initialize ==================== "{{{1
 
-" ==================== initialize ==================== "{{{
-set activate=quickmark,paste,help
-set complete=stl
+let mapleader = ','
+
+set activate=quickmark,paste,help,addons
+set newtab=addons,downloads,extoptions
+set complete=stlh
 set focuscontent
 set followhints=0
 set toolbars=all,nomenu,noaddons
 set hintchars=hjklgfdsa
-set gui=addons,nobookmarks,nomenu,navigation,tabs
-set hlsearch
+set gui=addons,nobookmarks,nomenu,navigation,tabs,menu
 set ignorecase
 set smartcase
 set incsearch
+set hlsearch
 set scroll=8
 set titlestring=Firefox
 set urlseparator=
 set visualbell
 set showstatuslinks=2
+set showmode
+set wildmode=list:full
 
 set nextpattern+='次','\bolder\b'
 set previouspattern+='前','\bnerwer\b'
 
-" FIXME: ' 'にしたいけどスペースキー押すとページがスクロールされてしまう
-let mapleader = ','
-
 set animations
 
-"}}}
-" ==================== colorscheme =================== "{{{
-colorscheme Rp2Tm
-" }}}
-" ==================== Firefox options =============== "{{{
+
+" ==================== Colorscheme =================== "{{{1
+" colorscheme Rp2Tm
+colorscheme LieWs
+
+
+" ==================== Firefox options =============== "{{{1
 " via http://retlet.net/log/2008/06/awesomebar-bookmarklet.html
 set! browser.urlbar.filter.javascript=false
 " set! browser.urlbar.maxRichResults=50
@@ -43,14 +46,14 @@ set! ui.key.generalAccessKey=0
 " open in background
 set! browser.tabs.loadDivertedInBackground=true
 
-" open also bookmarks in background
+" Open also bookmarks in background
 set! browser.tabs.loadBookmarksInBackground=true
 
-" make caret mode's bar more visible
+" Make caret mode's bar more visible
 set! ui.caretWidth=5
 set! ui.caretBlinkTime=1000
 
-" don't close window when closed last tab
+" Don't close window when closed last tab
 set! browser.tabs.closeWindowWithLastTab=false
 
 " for LDR.
@@ -81,8 +84,9 @@ set! browser.cache.memory.enable=true
 " via http://mozlinks-jp.blogspot.com/2010/09/firefox-4.html
 " http://d.hatena.ne.jp/amatanoyo/20110324/1300969572
 set! browser.sessionstore.max_concurrent_tabs=0
-" }}}
-" ==================== map =========================== "{{{
+
+
+" ==================== Map =========================== "{{{1
 javascript <<EOS
     mappings.addUserMap(
       [modes.COMMAND_LINE],
@@ -101,7 +105,7 @@ javascript <<EOS
     );
 EOS
 
-" ~ n ~ {{{
+" normal "{{{2
 nnoremap ZZ <Nop>
 
 " quick close
@@ -130,7 +134,6 @@ nnoremap <Leader>rv :<C-u>source ~/.vimperatorrc<CR> :<C-u>echo "my config loadi
 
 " Restart
 nnoremap <Leader>re :<C-u>restart<CR>
-
 
 " タブ移動
 nnoremap <Right> :tabmove! +1<CR>
@@ -167,8 +170,6 @@ nnoremap <Leader>k <C-b>
 
 nnoremap <Leader><Leader> <Leader>
 
-nnoremap <Leader>/ :set hlsearch!<CR>
-
 " Yank での URL コピー時にマルチバイトを URL エンコードしたものにする
 nnoremap y :javascript util.copyToClipboard(buffer.URL);<CR>
 
@@ -178,8 +179,22 @@ nnoremap <Leader>td :tabduplicate<CR>
 
 nnoremap <Leader>n n
 nnoremap <Leader>N N
-" }}}
-" ~ c ~ {{{
+
+" Search highlight clear
+nnoremap <ESC><ESC> :<C-u>set nohlsearch<CR>
+nnoremap <C-[><C-[> :<C-u>set nohlsearch<CR>
+
+" Sidebar
+" Open
+" nnoremap
+" Close
+" nnoremap
+
+" Highlight test
+nnoremap <Leader>eh :<C-u>highlight<CR>
+
+
+" caret "{{{2
 cnoremap <C-c> <C-v><C-c>
 cnoremap <C-x> <C-v><C-x>
 cnoremap <C-v> <S-Insert>
@@ -193,14 +208,50 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
-" }}}
-" ~ i ~ {{{
+
+
+" visual "{{{2
+
+
+
+" insert  "{{{2
 " Input text
 inoremap <C-n> <Down>
 inoremap <C-p> <Up>
-" }}}
-" }}}
-" ==================== qmark ========================= "{{{
+
+
+
+"}}}1
+" ==================== Abbreviations ================= "{{{1
+" normal "{{{2
+
+
+" caret "{{{2
+
+
+" visual "{{{2
+
+
+" insert "{{{2
+
+
+"}}}1
+" ==================== Command ======================= "{{{1
+" :loadconfig "{{{2
+command! loadconfig source ~/.vimperatorrc
+
+
+" :showtabnum "{{{2
+command! showtabnum echo config.browser.mTabs.length
+
+
+" :cal "{{{2
+" http://vimperator.g.hatena.ne.jp/teramako/20100416/1271432039
+command! cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
+
+
+"}}}1
+" ==================== Qmark ========================= "{{{1
 " qmark H http://hatenadiary.g.hatena.ne.jp/keyword/%e3%81%af%e3%81%a6%e3%81%aa%e8%a8%98%e6%b3%95%e4%b8%80%e8%a6%a7
 
 silent qmark G http://github.com/
@@ -208,31 +259,38 @@ silent qmark H http://b.hatena.ne.jp/
 silent qmark P http://pipes.yahoo.com/pipes/
 silent qmark R http://www.rememberthemilk.com/
 silent qmark T http://tumblr.com/
-silent qmark d http://delicious.com/tyru/
+silent qmark d http://delicious.com/
 silent qmark e http://www.evernote.com/
 silent qmark g http://www.google.co.jp/
 silent qmark h http://www.hatena.ne.jp/
 silent qmark l http://lingr.com/
 silent qmark m http://mail.google.com/mail?hl=ja
-silent qmark n http://tyru.yu-nagi.com/
+silent qmark n http://yu-nagi.com/
 silent qmark p http://www.pixiv.net/mypage.php
 silent qmark r http://reader.livedoor.com/reader/
 silent qmark t b@tumblr
 silent qmark z b@nico-mp3
-" }}}
-" ==================== misc. ========================= "{{{
-" 閉じたタブ一覧を出すワンライナー {{{
+
+
+" ==================== Autocmd ======================= "{{{1
+" autocmd reset
+autocmd!
+" location changed ...
+" autocmd LocationChange .* :<Esc>
+
+
+" ==================== Misc. ========================= "{{{1
+" 閉じたタブ一覧を出すワンライナー "{{{2
 " (via http://vimperator.g.hatena.ne.jp/teramako/20091105/1257429235)
 command! closedtabs echo [<><img src={tab.image}/>{tab.title}</> for each(tab in tabs.closedTabs)]
-" }}}
-" vimperatorのコマンドラインを簡易Javascriptシェルにするワンライナー {{{
+
+
+" vimperatorのコマンドラインを簡易Javascriptシェルにするワンライナー "{{{2
 " (via http://vimperator.g.hatena.ne.jp/snaka72/20090217/1234831065)
 command! jsshell js (function a(){commandline.input("js> ", function(inp){if(inp=="quit"){liberator.echo("bye!");return;}liberator.echo(liberator.eval(inp)); a();})})()
-" }}}
-" :loadconfig {{{
-command! loadconfig source $HOME/.vimperatorrc
-" }}}
-" LDRでピンをバックグラウンドのタブで開くためのVimperatorスクリプト {{{
+
+
+" LDRでピンをバックグラウンドのタブで開くためのVimperatorスクリプト "{{{2
 " via http://d.hatena.ne.jp/mountain_dew/20091209/1260371082
 javascript <<EOS
 var dummy_open = function(url, name){
@@ -241,11 +299,9 @@ var dummy_open = function(url, name){
 }
 EOS
 autocmd LocationChange 'reader\.livedoor\.com' :js content.window.open = dummy_open;
-" }}}
-" :showtabnum {{{
-command! showtabnum echo config.browser.mTabs.length
-" }}}
-" ヒントモードでのショートカットーキー誤爆を阻止する {{{
+
+
+" ヒントモードでのショートカットーキー誤爆を阻止する "{{{2
 " http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100410/1270905036
 javascript <<EOS
 window.addEventListener(
@@ -274,15 +330,16 @@ window.addEventListener(
   false
 );
 EOS
-" }}}
-" :cal {{{
-" http://vimperator.g.hatena.ne.jp/teramako/20100416/1271432039
-command! cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
-" }}}
-" Firefox4でリンクにマウスオーバーしたときに出る下部のラベルを表示させない {{{
+
+
+" Firefox4でリンクにマウスオーバーしたときに出る下部のラベルを表示させない "{{{2
 " via http://twitter.com/#!/teramako/status/51672045787938816
 style chrome://* #statusbar-display { display: none; }
-" }}}
-" }}}
+
+
+" }}}1
 
 source! $HOME/.vimperatorrc.local
+
+" vim: fen:fdm=marker
+" vim: ft=vimperator:
