@@ -1282,7 +1282,7 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
   endif
 
   " let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-  let g:vimshell_right_prompt = 'fnamemodify(getcwd(), ":~")'
+  " let g:vimshell_right_prompt = 'fnamemodify(getcwd(), ":~")'
 
   " Initialize execute file list.
   let g:vimshell_execute_file_list = {}
@@ -1379,8 +1379,8 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
     imap <buffer><expr> ;  <SID>texe_sticky_func()
 
     " Escape key.
-    iunmap <buffer> <ESC><ESC>
-    imap <buffer> <ESC>         <Plug>(vimshell_term_send_escape)
+    iunmap <buffer><ESC> <ESC>
+    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
   endfunction
   function! s:texe_sticky_func()
     let l:sticky_table = {
@@ -1414,9 +1414,11 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
   endfunction "}}}
 
   " Keymap "{{{
-  nnoremap <silent> [Space]; :<C-u>VimShellTab<CR>
-  nnoremap [Space]i  q:VimShellInteractive<Space>
-  nnoremap [Space]t  q:VimShellTerminal<Space>
+  nnoremap <silent> [Space]: :<C-u>VimShellTab<CR>
+  nnoremap <silent> [Space]; :<C-u>VimShellCreate<CR>
+  nnoremap <silent> [Space]l :<C-u>VimShellPop<CR>
+  nnoremap [Space]i  :<C-u>VimShellInteractive<Space>
+  nnoremap [Space]t  :<C-u>VimShellTerminal<Space>
   "}}}
 
 endif
@@ -1476,7 +1478,7 @@ if globpath(&rtp, 'bundle/unite.vim') != ''
   " nnoremap <silent> [Window]s  :<C-u>Unite -buffer-name=files buffer_tab file file_mru file<CR>
   nnoremap <silent> [Window]t  :<C-u>Unite -buffer-name=files tab<CR>
   nnoremap <silent> [Window]w  :<C-u>Unite window<CR>
-  nnoremap [Window]r  q:UniteResume<Space>
+  nnoremap [Window]r  :<C-u>UniteResume<Space>
   nnoremap <silent> [Space]b  :<C-u>UniteBookmarkAdd<CR>
 
   " Execute help.
@@ -1523,7 +1525,7 @@ if globpath(&rtp, 'bundle/unite.vim') != ''
     call unite#take_action('tabopen', a:candidates)
 
     let l:dir = isdirectory(a:candidates[0].word) ? a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
-    execute g:unite_lcd_command '`=l:dir`'
+    " execute g:unite_lcd_command '`=l:dir`'
   endfunction"}}}
   call unite#custom_action('file,buffer', 'tabopen', my_tabopen)
   unlet my_tabopen"}}}
@@ -1586,7 +1588,10 @@ if globpath(&rtp, 'bundle/unite.vim') != ''
   let g:unite_source_file_mru_limit = 300
   let g:unite_source_directory_mru_time_format = ''
   let g:unite_source_directory_mru_limit = 200
-  " let g:unite_source_grep_default_opts = ''
+  " grep
+  let g:unite_source_grep_command = 'grep'
+  let g:unite_source_grep_recursive_opt = '-r'
+  let g:unite_source_grep_default_opts = '-Hn'
   let g:unite_quick_match_table = {
         \'a' : 1, 's' : 2, 'd' : 3, 'f' : 4, 'g' : 5, 'h' : 6, 'k' : 7, 'l' : 8, ';' : 9,
         \'q' : 10, 'w' : 11, 'e' : 12, 'r' : 13, 't' : 14, 'y' : 15, 'u' : 16, 'i' : 17, 'o' : 18, 'p' : 19,
@@ -1866,34 +1871,21 @@ if globpath(&rtp, 'bundle/skk.vim') != ''
   let g:skk_remap_lang_mode = 0
 
   " cursor colors "{{{
-  let g:skk_cursor_hira_color='#ff0f5f'
-  let g:skk_cursor_kata_color='#3fff5f'
-  let g:skk_cursor_zenei_color='#ffff5f'
-  let g:skk_cursor_ascii_color='#3f3fff'
-  let g:skk_cursor_abbrev_color='#5f5f5f'
+  if has('gui_running')
+    let g:skk_cursor_hira_color='#ff0f5f'
+    let g:skk_cursor_kata_color='#3fff5f'
+    let g:skk_cursor_zenei_color='#ffff5f'
+    let g:skk_cursor_ascii_color='#3f3fff'
+    let g:skk_cursor_abbrev_color='#5f5f5f'
+  else
+    let g:skk_cursor_hira_color='14'
+    let g:skk_cursor_kata_color='11'
+    let g:skk_cursor_zenei_color='8'
+    let g:skk_cursor_ascii_color='9'
+    let g:skk_cursor_abbrev_color='0'
+  endif
   "}}}
 
-  if 0
-    " g:skk_enable_hook test "{{{
-    " Do not map `<Plug>(skk-toggle-im)`.
-    let g:skk_control_j_key = ''
-
-    " `<C-j><C-e>` to enable, `<C-j><C-d>` to disable.
-    Map [ic] -remap <C-j><C-e> <Plug>(skk-enable-im)
-    Map [ic] -remap <C-j><C-d> <Nop>
-    function! MySkkMap()
-      lunmap <buffer> <C-j>
-      lmap <buffer> <C-j><C-d> <Plug>(skk-disable-im)
-    endfunction
-    function! HelloWorld()
-      echomsg 'Hello.'
-    endfunction
-    function! Hogera()
-      echomsg 'hogera'
-    endfunction
-    let skk_enable_hook = 'MySkkMap,HelloWorld,Hogera'
-    " }}}
-  endif
 endif
 "}}}
 
@@ -2537,7 +2529,7 @@ endfunction
 nnoremap [Window]b  :<C-u>edit<Space>
 nnoremap <silent> [Window]en  :<C-u>new<CR>
 nnoremap <silent> [Window]ee  :<C-u>JunkFile<CR>
-nnoremap [Window]r  :<C-u>REdit<Space>
+" nnoremap [Window]r  :<C-u>REdit<Space>
 "}}}
 " View buffer list.
 nnoremap <silent> [Window]l  :<C-u>Unite buffer<CR>
@@ -3240,10 +3232,12 @@ let ColorRoller.colors = [
       \ 'Layven',
       \ 'angel',
       \ 'ImPgRw',
+      \ 'Jager',
       \ 'Cugfr',
       \ 'ZycUs',
       \ 'GxeiM',
       \ 'Moufr02',
+      \ 'HwPng01',
       \ 'bonar',
       \ 'joker',
       \ ]
