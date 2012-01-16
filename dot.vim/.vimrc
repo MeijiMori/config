@@ -44,9 +44,11 @@ endif "}}}
 if s:iswin
   " For Windows.
   language message en
+  " language message ja
 else
   " For Linux.
-  language mes C
+  " language mes C
+  language message ja
 endif
 
 if exists('&msghistlen')
@@ -372,7 +374,7 @@ if has('multi_byte_ime')
   xnoremap ? :<C-u>set imsearch=0<CR>?
 endif
 
-" Use ime
+" Use ime ?
 " set noimdisable
 let &imdisable = 1
 
@@ -1059,7 +1061,7 @@ let g:lisp_rainbow = 1
 "
 
 " #- rtputil.vim -# "{{{
-if globpath(&rtp, 'bundle/rtputil.vim') != ''
+if globpath(&rtp, 'autoload/rtputil.vim') != ''
   " path manager
   call rtputil#bundle()
   call rtputil#helptags()
@@ -1067,7 +1069,7 @@ endif
 "}}}
 
 " #- neocomplcache.vim -# "{{{
-if globpath(&rtp, 'bundle/neocomplcache.vim') != ''
+if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
   " Setting of directory for neocomplcache "{{{
   let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
   " For snippets
@@ -1197,7 +1199,7 @@ if globpath(&rtp, 'bundle/neocomplcache.vim') != ''
   inoremap <expr><C-e>  pumvisible() ? neocomplcache#cancel_popup() : "\<End>"
   " <C-k>: omni completion.
   " inoremap <expr> <C-k>  &filetype == 'vim' ? neocomplcache#start_manual_complete('vim_complete') : neocomplcache#manual_omni_complete()
-  if globpath(&rtp, 'bundle/unite.vim') != ''
+  if globpath(&rtp, 'autoload/unite.vim') != ''
     " <C-k>: unite completion.
     imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
     imap <C-q>  <Plug>(neocomplcache_start_quick_match)
@@ -1233,7 +1235,7 @@ endif
 "}}}
 
 " #- vimshell.vim -# "{{{
-if globpath(&rtp, 'bundle/vimshell.vim') != ''
+if globpath(&rtp, 'autoload/vimshell.vim') != ''
   " Set recoding directory and initalize file "{{{
   let s:shell_temp_dir = g:vim_info_dir . '/.vimshell'
   if !isdirectory(s:shell_temp_dir)
@@ -1259,6 +1261,7 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
     let g:vimshell_prompt = $USERNAME . " $ "
     " Use ckw.
     let g:vimshell_use_ckw = 1
+    let g:vimshell_use_terminal_command = 'ckw -e'
     " Prefix
     call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe kmplayer') "}}}
   else
@@ -1271,6 +1274,7 @@ if globpath(&rtp, 'bundle/vimshell.vim') != ''
     " Use normal shell history.
     "let g:vimshell_external_history_path = expand('~/.zsh-history')
     let g:vimshell_external_history_path = expand('~/.bash-history')
+    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
     " Prefix "{{{
     call vimshell#set_execute_file('gif,jpg,png', 'gexe viewnior')
     call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe gxine')
@@ -1441,7 +1445,7 @@ endif
 "}}}
 
 " #- unite.vim -# "{{{
-if globpath(&rtp, 'bundle/unite.vim') != ''
+if globpath(&rtp, 'autoload/unite.vim') != ''
   " Set of unite directory "{{{
   let s:unite_dir = g:vim_info_dir . '/.unite'
   if !isdirectory(s:unite_dir)
@@ -1603,7 +1607,7 @@ endif
 "}}}
 
 " #- quickrun.vim -# "{{{
-if globpath(&rtp, 'bundle/quickrun') != ''
+if globpath(&rtp, 'autoload/quickrun.vim') != ''
   function! s:init_quickrun()
     for [key, com] in items({
           \   '<Leader>x' : '<=@i >:',
@@ -1661,7 +1665,7 @@ endif
 "}}}
 
 " #- vimfiler.vim -# "{{{
-if globpath(&rtp, 'bundle/vimfiler.vim') != ''
+if globpath(&rtp, 'autoload/vimfiler.vim') != ''
   " Make directory "{{{
   let s:vimfiler_dir = g:vim_info_dir . '/.vimfiler'
   if !isdirectory(s:vimfiler_dir)
@@ -1735,6 +1739,14 @@ if globpath(&rtp, 'bundle/vimfiler.vim') != ''
   let g:vimfiler_trashbox_directory = s:filer_trash_dir
   unlet s:filer_trash_dir "}}}
 
+
+  " Like Textmate icons.
+  let g:vimfiler_tree_leaf_icon = ' '
+  let g:vimfiler_tree_opened_icon = '[-]'
+  let g:vimfiler_tree_closed_icon = '[]'
+  let g:vimfiler_file_icon = '-'
+  let g:vimfiler_marked_file_icon = '*'
+
   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
   function! s:vimfiler_my_settings() "{{{
     " Override setting
@@ -1743,7 +1755,7 @@ endif
 "}}}
 
 " #- surround.vim -# "{{{
-if globpath(&rtp, 'bundle/surround.vim') != ''
+if globpath(&rtp, 'plugin/surround.vim') != ''
   " Setting of surround for kana
   let surround = g:vim_dir . '/bundle/surround.vim/plugin/surround.vim'
   if filereadable(surround)
@@ -1775,7 +1787,7 @@ endif
 "}}}
 
 " #- altercmd -# "{{{
-if globpath(&rtp, 'bundle/altercmd.vim') != ''
+if globpath(&rtp, 'autoload/altercmd.vim') != ''
   " call altercmd#define('<buffer>', 'cd', 'CD', 'i')
   " call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
   " call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
@@ -1786,13 +1798,13 @@ endif
 "}}}
 
 " #- echodoc -# "{{{
-if globpath(&rtp, 'bundle/echodoc') != ''
+if globpath(&rtp, 'autoload/echodoc.vim') != ''
   let g:echodoc_enable_at_startup = 1
 endif
 " }}}
 
 " #- ref.vim -# "{{{
-if globpath(&rtp, 'bundle/ref') != ''
+if globpath(&rtp, 'autoload/ref.vim') != ''
   " Make cache directory "{{{
   let s:ref_dir =  g:vim_info_dir . '/.ref/.vim_ref_cache'
   if !isdirectory(s:ref_dir)
@@ -1837,18 +1849,20 @@ let s:skk_system_dict_encoding = 'euc-jp'
 
 
 if 1
-" Map <C-j> to eskk, Map <C-g><C-j> to skk.vim "{{{
-let skk_control_j_key = '<C-g><C-j>'
-" }}}
+  " Map <C-j> to eskk, Map <C-g><C-j> to skk.vim "{{{
+  let g:skk_control_j_key = '<C-g><C-j>'
+  " }}}
 else
-" Map <C-j> to skk.vim, Map <C-g><C-j> to eskk "{{{
-Map [ic] -remap <C-g><C-j> <Plug>(eskk:toggle)
-" }}}
+  " Map <C-j> to skk.vim, Map <C-g><C-j> to eskk "{{{
+  let g:skk_control_j_key = '<C-j>'
+  inoremap <C-g><C-j> <Plug>(eskk:toggle)
+  cnoremap <C-g><C-j> <Plug>(eskk:toggle)
+  " }}}
 endif
 "}}}
 
 " #- skk.vim -# "{{{
-if globpath(&rtp, 'bundle/skk.vim') != ''
+if globpath(&rtp, 'plugin/skk.vim') != ''
   let g:skk_jisyo = s:skk_user_dict
   let g:skk_jisyo_encoding = s:skk_user_dict_encoding
   let g:skk_large_jisyo = s:skk_user_dict
@@ -1890,7 +1904,7 @@ endif
 "}}}
 
 " #- eskk.vim -# "{{{
-if globpath(&rtp, 'bundle/eskk.vim') != ''
+if globpath(&rtp, 'autoload/eskk.vim') != ''
   " make directory for eskk "{{{
   let s:eskk_dir =  g:vim_info_dir . '/.eskk'
   if !isdirectory(s:eskk_dir)
@@ -1972,7 +1986,7 @@ endif
 " }}}
 
 " #- Restart.vim -# "{{{
-if globpath(&rtp, 'bundle/restart.vim') != ''
+if globpath(&rtp, 'autoload/restart.vim') != ''
   let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
   " key mapping
   nnoremap <silent> <Space><leader>r :<c-u>Restart<CR>
@@ -1981,20 +1995,20 @@ endif
 " }}}
 
 " #- caw.vim -# "{{{
-if globpath(&rtp, 'bundle/caw.vim') != ''
+if globpath(&rtp, 'autoload/caw.vim') != ''
   nmap gcc <Plug>(caw:i:toggle)
   xmap gcc <Plug>(caw:i:toggle)
 endif
 "}}}
 
 " #- Vinarise -# "{{{
-if globpath(&rtp, 'bundle/vinarise') != ''
+if globpath(&rtp, 'autoload/vinarise.vim') != ''
   let g:vinarise_enable_auto_detect = 1
 endif
 "}}}
 
 " #- smartchr -# "{{{
-if globpath(&rtp, 'bundle/smartchr') != ''
+if globpath(&rtp, 'autoload/smartchr.vim') != ''
   inoremap <expr> , smartchr#one_of(', ', ',')
   inoremap <expr> ? smartchr#one_of(' ? ', '?')
 
@@ -2032,12 +2046,12 @@ endif
 "}}}
 
 " #- stickykey -# "{{{
-if globpath(&rtp, 'bundle/stickykey.vim') != ''
+if globpath(&rtp, 'autoload/stickykey.vim') != ''
 endif
 "}}}
 
 " #- quickhl.vim -# "{{{
-if globpath(&rtp, 'bundle/quickhl.vim') != ''
+if globpath(&rtp, 'autoload/quickhl.vim') != ''
 nmap ZZl <Plug>(quickhl-toggle)
 xmap ZZl <Plug>(quickhl-toggle)
 nmap <Space>M <Plug>(quickhl-reset)
@@ -2076,7 +2090,7 @@ endif
 " }}}
 
 " #- textmanip.vim -# "{{{
-if globpath(&rtp, 'bundle/textmanip.vim') != ''
+if globpath(&rtp, 'autoload/textmanip.vim') != ''
   if has('gui_running')
     xmap <M-d> <Plug>(textmanip-duplicate-down)
     nmap <M-d> <Plug>(textmanip-duplicate-down)
@@ -2102,7 +2116,7 @@ endif
 "}}}
 
 " #- ambicmd -# "{{{
-if globpath(&rtp, 'bundle/ambicmd.vim') != ''
+if globpath(&rtp, 'autoload/ambicmd.vim') != ''
   cnoremap <expr> <Space> ambicmd#expand("\<Space>")
   cnoremap <expr> <CR>    ambicmd#expand("\<CR>")
   cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
@@ -2110,7 +2124,7 @@ endif
 " }}}
 
 " #- colorv -# "{{{
-if globpath(&rtp, 'bundle/ColorV') != ''
+if globpath(&rtp, 'plugin/colorv.vim') != ''
   let colorv_cache_dir = g:vim_info_dir . '/.ColorV'
   if !isdirectory(colorv_cache_dir)
     call mkdir(colorv_cache_dir, 'p')
@@ -2120,7 +2134,7 @@ endif
 " }}}
 
 " #- visualstar -# "{{{
-if globpath(&rtp, 'bundle/visualstar.vim') != ''
+if globpath(&rtp, 'plugin/visualstar.vim') != ''
   map * <Plug>(visualstar-*)
   map # <Plug>(visualstar-#)
   map g* <Plug>(visualstar-g*)
@@ -2129,17 +2143,24 @@ endif
 "}}}
 
 " #- openbrowser -# "{{{
-if globpath(&rtp, 'bundle/open-browser.vim') != ''
+if globpath(&rtp, 'autoload/openbrowser.vim') != ''
   nnoremap <silent>gx :<C-u>OpenBrowser expand('%')<CR>
 endif
 "}}}
 
 " #- winmove -# "{{{
-if globpath(&rtp, "bundle/winmove.vim")
+if globpath(&rtp, 'plugin/winmove.vim') != ''
   let g:wm_move_up = '<Up>'
   let g:wm_move_right = '<Right>'
   let g:wm_move_down = '<Down>'
   let g:wm_move_left = '<Left>'
+endif
+"}}}
+
+" #- FoldCC -# "{{{
+if globpath(&rtp, 'plugin/FoldCC.vim') != ''
+  set foldexpr=FoldCCText()
+  set fillchars=vert:\|
 endif
 "}}}
 
@@ -2196,7 +2217,7 @@ vnoremap <silent> z? <ESC>?\v%V
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
 " Highlight test
-if globpath(&rtp, 'bundle/unite.vim') != ''
+if globpath(&rtp, 'autoload/unite.vim') != ''
   nnoremap <silent> <Space>eh :<C-u>Unite color_set<CR>
 else
  nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
@@ -2531,10 +2552,12 @@ nnoremap <silent> [Window]en  :<C-u>new<CR>
 nnoremap <silent> [Window]ee  :<C-u>JunkFile<CR>
 " nnoremap [Window]r  :<C-u>REdit<Space>
 "}}}
-" View buffer list.
-nnoremap <silent> [Window]l  :<C-u>Unite buffer<CR>
-" View tab list.
-nnoremap <silent> [Window]t  :<C-u>Unite tab<CR>
+if globpath(&rtp, 'autoload/unite.vim') != ''
+  " View buffer list.
+  nnoremap <silent> [Window]l  :<C-u>Unite buffer<CR>
+  " View tab list.
+  nnoremap <silent> [Window]t  :<C-u>Unite tab<CR>
+endif
 
 " Scroll other window.
 nnoremap <silent> <C-y> :<C-u>call <SID>ScrollOtherWindow(1)<CR>
@@ -3057,7 +3080,7 @@ set viminfo='50,h,f1,n$INFO/.viminfo
 " #- Misc. -# "{{{
 "
 " Unite
-if globpath(&rtp, 'bundle/unite.vim') != ''
+if globpath(&rtp, 'autoload/unite.vim') != ''
   " via : ujihisa's vimrc (neco, transparency)
   " neco
   " unite-neco "{{{
