@@ -1,6 +1,5 @@
 " Initialize: "{{{
 let s:iswin = has('win32') || has('win64')
-"let s:ismac = has('macunix') || has('mac')
 let s:ismac = !s:iswin && has('macunix') || has('mac')
 " Anywhere SID. "{{{
 function! s:SID_PREFIX()
@@ -49,7 +48,7 @@ endif "}}}
 
 " Save the setting of font. "{{{
 " Make directory "{{{
-let g:save_font_dir = g:vimdir . '/initfiles/font'
+let g:save_font_dir = g:vim_dir . '/initfiles/font'
 let g:save_font_file = g:save_font_dir . "/.vimfont"
 if !isdirectory(g:save_font_dir)
   call mkdir(g:save_font_dir, 'p')
@@ -106,7 +105,7 @@ endif
 " Save window postion and width "{{{
 " Save the setting of window. "{{{
 " Make directory "{{{
-let g:save_window_dir = g:vimdir . '/initfiles/win'
+let g:save_window_dir = g:vim_dir . '/initfiles/win'
 let g:save_window_file = g:save_window_dir . "/.vimwinpos" "}}}
 
 if !isdirectory(g:save_window_dir)
@@ -114,7 +113,7 @@ if !isdirectory(g:save_window_dir)
 endif "}}}
 augroup SaveWindow " "{{{
   autocmd!
-  autocmd VimLeavePre * call s:save_window()
+  autocmd VimLeavePre,BufWritePre * call s:save_window()
   function! s:save_window() " "{{{
     let options = [
     \ 'set columns=' . &columns,
@@ -139,7 +138,7 @@ endif
 
 " Save the setting of colorscheme. "{{{
 " Make directory "{{{
-let g:save_color_dir = g:vimdir . '/initfiles/color'
+let g:save_color_dir = g:vim_dir . '/initfiles/color'
 let g:save_color_file = g:save_color_dir . "/.vimcolor"
 
 if !isdirectory(g:save_color_dir)
@@ -322,15 +321,10 @@ endfunction "}}}
 "
 if s:iswin
   " For Windows "{{{
-  set shell=ckw "}}}
+  "}}}
 else
   " For Linux "{{{
-  if executable('zsh')
-    " Use zsh.
-    set shell=zsh
-  elseif executable('bash')
-    set shell=bash
-  endif "}}}
+  "}}}
 endif
 "}}}
 
