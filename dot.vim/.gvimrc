@@ -49,7 +49,7 @@ endif "}}}
 
 " Save the setting of font. "{{{
 " Make directory "{{{
-let g:save_font_dir = g:vimdir . '/initfiles/font'
+let g:save_font_dir = g:vim_dir . '/initfiles/font'
 let g:save_font_file = g:save_font_dir . "/.vimfont"
 if !isdirectory(g:save_font_dir)
   call mkdir(g:save_font_dir, 'p')
@@ -60,16 +60,16 @@ augroup SaveFont "{{{
   function! s:save_font() "{{{
     if s:iswin || has('unix')
       " If invite space in fontname, replace it ! (\ )
-      let recodefont = substitute(&guifont, ' ', '\\ ', 'g')
-      let recodefontw = substitute(&guifontwide, ' ', '\\ ', 'g')
+      " let recodefont = substitute(&guifont, ' ', '\\ ', 'g')
+      " let recodefontw = substitute(&guifontwide, ' ', '\\ ', 'g')
       let options = [
-      \ 'set guifontwide=' . recodefontw,
-      \ 'set guifont=' . recodefont
+      \ 'let &guifontwide=' . string(&guifontwide),
+      \ 'let &guifont=' . string(&guifont)
       \]
     else
       let options = [
-      \ 'set guifontwide=' . recodefontw,
-      \ 'set guifont=' . recodefont
+      \ 'set guifontwide=' . &guifontwide,
+      \ 'set guifont=' . &guifont
       \]
     endif
     call writefile(options, g:save_font_file)
@@ -106,7 +106,7 @@ endif
 " Save window postion and width "{{{
 " Save the setting of window. "{{{
 " Make directory "{{{
-let g:save_window_dir = g:vimdir . '/initfiles/win'
+let g:save_window_dir = g:vim_dir . '/initfiles/win'
 let g:save_window_file = g:save_window_dir . "/.vimwinpos" "}}}
 
 if !isdirectory(g:save_window_dir)
@@ -139,7 +139,7 @@ endif
 
 " Save the setting of colorscheme. "{{{
 " Make directory "{{{
-let g:save_color_dir = g:vimdir . '/initfiles/color'
+let g:save_color_dir = g:vim_dir . '/initfiles/color'
 let g:save_color_file = g:save_color_dir . "/.vimcolor"
 
 if !isdirectory(g:save_color_dir)
@@ -321,16 +321,7 @@ endfunction "}}}
 " Platform depends:"{{{
 "
 if s:iswin
-  " For Windows "{{{
-  set shell=ckw "}}}
 else
-  " For Linux "{{{
-  if executable('zsh')
-    " Use zsh.
-    set shell=zsh
-  elseif executable('bash')
-    set shell=bash
-  endif "}}}
 endif
 "}}}
 
