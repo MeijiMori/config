@@ -1,6 +1,5 @@
 " Initialize: "{{{
 let s:iswin = has('win32') || has('win64')
-"let s:ismac = has('macunix') || has('mac')
 let s:ismac = !s:iswin && has('macunix') || has('mac')
 " Anywhere SID. "{{{
 function! s:SID_PREFIX()
@@ -114,7 +113,7 @@ if !isdirectory(g:save_window_dir)
 endif "}}}
 augroup SaveWindow " "{{{
   autocmd!
-  autocmd VimLeavePre * call s:save_window()
+  autocmd VimLeavePre,BufWritePre * call s:save_window()
   function! s:save_window() " "{{{
     let options = [
     \ 'set columns=' . &columns,
@@ -321,7 +320,15 @@ endfunction "}}}
 " Platform depends:"{{{
 "
 if s:iswin
+<<<<<<< HEAD
 else
+=======
+  " For Windows "{{{
+  "}}}
+else
+  " For Linux "{{{
+  "}}}
+>>>>>>> 81eb8f228c93dfccb0588e4ade886e2fe76a1a8b
 endif
 "}}}
 

@@ -15,7 +15,7 @@ if version > 580
 endif
 
 " #- This colorscheme name -# "{{{1
-let g:colors_name = "JsIml"
+let g:colors_name = "dZirm"
 
 " #- Highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#000000 guibg=#fcf5ff gui=NONE

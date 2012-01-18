@@ -75,11 +75,10 @@ highlight FrameIndicator font-weight: bold; color: #f84865; background: #2f2f2f;
 highlight Bell display: none;
 
 " Hint "{{{
-highlight Hint font-weight: normal; color: #efefff; background: #0f0f0f; border: none; maring: -0.7em 0 0 -0.7em; padding:0px 5px;
+highlight Hint font-weight: normal; color: #efefff; background: #0f0f0f; border: none; maring: -0.7em 0 0 -0.7em; padding:0px 5px; font-size: 14px;
 highlight Hint::after content: attr(number);
-highlight HintElem font-weight: normal; color: #cfcfcf; background: #0f0f0f;
-" hi HintActive background-color: rgba( 85, 102, 187, 0.8); color: #dddded;
-highlight HintActive font-weight: normal; color: #1f1f1f; background: #cfcfcf;
+highlight HintElem font-weight: normal; color: #cfcfcf; background-color: rgba(20, 20, 20, 0.8);
+highlight HintActive font-weight: normal; color: #1f1f1f; background-color: rgba(100, 100, 100);
 highlight HintImage opacity: .5;
 " shadow (If this setting is too havey, next lines shounld be comment out) {{{
 hi -append Hint background-color: rgba(28, 28, 28, 0.8); border: 1px solid #0c0c2f; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
