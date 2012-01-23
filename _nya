@@ -25,42 +25,45 @@ myalias{
 ### Keybind #{{{
 mykeybind{
   ## like tcsh
-  bindkey CTRL_X     xscript:start
-  bindkey CTRL_A     beginning-of-line             xscript:head
-  bindkey CTRL_B     backward-char                 xscript:backward
-  bindkey CTRL_C     abort
-  # bindkey CTRL_D     erase-list-or-bye
-  bindkey CTRL_E     end-of-line                   xscript:tail
-  bindkey CTRL_F     forward-char                  xscript:forward
-  bindkey CTRL_H     backward-delete-char          xscript:backward
-  bindkey CTRL_I     complete-or-list
-  bindkey CTRL_K     kill-line
-  bindkey CTRL_L     clear-screen
-  bindkey CTRL_M     accept-line
-  # bindkey CTRL_N     next-history                  xscript:next
-  # bindkey CTRL_P     previous-history              xscript:previous
-  bindkey CTRL_N     vzlike-next-history       xscript:next
-  bindkey CTRL_P     vzlike-previous-history           xscript:previous
-  bindkey CTRL_R     i-search
-  bindkey CTRL_S     i-search
-  bindkey CTRL_T     swap-char
-  bindkey CTRL_U     unix-line-discard             xscript:previous-page
-  bindkey CTRL_V     quote                         xscript:next-page
-  bindkey CTRL_W     unix-word-rubout
-  bindkey CTRL_Y     yank
-  bindkey CTRL_Z     bye
-  bindkey CTRL_O     complete-next
-  bindkey CTRL_G    erase-or-list
-  # bindkey CTRL_AT    Shift
-  bindkey Del        delete-char
-  bindkey BACKSPACE  backward-delete-char
-  bindkey ESCAPE     kill-whole-line               xscript:leave
+  bindkey CTRL_X xscript:start
+  bindkey CTRL_A beginning-of-line xscript:head
+  bindkey CTRL_B backward-char xscript:backward
+  bindkey CTRL_C abort
+  # bindkey CTRL_D erase-list-or-bye
+  bindkey CTRL_E end-of-line xscript:tail
+  bindkey CTRL_F forward-char xscript:forward
+  bindkey CTRL_H backward-delete-char xscript:backward
+  bindkey CTRL_I complete-or-list
+  bindkey CTRL_K kill-line
+  bindkey CTRL_L clear-screen
+  bindkey CTRL_M accept-line
+  # bindkey CTRL_N next-history xscript:next
+  # bindkey CTRL_P previous-history xscript:previous
+  bindkey CTRL_N vzlike-next-history xscript:next
+  bindkey CTRL_P vzlike-previous-history xscript:previous
+  bindkey CTRL_R i-search
+  bindkey CTRL_S i-search
+  bindkey CTRL_T swap-char
+  bindkey CTRL_U unix-line-discard xscript:previous-page
+  bindkey CTRL_V quote xscript:next-page
+  bindkey CTRL_W unix-word-rubout
+  bindkey CTRL_Y yank
+  bindkey CTRL_Z bye
+  bindkey CTRL_O complete-next
+  bindkey CTRL_G erase-or-list
+  # bindkey CTRL_AT Shift
+  bindkey Del delete-char
+  bindkey BACKSPACE backward-delete-char
+  bindkey ESCAPE kill-whole-line xscript:leave
 
   # Next line keybinds is only os/2
-  #bindkey ALT-F      forward-word
-  #bindkey ALT-B      backward-word
+  #bindkey ALT-F forward-word
+  #bindkey ALT-B backward-word
 }
 # }}}
+### Misc #{{{
+option prompt $e[31;40;1m[$p]$_$$ $e[37;1m
+#}}}
 
 ### Use my setting
 mysuffix
