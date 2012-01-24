@@ -1,28 +1,40 @@
 # My nyaos config
 
-### Path #{{{
-set $HOME=$HOME
+### Path #{{{1
+set HOME=C:\Users\Meiji
 set WS=$HOME\ws
-set VIM=$VIM
-set XYZZYHOME=$XYZZYHOME
-set GOW_PATH=$GOW
+set VIM=z:\usr\bin\vim73
+set XYZZYHOME=z:\usr\bin\xyzzy
+set MSYS_PATH=z:\MSYS
+set MINGW_PATH=z:\MinGW
+set GIT_PATH=z:\usr\bin\Git
+set GOW_PATH=z:\usr\bin\gow\bin
 
 ## add path
-set path+=%GOW_PATH%;%VIM%;%XYZZYHOME%
+set path+=%MSYS_PATH%\bin;%MINGW_PATH%\bin;%GIT_PATH%\bin;%GOW_PATH%;%VIM%;%XYZZYHOME%
 
-# }}}
-### Suffix #{{{
+
+### Suffix #{{{1
 mysuffix{
+  suffix vim vim
+  suffix vim  gvim
+  suffix l xyzzycli
+  suffix xyzzy xyzzycli
 }
-#}}}
-### Alias #{{{
+
+
+### Alias #{{{1
 myalias{
-  alias vi "vim.exe $*"
-  alias vim "gvim.exe $*"
   alias sl "ls -l"
+  alias ls "ls.exe"
+  alias vi "vim.exe"
+  alias vim "gvim.exe"
+  # pure vim
+  alias purevim "gvim.exe -u NONE -N"
 }
-# }}}
-### Keybind #{{{
+
+
+### Keybind #{{{1
 mykeybind{
   ## like tcsh
   bindkey CTRL_X     xscript:start
@@ -60,12 +72,21 @@ mykeybind{
   #bindkey ALT-F      forward-word
   #bindkey ALT-B      backward-word
 }
-# }}}
 
-### Use my setting
+
+### Misc #{{{1
+# Prompt
+option prompt $e[31;40;1m[$p]$_$$ $e[37;1m
+
+# Open send to file's directory
+if not "%1" == "" cd --basedir "%1"
+
+
+### Use my setting #{{{1
 mysuffix
 myalias
 mykeybind
+
 
 ### End # {{{1
 # vim: fen:fdm=marker
