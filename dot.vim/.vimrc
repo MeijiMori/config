@@ -17,6 +17,10 @@ let s:iswin = has('win16') || has('win32') || has('win64')
 " Mac
 let s:ismac = !s:iswin && has('macunix') || has('mac')
 
+" map clear
+mapclear!
+mapclear! <buffer>
+
 let s:tmp = &runtimepath
 "set all&
 let &runtimepath = s:tmp
@@ -606,15 +610,20 @@ if has('mac')
   set antialias
 endif
 
+" set cursorline
 augroup vimrc-auto-cursorline "{{{
+
   autocmd!
+  " Don't draw cursorline that filetype is vimshell and more
+  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI *
+  \ let expr_ft = ((&ft =~? "vimshell") || (&ft =~? "int-*") || (&ft =~? "term-*") || (&ft =~? "vimfiler") || (&ft =~? "unite"))
   autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
-  autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
-  autocmd WinEnter * call s:auto_cursorline('WinEnter')
+  autocmd CursorHold,CursorHoldI * if !expr_ft | call s:auto_cursorline('CursorHold') | endif
+  autocmd WinEnter * if !expr_ft | call s:auto_cursorline('WinEnter') | endif
   autocmd WinLeave * call s:auto_cursorline('WinLeave')
 
   let s:cursorline_lock = 0
-  function! s:auto_cursorline(event)
+  function! s:auto_cursorline(event) "{{{
     if a:event ==# 'WinEnter'
       setlocal cursorline
       let s:cursorline_lock = 2
@@ -633,19 +642,9 @@ augroup vimrc-auto-cursorline "{{{
       setlocal cursorline
       let s:cursorline_lock = 1
     endif
-  endfunction
-augroup END "}}}
+  endfunction "}}}
 
-" Show cursorline "{{{
-if v:version > 700
-  " Drow cursorline only curent window
-  augroup MyAutoCmd
-    autocmd!
-    autocmd WinLeave * setlocal nocursorline
-    " Don't show cursorline that filetype is vimshell ...
-    autocmd WinEnter,BufRead * if !((&ft =~? "vimshell") || (&ft =~? "int-*") || (&ft =~? "term-*") || (&ft =~? "vimfiler")) | setlocal cursorline
-  augroup END
-endif " }}}
+augroup END "}}}
 
 " Show line number.
 set number
@@ -693,6 +692,7 @@ let &titlestring="%{expand('%:p:.')}%(%m%r%w%) %<\(%{SnipMid(getcwd(),80-len(exp
 " Set tabline.
 function! s:my_tabline() "{{{
   let l:s = ''
+  let l:s .= '%#TabLineFill#  '
 
   for l:i in range(1, tabpagenr('$'))
     let l:bufnrs = tabpagebuflist(i)
@@ -714,14 +714,14 @@ function! s:my_tabline() "{{{
 
     let l:s .= '%'.l:i.'T'
     let l:s .= '%#' . (l:i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let l:s .= ' ' . l:no . ':' . l:title . l:mod
+    let l:s .= '' . l:no . ':' . l:title . l:mod
     let l:s .= '%#TabLineFill#'
     let l:s .= ' | '
   endfor
 
   " let l:s .= '%#TabLineFill#%T%=%#TabLine#|%999X %X'
     let l:s .= '%#TabLineFill#%T%=%#TabLine#[%999X %{fnamemodify(getcwd(), ":~")} ]'
-  "endif
+
   return l:s
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
@@ -756,7 +756,7 @@ let &statusline = '%!' . s:SID_PREFIX() . 'makestatusline()'
 " }}}
 
 " Set folded line
-"setlocal foldtext=getline(v:foldstart+1)
+" setlocal foldtext=getline(v:foldstart+1)
 
 " Turn down a long line appointed in 'breakat'
 " Set linebreak
@@ -948,7 +948,7 @@ augroup MyAutoCmd "{{{
 
 augroup END " }}}
 
-augroup vimrc-misc  " "{{{
+augroup vimrc-misc "{{{
   " Update filetype.
   autocmd BufWritePost * if &l:filetype == '' || exists('b:ftdetect')
         \ | unlet! b:ftdetect | filetype detect | endif
@@ -982,7 +982,7 @@ augroup END  " }}}
 augroup vimrc-highlight
   autocmd!
   " Special Characters
-  autocmd ColorScheme * call s:highlight_additional()
+  autocmd ColorScheme *  if (&ft != 'txt' || &ft !='text' || &ft != 'help' ) | call s:highlight_additional() | endif
   autocmd VimEnter,WinEnter * call s:syntax_additional()
   " Misc
   autocmd ColorScheme * call s:syntax_misc()
@@ -1501,7 +1501,7 @@ if globpath(&rtp, 'autoload/unite.vim') != ''
   " buffer_tab
   nnoremap <silent> [Window]i :<C-u>Unite buffer_tab -buffer-name=buffer_tab -prompt=$$<CR>
   " file_mru
-  nnoremap <silent> [Window]; :<C-u>Unite file_mru -buffer-name=files -prompt=$$<CR>
+  nnoremap <silent> [Window]; :<C-u>UniteWithBufferDir file_mru -buffer-name=files -prompt=$$ <CR>
   " }}}
 
   let g:unite_enable_split_vertically = 1
@@ -1595,7 +1595,12 @@ if globpath(&rtp, 'autoload/unite.vim') != ''
   " grep
   let g:unite_source_grep_command = 'grep'
   let g:unite_source_grep_recursive_opt = '-r'
-  let g:unite_source_grep_default_opts = '-Hn'
+  let g:unite_source_grep_default_opts = '-Hn -i'
+  " history/yank
+  let g:unite_source_history_yank_enable = 1
+  let g:unite_source_history_yank_limit = 1000
+  let g:unite_source_history_yank_file = g:unite_data_directory . '/history_yank'
+  " quick match table
   let g:unite_quick_match_table = {
         \'a' : 1, 's' : 2, 'd' : 3, 'f' : 4, 'g' : 5, 'h' : 6, 'k' : 7, 'l' : 8, ';' : 9,
         \'q' : 10, 'w' : 11, 'e' : 12, 'r' : 13, 't' : 14, 'y' : 15, 'u' : 16, 'i' : 17, 'o' : 18, 'p' : 19,
@@ -1745,11 +1750,14 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
   let g:vimfiler_tree_opened_icon = '[-]'
   let g:vimfiler_tree_closed_icon = '[]'
   let g:vimfiler_file_icon = '-'
-  let g:vimfiler_marked_file_icon = '*'
+  let g:vimfiler_marked_file_icon = '<*>'
 
   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
   function! s:vimfiler_my_settings() "{{{
     " Override setting
+    " Keymappings
+    nmap <buffer>za (plug)(vimfiler_expand_tree)
+
   endfunction "}}}
 endif
 "}}}
@@ -1788,9 +1796,9 @@ endif
 
 " #- altercmd -# "{{{
 if globpath(&rtp, 'autoload/altercmd.vim') != ''
-  " call altercmd#define('<buffer>', 'cd', 'CD', 'i')
-  " call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
-  " call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
+  call altercmd#define('<buffer>', 'cd', 'CD', 'i')
+  call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
+  call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
   call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
   call altercmd#define('<cmdwin>', 'cd', 'CD', 'i')
   call altercmd#define('<cmdwin>', 'sp[lit]', 'split', 'i')
@@ -1869,7 +1877,7 @@ if globpath(&rtp, 'plugin/skk.vim') != ''
   " let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
   let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
 
-  " let g:skk_control_j_key = ''
+  let g:skk_control_j_key = '<C-g><C-j>'
   " Arpeggio map! fj    <Plug>(skk-enable-im)
 
   let g:skk_manual_save_jisyo_keys = ''
@@ -1877,7 +1885,7 @@ if globpath(&rtp, 'plugin/skk.vim') != ''
   let g:skk_egg_like_newline = 1
   let g:skk_auto_save_jisyo = 1
   let g:skk_imdisable_state = -1
-  let g:skk_keep_state=0
+  let g:skk_keep_state = 1
   let g:skk_show_candidates_count = 2
   let g:skk_show_annotation = 0
   let g:skk_sticky_key = ';'
@@ -2158,16 +2166,23 @@ endif
 "}}}
 
 " #- FoldCC -# "{{{
-if globpath(&rtp, 'plugin/FoldCC.vim') != ''
-  set foldexpr=FoldCCText()
+if globpath(&rtp, 'plugin/foldCC.vim') != ''
+  set foldtext=FoldCCtext()
   set fillchars=vert:\|
+endif
+"}}}
+
+" #- fontzoom -#"{{{
+if globpath(&rtp, 'plugin/fontzoom.vim') != ''
+  nnoremap <F11> <Plug>(fontzoom-learger)
+  nnoremap <F12> <Plug>(fontzoom-smaller)
 endif
 "}}}
 
 "}}}
 
 "---------------------------------------------------------------------------
-"Key-mappings: "{{{
+" Key-mappings: "{{{
 "
 
 " Too lazy to press Shift Key
@@ -2858,7 +2873,7 @@ function! s:EditNowColorScheme() "{{{
   unlet! pos
 endfunction "}}}
 
-" delete space at end of line (File type is not vim, help)
+" Delete space at end of line (File type is not vim, help)
 autocmd BufWritePre,BufWritePre * if ((&ft !~? 'vim') || (&ft !~? 'help')) | call s:RTrim() | endif
 function! s:RTrim() "{{{
   let s:cursor = getpos(".")
@@ -2882,15 +2897,7 @@ if s:iswin
 
   " Shell settings. "{{{
   " Use NYAOS. "{{{
-  "set shell=nyaos.exe
-  "set shellcmdflag=-e
-  "set shellpipe=\|&\ tee
-  "set shellredir=>%s\ 2>&1
-  "set shellxquote=\"
-  " }}}
-
-  " #- Use CKW with nyaos -# "{{{
-  set shell=$VIM/../ckw/ckw.exe
+  set shell=$VIM/../nyaos/nyaos.exe
   set shellcmdflag=-e
   set shellpipe=\|&\ tee
   set shellredir=>%s\ 2>&1
@@ -2928,8 +2935,8 @@ else
     set shell=bash
   else
     " Use zsh.
-    "set shell=zsh
-    set shell=bash
+    set shell=zsh
+    " set shell=bash
   endif
 
   " For non GVim.
@@ -3049,7 +3056,7 @@ autocmd TabEnter *
 cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageCD' : 'cd'
 "}}}
 
-" Verbose "{{{
+" #- Verbose -# "{{{
 "set verbose=15
 " Make recoding directory "{{{
 let s:verbosedir = g:vim_info_dir . '/others/.verbose'
@@ -3176,8 +3183,8 @@ if globpath(&rtp, 'autoload/unite.vim') != ''
       \ 'Quickhl3', 'Quickhl4', 'Quickhl5', 'Quickhl6',
       \ 'Quickhl7', 'Quickhl8', 'Quickhl9', 'Quickhl10',
       \ 'Quickhl11', 'Quickhl12',
-      \ ]
-endif "}}}
+      \ ] "}}}
+endif
 "  (^_^)
 " Auto make directory "{{{
 "augroup vimrc-auto-mkdir "{{{
@@ -3287,6 +3294,9 @@ endfunction
 nnoremap <silent> + :call ColorRoller.roll()<CR>
 nnoremap <silent> - :call ColorRoller.unroll()<CR>
 "}}}
+
+let g:is_wab = 'black'
+
 "}}}
 
 set secure
