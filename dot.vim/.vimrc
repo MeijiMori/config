@@ -115,7 +115,7 @@ if has('vim_starting')
   let $PATH = expand('~/ws/local/bin') . ':/usr/local/bin:' . $PATH
   endif
 endif
-" }}}
+"}}}
 
 " Easily edit .vimrc and .gvimrc "{{{
 nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
@@ -141,26 +141,27 @@ function! s:EditRcFileWay(ui) "{{{
     endif
   endif
 endfunction "}}}
+" }}}
 
-" Load .gvimrc after .vimrc edited at GVim.
+" Load .gvimrc after .vimrc edited at GVim. "{{{
 nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif \| echo "source $MYVIMRC"<CR>
 nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC \| echo "source $MYGVIMRC"<CR>
 "}}}
 
+" Func "{{{
 " Anywhere SID. "{{{
 function! s:SID_PREFIX()
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
-function! s:set_default(var, val)
+endfunction "}}}
+function! s:set_default(var, val) "{{{
   if !exists(a:var) || type({a:var}) != type(a:val)
     let {a:var} = a:val
   endif
-endfunction " }}}
-
+endfunction "}}}
 function! s:SNR(map) "{{{
     return printf("<SNR>%d_%s", s:SID(), a:map)
 endfunction "}}}
+"}}}
 
 filetype off
 filetype plugin on
@@ -171,8 +172,8 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
-" Reload .vimrc and .gvimrc automatically.
-augroup ReLoad "{{{
+" Reload .vimrc and .gvimrc automatically.{{{
+augroup ReLoad
   autocmd!
   if !has('gui_running') && !(has('win32') || has('win64'))
     " At first load .vimrc
@@ -183,7 +184,8 @@ augroup ReLoad "{{{
           \if has('gui_running') | source $MYGVIMRC | echo "source $MYVIMRC"
     autocmd  BufWritePost $MYGVIMRC nested if has('gui_running') | source $MYGVIMRC | echo "source $MYGVIMRC"
   endif
-augroup END "}}}
+augroup END
+"}}}
 
 " Load settings for each location."{{{
 
@@ -199,13 +201,13 @@ else
   let &runtimepath = join([g:vim_dir, g:vim_dir . '/after', expand('$VIM'), expand('$VIMRUNTIME')], ',')
 endif
 unlet pmps
-
 "}}}
 
+" Load file "{{{
 if filereadable(expand('~/.secret_vimrc'))
   execute 'source ' expand('~/.secret_vimrc')
 endif
-
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -687,12 +689,12 @@ function! s:my_titlestring() "{{{
   return l:titlestr
 endfunction "}}}
 let &titlestring = '%!' . s:SID_PREFIX() . 'my_titlestring()'
-let &titlestring="%{expand('%:p:.')}%(%m%r%w%) %<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) \[%n\]"
+let &titlestring="%{expand('%:p:.')}%(%m%r%w%) %<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) \[%n\] - VIM"
 
 " Set tabline.
 function! s:my_tabline() "{{{
   let l:s = ''
-  let l:s .= '%#TabLineFill#  '
+  " let l:s .= '%#TabLineFill#'
 
   for l:i in range(1, tabpagenr('$'))
     let l:bufnrs = tabpagebuflist(i)
@@ -714,7 +716,7 @@ function! s:my_tabline() "{{{
 
     let l:s .= '%'.l:i.'T'
     let l:s .= '%#' . (l:i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let l:s .= '' . l:no . ':' . l:title . l:mod
+    let l:s .= ' ' . l:no . ':' . l:title . l:mod
     let l:s .= '%#TabLineFill#'
     let l:s .= ' | '
   endfor
@@ -978,8 +980,7 @@ augroup vimrc-misc "{{{
 
 augroup END  " }}}
 
-" Syntax highlight "{{{
-augroup vimrc-highlight
+augroup vimrc-highlight "{{{
   autocmd!
   " Special Characters
   autocmd ColorScheme *  if (&ft != 'txt' || &ft !='text' || &ft != 'help' ) | call s:highlight_additional() | endif
@@ -1112,10 +1113,9 @@ if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
   " Define dictionary.
   let g:neocomplcache_dictionary_filetype_lists = {
         \ 'default' : '',
-        \ 'vimshell' : g:vim_info_dir . '/.vimshell/.vimshell_hist',
-        \ 'scheme' : expand('$DOTVIM/gosh_completions'),
-        \ 'scala' : expand('$DOTVIM/dict/scala.dict'),
-        \ 'ruby' : expand('$DOTVIM/dict/ruby.dict'),
+        \ 'vimshell' : g:vim_info_dir . '/.vimshell/command-history',
+        \ 'text' : $HOME . '/.dict/SKK-JISYO.L',
+        \ 'txt' : $HOME . '/.dict/SKK-JISYO.L',
         \ 'int-termtter' : g:vim_info_dir . '/.vimshell/int-history/int-termtter',
         \ }
 
@@ -1285,8 +1285,11 @@ if globpath(&rtp, 'autoload/vimshell.vim') != ''
     " }}}
   endif
 
-  " let g:vimshell_right_prompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-  " let g:vimshell_right_prompt = 'fnamemodify(getcwd(), ":~")'
+  if globpath(&rtp, 'autoload/vcs.vim') != ''
+    let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+  else
+    let g:vimshell_right_prompt = '-(.v.)/~'
+  endif
 
   " Initialize execute file list.
   let g:vimshell_execute_file_list = {}
@@ -1296,7 +1299,7 @@ if globpath(&rtp, 'autoload/vimshell.vim') != ''
   if s:iswin
     call vimshell#set_execute_file('l', 'gexe xyzzyclient')
     call vimshell#set_execute_file('xyzzy', 'gexe xyzzyclient')
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe kmplayer')
+    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe vlc.exe')
   else
     "let g:vimshell_execute_file_list['rb'] = 'ruby'
     call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
@@ -1744,13 +1747,12 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
   let g:vimfiler_trashbox_directory = s:filer_trash_dir
   unlet s:filer_trash_dir "}}}
 
-
-  " Like Textmate icons.
-  let g:vimfiler_tree_leaf_icon = ' '
+  " icons
+  let g:vimfiler_tree_leaf_icon = '   '
   let g:vimfiler_tree_opened_icon = '[-]'
-  let g:vimfiler_tree_closed_icon = '[]'
-  let g:vimfiler_file_icon = '-'
-  let g:vimfiler_marked_file_icon = '<*>'
+  let g:vimfiler_tree_closed_icon = '[ ]'
+  let g:vimfiler_file_icon = ' - '
+  let g:vimfiler_marked_file_icon = ' * '
 
   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
   function! s:vimfiler_my_settings() "{{{
@@ -1994,7 +1996,7 @@ endif
 " }}}
 
 " #- Restart.vim -# "{{{
-if globpath(&rtp, 'autoload/restart.vim') != ''
+if globpath(&rtp, 'plugin/restart.vim') != ''
   let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
   " key mapping
   nnoremap <silent> <Space><leader>r :<c-u>Restart<CR>
@@ -2174,8 +2176,8 @@ endif
 
 " #- fontzoom -#"{{{
 if globpath(&rtp, 'plugin/fontzoom.vim') != ''
-  nnoremap <F11> <Plug>(fontzoom-learger)
-  nnoremap <F12> <Plug>(fontzoom-smaller)
+  nmap <F11> <Plug>(fontzoom-larger)
+  nmap <F12> <Plug>(fontzoom-smaller)
 endif
 "}}}
 
@@ -2233,7 +2235,7 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
 " Highlight test
 if globpath(&rtp, 'autoload/unite.vim') != ''
-  nnoremap <silent> <Space>eh :<C-u>Unite color_set<CR>
+  nnoremap <silent> <Space>eh :<C-u>Unite color_set -cursor-line-highlight=NONE<CR>
 else
  nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
 endif
@@ -2341,6 +2343,7 @@ nnoremap <silent> <expr> [Space]cl neocomplcache#is_locked() ? "\<Esc>:<C-u>NeoC
 
 " Echo syntax name.
 nnoremap [Space]sy  :<C-u>echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
+"}}}
 
 " Quickfix "{{{
 
@@ -2348,7 +2351,7 @@ nnoremap [Space]sy  :<C-u>echo synIDattr(synID(line('.'), col('.'), 1), "name")<
 nmap q [Quickfix]
 nnoremap [Quickfix] <Nop>
 
-" For quickfix list  "{{{3
+" For quickfix list  "{{{
 nnoremap <silent> [Quickfix]n  :<C-u>cnext<CR>
 nnoremap <silent> [Quickfix]p  :<C-u>cprevious<CR>
 nnoremap <silent> [Quickfix]r  :<C-u>crewind<CR>
@@ -2377,7 +2380,7 @@ function! s:toggle_quickfix_window()
   endif
 endfunction
 
-" For location list (mnemonic: Quickfix list for the current Window)  "{{{3
+" For location list (mnemonic: Quickfix list for the current Window)  "{{{
 nnoremap <silent> [Quickfix]wn  :<C-u>lnext<CR>
 nnoremap <silent> [Quickfix]wp  :<C-u>lprevious<CR>
 nnoremap <silent> [Quickfix]wr  :<C-u>lrewind<CR>
@@ -2397,6 +2400,7 @@ nnoremap [Quickfix]w<Space>  :<C-u>lmake<Space>
 nnoremap [Quickfix]wg  :<C-u>lgrep<Space>
 "}}}
 
+"}}}
 "}}}
 
 " Change current directory.
@@ -2662,7 +2666,7 @@ nnoremap [Nop]  <Nop>
 nmap ZZ [Nop]
 nmap ZQ [Nop]
 nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
-" Todo : [Nop]l -> Display info
+" Todo: [Nop]l -> Display info
 nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
 
 nnoremap [Zop] <Nop>
@@ -2676,7 +2680,8 @@ nmap <CR> [Enter]
 " Ctrl-c
 nnoremap [C-c] <Nop>
 nmap <C-c> [C-c]
-" }}} "}}}
+" }}}
+"}}}
 
 " Redraw.
 nnoremap <silent> <C-l>    :<C-u>redraw!<CR>
@@ -2730,7 +2735,7 @@ endfunction
 cnoremap <expr> <Bslash> HomedirOrBackslash()
 "}}}
 
-" macro
+" use macro
 nnoremap <C-q> q
 
 "}}}
@@ -2884,7 +2889,7 @@ endfunction "}}}
 " }}}
 
 "---------------------------------------------------------------------------
-" Platform depends:"{{{
+" Platform depends: "{{{
 "
 
 if s:iswin
@@ -3256,40 +3261,33 @@ endfunction
 " ColorRoller "{{{
 let ColorRoller = {}
 let ColorRoller.colors = [
-      \ 'cu',
-      \ 'YacEv',
-      \ 'Opposer',
-      \ 'Layven',
-      \ 'angel',
-      \ 'ImPgRw',
-      \ 'Jager',
-      \ 'Cugfr',
-      \ 'ZycUs',
-      \ 'GxeiM',
-      \ 'Moufr02',
-      \ 'HwPng01',
-      \ 'bonar',
-      \ 'joker',
+      \ 'cu', 'YacEv',
+      \ 'Opposer', 'Layven',
+      \ 'Trimsh', 'ImPgRw',
+      \ 'Jager', 'Cugfr',
+      \ 'ZycUs', 'GxeiM',
+      \ 'Moufr02', 'HwPng01',
+      \ 'z1qt', 'joker',
       \ ]
 
-function! ColorRoller.change()
+function! ColorRoller.change() "{{{
   let color = get(self.colors, 0)
   silent exe "colorscheme " . color
   redraw
   echo self.colors
-endfunction
+endfunction "}}}
 
-function! ColorRoller.roll()
+function! ColorRoller.roll() "{{{
   let item = remove(self.colors, 0)
   call insert(self.colors, item, len(self.colors))
   call self.change()
-endfunction
+endfunction "}}}
 
-function! ColorRoller.unroll()
+function! ColorRoller.unroll() "{{{
   let item = remove(self.colors, -1)
   call insert(self.colors, item, 0)
   call self.change()
-endfunction
+endfunction "}}}
 
 nnoremap <silent> + :call ColorRoller.roll()<CR>
 nnoremap <silent> - :call ColorRoller.unroll()<CR>
