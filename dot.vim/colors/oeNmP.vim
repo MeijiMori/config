@@ -1,9 +1,8 @@
-﻿" Vim color file "{{{1
+﻿" #- Vim color file -# "{{{1
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
 " Guicolorscheme file
-" Impression to human that my friend? thanks Misa Murakawa ...
 
 " #- Vim color file reset -# "{{{1
 set background=dark
@@ -44,8 +43,9 @@ highlight VisualNOS guifg=#cfcfcf guibg=#3f5f8f gui=bold,underline
 highlight WarningMsg guifg=#ff4765 guibg=bg gui=NONE
 highlight WildMenu guifg=#2a459f guibg=#bfbfbf gui=NONE
 " fold "{{{2
-highlight Folded guifg=#9f9faf guibg=#10253f gui=NONE
-highlight FoldColumn guifg=#2f1090 guibg=#0f1f30 gui=bold
+highlight Folded guifg=#9f9faf guibg=#0a102f gui=NONE
+highlight FoldColumn guifg=#2f1090 guibg=#0f102f gui=bold
+
 " diff "{{{2
 highlight DiffAdd guifg=fg guibg=#2f3f5f gui=NONE
 highlight DiffChange guifg=fg guibg=#5f804f gui=NONE
@@ -75,12 +75,13 @@ highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
 highlight CursorLine guifg=NONE guibg=#1f254f gui=NONE
 highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
 highlight Cursor guifg=#000000 guibg=#9f9f9f gui=NONE
-" Ime "{{{2
+" IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#7f2f4f gui=NONE
 endif
 
-" }}}1
+" }}}2
+
 " #- syntax highlighting group -# "{{{1
 highlight lCursor guifg=#404040 guibg=#7ea3a6 gui=NONE
 highlight MatchParen guifg=#0f0f0f guibg=#0f2fcf gui=bold
@@ -313,6 +314,6 @@ else
   " Cui
 endif
 
-" __END__  "{{{1
+" #- END -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim

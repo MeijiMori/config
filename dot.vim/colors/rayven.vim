@@ -59,7 +59,6 @@ highlight VisualNOS guifg=#cfcfcf guibg=#1f2f4f gui=underline,bold
 "}}}2
 highlight WarningMsg guifg=#fc4765 guibg=#1f000f gui=NONE
                 \ cterm=NONE ctermfg=2 ctermbg=bg
-"               \ ctermfg=1 ctermbg=10 cterm=NONE
 highlight WildMenu guifg=#5f5f3f guibg=#cfcfdf gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
 " Fold "{{{2
@@ -67,7 +66,7 @@ highlight Folded guifg=#aaaaaa guibg=#000015 gui=NONE
                 \ cterm=NONE ctermfg=7 ctermbg=9
 highlight FoldColumn guifg=#1f3f3f guibg=#000010 gui=bold
                 \ cterm=NONE ctermfg=7 ctermbg=1
-" }}}2
+
 " diff "{{{2
 highlight DiffAdd guifg=fg guibg=#2f3f5f gui=NONE
 highlight DiffChange guifg=fg guibg=#5f804f gui=NONE
@@ -85,7 +84,7 @@ highlight SpellRare guifg=#5fcfaf guibg=bg gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
 highlight SpellLocal guifg=#cfaf5f guibg=bg gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
-" }}}2
+
 " Pmenu "{{{2
 highlight Pmenu guifg=#1f1f1f guibg=#afafcf gui=NONE
                 \ ctermfg=10 ctermbg=1 cterm=NONE
@@ -95,7 +94,7 @@ highlight PmenuSbar guifg=fg guibg=#000000 gui=NONE
                 \ ctermfg=1 ctermbg=0 cterm=NONE
 highlight PmenuThumb guifg=fg guibg=#3f0f2f gui=NONE
                 \ ctermfg=1 ctermbg=3 cterm=NONE
-" }}}2
+
 " Tabline "{{{2
 highlight TabLine guifg=#8f8f8f guibg=#0f0f0f gui=underline
                 \ ctermfg=15 ctermbg=16 cterm=NONE
@@ -103,14 +102,14 @@ highlight TabLineSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
                 \ cterm=NONE ctermfg=12 ctermbg=1
 highlight TabLineFill guifg=#ff0f2f guibg=#0f0f0f gui=NONE
                 \ cterm=NONE ctermfg=1 ctermbg=0
-" }}}2
+
 " Cursor "{{{2
 highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
-" highlight CursorLine gui=NONE guifg=NONE guibg=#10355f
 highlight CursorLine guifg=NONE guibg=#000a0f gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
 highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
+                \ ctermfg=NONE ctermbg=0 cterm=NONE
 highlight Cursor guifg=#000000 guibg=#afafff gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
 "IME status color for cursor "{{{3

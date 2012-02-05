@@ -28,12 +28,12 @@ highlight Directory guifg=#1f4f6f guibg=NONE gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight ErrorMsg guifg=#cf2f4f guibg=#ffdfdf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" search "{{{
+" search "{{{2
 highlight IncSearch guifg=#0f0f0f guibg=#c3afc5 gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Search guifg=#0f0f0f guibg=#afcfcf gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-"}}}
+"}}}2
 highlight MoreMsg guifg=#2f8f5f guibg=#dfffdf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight ModeMsg guifg=#2f4f8f guibg=#dfdfff gui=NONE
@@ -42,33 +42,33 @@ highlight LineNr guifg=#9f4f7f guibg=NONE gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Question guifg=#1faf5f guibg=#dfffdf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" Statusline "{{{
+" Statusline "{{{2
 highlight StatusLine guifg=#efefef guibg=#1f2f3f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight StatusLineNC guifg=#7f5f6f guibg=#cfafaf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
+" }}}2
 highlight VertSplit guifg=#6f6f6f guibg=#dfdfdf gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Title guifg=#2f7f8f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" Visual "{{{
+" Visual "{{{2
 highlight Visual guifg=#efefef guibg=#2f3f5f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#2f3f7f gui=underline,bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
+" }}}2
 highlight WarningMsg guifg=#cf2f4f guibg=#ffdfdf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" Fold "{{{
+" Fold "{{{2
 highlight Folded guifg=#1f1f1f guibg=#efe5ef gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight FoldColumn guifg=#3f3f3f guibg=#fff5ff gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
-" Diff "{{{
+
+" Diff "{{{2
 highlight DiffAdd guifg=fg guibg=#afffcf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight DiffChange guifg=fg guibg=#ffffcf gui=NONE
@@ -77,10 +77,10 @@ highlight DiffDelete guifg=fg guibg=#ffafcf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight DiffText guifg=#6f6f6f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
+" }}}2
 highlight SignColumn guifg=#a6577f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" Spell "{{{
+" Spell "{{{2
 highlight SpellBad guifg=#593079 guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight SpellCap guifg=#304379 guibg=bg gui=NONE
@@ -89,8 +89,8 @@ highlight SpellRare guifg=#307962 guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight SpellLocal guifg=#796c30 guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
-" Pmenu "{{{
+
+" Pmenu "{{{2
 highlight Pmenu guifg=fg guibg=#efdfff gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight PmenuSel guifg=#cfcfcf guibg=#2f2f3f gui=NONE
@@ -99,30 +99,29 @@ highlight PmenuSbar guifg=fg guibg=#cfafbf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight PmenuThumb guifg=fg guibg=#dfcfef gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" }}}
-" tabline "{{{
+
+" tabline "{{{2
 highlight TabLine guifg=#afafaf guibg=#0f1f2f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight TabLineSel guifg=#cfcfcf guibg=#0f2f5f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight TabLineFill guifg=#af2f5f guibg=#0f1f2f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-"}}}
-" cursor "{{{
+
+" cursor "{{{2
 highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight CursorLine guifg=NONE guibg=#ffeff5 gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Cursor guifg=#000000 guibg=#6faf8f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-" IME status color for cursor "{{{
+" IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#af2f3f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 endif
-"}}}
-"}}}
-" }}}
+"}}}2
+
 " #- syntax highlighting groups -# "{{{1
 highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE

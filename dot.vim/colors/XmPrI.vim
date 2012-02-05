@@ -1,11 +1,10 @@
-﻿" Vim color file "{{{
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" hilight ZenkakuSpace /　/
-" matchpattern [{*}]
-" }}}
+﻿" #- Vim color file -# "{{{1
+" NOTE: "{{{2
+" MatchParen "{[(*)]}
+" highlighting ZenkakuSpace /　/
+" Guicolorscheme file
 
-" This color scheme uses a dark grey background. "{{{
-" First remove all existing highlighting.
+" #- reset -# "{{{1
 set background=dark
 if version > 580
   highlight clear
@@ -13,183 +12,310 @@ if version > 580
     syntax reset
   endif
 endif
-" }}}
 
-" colorscheme name "{{{
+" #- colorscheme name -# "{{{1
 let g:colors_name = "XmPrI"
-" }}}
 
-"#- highlighting groups for various occasions -# "{{{
-highlight Normal ctermbg=black ctermfg=white gui=NONE guifg=#fdfdfd guibg=#2f1f2f
-highlight SpecialKey term=bold ctermfg=LightBlue gui=NONE guifg=#554ffe guibg=NONE
-highlight NonText term=NONE ctermfg=LightBlue gui=NONE gui=NONE guifg=#aaffaa guibg=NONE
-highlight Directory term=bold ctermfg=LightCyan guifg=#5f6fff guibg=NONE
-highlight ErrorMsg term=standout ctermbg=DarkBlue ctermfg=White gui=NONE guifg=#ffafcf guibg=NONE
-" search "{{{
-highlight IncSearch term=reverse cterm=reverse gui=NONE guifg=#000000 guibg=#6fafff
-highlight Search term=reverse ctermbg=white ctermfg=Black gui=NONE guifg=#111111 guibg=#6f9fff
-" }}}
-highlight MoreMsg term=NONE ctermfg=LightGreen gui=NONE guifg=#3f7fff guibg=NONE
-"highlight ModeMsg term=bold cterm=bold ctermfg=white gui=NONE guifg=#3f5fff guibg=NONE
-highlight ModeMsg term=bold cterm=bold ctermfg=white gui=NONE guifg=#3f6fff guibg=NONE
-highlight LineNr term=underline ctermbg=black gui=NONE ctermfg=white gui=NONE guifg=#bfbfaf guibg=NONE
-highlight Question term=standout ctermfg=LightGreen gui=NONE gui=NONE guifg=#cccccc guibg=bg
-" statusline "{{{
-highlight StatusLine ctermbg=black ctermfg=white gui=NONE guifg=#cccccc guibg=#1f001f
-highlight StatusLineNC term=reverse cterm=reverse gui=NONE guifg=#4f3f3f guibg=#b2a089
-" }}}
-highlight VertSplit term=reverse cterm=reverse gui=NONE guifg=#ef5f8f guibg=#1f0f1f
-highlight Title term=bold ctermfg=LightMagenta gui=NONE guifg=#2fd4c6 guibg=bg
-" visual "{{{
-"highlight Visual term=reverse ctermbg=blue gui=NONE guifg=#ffffff guibg=#1f3f6f
-highlight Visual term=reverse ctermbg=blue gui=NONE guifg=#cdd0d3 guibg=#17334f
-highlight VisualNOS term=underline,bold cterm=underline,bold gui=underline,bold guifg=#3d3d3d guibg=#aaeeee
-" }}}
-highlight WarningMsg term=standout ctermfg=LightRed guifg=#ff73bf guibg=NONE
-highlight WildMenu term=standout ctermbg=Yellow ctermfg=Black gui=NONE guifg=#aaaaaa guibg=#1f2f5f
-" fold "{{{
-highlight Folded term=standout ctermbg=LightGrey ctermfg=DarkBlue gui=NONE guifg=#aaaaaa guibg=bg
-highlight FoldColumn term=standout ctermbg=LightGrey ctermfg=DarkBlue gui=bold guifg=#ffffff guibg=#2f1f2f
-" }}}
-" diff "{{{
-highlight DiffAdd term=bold ctermbg=DarkBlue gui=NONE guifg=#aacbde guibg=bg
-highlight DiffChange term=bold ctermbg=DarkMagenta gui=NONE guifg=#998dbf guibg=bg
-highlight DiffDelete term=bold ctermfg=Blue ctermbg=DarkCyan gui=NONE guifg=#a62c74 guibg=bg
-highlight DiffText term=reverse cterm=bold ctermbg=Red gui=NONE guifg=#c9cbce guibg=bg
-" }}}
-highlight SignColumn term=NONE gui=NONE guifg=#a65774 guibg=NONE
-if v:version >= 703
-  highlight Conceal term=NONE gui=NONE guifg=#000000 guibg=NONE
+
+" #- highlighting groups for various occasions -# "{{{1
+highlight Normal guifg=#fdfdfd guibg=#2f1f2f gui=NONE
+highlight SpecialKey guifg=#554ffe guibg=NONE gui=NONE
+highlight NonText guifg=#aaffaa guibg=NONE gui=NONE
+highlight Directory guifg=#5f6fff guibg=NONE gui=bold
+highlight ErrorMsg guifg=#ffafcf guibg=NONE gui=NONE
+" search "{{{2
+highlight IncSearch guifg=#000000 guibg=#6fafff gui=NONE
+highlight Search guifg=#111111 guibg=#6f9fff gui=NONE
+" }}}2
+highlight MoreMsg guifg=#3f7fff guibg=NONE gui=NONE
+highlight ModeMsg guifg=#3f6fff guibg=NONE gui=NONE
+highlight LineNr guifg=#bfbfaf guibg=NONE gui=NONE
+highlight Question guifg=#cccccc guibg=bg gui=NONE
+" statusline "{{{2
+highlight StatusLine guifg=#cccccc guibg=#1f001f gui=NONE
+highlight StatusLineNC guifg=#4f3f3f guibg=#b2a089 gui=NONE
+" }}}2
+highlight VertSplit guifg=#ef5f8f guibg=#1f0f1f gui=NONE
+highlight Title guifg=#2fd4c6 guibg=bg gui=NONE
+" visual "{{{2
+highlight Visual guifg=#cdd0d3 guibg=#17334f gui=NONE
+highlight VisualNOS guifg=#3d3d3d guibg=#aaeeee gui=underline,bold
+" }}}2
+highlight WarningMsg guifg=#ff73bf guibg=NONE gui=NONE
+highlight WildMenu guifg=#aaaaaa guibg=#1f2f5f gui=NONE
+" fold "{{{2
+highlight Folded guifg=#aaaaaa guibg=bg gui=NONE
+highlight FoldColumn guifg=#ffffff guibg=#2f1f2f gui=bold
+
+" diff "{{{2
+highlight DiffAdd guifg=#aacbde guibg=bg gui=NONE
+highlight DiffChange guifg=#998dbf guibg=bg gui=NONE
+highlight DiffDelete guifg=#a62c74 guibg=bg gui=NONE
+highlight DiffText guifg=#c9cbce guibg=bg gui=NONE
+" }}}2
+highlight SignColumn guifg=#a65774 guibg=NONE gui=NONE
+" spell "{{{2
+highlight SpellBad guifg=#af5fbf guibg=NONE gui=NONE
+highlight SpellCap guifg=#7f8fbf guibg=NONE gui=NONE
+highlight SpellRare guifg=#7fe9af guibg=NONE gui=NONE
+highlight SpellLocal guifg=#bfaf7f guibg=NONE gui=NONE
+
+" pmenu "{{{2
+highlight pmenu guifg=#2f2f2f guibg=#afafaf gui=NONE
+highlight PmenuSel guifg=#d2d2d2 guibg=#4f2f4f gui=NONE
+highlight PmenuSbar guifg=#ffffff guibg=#4d2f4d gui=NONE
+highlight PmenuThumb guifg=#111111 guibg=#999999 gui=NONE
+
+" tabline "{{{2
+highlight TabLine guifg=#000000 guibg=#cccccc gui=NONE
+highlight TabLineSel guifg=#cccccc guibg=#1a3b6f gui=NONE
+highlight TabLineFill guifg=#aaaaaa guibg=#dddddd gui=NONE
+
+" cursor "{{{2
+highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
+highlight CursorLine guifg=NONE guibg=#2f2f5f gui=NONE
+highlight CursorColumn guifg=NONE guibg=bg gui=NONE
+highlight Cursor guifg=#000000 guibg=#1f8f9f gui=NONE
+" IME status color for cursor "{{{3
+if has('multi_byte_ime') || has('xim')
+  highlight CursorIM guifg=#000000 guibg=#ff425f gui=NONE
 endif
-" spell "{{{
-highlight SpellBad term=NONE gui=NONE guifg=#af5fbf guibg=NONE
-highlight SpellCap term=NONE gui=NONE guifg=#7f8fbf guibg=NONE
-highlight SpellRare term=NONE gui=NONE guifg=#7fe9af guibg=NONE
-highlight SpellLocal term=NONE gui=NONE guifg=#bfaf7f guibg=NONE
-" }}}
-" pmenu "{{{
-highlight pmenu gui=NONE guifg=#2f2f2f guibg=#afafaf
-"highlight Pmenu gui=NONE guifg=#cccccc guibg=#4f2f4f
-highlight PmenuSel gui=NONE guifg=#d2d2d2 guibg=#4f2f4f
-"highlight PmenuSel gui=NONE guifg=#d2d2d2 guibg=#2f3f5f
-highlight PmenuSbar gui=NONE guifg=#ffffff guibg=#4d2f4d
-highlight PmenuThumb gui=NONE guifg=#111111 guibg=#999999
-" }}}
-" tabline "{{{
-highlight TabLine term=NONE gui=NONE guifg=#000000 guibg=#cccccc
-highlight TabLineSel term=NONE gui=NONE guifg=#cccccc guibg=#1a3b6f
-highlight TabLineFill term=NONE gui=NONE guifg=#aaaaaa guibg=#dddddd
-" }}}
-" cursor "{{{
-highlight CursorColumn term=reverse ctermbg=Black guibg=bg
-highlight CursorLine ctermbg=magenta gui=NONE guifg=NONE guibg=#2f2f5f
-" IME status color for cursor "{{{
-if has('multi_byte_ime')
-  highlight Cursor gui=NONE guifg=#000000 guibg=#1f8f9f
-  highlight CursorIM gui=NONE guifg=#000000 guibg=#ff425f
+
+" }}}2
+
+" #- syntax highlighting group -# "{{{1
+highlight lCursor guifg=#000000 guibg=#7ea3a6 gui=NONE
+highlight MatchParen guifg=#5f5f5f guibg=#7fafff gui=bold
+highlight comment guifg=#dfafff guibg=bg gui=NONE
+highlight Constant guifg=#aaeeaa guibg=bg gui=NONE
+highlight Identifier guifg=#6fcfff guibg=bg gui=NONE
+highlight Special guifg=#deffed guibg=bg gui=NONE
+highlight Statement guifg=#7fffef guibg=bg gui=NONE
+highlight PreProc guifg=#faadfe guibg=NONE gui=NONE
+highlight type guifg=#5fbfcf guibg=bg gui=NONE
+highlight underlined guifg=#669ffc guibg=NONE gui=underline
+highlight Ignore guifg=#5f5f5f guibg=NONE gui=bold
+highlight Error guifg=#ff5faf guibg=bg gui=NONE
+highlight Todo guifg=#4e5ca0 guibg=#2f2f5f gui=bold
+highlight string guifg=#afffaf guibg=NONE gui=NONE
+
+" #- Color function -# "{{{1
+" this code is written mrkn256.vim
+if has("gui_running") || &t_Co == 88 || &t_Co == 256
+  " functions "{{{
+  " returns an approximate grey index for the given grey level
+  function! <SID>grey_number(x) "{{{
+    if &t_Co == 88
+      if a:x < 23
+        return 0
+      elseif a:x < 69
+        return 1
+      elseif a:x < 103
+        return 2
+      elseif a:x < 127
+        return 3
+      elseif a:x < 150
+        return 4
+      elseif a:x < 173
+        return 5
+      elseif a:x < 196
+        return 6
+      elseif a:x < 219
+        return 7
+      elseif a:x < 243
+        return 8
+      else
+        return 9
+      endif
+    else
+      if a:x < 14
+        return 0
+      else
+        let l:n = (a:x - 8) / 10
+        let l:m = (a:x - 8) % 10
+        if l:m < 5
+          return l:n
+        else
+          return l:n + 1
+        endif
+      endif
+    endif
+  endfun "}}}
+
+  " returns the actual grey level represented by the grey index
+  function! <SID>grey_level(n) "{{{
+    if &t_Co == 88
+      if a:n == 0
+        return 0
+      elseif a:n == 1
+        return 46
+      elseif a:n == 2
+        return 92
+      elseif a:n == 3
+        return 115
+      elseif a:n == 4
+        return 139
+      elseif a:n == 5
+        return 162
+      elseif a:n == 6
+        return 185
+      elseif a:n == 7
+        return 208
+      elseif a:n == 8
+        return 231
+      else
+        return 255
+      endif
+    else
+      if a:n == 0
+        return 0
+      else
+        return 8 + (a:n * 10)
+      endif
+    endif
+  endfun "}}}
+
+  " returns the palette index for the given grey index
+  function! <SID>grey_color(n) "{{{
+    if &t_Co == 88
+      if a:n == 0
+        return 16
+      elseif a:n == 9
+        return 79
+      else
+        return 79 + a:n
+      endif
+    else
+      if a:n == 0
+        return 16
+      elseif a:n == 25
+        return 231
+      else
+        return 231 + a:n
+      endif
+    endif
+  endfun "}}}
+
+  " returns an approximate color index for the given color level
+  function! <SID>rgb_number(x) "{{{
+    if &t_Co == 88
+      if a:x < 69
+        return 0
+      elseif a:x < 172
+        return 1
+      elseif a:x < 230
+        return 2
+      else
+        return 3
+      endif
+    else
+      if a:x < 75
+        return 0
+      else
+        let l:n = (a:x - 55) / 40
+        let l:m = (a:x - 55) % 40
+        if l:m < 20
+          return l:n
+        else
+          return l:n + 1
+        endif
+      endif
+    endif
+  endfun "}}}
+
+  " returns the actual color level for the given color index
+  function! <SID>rgb_level(n) "{{{
+    if &t_Co == 88
+      if a:n == 0
+        return 0
+      elseif a:n == 1
+        return 139
+      elseif a:n == 2
+        return 205
+      else
+        return 255
+      endif
+    else
+      if a:n == 0
+        return 0
+      else
+        return 55 + (a:n * 40)
+      endif
+    endif
+  endfun "}}}
+
+  " returns the palette index for the given R/G/B color indices
+  function! <SID>rgb_color(x, y, z) "{{{
+    if &t_Co == 88
+      return 16 + (a:x * 16) + (a:y * 4) + a:z
+    else
+      return 16 + (a:x * 36) + (a:y * 6) + a:z
+    endif
+  endfun "}}}
+
+  " returns the palette index to approximate the given R/G/B color levels
+  function! <SID>color(r, g, b) "{{{
+    " get the closest grey
+    let l:gx = <SID>grey_number(a:r)
+    let l:gy = <SID>grey_number(a:g)
+    let l:gz = <SID>grey_number(a:b)
+
+    " get the closest color
+    let l:x = <SID>rgb_number(a:r)
+    let l:y = <SID>rgb_number(a:g)
+    let l:z = <SID>rgb_number(a:b)
+
+    if l:gx == l:gy && l:gy == l:gz
+      " there are two possibilities
+      let l:dgr = <SID>grey_level(l:gx) - a:r
+      let l:dgg = <SID>grey_level(l:gy) - a:g
+      let l:dgb = <SID>grey_level(l:gz) - a:b
+      let l:dgrey = (l:dgr * l:dgr) + (l:dgg * l:dgg) + (l:dgb * l:dgb)
+      let l:dr = <SID>rgb_level(l:gx) - a:r
+      let l:dg = <SID>rgb_level(l:gy) - a:g
+      let l:db = <SID>rgb_level(l:gz) - a:b
+      let l:drgb = (l:dr * l:dr) + (l:dg * l:dg) + (l:db * l:db)
+      if l:dgrey < l:drgb
+        " use the grey
+        return <SID>grey_color(l:gx)
+      else
+        " use the color
+        return <SID>rgb_color(l:x, l:y, l:z)
+      endif
+    else
+      " only one possibility
+      return <SID>rgb_color(l:x, l:y, l:z)
+    endif
+  endfun
+
+  " returns the palette index to approximate the 'rrggbb' hex string
+  function! <SID>rgb(rgb)
+    let l:r = ("0x" . strpart(a:rgb, 0, 2)) + 0
+    let l:g = ("0x" . strpart(a:rgb, 2, 2)) + 0
+    let l:b = ("0x" . strpart(a:rgb, 4, 2)) + 0
+
+    return <SID>color(l:r, l:g, l:b)
+  endfun "}}}
+
+  " sets the highlighting for the given group
+  function! <SID>X(group, fg, bg, attr) "{{{
+    if a:fg != ""
+      exec "highlight " . a:group . " guifg=#" . a:fg . " ctermfg=" . <SID>rgb(a:fg)
+    endif
+    if a:bg != ""
+      exec "highlight " . a:group . " guibg=#" . a:bg . " ctermbg=" . <SID>rgb(a:bg)
+    endif
+    if a:attr != ""
+      exec "highlight " . a:group . " gui=" . a:attr . " cterm=" . a:attr
+    endif
+  endfun "}}}
+  " }}}
+  " Gui
 else
-  highlight Cursor gui=NONE guifg=#000000 guibg=#2f8f9f
+  " Cui
 endif
-" }}}
-" }}}
-" }}}
 
-" #- syntax highlighting group -# "{{{
-highlight lCursor gui=NONE guifg=#000000 guibg=#7ea3a6
-highlight MatchParen gui=bold guifg=#5f5f5f guibg=#7fafff
-highlight comment term=bold gui=NONE guifg=#dfafff guibg=bg
-highlight Constant term=underline ctermfg=Magenta gui=NONE guifg=#aaeeaa guibg=bg
-highlight Identifier gui=NONE guifg=#6fcfff guibg=bg
-highlight Special term=bold ctermfg=LightRed gui=NONE guifg=#deffed guibg=bg
-if &t_Co > 8
-  highlight Statement term=bold cterm=bold ctermfg=Yellow guifg=bg guibg=bg
-endif
-highlight Statement gui=NONE guifg=#7fffef guibg=bg
-highlight PreProc gui=NONE guifg=#faadfe guibg=NONE
-highlight type gui=NONE guifg=#5fbfcf guibg=bg
-highlight underlined gui=underline guifg=#669ffc guibg=NONE
-highlight Ignore ctermfg=DarkGrey gui=NONE guifg=#5f5f5f guibg=NONE
-highlight Error gui=NONE guifg=#ff5faf guibg=bg
-highlight Todo gui=bold guifg=#4e5ca0 guibg=#2f2f5f
-highlight string gui=NONE guifg=#afffaf guibg=NONE
-" Setting of vimshell "{{{
-highlight VimShellPrompt  gui=underline guifg=#aaffff guibg=NONE
-highlight def link VimShellPrompt Identifier
-highlight def link VimShellUserPrompt Special
-highlight def link VimShellQuoted Special
-highlight def link VimShellString Constant
-highlight def link VimShellArguments Type
-highlight def link VimShellConstants Constant
-highlight def link VimShellSpecial PreProc
-highlight def link VimShellVariable Special
-highlight def link VimShellComment Comment
-highlight def link VimShellHistory Special
-highlight def link VimShellGrep Comment
-highlight def link VimShellNormal Normal
-highlight def link VimShellExe Statement
-highlight def link VimShellDirectory Preproc
-"highlight VimShellDirectory gui=NONE guifg=#3a85d2 guibg=bg
-highlight def link VimShellSocket Constant
-highlight def link VimShellLink Comment
-highlight def link VimShellDotFiles Identifier
-highlight def link VimShellError Error
-highlight def link VimShellErrorHidden Ignore
-highlight def link VimShellUserPromptHidden Ignore
-" }}}
-" Setting of vimfiler "{{{
-highlight VimFilerPrompt  gui=underline guifg=#cfaabf guibg=NONE
-highlight def link FilerPrompt Identifier
-highlight def link VimFilerNonMarkedFile Special
-highlight def link VimFilerMarkedFile Statement
-highlight def link VimFilerDirectory Directory
-highlight def link VimFilerSize Constant
-highlight def link VimFilerDateToday Statement
-highlight def link VimFilerDateWeek Special
-highlight def link VimFilerDate Identifier
 
-highlight def link VimFilerTypeText Constant
-highlight def link VimFilerTypeImage Type
-highlight def link VimFilerTypeArchive Special
-highlight def link VimFilerTypeExecute Statement
-highlight def link VimFilerTypeMultimedia Identifier
-highlight def link VimFilerTypeDirectory Preproc
-highlight def link VimFilerTypeSystem Comment
-" }}}
-" }}}
-
-" #- color functions -# "{{{
-" When Insert mode change for statusline "{{{
-"let g:hi_insert = 'highlight Statusline gui=NONE guifg=#ffffff guibg=#393e3f'
-"if has('syntax')
-"  augroup InsertHook
-"    autocmd!
-"    autocmd InsertEnter * call s:StatusLine('Enter')
-"    autocmd InsertLeave * call s:StatusLine('Leave')
-"  augroup END
-"endif
-
-"let s:slhlcmd = ''
-"function! s:StatusLine(mode) "{{{
-"  if a:mode == 'Enter'
-"    silent! let s:slhlcmd = 'highlight ' . s:GetHilight('StatusLine')
-"    silent exec g:hi_insert
-"  else
-"    highlight clear StatusLine silent exec s:slhlcmd
-"  endif
-"endfunction "}}}
-
-"function! s:GetHighlight(highlight) "{{{
-"  redir => hl
-"  exec 'highlight ' . a:highlight
-"  redir END
-"  let hl = substitute(hl, '[\r\n]', '', 'g')
-"  let hl = substitute(hl, 'xxx', '', '')
-"  return hl
-"endfunction " }}}
-
-" }}}
-"}}}
-
-"END "{{{
-" vim: sw=2
-" }}}
+" #- END -# "{{{1
+" vim: fen:fdm=marker
+" vim: filetype=vim

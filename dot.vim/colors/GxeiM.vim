@@ -1,4 +1,4 @@
-﻿" vim colorscheme file "{{{1
+﻿" #- vim colorscheme file -# "{{{1
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
@@ -24,72 +24,72 @@ highlight SpecialKey guifg=#1f915f guibg=bg gui=NONE
 highlight NonText guifg=#2b3b76 guibg=#ffffff gui=NONE
 highlight Directory guifg=#2b609b guibg=#fffee0 gui=bold
 highlight ErrorMsg guifg=#af1f5f guibg=#e8dfcb gui=NONE
-"search "{{{
+" search "{{{2
 highlight IncSearch guifg=#0f0f0f guibg=#cc88e1 gui=bold
 highlight Search guifg=#0f0f0f guibg=#5088e1 gui=bold
-"}}}
+"}}}2
 highlight MoreMsg guifg=#66765a guibg=#e8dfcb gui=NONE
 highlight ModeMsg guifg=#4a4741 guibg=#e8dfcb gui=NONE
-"highlight LineNr gui=NONE guifg=#b59720 guibg=bg ctermfg=white
 highlight LineNr ctermfg=white guifg=#b57720 gui=NONE
 highlight Question guifg=#345749 guibg=bg gui=NONE
-"statusline "{{{
+" statusline "{{{2
 highlight StatusLine guifg=#ffffff guibg=#10202f gui=NONE
 highlight StatusLineNC guifg=#7b8b85 guibg=#0f1f2f gui=NONE
-"}}}
+"}}}2
 highlight Title guifg=#177479 guibg=bg gui=bold
-highlight VertSplit guibg=#0f1f2f gui=NONE guifg=fg
-" visual "{{{
+highlight VertSplit guifg=fg guibg=#0f1f2f gui=NONE
+" visual "{{{2
 highlight Visual guifg=#cfcfcf guibg=#2c325f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#2f3f5f gui=underline,bold
-"}}}
+"}}}2
 highlight WarningMsg guifg=#af2f5f guibg=#e8dfcb gui=NONE
 highlight WildMenu guifg=#001f5f guibg=#efefff gui=NONE
-" fold "{{{
+" fold "{{{2
 highlight Folded guifg=#001f5f guibg=#bfcfdf gui=NONE
 highlight FoldColumn guifg=#1c417c guibg=bg gui=bold
-"}}}
-" diff "{{{
+
+" diff "{{{2
 highlight DiffAdd guifg=#000000 guibg=#afffcf gui=bold
 highlight DiffChange guifg=#ea69dc guibg=#fff6e6 gui=NONE
 highlight DiffDelete guifg=#a62c74 guibg=#fff6e6 gui=NONE
 highlight DiffText guifg=#16187f guibg=#fff6e6 gui=NONE
-"}}}
+"}}}2
 highlight SignColumn guifg=#a65774 guibg=bg gui=NONE
-"spell "{{{
+" spell "{{{2
 highlight SpellBad guifg=#795099 guibg=bg gui=NONE
 highlight SpellCap guifg=#506399 guibg=bg gui=NONE
 highlight SpellRare guifg=#509982 guibg=bg gui=NONE
 highlight SpellLocal guifg=#998c50 guibg=bg gui=NONE
-"}}}
-"pemu "{{{
+
+" pemu "{{{2
 highlight Pmenu guifg=#10102f guibg=#dbdbf3 gui=NONE
 highlight PmenuSel guifg=#bfbfbf guibg=#2f265f gui=NONE
 highlight PmenuSbar guifg=#cccccc guibg=#3a3b3c gui=NONE
 highlight PmenuThumb guifg=#0f0f0f guibg=#21365f gui=NONE
-"}}}
-"tabline "{{{
+
+" tabline "{{{2
 highlight TabLine guifg=#5f5f5f guibg=#cfcfdf gui=underline
 highlight TabLineSel guifg=#00001f guibg=#efefff gui=underline
 highlight TabLineFill guifg=#5f2f3f guibg=#cfcfcf gui=underline
-"}}}
-"cursor "{{{
-highlight CursorColumn guibg=bg
+
+" cursor "{{{2
+highlight ColorColumn guibg=#cfcfff gui=NONE guifg=NONE
 highlight CursorLine guifg=NONE guibg=#f9daf6 gui=NONE
-highlight ColorColumn guifg=NONE guibg=#ff5588 gui=NONE
+highlight CursorColumn guifg=NONE guibg=bg gui=NONE
 highlight Cursor guifg=#000000 guibg=#2f8f8f gui=NONE
-" IME status color for cursor "{{{
+" IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#7f0f2f gui=NONE
-endif "}}}
-"}}}
+endif
+
+"}}}2
 
 " #- syntax highlighting groups -# "{{{1
 highlight lCursor guifg=#575757 guibg=#000000 gui=NONE
 highlight MatchParen guifg=#20202f guibg=#a26fac gui=bold
 highlight comment guifg=#1f3f8f guibg=NONE gui=NONE
 highlight Constant guifg=#0f2f7f guibg=bg gui=NONE
-highlight Special term=bold ctermfg=LightRed guifg=#003857 guibg=bg gui=NONE
+highlight Special guifg=#003857 guibg=bg gui=NONE
 highlight Identifier guifg=#1f5f0f guibg=bg gui=NONE
 highlight Statement guifg=#0f2f7f guibg=bg gui=NONE
 highlight PreProc guifg=#7c207b guibg=bg gui=NONE
@@ -316,6 +316,6 @@ else
   " Cui
 endif
 
-" END "{{{1
+" #- END -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim

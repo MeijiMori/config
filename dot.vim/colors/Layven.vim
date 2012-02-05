@@ -18,7 +18,7 @@ endif
 " #- Colorscheme name -# "{{{1
 let g:colors_name = "Layven"
 
-"#- Highlighting groups for various occasions -# "{{{1
+" #- Highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#fdfdfd guibg=#10101f gui=NONE
                 \ ctermfg=12 ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#585fff guibg=bg gui=NONE
@@ -63,14 +63,14 @@ highlight Visual guifg=#cfcfcf guibg=#101a3f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#1f2f4f gui=underline,bold
                 \ ctermfg=10 ctermbg=9 cterm=bold
 "}}}
-highlight WarningMsg gui=NONE guifg=#fc4765 guibg=bg
+highlight WarningMsg guifg=#fc4765 guibg=bg gui=NONE
                 \ cterm=NONE ctermfg=2 ctermbg=bg
 " highlight WildMenu guifg=#2f5f85 guibg=#cfcfcf gui=bold
 "               \ ctermfg=1 ctermbg=10 cterm=NONE
 highlight WildMenu guifg=#5f5f3f guibg=#cfcfdf gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
 " Fold "{{{
-highlight Folded guifg=#aaaaaa guibg=#000015 gui=underline
+highlight Folded guifg=#aaaaaa guibg=#000015 gui=NONE
                 \ cterm=NONE ctermfg=7 ctermbg=9
 highlight FoldColumn guifg=#3f30cf guibg=#000010 gui=bold
                 \ cterm=NONE ctermfg=7 ctermbg=1

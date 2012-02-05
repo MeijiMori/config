@@ -13,105 +13,91 @@ if version > 580
   endif
 endif
 
-"#- colorscheme name -# "{{{1
+" #- colorscheme name -# "{{{1
 let g:colors_name = "QximWs"
 
-"#- highlighting groups for various occasions -# "{{{1
-highlight Normal ctermbg=black ctermfg=white guifg=#fdfdfd guibg=#1f1f2f
-"highlight SpecialKey term=bold ctermfg=LightBlue guifg=#7c49d9 guibg=#3b3b3b
-highlight SpecialKey term=bold ctermfg=LightBlue guifg=#5842ff guibg=bg
-highlight NonText term=NONE ctermfg=LightBlue gui=NONE guifg=#4e79c8 guibg=#10101f
-highlight Directory term=bold ctermfg=LightCyan guifg=#3a85d2 guibg=bg
-highlight ErrorMsg term=standout ctermbg=DarkBlue ctermfg=White gui=NONE guifg=#f84865 guibg=bg
-"search "{{{
-"highlight IncSearch term=REVERSE cterm=REVERSE gui=NONE guibg=#704461 guifg=#000000
-highlight IncSearch term=REVERSE cterm=REVERSE gui=NONE guifg=#000000 guibg=#cc88e1
-highlight Search term=REVERSE ctermbg=white ctermfg=Black guifg=#000000 guibg=#5088e1
-"}}}
-highlight MoreMsg term=NONE ctermfg=LightGreen gui=NONE guifg=#95d5d9 guibg=#303030
-highlight ModeMsg term=bold cterm=bold ctermfg=white gui=NONE guifg=#ffffff guibg=#303030
-highlight LineNr term=UNDERLINE ctermbg=black gui=NONE ctermfg=white guifg=#ff8fa0
-highlight Question term=standout ctermfg=LightGreen gui=NONE guifg=#6ab395 guibg=bg
-"statusline "{{{
-highlight StatusLine ctermbg=black ctermfg=white gui=NONE guifg=#cfcfcf guibg=bg
-"highlight StatusLineNC term=REVERSE cterm=REVERSE gui=NONE guifg=#564234 guibg=#b2a089
-highlight StatusLineNC term=REVERSE cterm=REVERSE gui=NONE guifg=#5f5f5f guibg=#c4b2ab
-"}}}
-"highlight Title term=bold ctermfg=LightMagenta gui=NONE guifg=#a6dc72 guibg=#3d3d3d
-highlight Title term=bold ctermfg=LightMagenta gui=NONE guifg=#72dc95
-highlight VertSplit term=REVERSE cterm=REVERSE gui=NONE guifg=#4049d9 guibg=#202020
-"visual "{{{
-highlight Visual term=REVERSE ctermbg=blue guifg=#ffffff guibg=#1c5287
-"
-highlight VisualNOS term=UNDERLINE,bold cterm=UNDERLINE,bold gui=UNDERLINE guibg=#aaeeee guifg=#3d3d3d
-"}}}
-highlight WarningMsg term=standout ctermfg=LightRed guifg=#bc4765 guibg=bg
-"highlight WildMenu term=standout ctermbg=Yellow ctermfg=Black gui=NONE guifg=#3a85d2 guibg=#3f3f3f
-highlight WildMenu term=standout ctermbg=Yellow ctermfg=Black gui=NONE guifg=#3a85d2 guibg=#2a2a2a
-"fold "{{{
-highlight Folded term=standout ctermbg=LightGrey ctermfg=DarkBlue guifg=#cfcfcf guibg=#0f101f
-highlight FoldColumn term=standout ctermbg=LightGrey ctermfg=DarkBlue gui=bold guifg=#3b54ec guibg=#0f101f
-"}}}
-"diff "{{{
-highlight DiffAdd term=bold ctermbg=DarkBlue guifg=#aacbde guibg=bg
-"
-highlight DiffChange term=bold ctermbg=DarkMagenta guifg=#998dbf guibg=bg
-"
-highlight DiffDelete term=bold ctermfg=Blue ctermbg=DarkCyan gui=bold guifg=#a62c74 guibg=bg
-highlight DiffText term=REVERSE cterm=bold ctermbg=Red gui=NONE guifg=#c9cbce guibg=bg
-"}}}
+" #- highlighting groups for various occasions -# "{{{1
+highlight Normal guifg=#fdfdfd guibg=#1f1f2f gui=NONE
+highlight SpecialKey guifg=#5842ff guibg=bg gui=NONE
+highlight NonText guifg=#4e79c8 guibg=#10101f gui=NONE
+highlight Directory guifg=#3a85d2 guibg=bg gui=bold
+highlight ErrorMsg guifg=#f84865 guibg=bg gui=NONE
+" search "{{{2
+highlight IncSearch guifg=#000000 guibg=#cc88e1 gui=bold
+highlight Search guifg=#000000 guibg=#5088e1 gui=bold
+"}}}2
+highlight MoreMsg guifg=#95d5d9 guibg=#303030 gui=NONE
+highlight ModeMsg guifg=#ffffff guibg=#303030 gui=NONE
+highlight LineNr guifg=#ff8fa0 guibg=NONE gui=NONE
+highlight Question guifg=#6ab395 guibg=bg gui=NONE
+" statusline "{{{2
+highlight StatusLine guifg=#cfcfcf guibg=bg gui=NONE
+highlight StatusLineNC guifg=#5f5f5f guibg=#c4b2ab gui=NONE
+"}}}2
+highlight Title guifg=#72dc95 guibg=NONE gui=NONE
+highlight VertSplit guifg=#4049d9 guibg=#202020 gui=NONE
+" visual "{{{2
+highlight Visual guifg=#ffffff guibg=#1c5287 gui=NONE
+highlight VisualNOS guibg=#aaeeee guifg=#3d3d3d gui=underline
+"}}}2
+highlight WarningMsg guifg=#bc4765 guibg=bg gui=NONE
+highlight WildMenu guifg=#3a85d2 guibg=#2a2a2a gui=NONE
+" fold "{{{2
+highlight Folded guifg=#cfcfcf guibg=#0f101f gui=NONE
+highlight FoldColumn guifg=#3b54ec guibg=#0f101f gui=bold
+
+"diff "{{{2
+highlight DiffAdd guifg=#aacbde guibg=bg gui=NONE
+highlight DiffChange guifg=#998dbf guibg=bg gui=NONE
+highlight DiffDelete guifg=#a62c74 guibg=bg gui=bold
+highlight DiffText guifg=#c9cbce guibg=bg gui=NONE
+"}}}2
 highlight SignColumn term=NONE gui=NONE guibg=bg guifg=#a65774
-"spell "{{{
-highlight SpellBad term=NONE gui=NONE guibg=bg guifg=#795099
-highlight SpellCap term=NONE gui=NONE guibg=bg guifg=#506399
-highlight SpellRare term=NONE gui=NONE guibg=bg guifg=#509982
-highlight SpellLocal term=NONE gui=NONE guibg=bg guifg=#998c50
-"}}}
-"pmenu "{{{
+" spell "{{{2
+highlight SpellBad guibg=bg guifg=#795099 gui=NONE
+highlight SpellCap guibg=bg guifg=#506399 gui=NONE
+highlight SpellRare guibg=bg guifg=#509982 gui=NONE
+highlight SpellLocal guibg=bg guifg=#998c50 gui=NONE
+
+" pmenu "{{{2
 highlight Pmenu gui=NONE guifg=#cfcfcf guibg=#020f1f
 highlight PmenuSel gui=NONE guifg=#ccfcfa guibg=#2f3faf
 highlight PmenuSbar gui=NONE guifg=#9c9c9c guibg=#0f0f0f
 highlight PmenuThumb gui=NONE guifg=#0f0f0f guibg=#212656
-"}}}
-"tabline "{{{
-"highlight TabLine term=NONE gui=NONE guifg=#9d887c guibg=bg
-highlight TabLine term=NONE gui=underline guifg=#7b7b7b guibg=bg
-"highlight TabLineSel term=NONE gui=NONE guifg=#f0f0f0 guibg=#37538b
-highlight TabLineSel term=NONE gui=NONE guifg=#afafaf guibg=#0f2f5f
-"highlight TabLineFill term=NONE gui=NONE guifg=#564234 guibg=bg
-highlight TabLineFill term=NONE gui=underline guifg=#415676 guibg=bg
-"}}}
-"cursor "{{{
-highlight CursorLine ctermbg=magenta guibg=#3f3f3f
-highlight Cursor guifg=#555555 guibg=#ffffff
-"IME status color for cursor
+
+"tabline "{{{2
+highlight TabLine guifg=#7b7b7b guibg=bg gui=underline
+highlight TabLineSel guifg=#afafaf guibg=#0f2f5f gui=NONE
+highlight TabLineFill guifg=#415676 guibg=bg gui=underline
+
+"cursor "{{{2
+highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
+highlight CursorLine  guifg=NONE guibg=#3f3f3f gui=NONE
+highlight CursorColumn guifg=NONE guibg=bg gui=NONE
+highlight Cursor guifg=#000000 guibg=#ffffff gui=NONE
+"IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM gui=NONE guifg=#bfbfbf guibg=#ffb6c1
 endif
-"}}}
+
+"}}}2
 
 " #- syntax highlighting group -# "{{{1
-highlight lCursor gui=NONE guifg=#575757 guibg=#7ea3a6
-highlight MatchParen gui=bold guifg=#575757 guibg=#5f93cd
-highlight comment term=bold gui=NONE guifg=#509fff guibg=bg
-highlight Constant term=UNDERLINE ctermfg=Magenta gui=NONE guifg=#da7f7f guibg=bg
-highlight Identifier gui=NONE guifg=#77aa77 guibg=bg
-highlight Special term=bold ctermfg=LightRed gui=NONE guifg=#faaafa guibg=bg
-if &t_Co > 8
-  highlight Statement term=bold cterm=bold ctermfg=Yellow guifg=#5c71ab guibg=bg
-endif
-"highlight Statement gui=NONE guifg=#9be188 guibg=bg
-highlight Statement gui=NONE guifg=#7f70ff guibg=bg
-"highlight PreProc guifg=#b871b7 guibg=bg
-highlight PreProc guifg=#aaffff guibg=bg
-highlight type gui=NONE guifg=#71c9af guibg=bg
-highlight underlined guifg=#6699cc guibg=#232323
-highlight Ignore ctermfg=DarkGrey gui=NONE guifg=#fac08f
-highlight Error gui=NONE guifg=#ff5050 guibg=bg
-"highlight Todo gui=bold guifg=#50a0ff guibg=bg
-highlight Todo gui=NONE guifg=#50a0ff guibg=bg
-highlight string gui=NONE guifg=#ffafff guibg=bg
-highlight CursorColumn term=REVERSE ctermbg=Black guibg=bg
+highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
+highlight MatchParen guifg=#575757 guibg=#5f93cd gui=bold
+highlight comment guifg=#509fff guibg=bg gui=NONE
+highlight Constant guifg=#da7f7f guibg=bg gui=NONE
+highlight Identifier guifg=#77aa77 guibg=bg gui=NONE
+highlight Special guifg=#faaafa guibg=bg gui=NONE
+highlight Statement guifg=#7f70ff guibg=bg gui=NONE
+highlight PreProc guifg=#aaffff guibg=bg gui=NONE
+highlight type guifg=#71c9af guibg=bg gui=NONE
+highlight underlined guifg=#6699cc guibg=#232323 gui=NONE
+highlight Ignore guifg=#fac08f guibg=NONE gui=bold
+highlight Error guifg=#ff5050 guibg=bg gui=NONE
+highlight Todo guifg=#50a0ff guibg=bg gui=NONE
+highlight string guifg=#ffafff guibg=bg gui=NONE
+
 " #- Color function -# "{{{1
 " this code is written mrkn256.vim
 if has("gui_running") || &t_Co == 88 || &t_Co == 256
@@ -328,6 +314,6 @@ else
   " Cui
 endif
 
-" END "{{{1
+" #-  END -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim

@@ -23,7 +23,7 @@ highlight Normal guifg=#cfcfcf guibg=#000000 gui=NONE
 highlight SpecialKey guifg=#6f2f6f guibg=bg gui=NONE
 highlight NonText guifg=#5f33ff guibg=bg gui=NONE
 highlight Directory guifg=#1f2f5f guibg=bg gui=bold
-highlight ErrorMsg guifg=#cf2f4f guibg=#ffcfcf gui=NONE
+highlight ErrorMsg guifg=#cf2f4f guibg=bg gui=NONE
 " Search "{{{2
 highlight IncSearch guifg=#000000 guibg=#af2f35 gui=bold
 highlight Search guifg=#000000 guibg=#2f3faf gui=bold
@@ -42,11 +42,11 @@ highlight Title guifg=#2f7f86 guibg=bg gui=NONE
 highlight Visual guifg=#ffffff guibg=#1f2f5f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#3f4f7f gui=underline,bold
 " }}}2
-highlight WarningMsg guifg=#cf2f4f guibg=#ffdfff gui=NONE
+highlight WarningMsg guifg=#cf2f4f guibg=bg gui=NONE
 highlight WildMenu guifg=#ffffff guibg=#0f2f5f gui=NONE
 " Fold "{{{2
-highlight Folded guifg=#0f0f0f guibg=#cfcfff gui=NONE
-highlight FoldColumn guifg=#0f1f5f guibg=#cfcfff gui=bold
+highlight Folded guifg=#2f3f8f guibg=#00000f gui=NONE
+highlight FoldColumn guifg=#0f1f5f guibg=#00000f gui=bold
 " }}}2
 " Diff "{{{2
 highlight DiffAdd guifg=fg guibg=#bfffbf gui=NONE
@@ -67,7 +67,7 @@ highlight PmenuSel guifg=#dfdfdf guibg=#1f2f5f gui=NONE
 highlight PmenuSbar guifg=#cccccc guibg=#2f2f2f gui=NONE
 highlight PmenuThumb guifg=#aaaaaa guibg=#6f2f4f gui=NONE
 " }}}2
-"tabline "{{{2
+" tabline "{{{2
 " highlight TabLine guifg=#5f5f5f guibg=#cfcfcf gui=NONE
 " highlight TabLineSel guifg=#dfdfdf guibg=#1f2f5f gui=NONE
 " highlight TabLineFill guifg=#5f5f5f guibg=#afafaf gui=NONE
@@ -99,8 +99,8 @@ highlight PreProc guifg=#9f2faf guibg=bg gui=NONE
 highlight type guifg=#7f2f7f guibg=bg gui=NONE
 highlight underlined guifg=#3f5faf guibg=#cfcfff gui=underline,bold
 highlight Ignore guifg=#1f2f3f guibg=bg gui=bold
-highlight Error guifg=#a04f7e guibg=#ffcfcf gui=NONE
-highlight Todo guifg=#af2f5f guibg=#cfcfff gui=underline,bold
+highlight Error guifg=#a04f7e guibg=bg gui=NONE
+highlight Todo guifg=#af2f5f guibg=#afafff gui=underline,bold
 highlight String guifg=#8f4f2f guibg=bg gui=NONE
 
 
