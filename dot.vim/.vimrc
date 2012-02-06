@@ -618,11 +618,31 @@ augroup vimrc-auto-cursorline "{{{
   autocmd!
   " Don't draw cursorline that filetype is vimshell and more
   autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI *
-  \ let expr_ft = ((&ft =~? "vimshell") || (&ft =~? "int-*") || (&ft =~? "term-*") || (&ft =~? "vimfiler") || (&ft =~? "unite"))
+  \ let expr_ft = omitfiletype.omit()
   autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
-  autocmd CursorHold,CursorHoldI * if !expr_ft | call s:auto_cursorline('CursorHold') | endif
-  autocmd WinEnter * if !expr_ft | call s:auto_cursorline('WinEnter') | endif
+  autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
+  autocmd WinEnter * if expr_ft | call s:auto_cursorline('WinEnter') | endif
   autocmd WinLeave * call s:auto_cursorline('WinLeave')
+
+  let omitfiletype = {}
+  let omitfiletype.filetypes = [
+    \ 'vimshell',
+    \ 'vimfiler',
+    \ 'int-*',
+    \ 'term-*',
+    \ 'unite',
+    \ ]
+  function! omitfiletype.omit() "{{{
+    let flag = 1
+    for filetype in self.filetypes
+      if (&ft =~? filetype)
+        let flag = 0
+        break
+      endif
+    endfor
+
+    return flag
+  endfunction "}}}
 
   let s:cursorline_lock = 0
   function! s:auto_cursorline(event) "{{{
@@ -1069,6 +1089,13 @@ if globpath(&rtp, 'autoload/rtputil.vim') != ''
 endif
 "}}}
 
+" #- singleton.vim -# "{{{
+if globpath(&rtp, 'autoload/singleton.vim') != ''
+  call singleton#enable()
+  let g:singleton#opener = 'tab drop'
+endif
+"}}}
+
 " #- neocomplcache.vim -# "{{{
 if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
   " Setting of directory for neocomplcache "{{{
@@ -1175,19 +1202,6 @@ if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
   inoremap <expr><C-l>     neocomplcache#complete_common_string()
   "}}}
 
-  " Test."{{{
-  "let g:neocomplcache_auto_completion_start_length = 1
-  "let g:neocomplcache_plugin_completion_length = {
-  "\ 'snippets_complete' : 1,
-  "\ 'buffer_complete' : 2,
-  "\ 'syntax_complete' : 2,
-  "\ 'tags_complete' : 3,
-  "\ 'vim_complete' : 4,
-  "\ }
-  "let g:neocomplcache_plugin_disable = {
-  "\'vim_complete' : 1
-  "\} "}}}
-
   " For neocomplcache."{{{
   " <C-f>, <C-b>: page move.
   inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
@@ -1261,9 +1275,7 @@ if globpath(&rtp, 'autoload/vimshell.vim') != ''
     let g:vimshell_prompt = $USERNAME . " $ "
     " Use ckw.
     let g:vimshell_use_ckw = 1
-    let g:vimshell_use_terminal_command = 'ckw -e'
-    " Prefix
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe kmplayer') "}}}
+    let g:vimshell_use_terminal_command = 'ckw -e' "}}}
   else
     " linux, mac "{{{
     " User name @ host name [ working directory]
@@ -1430,22 +1442,6 @@ if globpath(&rtp, 'autoload/vimshell.vim') != ''
 
 endif
 " }}}
-
-" #- netrw.vim -# "{{{
-" Set of netrw configuration directory "{{{
-let s:netrw_dir = g:vim_info_dir . '/.netrw'
-if !isdirectory(s:netrw_dir)
-  call mkdir(s:netrw_dir, 'p')
-endif
-let g:netrw_home = s:netrw_dir " }}}
-let g:netrw_list_hide= '*.swp'
-nnoremap <silent> <BS> :<C-u>Explore<CR>
-" Change default directory.
-"set browsedir=current
-if executable('wget')
-  let g:netrw_http_cmd = 'wget'
-endif
-"}}}
 
 " #- unite.vim -# "{{{
 if globpath(&rtp, 'autoload/unite.vim') != ''
@@ -1745,10 +1741,14 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
     call mkdir(s:filer_trash_dir, 'p')
   endif
   let g:vimfiler_trashbox_directory = s:filer_trash_dir
-  unlet s:filer_trash_dir "}}}
+  unlet s:filer_trash_dir
+
+  if s:iswin && globpath(&rtp, 'autoload/vimproc.vim') != ''
+    let g:unite_kind_file_use_trashbox = 1
+  endif "}}}
 
   " icons
-  let g:vimfiler_tree_leaf_icon = '   '
+  let g:vimfiler_tree_leaf_icon = ' | '
   let g:vimfiler_tree_opened_icon = '[-]'
   let g:vimfiler_tree_closed_icon = '[ ]'
   let g:vimfiler_file_icon = ' - '
@@ -1796,18 +1796,23 @@ if globpath(&rtp, 'plugin/surround.vim') != ''
 endif
 "}}}
 
-" #- altercmd -# "{{{
+" #- altercmd.vim -# "{{{
 if globpath(&rtp, 'autoload/altercmd.vim') != ''
   call altercmd#define('<buffer>', 'cd', 'CD', 'i')
   call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
-  call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
-  call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
+  if exists(':Tcolorscheme') == 2
+    call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
+    call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
+  else
+    call altercmd#define('<buffer>', 'co[lor]', 'colorscheme', 'i')
+    call altercmd#define('<cmdwin>', 'co[lor]', 'colorscheme', 'i')
+  endif
   call altercmd#define('<cmdwin>', 'cd', 'CD', 'i')
   call altercmd#define('<cmdwin>', 'sp[lit]', 'split', 'i')
 endif
 "}}}
 
-" #- echodoc -# "{{{
+" #- echodoc.vim -# "{{{
 if globpath(&rtp, 'autoload/echodoc.vim') != ''
   let g:echodoc_enable_at_startup = 1
 endif
@@ -1832,22 +1837,15 @@ if globpath(&rtp, 'autoload/ref.vim') != ''
 endif
 " }}}
 
-" #- matchit -# "{{{
-" extension %
-if filereadable(expand('$VIMRUNTIME/macros/matchit.txt'))
-  source $VIMRUNTIME/macros/matchit.vim
-endif
-" }}}
-
 " #- skk & eskk -# "{{{
 " let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
-let s:skk_user_dir = expand('~/.dict')
+let skk_user_dir = expand('~/.dict')
 " Make dictionary directory "{{{
-if !isdirectory(s:skk_user_dir)
-  call mkdir(s:skk_user_dir, 'p')
+if !isdirectory(skk_user_dir)
+  call mkdir(skk_user_dir, 'p')
 endif "}}}
 " let s:skk_user_dict = s:skk_user_dir
-let s:skk_user_dict = s:skk_user_dir . '/SKK-JISYO.L'
+let s:skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
 if s:iswin
   let s:skk_system_dict = g:vim_info_dir . '/others/dict/sys'
 else
@@ -2071,19 +2069,19 @@ xmap <Space>M <Plug>(quickhl-reset)
 
 " highlight color change
 let g:quickhl_colors = [
-      \ "guifg=#000000 guibg=#af4faf gui=bold ",
-      \ "guifg=#000000 guibg=#7f4fbf gui=bold ",
-      \ "guifg=#000000 guibg=#4f7fcf gui=bold ",
-      \ "guifg=#000000 guibg=#4fafdf gui=bold ",
-      \ "guifg=#000000 guibg=#0f4fef gui=bold ",
-      \ "guifg=#000000 guibg=#2fff5f gui=bold ",
-      \ "guifg=#000000 guibg=#af6faf gui=bold ",
-      \ "guifg=#000000 guibg=#af1f1f gui=bold ",
-      \ "guifg=#000000 guibg=#af4f2f gui=bold ",
-      \ "guifg=#000000 guibg=#afbf3f gui=bold ",
-      \ "guifg=#000000 guibg=#afcf4f gui=bold ",
-      \ "guifg=#000000 guibg=#afdf5f gui=bold ",
-      \ "guifg=#000000 guibg=#afaf6f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f002f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f007f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f2f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f0f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f3f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#1f3f0f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f1f1f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#5f4f2f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f2f4f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#4f1f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f1f gui=bold ",
       \ ]
 
 let g:quickhl_keywords = [
@@ -2181,6 +2179,28 @@ if globpath(&rtp, 'plugin/fontzoom.vim') != ''
 endif
 "}}}
 
+" #- netrw.vim -# "{{{
+" Set of netrw configuration directory "{{{
+let s:netrw_dir = g:vim_info_dir . '/.netrw'
+if !isdirectory(s:netrw_dir)
+  call mkdir(s:netrw_dir, 'p')
+endif
+let g:netrw_home = s:netrw_dir " }}}
+let g:netrw_list_hide= '*.swp'
+nnoremap <silent> <BS> :<C-u>Explore<CR>
+" Change default directory.
+"set browsedir=current
+if executable('wget')
+  let g:netrw_http_cmd = 'wget'
+endif
+"}}}
+
+" #- matchit -# "{{{
+if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
+  source $VIMRUNTIME/macros/matchit.vim
+endif
+" }}}
+
 "}}}
 
 "---------------------------------------------------------------------------
@@ -2190,6 +2210,8 @@ endif
 " Too lazy to press Shift Key
 " noremap ; :
 " noremap : ;
+
+inoremap <C-@> <ESC>
 
 " Movement command line mode
 nnoremap <C-J> :
@@ -3268,11 +3290,16 @@ let ColorRoller.colors = [
       \ 'ZycUs', 'GxeiM',
       \ 'Moufr02', 'HwPng01',
       \ 'z1qt', 'joker',
+      \ 'rayven',
       \ ]
 
 function! ColorRoller.change() "{{{
   let color = get(self.colors, 0)
-  silent exe "colorscheme " . color
+  if exists(':Tcolorscheme') == 2
+    silent exe "Tcolorscheme " . color
+  else
+    silent exe "colorscheme " . color
+  endif
   redraw
   echo self.colors
 endfunction "}}}
