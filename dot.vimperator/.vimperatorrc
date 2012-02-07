@@ -86,7 +86,7 @@ set! browser.cache.memory.enable=true
 set! browser.sessionstore.max_concurrent_tabs=0
 
 
-" ==================== Map =========================== "{{{1
+" ==================== KeyMap =========================== "{{{1
 javascript <<EOS
     mappings.addUserMap(
       [modes.COMMAND_LINE],
@@ -194,7 +194,7 @@ nnoremap <C-[><C-[> :<C-u>set nohlsearch<CR>
 nnoremap <Leader>eh :<C-u>highlight<CR>
 
 
-" caret "{{{2
+" command "{{{2
 cnoremap <C-c> <C-v><C-c>
 cnoremap <C-x> <C-v><C-x>
 cnoremap <C-v> <S-Insert>
@@ -237,15 +237,15 @@ inoremap <C-p> <Up>
 
 "}}}1
 " ==================== Command ======================= "{{{1
-" :loadconfig "{{{2
+" :load configuretion file "{{{2
 command! loadconfig source ~/.vimperatorrc
 
 
-" :showtabnum "{{{2
+" :showtabnumber "{{{2
 command! showtabnum echo config.browser.mTabs.length
 
 
-" :cal "{{{2
+" :calender "{{{2
 " http://vimperator.g.hatena.ne.jp/teramako/20100416/1271432039
 command! cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
