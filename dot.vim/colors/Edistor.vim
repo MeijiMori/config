@@ -96,7 +96,7 @@ highlight underlined guifg=#0e8655 guibg=bg gui=underline
 highlight Ignore guifg=#084f88 guibg=bg gui=NONE
 highlight Error guifg=#964236 guibg=#fff0fe gui=NONE
 highlight Todo guifg=#009a7a guibg=#bce5f5 gui=bold
-highlight string guifg=#ff00ff guibg=#ffffff gui=NONE
+highlight string guifg=#ff00ff guibg=bg gui=NONE
 highlight function guifg=#3a45b1 guibg=bg gui=NONE
 
 " #- Color function -# "{{{1

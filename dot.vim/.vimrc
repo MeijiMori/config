@@ -51,8 +51,7 @@ if s:iswin
   " language message ja
 else
   " For Linux.
-  " language mes C
-  language message ja
+  language mes C
 endif
 
 if exists('&msghistlen')
@@ -1300,7 +1299,7 @@ if globpath(&rtp, 'autoload/vimshell.vim') != ''
   if globpath(&rtp, 'autoload/vcs.vim') != ''
     let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
   else
-    let g:vimshell_right_prompt = '-(.v.)/~'
+    let g:vimshell_right_prompt = ''
   endif
 
   " Initialize execute file list.
@@ -2960,10 +2959,13 @@ else
     " Cygwin.
     " Use bash.
     set shell=bash
-  else
+  elseif executable('zsh')
     " Use zsh.
     set shell=zsh
+  else
     " set shell=bash
+    " Use bash.
+    set shell=bash
   endif
 
   " For non GVim.
