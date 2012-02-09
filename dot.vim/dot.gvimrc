@@ -114,7 +114,7 @@ if !isdirectory(g:save_window_dir)
 endif "}}}
 augroup SaveWindow " "{{{
   autocmd!
-  autocmd VimLeavePre * call s:save_window()
+  autocmd BufWritePre * call s:save_window()
   function! s:save_window() " "{{{
     let options = [
     \ 'set columns=' . &columns,
