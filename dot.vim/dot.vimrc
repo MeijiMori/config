@@ -600,6 +600,26 @@ augroup Binary "{{{
   autocmd BufWritePost *.bin set nomod | endif
 augroup END "}}}
 
+" Delete space at end of line (File type is not vim, help)
+augroup vim-delete-space-end-of-line "{{{
+  " Omit file types
+  let filetypes = [
+    \ "help",
+    \ ]
+
+  autocmd!
+  autocmd BufWritePre *
+  \ let expr_ft = s:omitfiletype(filetypes,0,0)
+  autocmd BufWritePre * if expr_ft | call s:RTrim() | endif
+
+  function! s:RTrim() "{{{
+    let s:cursor = getpos(".")
+    %s/\s\+$//e
+    call setpos(".", s:cursor)
+  endfunction "}}}
+
+augroup END "}}}
+
 "}}}
 
 "---------------------------------------------------------------------------
@@ -614,34 +634,23 @@ endif
 " set cursorline
 augroup vimrc-auto-cursorline "{{{
 
-  autocmd!
-  " Don't draw cursorline that filetype is vimshell and more
-  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI *
-  \ let expr_ft = omitfiletype.omit()
-  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
-  autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
-  autocmd WinEnter * if expr_ft | call s:auto_cursorline('WinEnter') | endif
-  autocmd WinLeave * call s:auto_cursorline('WinLeave')
-
-  let omitfiletype = {}
-  let omitfiletype.filetypes = [
+  " Omit filetypes
+  let filetypes = [
     \ 'vimshell',
     \ 'vimfiler',
     \ 'int-*',
     \ 'term-*',
     \ 'unite',
     \ ]
-  function! omitfiletype.omit() "{{{
-    let flag = 1
-    for filetype in self.filetypes
-      if (&ft =~? filetype)
-        let flag = 0
-        break
-      endif
-    endfor
 
-    return flag
-  endfunction "}}}
+  autocmd!
+  " Don't draw cursorline that filetype is vimshell and more
+  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI *
+  \       let expr_ft = s:omitfiletype(filetypes, 1, 0)
+  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
+  autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
+  autocmd WinEnter * if expr_ft | call s:auto_cursorline('WinEnter') | endif
+  autocmd WinLeave * call s:auto_cursorline('WinLeave')
 
   let s:cursorline_lock = 0
   function! s:auto_cursorline(event) "{{{
@@ -1000,9 +1009,17 @@ augroup vimrc-misc "{{{
 augroup END  " }}}
 
 augroup vimrc-highlight "{{{
+
+  let filetype = [
+   \ 'txt', 
+   \ 'text', 
+   \ 'help', 
+   \ ]
+
   autocmd!
   " Special Characters
-  autocmd ColorScheme *  if (&ft != 'txt' || &ft !='text' || &ft != 'help' ) | call s:highlight_additional() | endif
+  autocmd ColorScheme * let expr_ft = s:omitfiletype(filetype, 1, 0)
+  autocmd ColorScheme * if !expr_ft | call s:highlight_additional() | endif
   autocmd VimEnter,WinEnter * call s:syntax_additional()
   " Misc
   autocmd ColorScheme * call s:syntax_misc()
@@ -2899,12 +2916,28 @@ function! s:EditNowColorScheme() "{{{
   unlet! pos
 endfunction "}}}
 
-" Delete space at end of line (File type is not vim, help)
-autocmd BufWritePre,BufWritePre * if ((&ft !~? 'vim') || (&ft !~? 'help')) | call s:RTrim() | endif
-function! s:RTrim() "{{{
-  let s:cursor = getpos(".")
-  %s/\s\+$//e
-  call setpos(".", s:cursor)
+" Omit file types (filetype(array) initlaize flag state, and,or?)
+function! s:omitfiletype(fts, flagini, aor) "{{{
+  let flag = a:flagini
+  let unflag = a:flagini ? 0 : 1
+  if a:aor
+    " and
+    for filetype in a:fts
+      if (&ft =~? filetype)
+        let flag = unflag
+      endif
+    endfor
+  else
+    " or
+    for filetype in a:fts
+      if (&ft =~? filetype)
+        let flag = unflag
+        break
+      endif
+    endfor
+  endif
+
+  return flag
 endfunction "}}}
 
 " }}}
