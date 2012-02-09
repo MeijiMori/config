@@ -86,7 +86,7 @@ set! browser.cache.memory.enable=true
 set! browser.sessionstore.max_concurrent_tabs=0
 
 
-" ==================== KeyMap =========================== "{{{1
+" ==================== KeyMap ======================== "{{{1
 javascript <<EOS
     mappings.addUserMap(
       [modes.COMMAND_LINE],
@@ -130,14 +130,10 @@ nnoremap H h
 nnoremap L l
 
 " Reload config
-nnoremap <Leader>rv :<C-u>source ~/.vimperatorrc<CR> :<C-u>echo "my config loading done ..."<CR>
+nnoremap <Leader>rv :<C-u>source ~/.vimperatorrc<CR> :<C-u>echo "my config loading done ..." <CR>
 
 " Restart
 nnoremap <Leader>re :<C-u>restart<CR>
-
-" タブ移動
-nnoremap <Right> :tabmove! +1<CR>
-nnoremap <Left> :tabmove! -1<CR>
 
 " Escで中止
 nnoremap <Esc> <C-c>
@@ -159,11 +155,9 @@ nnoremap <C-g> YP
 " マッチしなかった場合元の位置に戻らない
 nnoremap / mz/
 
-nnoremap <Leader>gf :tab normal! gf<CR>
 
 nnoremap ! :set invum<CR>
 
-nnoremap <Leader>t :tab<Space>
 
 nnoremap <Leader>j <C-f>
 nnoremap <Leader>k <C-b>
@@ -175,14 +169,20 @@ nnoremap y :javascript util.copyToClipboard(buffer.URL);<CR>
 
 nnoremap <Leader>a :buffer!<Space>
 
+" Tab
+nnoremap <Leader>t :tab<Space>
 nnoremap <Leader>td :tabduplicate<CR>
+nnoremap <Leader>gf :tab normal! gf<CR>
+" Tab moving
+nnoremap <C-n> :tabmove! +1<CR>
+nnoremap <C-p> :tabmove! -1<CR>
+nnoremap <Right> :tabmove! +1<CR>
+nnoremap <Left> :tabmove! -1<CR>
 
 nnoremap <Leader>n n
 nnoremap <Leader>N N
 
-" Search highlight clear
-nnoremap <ESC><ESC> :<C-u>set nohlsearch<CR>
-nnoremap <C-[><C-[> :<C-u>set nohlsearch<CR>
+nnoremap <silent> gs :nohl<CR>
 
 " Sidebar
 " Open
@@ -226,7 +226,7 @@ inoremap <C-p> <Up>
 " normal "{{{2
 
 
-" caret "{{{2
+" command "{{{2
 
 
 " visual "{{{2
@@ -278,6 +278,10 @@ autocmd!
 " location changed ...
 " autocmd LocationChange .* :<Esc>
 
+" ==================== plugin ======================== "{{{1
+" treestyletab.js
+nnoremap ,tn :<C-u>treestyle next<CR>
+nnoremap ,tp :<C-u>treestyle previous<CR>
 
 " ==================== Misc. ========================= "{{{1
 " 閉じたタブ一覧を出すワンライナー "{{{2
