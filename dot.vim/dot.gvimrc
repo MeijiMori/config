@@ -197,7 +197,7 @@ function! s:ColorToggle() "{{{
   endif
   execute 'colorscheme ' colorlist[l:index][0]
 endfunction " }}}
-nnoremap ,ct :<C-u>call <SID>ColorToggle() \| echomsg "colorscheme <"g:colors_name">"<CR>
+nnoremap <silent> ,ct :<C-u>call <SID>ColorToggle() \| redraw \| echomsg "colorscheme <"g:colors_name">"<CR>
 
 "}}}
 
