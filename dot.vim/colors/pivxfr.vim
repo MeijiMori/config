@@ -16,7 +16,7 @@ if version > 580
 endif
 
 " #- colorscheme name -# "{{{1
-let g:colors_name = "pIPe"
+let g:colors_name = "pivxfr"
 
 " #- highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cccccc guibg=#101010 gui=NONE
