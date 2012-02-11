@@ -1014,6 +1014,8 @@ augroup vimrc-highlight "{{{
    \ 'txt', 
    \ 'text', 
    \ 'help', 
+   \ 'vimfiler', 
+   \ 'unite', 
    \ ]
 
   autocmd!
