@@ -22,24 +22,24 @@ let g:colors_name = "pIPe"
 highlight Normal guifg=#cccccc guibg=#101010 gui=NONE
 highlight SpecialKey guifg=#af7ecf guibg=bg gui=NONE
 highlight NonText guifg=#5f3fcf guibg=#101020 gui=NONE
-highlight Directory guifg=#3fafff guibg=bg gui=NONE
+highlight Directory guifg=#3fafff guibg=bg gui=bold
 highlight ErrorMsg guifg=#ff4f8f guibg=bg gui=NONE
 " search "{{{2
-highlight IncSearch guifg=#1f1f1f guibg=#2f4f8f gui=bold
-highlight Search guifg=#323232 guibg=#5088e1 gui=bold
+highlight IncSearch guifg=#cfcfcf guibg=#2f0f2f gui=bold
+highlight Search guifg=#cfcfcf guibg=#0a0f2f gui=bold
 "}}}2
-highlight MoreMsg guifg=#95d5d9 guibg=#101025 gui=NONE
-highlight ModeMsg guifg=#cfcfcf guibg=#101025 gui=NONE
+highlight MoreMsg guifg=#afafaf guibg=bg gui=underline
+highlight ModeMsg guifg=#2f3fff guibg=bg gui=underline
 highlight LineNr guifg=#2f5fff guibg=NONE gui=NONE
-highlight Question guifg=#6ff39f guibg=bg gui=NONE
+highlight Question guifg=#2f8f5f guibg=bg gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#e0f0e0 guibg=#080f1f gui=NONE
-highlight StatusLineNC guifg=#2f2f3f guibg=#00000f gui=NONE
+highlight StatusLineNC guifg=#000000 guibg=#bfbfbf gui=NONE
 "}}}2
-highlight Title guifg=#5fcf6f guibg=NONE gui=NONE
+highlight Title guifg=#5fcf6f guibg=NONE gui=underline
 highlight VertSplit guifg=#9f9f9f guibg=#02020f gui=NONE
 " visual "{{{2
-highlight Visual guifg=#cccccc guibg=#102f5f gui=NONE
+highlight Visual guifg=#cfcfcf guibg=#101f4f gui=NONE
 highlight VisualNOS guibg=#aaeeee guifg=#3d3d3d gui=underline,bold
 "}}}2
 highlight WarningMsg guifg=#ff4f8f guibg=bg gui=NONE
@@ -49,9 +49,9 @@ highlight Folded guifg=#9f9faf guibg=#0f1010 gui=NONE
 highlight FoldColumn guifg=#2f1faf guibg=#0f1010 gui=bold
 
 " diff "{{{2
-highlight DiffAdd guifg=#afffff guibg=bg gui=NONE
-highlight DiffChange guifg=#ffbfff guibg=bg gui=NONE
-highlight DiffDelete guifg=#df4f9f guibg=bg gui=bold
+highlight DiffAdd guifg=fg guibg=#0f6f3f gui=NONE
+highlight DiffChange guifg=fg guibg=#7f7f0f gui=NONE
+highlight DiffDelete guifg=fg guibg=#5f0f1f gui=NONE
 highlight DiffText guifg=#cfcfcf guibg=bg gui=NONE
 "}}}2
 highlight SignColumn guifg=#f65774 guibg=bg gui=NONE
@@ -70,7 +70,7 @@ highlight PmenuThumb guifg=#000000 guibg=#8f3f5f gui=NONE
 " tabline "{{{2
 highlight TabLine guifg=#555555 guibg=#bbbbbb gui=NONE
 highlight TabLineSel guifg=#000000 guibg=#cccccc gui=NONE
-highlight TabLineFill guifg=#9f9f9f guibg=#bfbfbf gui=NONE
+highlight TabLineFill guifg=#3f0f8f guibg=#bfbfbf gui=NONE
 
 " cursor "{{{2
 highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
@@ -79,24 +79,25 @@ highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
 highlight Cursor guifg=#000000 guibg=#9f9f9f gui=NONE
 " IME status color for cursor "{{{3
 if has('multi_byte_ime')
-  highlight CursorIM guifg=#000000 guibg=#7f2f4f gui=NONE
+  highlight CursorIM guifg=#000000 guibg=#8f0f2f gui=NONE
 endif
 
 "}}}2
 
 " #- syntax highlighting group -# "{{{1
 highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
-highlight MatchParen guifg=#4f4f4f guibg=#5f93cd gui=bold
-highlight comment guifg=#99aadd guibg=bg gui=NONE
-highlight Constant guifg=#7dd97b guibg=bg gui=NONE
-highlight Identifier guifg=#ccb0d7 guibg=bg gui=NONE
+highlight MatchParen guifg=#000000 guibg=#2f3faf gui=bold
+highlight comment guifg=#3f3fcf guibg=bg gui=NONE
+highlight Constant guifg=#ff8f1b guibg=bg gui=NONE
+highlight PreProc guifg=#ff3f2b guibg=bg gui=NONE
+highlight Identifier guifg=#cf0f2f guibg=bg gui=NONE
 highlight Special guifg=#deffed guibg=bg gui=NONE
-highlight Statement guifg=#aadd99 guibg=bg gui=NONE
-highlight type guifg=#71c9af guibg=bg gui=NONE
+highlight Statement guifg=#3faf5f guibg=bg gui=NONE
+highlight type guifg=#3fa9af guibg=bg gui=NONE
 highlight underlined guifg=#3f9fcf guibg=bg gui=underline
 highlight Ignore guifg=#8f8f8f guibg=bg gui=bold
 highlight Error guifg=#ff4f7e guibg=bg gui=NONE
-highlight Todo guifg=#6f7fff guibg=#2f2f5f gui=bold,underline
+highlight Todo guifg=#5f5f5f guibg=#2f2f2f gui=bold,underline
 highlight string guifg=#4f7faf guibg=bg gui=NONE
 
 " #- Color function -# "{{{1
