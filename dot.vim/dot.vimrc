@@ -35,12 +35,16 @@ else
   let g:vim_dir = expand('~/.vim')
 endif
 let g:vim_info_dir = g:vim_dir . '/initfiles'
+let g:vim_misc_dir = g:vim_dir . '/bundle/misc'
 " Make directory "{{{
 if !isdirectory(g:vim_dir)
   call mkdir(g:vim_dir, 'p')
 endif
 if !isdirectory(g:vim_info_dir)
   call mkdir(g:vim_info_dir, 'p')
+endif
+if !isdirectory(g:vim_misc_dir)
+  call mkdir(g:vim_misc_dir, 'p')
 endif "}}}
 "}}}
 
@@ -48,7 +52,6 @@ endif "}}}
 if s:iswin
   " For Windows.
   language message en
-  " language message ja
 else
   " For Linux.
   language mes C
@@ -163,8 +166,6 @@ endfunction "}}}
 "}}}
 
 filetype off
-filetype plugin on
-filetype indent on
 
 " Initialize autocmd.
 augroup MyAutoCmd
@@ -200,6 +201,13 @@ else
   let &runtimepath = join([g:vim_dir, g:vim_dir . '/after', expand('$VIM'), expand('$VIMRUNTIME')], ',')
 endif
 unlet pmps
+
+" #- rtputil.vim -# "{{{
+if globpath(&rtp, 'autoload/rtputil.vim') != ''
+  " path manager
+  call rtputil#bundle()
+  call rtputil#helptags()
+endif "}}}
 "}}}
 
 " Load file "{{{
@@ -207,6 +215,10 @@ if filereadable(expand('~/.secret_vimrc'))
   execute 'source ' expand('~/.secret_vimrc')
 endif
 "}}}
+
+filetype plugin on
+filetype indent on
+
 "}}}
 
 "---------------------------------------------------------------------------
@@ -362,6 +374,11 @@ set smartcase
 set incsearch
 " highlight search result.
 set hlsearch
+
+" Enable migemo search
+if has('kaoriya') && globpath(&rtp, 'plugin/migemo.vim') != ''
+  set migemo
+endif
 
 " Searches wrap around the end of the file.
 set wrapscan
@@ -609,7 +626,7 @@ augroup vim-delete-space-end-of-line "{{{
 
   autocmd!
   autocmd BufWritePre *
-  \ let expr_ft = s:omitfiletype(filetypes,0,0)
+  \ let expr_ft = s:omitfiletype(filetypes,1,0)
   autocmd BufWritePre * if expr_ft | call s:RTrim() | endif
 
   function! s:RTrim() "{{{
@@ -693,8 +710,6 @@ set whichwrap+=h,l,<,>,[,],b,s,~
 " Show ruler
 set ruler
 "set rulerformat=%15(%c%V\ %p%%%)
-" Always display statusline.
-set laststatus=2
 " Height of command line.
 set cmdheight=2
 " Show command on statusline.
@@ -702,24 +717,22 @@ set showcmd
 "diff Settings
 set diffopt=vertical
 
-" Show toole.
+" set title."{{{
 set title
 " Title length.
 set titlelen=999
-" Title string.
-" Next function is invilid, why?
-function! s:my_titlestring() "{{{
-  let l:titlestr = ''
-  let l:titlestr .= "%{expand('%:p:.')} "
-  let l:titlestr .= "%(%m%r%w%) "
-  let l:titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
-  let l:titlestr .= "\[%n\]"
-  return l:titlestr
-endfunction "}}}
-let &titlestring = '%!' . s:SID_PREFIX() . 'my_titlestring()'
-let &titlestring="%{expand('%:p:.')}%(%m%r%w%) %<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) \[%n\] - VIM"
+" Title string. "{{{
+let titlestr = ''
+let titlestr .= "%{expand('%:p:.')} "
+let titlestr .= "%(%m%r%w%) "
+let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
+let titlestr .= "\[%n\]"
+let titlestr .= " - VIM"
+"}}}
+let &titlestring=titlestr
+"}}}
 
-" Set tabline.
+" Set tabline."{{{
 function! s:my_tabline() "{{{
   let l:s = ''
   " let l:s .= '%#TabLineFill#'
@@ -743,31 +756,31 @@ function! s:my_tabline() "{{{
     endif
 
     let l:s .= '%'.l:i.'T'
-    let l:s .= '%#' . (l:i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let l:s .= ' ' . l:no . ':' . l:title . l:mod
+    let l:ts = '%#' . (l:i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+    let l:s .= l:ts . ' ' . l:no . ':' . l:title . l:mod
     let l:s .= '%#TabLineFill#'
     let l:s .= ' | '
   endfor
 
-  " let l:s .= '%#TabLineFill#%T%=%#TabLine#|%999X %X'
-    let l:s .= '%#TabLineFill#%T%=%#TabLine#[%999X %{fnamemodify(getcwd(), ":~")} ]'
+  " let l:s .= '%#TabLineFill#%T%=%#TabLine#|%999X X |'
+  let l:s .= '%#TabLineFill#%T%=%#TabLine#[%999X %{fnamemodify(getcwd(), ":~")} ]'
 
   return l:s
 endfunction "}}}
 let &tabline = '%!' . s:SID_PREFIX() . 'my_tabline()'
 " Always show tab
 set showtabline=2
+"}}}
 
 " Set statusline. "{{{
-
-"let &statusline="[%n] \%{winnr('$')>1?'['.winnr().'/'.winnr('$').(winnr('#')==winnr()?'#':'').']':''}\ %{expand('%:p:.')}\ %m%r%h\ %<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\)\ %=%{'['.(&fenc!=''?&fenc:&enc)}:%{&ff}%{(&ft!=''?':'.&ft:'').']'}\ %<\<%05l\/%05L\>"
-
 function! s:makestatusline() "{{{
   " mode
   let l:sts = "[%{mode()}] "
   " let l:sts .= "[%n] %{winnr('$')>1 ? '[' . winnr() . '/' . winnr('$') . (winnr('#') == winnr() ? '#':'').']':''} "
   let l:sts .= "%{winnr('$')>1 ? '[' . winnr() . '/' . winnr('$') . (winnr('#') == winnr() ? '#':'').']':''} "
-  let l:sts .= "%{expand('%:p:.')} %m%r%h %<(%{SnipMid(getcwd(), 80-len(expand('%:p:.')), '..')}) "
+  let l:sts .= "%{expand('%:p:.')}"
+  let l:sts .= "%m%r%h"
+  let l:sts .= "%<(%{SnipMid(getcwd(), 80-len(expand('%:p:.')), '..')}) "
 
   let l:sts .= "%="
   let l:sts .= "%("
@@ -776,13 +789,19 @@ function! s:makestatusline() "{{{
     " Too hevey
     let l:sts .= ' %{eskk#statusline()}'
   elseif exists('g:skk_loaded')    " skk.vim
+
     let l:sts .= ' %{SkkGetModeStr()}'
   endif
   let l:sts .= "%)"
-  let l:sts .= "%{'['.(&fenc!=''?&fenc:&enc)}:%{&ff}%{(&ft!='' ? ':'.&ft : '').']'}\ %(%<\<%05l\/%05L\>%)"
+  let l:sts .= "%{'['.(&fenc!='' ? &fenc : &enc)}:"
+  let l:sts .= "%{&ff}"
+  let l:sts .= "%{(&ft!='' ? ':'.&ft : '').']'}"
+  let l:sts .= " %(%<\<%05l\/%05L\>%)"
  return l:sts
 endfunction "}}}
 let &statusline = '%!' . s:SID_PREFIX() . 'makestatusline()'
+" Always display statusline.
+set laststatus=2
 " }}}
 
 " Set folded line
@@ -1011,17 +1030,16 @@ augroup END  " }}}
 augroup vimrc-highlight "{{{
 
   let filetype = [
-   \ 'txt', 
-   \ 'text', 
-   \ 'help', 
-   \ 'vimfiler', 
-   \ 'unite', 
+   \ 'txt',
+   \ 'text',
+   \ 'help',
+   \ 'vimfiler',
    \ ]
 
   autocmd!
   " Special Characters
   autocmd ColorScheme * let expr_ft = s:omitfiletype(filetype, 1, 0)
-  autocmd ColorScheme * if !expr_ft | call s:highlight_additional() | endif
+  autocmd ColorScheme * if expr_ft | call s:highlight_additional() | endif
   autocmd VimEnter,WinEnter * call s:syntax_additional()
   " Misc
   autocmd ColorScheme * call s:syntax_misc()
@@ -1099,14 +1117,6 @@ let g:lisp_rainbow = 1
 " Plugin:"{{{
 "
 
-" #- rtputil.vim -# "{{{
-if globpath(&rtp, 'autoload/rtputil.vim') != ''
-  " path manager
-  call rtputil#bundle()
-  call rtputil#helptags()
-endif
-"}}}
-
 " #- singleton.vim -# "{{{
 if globpath(&rtp, 'autoload/singleton.vim') != ''
   call singleton#enable()
@@ -1119,7 +1129,7 @@ if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
   " Setting of directory for neocomplcache "{{{
   let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
   " For snippets
-  let s:neocon_snip_dir = s:neocon_temp_dir . '/snippets'
+  let s:neocon_snip_dir =  g:vim_misc_dir . '/snippets'
   if !isdirectory(s:neocon_temp_dir)
     call mkdir(s:neocon_temp_dir, 'p')
   endif
@@ -1696,15 +1706,14 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
   let g:vimfiler_data_directory = s:vimfiler_dir
   unlet s:vimfiler_dir "}}}
 
-  nnoremap <silent>   [Space]v   :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
-  nnoremap    [Space]fo  :<C-u>VimFilerTab<CR>
-  nnoremap    [Space]ff   <Plug>(vimfiler_switch)
-  nnoremap    [Space]si   <Plug>(vimfiler_simple)
-  nnoremap    [Space]h   :<C-u>edit %:h<CR>
-
-  " Set local mappings.
-  nnoremap <C-P>     <Plug>(vimfiler_move_to_history_back)
-  nnoremap <C-N>     <Plug>(vimfiler_move_to_history_forward)
+  " Key-mapping "{{{
+  nnoremap <silent>[Space]v :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
+  nnoremap [Space]fo  :<C-u>VimFilerTab<CR>
+  nnoremap [Space]ff  :<C-u>VimFilerBufferDir<CR>
+  nnoremap [Space]si  :<C-u>VimFilerSimple<CR>
+  " File explorer like behavior.
+  nnoremap  <silent> [Space]h   :<C-u>execute 'VimFiler -buffer-name=explore -split -simple -winwidth=35 -toggle ' fnamemodify(bufname('%'), ':p:h')<CR>
+  " }}}
 
   " suffix "{{{
   call vimfiler#set_execute_file('vim', 'vim')
@@ -1747,7 +1756,7 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
   endif "}}}
 
   let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_detect_drives = s:iswin ?  [
+  let g:vimfiler_detect_drives = s:iswin ? [
         \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
         \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/', 'Z:/'] :
         \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
@@ -1774,9 +1783,16 @@ if globpath(&rtp, 'autoload/vimfiler.vim') != ''
 
   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
   function! s:vimfiler_my_settings() "{{{
-    " Override setting
-    " Keymappings
-    nmap <buffer>za (plug)(vimfiler_expand_tree)
+    " Override vimfiler's setting
+
+    " Key-mappings "{{{
+    nunmap <buffer>t
+    nunmap <buffer>a
+    nunmap <buffer><TAB>
+    nmap <buffer><TAB> <Plug>(vimfiler_choose_action)
+    " like an operatortion that vim folding
+    nmap <buffer>za <Plug>(vimfiler_expand_tree)
+    "}}}
 
   endfunction "}}}
 endif
@@ -1856,46 +1872,49 @@ endif
 " }}}
 
 " #- skk & eskk -# "{{{
-" let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
-let skk_user_dir = expand('~/.dict')
-" Make dictionary directory "{{{
-if !isdirectory(skk_user_dir)
-  call mkdir(skk_user_dir, 'p')
-endif "}}}
-" let s:skk_user_dict = s:skk_user_dir
-let s:skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
-if s:iswin
-  let s:skk_system_dict = g:vim_info_dir . '/others/dict/sys'
-else
-  let s:skk_system_dict = '/usr/local/share/skk'
-endif
+" check
+let iedskk = globpath(&rtp, 'plugin/skk.vim') != ''
+let iedeskk = globpath(&rtp, 'autoload/eskk.vim') != ''
 
-let s:skk_user_dict_encoding = 'utf-8'
-let s:skk_system_dict_encoding = 'euc-jp'
+if iedskk || iedeskk
+  " Path to dictionary for skk "{{{
+  let skk_user_dir = expand('~/.dict')
+  " let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
+  let skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
+  if s:iswin
+    let skk_system_dict_dir = g:vim_info_dir . '/.dict'
+    let s:skk_system_dict = skk_system_dict_dir .  '/SKK-JISYO.L'
+  else
+    let s:skk_system_dict = '/usr/local/share/skk'
+  endif "}}}
+  " Make dictionary directory "{{{
+  if !isdirectory(skk_user_dir)
+    call mkdir(skk_user_dir, 'p')
+  endif
+  if !isdirectory(skk_system_dict_dir)
+    call mkdir(skk_system_dict_dir, 'p')
+  endif "}}}
 
+  let s:skk_user_dict_encoding = 'utf-8'
+  let s:skk_system_dict_encoding = 'euc-jp'
 
-if 1
-  " Map <C-j> to eskk, Map <C-g><C-j> to skk.vim "{{{
-  let g:skk_control_j_key = '<C-g><C-j>'
-  " }}}
-else
-  " Map <C-j> to skk.vim, Map <C-g><C-j> to eskk "{{{
-  let g:skk_control_j_key = '<C-j>'
-  inoremap <C-g><C-j> <Plug>(eskk:toggle)
-  cnoremap <C-g><C-j> <Plug>(eskk:toggle)
-  " }}}
+  unlet skk_user_dir
+  unlet skk_system_dict_dir
 endif
 "}}}
 
 " #- skk.vim -# "{{{
-if globpath(&rtp, 'plugin/skk.vim') != ''
-  let g:skk_jisyo = s:skk_user_dict
+if iedskk
+  let g:skk_jisyo = skk_user_dict
   let g:skk_jisyo_encoding = s:skk_user_dict_encoding
-  let g:skk_large_jisyo = s:skk_user_dict
-  " let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
+  let g:skk_large_jisyo = s:skk_system_dict
   let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
 
-  let g:skk_control_j_key = '<C-g><C-j>'
+  if iedeskk
+    let g:skk_control_j_key = '<C-g><C-j>'
+  else
+    let g:skk_control_j_key = '<C-j>'
+  endif
   " Arpeggio map! fj    <Plug>(skk-enable-im)
 
   let g:skk_manual_save_jisyo_keys = ''
@@ -1903,7 +1922,7 @@ if globpath(&rtp, 'plugin/skk.vim') != ''
   let g:skk_egg_like_newline = 1
   let g:skk_auto_save_jisyo = 1
   let g:skk_imdisable_state = -1
-  let g:skk_keep_state = 1
+  let g:skk_keep_state = 0
   let g:skk_show_candidates_count = 2
   let g:skk_show_annotation = 0
   let g:skk_sticky_key = ';'
@@ -1930,7 +1949,7 @@ endif
 "}}}
 
 " #- eskk.vim -# "{{{
-if globpath(&rtp, 'autoload/eskk.vim') != ''
+if iedeskk
   " make directory for eskk "{{{
   let s:eskk_dir =  g:vim_info_dir . '/.eskk'
   if !isdirectory(s:eskk_dir)
@@ -1976,15 +1995,16 @@ if globpath(&rtp, 'autoload/eskk.vim') != ''
     let g:eskk#dictionary_save_count = 5
 
     "  set dictonary "{{{
+    " path, encoding
     if has('vim_starting')
       let g:eskk#dictionary = {
             \   'path': s:skk_user_dict,
             \   'sorted' : 0,
-            \   'encoding': s:skk_system_dict_encoding,
+            \   'encoding': s:skk_user_dict_encoding,
             \}
 
       let g:eskk#large_dictionary = {
-            \   'path': s:skk_user_dict,
+            \   'path': s:skk_system_dict,
             \   'sorted' : 1,
             \   'encoding': s:skk_system_dict_encoding,
             \}
@@ -2141,7 +2161,7 @@ if globpath(&rtp, 'autoload/textmanip.vim') != ''
 endif
 "}}}
 
-" #- ambicmd -# "{{{
+" #- ambicmd.vim -# "{{{
 if globpath(&rtp, 'autoload/ambicmd.vim') != ''
   cnoremap <expr> <Space> ambicmd#expand("\<Space>")
   cnoremap <expr> <CR>    ambicmd#expand("\<CR>")
@@ -2345,25 +2365,25 @@ function! s:init_cmdwin()  "{{{
   xnoremap <buffer> ; :
 
   " Neocomplcache
-  if globpath(&rtp, 'bundle/neocomplcache') != ''
-   " inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
-   " inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
-   " inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
-  " Completion.
-  "inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
+  if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
+    inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
+    inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
+    inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
+    " Completion.
+    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
   endif
 
   " Altercmd.
-  if globpath(&rtp, 'bundle/altercmd') != ''
-    "call altercmd#define('<buffer>', 'grep', 'Grep', 'i')
-    "call altercmd#define('<buffer>', 'uniq', 'Uniq', 'i')
+  if globpath(&rtp, 'autoload/altercmd.vim') != ''
+    call altercmd#define('<buffer>', 'grep', 'Grep', 'i')
+    call altercmd#define('<buffer>', 'uniq', 'Uniq', 'i')
     call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
   endif
 
   " ambicmd
-  if globpath(&rtp, "bundle/ambicmd") != ''
-    "inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-    "inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
+  if globpath(&rtp, "autoload/ambicmd.vim") != ''
+    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+    inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
   endif
 
   startinsert!
@@ -2679,8 +2699,8 @@ unlet i
 "}}}
 
 " Switch the tab page
-nnoremap <silent> <C-n> :<C-U>tabnext<CR>
-nnoremap <silent> <C-p> :<C-U>tabprevious<CR>
+nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
 
 " Move search word and fold open."{{{
 nnoremap n  nzz
@@ -2775,9 +2795,11 @@ endfunction
 cnoremap <expr> <Bslash> HomedirOrBackslash()
 "}}}
 
-" use macro
+" use original q for macro, history search
 nnoremap <C-q> q
 
+" repeat command
+nnoremap c. q:<ESC>k<CR>
 "}}}
 
 "---------------------------------------------------------------------------

@@ -260,14 +260,11 @@ if has('kaoriya')
   "set guioptions+=C
 
   " Hide window title,button Toggle
-  function! s:GuiOptionsToggle() "{{{
-    if &guioptions !~# 'C'
-      set guioptions+=C
-    else
-      set guioptions-=C
-    endif
-  endfunction " }}}
-  nnoremap <silent>TH :<C-u>call <SID>GuiOptionsToggle()<CR>
+  nnoremap <silent><F2> :<C-u> if &guioptions !~# 'C' <Bar>
+  \ set guioptions+=C <Bar>
+  \ else <Bar>
+  \ set guioptions-=C <Bar>
+  \ endif <CR>
 endif
 
 "}}}
@@ -285,35 +282,6 @@ set vb t_vb=
 " Don't flick cursor.
 set guicursor&
 set guicursor=a:blinkon0
-
-function! s:GuiTabLabel() "{{{
-  " Initialize print string on tab
-  let l:labal = ''
-  " Get information of buffer for inbyte tab
-  let l:bufnrlist = tabpagebuflist(v:lnum)
-  " Add buffer name to print string (only file name)
-  let l:bufname = fnamemodify(bufname(l:bufnrlist[tabpagewinnr(v:lnum) - 1]),
-  \'t')
-  " If no buffer name, title is "[No Name]"
-  let l:label = l:bufname == '' ? '[No Name]' : l:bufname
-  " If exists any windows in tab, add window count
-  l:wincount = tabpagewinnr(v:lnum, '$')
-  if l:wincount > 1
-    let l:label .= '[' . l:wincount . ']'
-  endif
-  " If exists changed buffer, add character '!'
-  for bufnr in l:bufnrlist
-    if getbufvar(bufnr, "&modified")
-      let l:label .= ' !'
-      break
-    endif
-  endfor
-  " Return print string
-  return l:label
-endfunction "}}}
-" Set guitababel in tabline
-"let &tabline="%N:\ %{my_tabline()}"
-"set guitablabel=%N:\ %{GuiTabLabel()}
 
 "}}}
 
