@@ -26,6 +26,8 @@ if exists('g:' . 'is_wab')
   elseif g:is_wab == 'white'
     let s:is_wab_t = 0
   endif
+else
+  let s:is_wab_t = 0
 endif
 
 
