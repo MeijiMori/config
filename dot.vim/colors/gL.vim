@@ -17,7 +17,7 @@ endif
 let g:colors_name = "gL"
 
 " #- Highlighting groups for various occasions -# "{{{1
-highlight Normal guifg=#1f1f1f guibg=#ffffff gui=NONE
+highlight Normal guifg=#1f1f1f guibg=#fffcff gui=NONE
 highlight SpecialKey guifg=#af2f6f guibg=bg gui=NONE
 highlight NonText guifg=#af3faf guibg=bg gui=bold
 highlight Directory guifg=#0f6faf guibg=bg gui=bold
