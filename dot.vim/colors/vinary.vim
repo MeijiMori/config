@@ -54,9 +54,9 @@ if s:is_vinary_t "{{{2
   highlight Question guifg=#8f3f3f guibg=#cfafaf gui=underline
   " Statusline "{{{3
   highlight StatusLine guifg=#cfcfcf guibg=#0a000f gui=NONE
-  highlight StatusLineNC guifg=#5f5f5f guibg=#efdfcf gui=NONE
+  highlight StatusLineNC guifg=#4f4f4f guibg=#cfcfff gui=NONE
   " }}}3
-  highlight VertSplit guifg=#6f6f6f guibg=#000000 gui=bold
+  highlight VertSplit guifg=#7f7fcf guibg=#000000 gui=bold
   highlight Title guifg=#af5f8f guibg=bg gui=underline
   " Visual "{{{3
   highlight Visual guifg=#ffffff guibg=#1f2f5f gui=NONE
@@ -66,7 +66,7 @@ if s:is_vinary_t "{{{2
   highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=NONE
   " Fold "{{{3
   highlight Folded guifg=#afafaf guibg=#121015 gui=NONE
-  highlight FoldColumn guifg=#af5fcf guibg=bg gui=bold
+  highlight FoldColumn guifg=#8f8fff guibg=bg gui=bold
 
   " diff "{{{3
   highlight DiffAdd guifg=bg guibg=#8fffcf gui=NONE
@@ -106,13 +106,13 @@ if s:is_vinary_t "{{{2
   "}}}2
 else "{{{2
   " white
-  highlight Normal guifg=#1f1f1f guibg=#ffffff gui=NONE
-  highlight SpecialKey guifg=#af2f6f guibg=bg gui=NONE
+  highlight Normal guifg=#1f1f1f guibg=#fafcff gui=NONE
+  highlight SpecialKey guifg=#8fcfaf guibg=bg gui=NONE
   highlight NonText guifg=#af3faf guibg=bg gui=bold
-  highlight Directory guifg=#0f6faf guibg=bg gui=bold
-  highlight ErrorMsg guifg=#8f2f4f guibg=#ffcfcf gui=NONE
-  highlight IncSearch guifg=#000000 guibg=#afaf2f gui=bold
-  highlight Search guifg=#000000 guibg=#2faf8f gui=bold
+  highlight Directory guifg=#6f6faf guibg=bg gui=bold
+  highlight ErrorMsg guifg=#8f2f4f guibg=#ffcfcf gui=underline
+  highlight IncSearch guifg=#000000 guibg=#ffaf2f gui=bold
+  highlight Search guifg=#000000 guibg=#5fcfaf gui=bold
   highlight MoreMsg guifg=#0f3f5f guibg=#cfcfff gui=underline
   highlight ModeMsg guifg=#0f5f3f guibg=#cfffcf gui=underline
   highlight LineNr guifg=#af5f1f guibg=NONE gui=NONE
@@ -176,23 +176,23 @@ endif
 if s:is_vinary_t "{{{2
   " black
   highlight lCursor guifg=#3f3f3f guibg=#7ea3a6 gui=NONE
-  highlight MatchParen guifg=#000000 guibg=#2f438f gui=bold
+  highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold
   highlight comment guifg=#8f4fff guibg=bg gui=NONE
   highlight Constant guifg=#3f2fff guibg=bg gui=NONE
   highlight Special guifg=#afafff guibg=bg gui=NONE
-  highlight Identifier guifg=#ffaf2f guibg=bg gui=NONE
-  highlight Statement guifg=#2faf7f guibg=bg gui=NONE
-  highlight PreProc guifg=#5f3fcf guibg=bg gui=NONE
-  highlight Type guifg=#2f3fcf guibg=bg gui=NONE
+  highlight Identifier guifg=#ffaf8f guibg=bg gui=NONE
+  highlight Statement guifg=#2fff8f guibg=bg gui=NONE
+  highlight PreProc guifg=#ff5faf guibg=bg gui=NONE
+  highlight Type guifg=#2f3fff guibg=bg gui=NONE
   highlight underlined guifg=#5fcf8f guibg=bg gui=underline
-  highlight Ignore guifg=#2f8f3f guibg=bg gui=bold
+  highlight Ignore guifg=#0f5f1f guibg=bg gui=bold
   highlight Error guifg=#ff1f4f guibg=#ffafaf gui=NONE
   highlight Todo guifg=#5f5f5f guibg=#dfdfdf gui=bold,underline
-  highlight string guifg=#cf8faf guibg=bg gui=NONE
+  highlight String guifg=#5f5fff guibg=bg gui=NONE
 else "{{{2
   " white
   highlight lCursor guifg=#3f3f3f guibg=#7ea3a6 gui=NONE
-  highlight MatchParen guifg=#000000 guibg=#2f438f gui=bold
+  highlight MatchParen guifg=#000000 guibg=#afffcf gui=bold
   highlight comment guifg=#1f4faf guibg=bg gui=NONE
   highlight Constant guifg=#8f2f5f guibg=bg gui=NONE
   highlight Special guifg=#4f4f5f guibg=bg gui=NONE
@@ -424,6 +424,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 else
   " Cui
 endif
+
 
 " #- End -# "{{{1
 " vim: fen:fdm=marker
