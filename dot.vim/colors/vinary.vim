@@ -6,7 +6,7 @@
 "                                /
 "                         w w 1wq
 "                          f      w
-"            /\_______/\    w      w2
+"            /\_______/\    w       w2
 "           /   o   o   \    / w wwsa
 "          I >        <  I  /
 "         /_I  w  w  w   _\i
@@ -46,10 +46,10 @@ if s:is_vinary_t "{{{2
   highlight NonText guifg=#af3faf guibg=bg gui=bold
   highlight Directory guifg=#5fafaf guibg=bg gui=bold
   highlight ErrorMsg guifg=#9f0f3f guibg=#ffafaf gui=underline
-  highlight IncSearch guifg=#000000 guibg=#2faf2f gui=bold
-  highlight Search guifg=#000000 guibg=#2faf8f gui=bold
-  highlight MoreMsg guifg=#0f5f0f guibg=#afffaf gui=underline
-  highlight ModeMsg guifg=#0f0f5f guibg=#afafff gui=underline
+  highlight IncSearch guifg=#000000 guibg=#8fcf8f gui=bold
+  highlight Search guifg=#000000 guibg=#8f8fcf gui=bold
+  highlight MoreMsg guifg=#0f5f0f guibg=#5faf5f gui=underline
+  highlight ModeMsg guifg=#0f0f5f guibg=#5f5faf gui=underline
   highlight LineNr guifg=#3fcfaf guibg=NONE gui=NONE
   highlight Question guifg=#8f3f3f guibg=#cfafaf gui=underline
   " Statusline "{{{3
@@ -57,9 +57,9 @@ if s:is_vinary_t "{{{2
   highlight StatusLineNC guifg=#4f4f4f guibg=#cfcfff gui=NONE
   " }}}3
   highlight VertSplit guifg=#7f7fcf guibg=#000000 gui=bold
-  highlight Title guifg=#af5f8f guibg=bg gui=underline
+  highlight Title guifg=#ff5f5f guibg=bg gui=underline
   " Visual "{{{3
-  highlight Visual guifg=#ffffff guibg=#1f2f5f gui=NONE
+  highlight Visual guifg=#cfcfcf guibg=#1f1f3f gui=NONE
   highlight VisualNOS guifg=#ffffff guibg=#3f4f7f gui=underline,bold
   " }}}3
   highlight WarningMsg guifg=#8f2f4f guibg=#ffafaf gui=underline
@@ -69,10 +69,10 @@ if s:is_vinary_t "{{{2
   highlight FoldColumn guifg=#8f8fff guibg=bg gui=bold
 
   " diff "{{{3
-  highlight DiffAdd guifg=bg guibg=#8fffcf gui=NONE
-  highlight DiffChange guifg=bg guibg=#ffffcf gui=NONE
-  highlight DiffDelete guifg=bg guibg=#ffafcf gui=bold
-  highlight DiffText guifg=#4f4f4f guibg=bg gui=NONE
+  highlight DiffAdd guifg=fg guibg=#2f5f2f gui=NONE
+  highlight DiffChange guifg=fg guibg=#4f4f0f gui=NONE
+  highlight DiffDelete guifg=fg guibg=#8f2f3f gui=bold
+  highlight DiffText guifg=fg guibg=bg gui=NONE
   " }}}3
   highlight SignColumn guifg=#7f2f4f guibg=bg gui=NONE
   " Spell "{{{3
@@ -185,9 +185,9 @@ if s:is_vinary_t "{{{2
   highlight PreProc guifg=#ff5faf guibg=bg gui=NONE
   highlight Type guifg=#2f3fff guibg=bg gui=NONE
   highlight underlined guifg=#5fcf8f guibg=bg gui=underline
-  highlight Ignore guifg=#0f5f1f guibg=bg gui=bold
+  highlight Ignore guifg=#1f3f2f guibg=bg gui=bold
   highlight Error guifg=#ff1f4f guibg=#ffafaf gui=NONE
-  highlight Todo guifg=#5f5f5f guibg=#dfdfdf gui=bold,underline
+  highlight Todo guifg=#3f3f3f guibg=#cfcfff gui=bold,underline
   highlight String guifg=#5f5fff guibg=bg gui=NONE
 else "{{{2
   " white
