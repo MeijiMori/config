@@ -1,7 +1,8 @@
 " Note: "{{{
 " <If> do not 0
+" Common variables in autogroup
 " Highlight with ZenkakuSpace /　/
-" via Shougo's vimrc
+" Refer to Shougo,thinca,tyru,ujihisa and more...
 "}}}
 
 "---------------------------------------------------------------------------
@@ -22,7 +23,7 @@ mapclear!
 mapclear! <buffer>
 
 let s:tmp = &runtimepath
-"set all&
+" set all&
 let &runtimepath = s:tmp
 unlet s:tmp
 
@@ -51,10 +52,12 @@ endif "}}}
 " Use English interface.
 if s:iswin
   " For Windows.
-  language message en
+  language mes C
+  language time C
 else
   " For Linux.
   language mes C
+  language time C
 endif
 
 if exists('&msghistlen')
@@ -84,29 +87,26 @@ endif
 
 " In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
 if s:iswin
-  "let $DOTVIM = expand('$VIM')
   let $DOTVIM =  g:vim_dir
 else
-  "let $DOTVIM = expand('~/.vim')
   let $DOTVIM = expand('~/.vim')
 endif
 
 " Because a value is not set in $MYGVIMRC with the console, set it.
 if !exists('$MYGVIMRC')
   if s:iswin
-    "let $MYGVIMRC = expand('$MY_HOME/_gvimrc')
     let $MYGVIMRC = expand('~/.gvimrc')
   else
     let $MYGVIMRC = expand('~/.gvimrc')
   endif
 endif
 
-" Setting for only first booting "{{{
+" Only setting when first booting "{{{
 if has('vim_starting')
   if s:iswin
     " Setting of path for use tools
-    let mingw_pass = 'z:\MinGW'
-    let msys_pass = 'z:\msys'
+    let mingw_pass = 'z:\usr\bin\MinGW'
+    let msys_pass = 'z:\usr\bin\msys1.0'
     let git_pass = 'z:\usr\bin\Git'
     let gow_pass = 'z:\usr\bin\gow'
     let plus_bin = '\bin'
@@ -163,6 +163,9 @@ endfunction "}}}
 function! s:SNR(map) "{{{
     return printf("<SNR>%d_%s", s:SID(), a:map)
 endfunction "}}}
+function! s:invateinthepath(partpath) "{{{
+  return globpath(&rtp, a:partpath) != '' ? 1 : 0
+endfunction "}}}
 "}}}
 
 filetype off
@@ -203,11 +206,19 @@ endif
 unlet pmps
 
 " #- rtputil.vim -# "{{{
-if globpath(&rtp, 'autoload/rtputil.vim') != ''
+if s:invateinthepath('autoload/rtputil.vim')
   " path manager
   call rtputil#bundle()
   call rtputil#helptags()
 endif "}}}
+
+"}}}
+
+" #- singleton.vim -# "{{{
+if s:invateinthepath('autoload/singleton.vim')
+  call singleton#enable()
+  let g:singleton#opener = 'tab drop'
+endif
 "}}}
 
 " Load file "{{{
@@ -376,7 +387,7 @@ set incsearch
 set hlsearch
 
 " Enable migemo search
-if has('kaoriya') && globpath(&rtp, 'plugin/migemo.vim') != ''
+if has('kaoriya') && s:invateinthepath('plugin/migemo.vim')
   set migemo
 endif
 
@@ -460,7 +471,7 @@ set cdpath+=~
 set foldenable
 set foldmethod=marker
 " Show folding level.
-set foldcolumn=7
+set foldcolumn=10
 
 " Use vimgrep.
 "set grepprg=internal
@@ -620,13 +631,12 @@ augroup END "}}}
 " Delete space at end of line (File type is not vim, help)
 augroup vim-delete-space-end-of-line "{{{
   " Omit file types
-  let filetypes = [
-    \ "help",
+  let rtm_filetypes = [
+    \ 'help',
     \ ]
 
   autocmd!
-  autocmd BufWritePre *
-  \ let expr_ft = s:omitfiletype(filetypes,1,0)
+  autocmd BufWritePre * let expr_ft = s:omitfiletype(rtm_filetypes, 1, 0)
   autocmd BufWritePre * if expr_ft | call s:RTrim() | endif
 
   function! s:RTrim() "{{{
@@ -651,8 +661,10 @@ endif
 " set cursorline
 augroup vimrc-auto-cursorline "{{{
 
+  let expr_ft = 0
+
   " Omit filetypes
-  let filetypes = [
+  let cl_filetypes = [
     \ 'vimshell',
     \ 'vimfiler',
     \ 'int-*',
@@ -662,9 +674,9 @@ augroup vimrc-auto-cursorline "{{{
 
   autocmd!
   " Don't draw cursorline that filetype is vimshell and more
-  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI *
-  \       let expr_ft = s:omitfiletype(filetypes, 1, 0)
-  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
+  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI,WinLeave *
+  \       let expr_ft = s:omitfiletype(cl_filetypes, 1, 0)
+  autocmd CursorMoved,CursorMovedI * if expr_ft | call s:auto_cursorline('CursorMoved') | endif
   autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
   autocmd WinEnter * if expr_ft | call s:auto_cursorline('WinEnter') | endif
   autocmd WinLeave * call s:auto_cursorline('WinLeave')
@@ -724,12 +736,14 @@ set titlelen=999
 " Title string. "{{{
 let titlestr = ''
 let titlestr .= "%{expand('%:p:.')} "
-let titlestr .= "%(%m%r%w%) "
+let titlestr .= "%(%m%r%w%)"
+let titlestr .= " "
 let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
 let titlestr .= "\[%n\]"
 let titlestr .= " - VIM"
 "}}}
-let &titlestring=titlestr
+let &titlestring = titlestr
+unlet titlestr
 "}}}
 
 " Set tabline."{{{
@@ -780,6 +794,7 @@ function! s:makestatusline() "{{{
   let l:sts .= "%{winnr('$')>1 ? '[' . winnr() . '/' . winnr('$') . (winnr('#') == winnr() ? '#':'').']':''} "
   let l:sts .= "%{expand('%:p:.')}"
   let l:sts .= "%m%r%h"
+  let l:sts .= " "
   let l:sts .= "%<(%{SnipMid(getcwd(), 80-len(expand('%:p:.')), '..')}) "
 
   let l:sts .= "%="
@@ -918,12 +933,13 @@ function! s:reinventing_scrolloff() "{{{
     endif
 endfunction "}}}
 
-" Todo: Setting for way of window split (filetype,bufname)
+" TODO: Setting for way of window split (filetype,bufname)
 
 "}}}
 
 "---------------------------------------------------------------------------
 " Syntax:"{{{
+"
 "
 
 " Enable syntax color.
@@ -1029,7 +1045,7 @@ augroup END  " }}}
 
 augroup vimrc-highlight "{{{
 
-  let filetype = [
+  let hi_filetypes = [
    \ 'txt',
    \ 'text',
    \ 'help',
@@ -1038,11 +1054,12 @@ augroup vimrc-highlight "{{{
 
   autocmd!
   " Special Characters
-  autocmd ColorScheme * let expr_ft = s:omitfiletype(filetype, 1, 0)
+  autocmd ColorScheme * let expr_ft = s:omitfiletype(hi_filetypes, 1, 0)
   autocmd ColorScheme * if expr_ft | call s:highlight_additional() | endif
   autocmd VimEnter,WinEnter * call s:syntax_additional()
   " Misc
   autocmd ColorScheme * call s:syntax_misc()
+
 augroup END
 
 function! s:syntax_additional() "{{{
@@ -1069,7 +1086,6 @@ function! s:highlight_additional() "{{{
   "   execute 'highlight ' . hi . 'Number ' . env . 'fg=DarkMagenta ' . bg
   " endfor
 endfunction "}}}
-
 function! s:syntax_misc() "{{{
   if bufname('%') =~? 'Highlight test'
     setlocal nolist
@@ -1111,1695 +1127,6 @@ let g:vim_indent_cont = 0
 " Lisp
 let g:lisp_rainbow = 1
 
-"}}}
-
-"---------------------------------------------------------------------------
-" Plugin:"{{{
-"
-
-" #- singleton.vim -# "{{{
-if globpath(&rtp, 'autoload/singleton.vim') != ''
-  call singleton#enable()
-  let g:singleton#opener = 'tab drop'
-endif
-"}}}
-
-" #- neocomplcache.vim -# "{{{
-if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
-  " Setting of directory for neocomplcache "{{{
-  let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
-  " For snippets
-  let s:neocon_snip_dir =  g:vim_misc_dir . '/snippets'
-  if !isdirectory(s:neocon_temp_dir)
-    call mkdir(s:neocon_temp_dir, 'p')
-  endif
-  if !isdirectory(s:neocon_snip_dir)
-    call mkdir(s:neocon_snip_dir, 'p')
-  endif
-  let g:neocomplcache_temporary_dir = s:neocon_temp_dir
-  let g:neocomplcache_snippets_dir = s:neocon_snip_dir " }}}
-
-  " Use neocomplcache.
-  let g:neocomplcache_enable_at_startup = 1
-  " Use smartcase.
-  let g:neocomplcache_enable_smart_case = 1
-  " Use camel case completion.
-  "let g:neocomplcache_enable_camel_case_completion = 1
-  " Use underbar completion.
-  let g:neocomplcache_enable_underbar_completion = 1
-  " Set minimum syntax keyword length.
-  let g:neocomplcache_min_syntax_length = 3
-  " Set auto completion length.
-  let g:neocomplcache_auto_completion_start_length = 2
-  " Set manual completion length.
-  let g:neocomplcache_manual_completion_start_length = 0
-  " Set minimum keyword length.
-  let g:neocomplcache_min_keyword_length = 3
-  let g:neocomplcache_enable_cursor_hold_i = 1
-  let g:neocomplcache_cursor_hold_i_time = 250
-  let g:neocomplcache_enable_auto_select = 1
-  let g:neocomplcache_enable_auto_delimiter = 1
-  "let g:neocomplcache_disable_caching_buffer_name_pattern = '[\[*]\%(unite\)[\]*]'
-  let g:neocomplcache_disable_caching_file_path_pattern = '[\[*]\%(unite\)[\]*]'
-  "let g:neocomplcache_disable_auto_select_buffer_name_pattern = '^\[\d\+\]vimshell'
-  "let g:neocomplcache_disable_auto_complete = 0
-  let g:neocomplcache_max_list = 100
-
-  " Define dictionary.
-  let g:neocomplcache_dictionary_filetype_lists = {
-        \ 'default' : '',
-        \ 'vimshell' : g:vim_info_dir . '/.vimshell/command-history',
-        \ 'text' : $HOME . '/.dict/SKK-JISYO.L',
-        \ 'txt' : $HOME . '/.dict/SKK-JISYO.L',
-        \ 'int-termtter' : g:vim_info_dir . '/.vimshell/int-history/int-termtter',
-        \ }
-
-  if !s:iswin
-    let g:neocomplcache_dictionary_filetype_lists.help = '/usr/share/dict/words'
-  endif
-
-  let g:neocomplcache_omni_functions = {
-        \ 'python' : 'pythoncomplete#Complete',
-        \ 'ruby' : 'rubycomplete#Complete',
-        \ }
-
-  " Define keyword pattern.
-  if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-  endif
-  let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-
-  if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-  endif
-  "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-  "let g:neocomplcache_omni_patterns.php = '[^. *\t]\.\w*\|\h\w*::'
-
-  if !exists('g:neocomplcache_same_filetype_lists')
-    let g:neocomplcache_same_filetype_lists = {}
-  endif
-  "let g:neocomplcache_same_filetype_lists.perl = 'ref'
-
-  let g:neocomplcache_vim_completefuncs = {
-        \ 'Ref' : 'ref#complete',
-        \ 'Unite' : 'unite#complete_source',
-        \ 'VimShellExecute' : 'vimshell#complete#vimshell_execute_complete#completefunc',
-        \ 'VimShellInteractive' : 'vimshell#complete#vimshell_execute_complete#completefunc',
-        \ 'VimShellTerminal' : 'vimshell#complete#vimshell_execute_complete#completefunc',
-        \}
-
-  " Completion rank "{{{
-  "let g:neocomplcache_plugin_completion_length = {
-  "\ 'snippets_complete' : 1,
-  "\ 'vim_complete' : 2,
-  "\ 'buffer_complete' : 3,
-  "\ 'syntax_complete' : 3,
-  "\ 'tags_complete' : 4,
-  "\ }
-  " }}}
-
-  " Plugin key-mappings."{{{
-  imap <silent>L     <Plug>(neocomplcache_snippets_jump)
-  "imap <expr>L    neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
-  smap <silent>L     <Plug>(neocomplcache_snippets_jump)
-  imap <silent>G     <Plug>(neocomplcache_snippets_force_expand)
-  " imap <silent>J     <Plug>(neocomplcache_snippets_jump)
-
-  inoremap <expr><C-g>     neocomplcache#undo_completion()
-  inoremap <expr><C-l>     neocomplcache#complete_common_string()
-  "}}}
-
-  " For neocomplcache."{{{
-  " <C-f>, <C-b>: page move.
-  inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-  inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   :
-        \neocomplcache#sources#completefunc_complete#call_completefunc('googlesuggest_complete#completefunc')
-  " <C-y>: paste.
-  inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() :  "\<C-r>\""
-  " <C-e>: close popup.
-  inoremap <expr><C-e>  pumvisible() ? neocomplcache#cancel_popup() : "\<End>"
-  " <C-k>: omni completion.
-  " inoremap <expr> <C-k>  &filetype == 'vim' ? neocomplcache#start_manual_complete('vim_complete') : neocomplcache#manual_omni_complete()
-  if globpath(&rtp, 'autoload/unite.vim') != ''
-    " <C-k>: unite completion.
-    imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
-    imap <C-q>  <Plug>(neocomplcache_start_quick_match)
-    imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
-  endif
-  "inoremap <expr> O  &filetype == 'vim' ? "\<C-x>\<C-v>" : "\<C-x>\<C-o>"
-  " <C-h>, <BS>: close popup and delete backword char.
-  inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-  inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-  " <C-n>: neocomplcache.
-  inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
-  " <C-p>: keyword completion.
-  inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-  "inoremap <expr>'  pumvisible() ? neocomplcache#close_popup() : "'"
-  inoremap <expr>'  pumvisible() ? "\<C-y>" : "'"
-  inoremap <expr>[  pumvisible() ? "\<C-n>" : "["
-  inoremap <expr>]  pumvisible() ? "\<C-p>" : "]"
-
-
-  " <CR>: close popup and save indent.
-  inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-  " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>\<Down>"
-  function! s:check_back_space()"{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction"}}}
-  " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
-  "}}}
-endif
-
-"}}}
-
-" #- vimshell.vim -# "{{{
-if globpath(&rtp, 'autoload/vimshell.vim') != ''
-  " Set recoding directory and initalize file "{{{
-  let s:shell_temp_dir = g:vim_info_dir . '/.vimshell'
-  if !isdirectory(s:shell_temp_dir)
-    call mkdir(s:shell_temp_dir, 'p')
-  endif
-  let g:vimshell_temporary_directory = s:shell_temp_dir " }}}
-  " let g:vimshell_vimshrc_path = s:shell_temp_dir .  '/.vimshrc'
-  let g:vimshell_vimshrc_path =  expand('~/.vimshrc')
-  unlet s:shell_temp_dir
-
-  "
-  let g:vimshell_enable_smart_case = 1
-  let g:vimshell_ignore_case = 1
-  let g:vimshell_environment_term = 'xterm'
-
-  " Platform detection
-  if s:iswin
-    " Windows "{{{
-    " User name @ host name [ working directory]
-    let g:vimshell_user_prompt=' $USERNAME . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
-    " Display user name on Windows.
-    " let g:vimshell_prompt = $USERNAME . "@" . hostname() . " $ "
-    let g:vimshell_prompt = $USERNAME . " $ "
-    " Use ckw.
-    let g:vimshell_use_ckw = 1
-    let g:vimshell_use_terminal_command = 'ckw -e' "}}}
-  else
-    " linux, mac "{{{
-    " User name @ host name [ working directory]
-    let g:vimshell_user_prompt=' $USER . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
-    " Display user name on Linux.
-    " let g:vimshell_prompt = $USER . "@" . hostname() . " $ "
-    let g:vimshell_prompt = $USER . " $ "
-    " Use normal shell history.
-    "let g:vimshell_external_history_path = expand('~/.zsh-history')
-    let g:vimshell_external_history_path = expand('~/.bash-history')
-    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
-    " Prefix "{{{
-    call vimshell#set_execute_file('gif,jpg,png', 'gexe viewnior')
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe gxine')
-    call vimshell#set_execute_file('mp3,wma,m4a', 'gexe aqualung') "}}}
-    let g:vimshell_execute_file_list['zip'] = 'zipinfo'
-    call vimshell#set_execute_file('tgz,gz', 'gzcat')
-    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
-    " }}}
-  endif
-
-  if globpath(&rtp, 'autoload/vcs.vim') != ''
-    let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-  else
-    let g:vimshell_right_prompt = ''
-  endif
-
-  " Initialize execute file list.
-  let g:vimshell_execute_file_list = {}
-  let g:vimshell_execute_file_list['pl'] = 'perl'
-  let g:vimshell_execute_file_list['py'] = 'python'
-  call vimshell#set_execute_file('txt,jax,vim,c,h,cpp,d,xml,java', 'vim')
-  if s:iswin
-    call vimshell#set_execute_file('l', 'gexe xyzzyclient')
-    call vimshell#set_execute_file('xyzzy', 'gexe xyzzyclient')
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe vlc.exe')
-  else
-    "let g:vimshell_execute_file_list['rb'] = 'ruby'
-    call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
-    call vimshell#set_execute_file('gif,jpg,JPG,png,PNG', 'gexe viewnior')
-  endif
-
-  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
-  function! s:vimshell_settings() "{{{
-    "imap <buffer><silent> &  <C-o>:call vimshell#mappings#push_and_execute('cd ..')<CR>
-    "nnoremap <buffer> T  Ga
-    "nmap <buffer> R   Gah<CR>
-    "call vimshell#altercmd#define('g', 'git')
-    call vimshell#altercmd#define('i', 'iexe')
-    call vimshell#altercmd#define('t', 'texe')
-    call vimshell#set_alias('sl', 'ls')
-    call vimshell#set_alias('l.', 'ls -d .*')
-    call vimshell#set_galias('ll', 'ls -l')
-    call vimshell#set_galias('df', 'df -h')
-    call vimshell#set_galias('du', 'du -h')
-    call vimshell#hook#set('chpwd', [s:SID_PREFIX().'my_chpwd'])
-    call vimshell#hook#set('emptycmd', [s:SID_PREFIX().'my_emptycmd'])
-    call vimshell#hook#set('preexec', [s:SID_PREFIX().'my_preexec'])
-    call vimshell#hook#set('preprompt', [s:SID_PREFIX().'my_preprompt'])
-    "Like old style history
-    inoremap <C-l> :<C-u>Unite -default-action=insert vimshell/history<CR>
-    "call s:init_vimshell_normal()
-  endfunction "}}}
-  " preexe "{{{
-  function! s:my_chpwd(args, context) "{{{
-    call vimshell#execute('ls -a')
-  endfunction "}}}
-  function! s:my_emptycmd(cmdline, context) "{{{
-    call vimshell#set_prompt_command('ls')
-    return 'ls'
-  endfunction "}}}
-  function! s:my_preprompt(args, context) "{{{
-    call vimshell#execute('echo "preprompt"')
-  endfunction "}}}
-  function! s:my_preexec(cmdline, context) "{{{
-    call vimshell#execute('echo "preexec"')
-
-    if a:cmdline =~# '^\s*diff\>'
-      call vimshell#set_syntax('diff')
-    endif
-    return a:cmdline
-  endfunction "}}}
-  "}}}
-  " Like old style vimshell history "{{{
-  "augroup vimrc-plugin-vimshell "{{{
-  "  autocmd!
-  "  autocmd FileType int-* call s:init_vimshell_int()
-  "augroup END "}}}
-  function! s:init_vimshell_int() "{{{
-    inoremap <buffer> <silent> <C-y> <C-r>=<SID>vimshell_complete_history()<CR><C-p>
-  endfunction "}}}
-  function! s:init_vimshell_normal() "{{{
-    inoremap <buffer> <silent> <C-y> <C-r>=<SID>complete_history()<CR><C-p>
-  endfunction "}}}
-  function! s:complete_history() "{{{
-    call complete(len(vimshell#get_prompt()) + 1, g:vimshell#hist_buffer)
-    return ''
-  endfunction "}}}
-  function! s:vimshell_complete_history() "{{{
-    call complete(len(vimshell#get_prompt()) + 1, b:interactive.command_history)
-    return ''
-  endfunction "}}}
-  "let s:context  = unite#get_context()
-  "if s:context.buffer_name  ==# 'completion'
-  "  inoremap <buffer> <expr> <C-Y> unite#do_action('insert')
-  "endif
-  "}}}
-
-  autocmd MyAutoCmd FileType int-* call s:interactive_settings()
-  function! s:interactive_settings() "{{{
-  endfunction "}}}
-
-  autocmd MyAutoCmd FileType term-* call s:terminal_settings()
-  function! s:terminal_settings() "{{{
-    inoremap <silent><buffer><expr> <Plug>(vimshell_term_send_semicolon) vimshell#term_mappings#send_key(';')
-    inoremap <silent><buffer><expr> j<Space> vimshell#term_mappings#send_key('j')
-    "inoremap <silent><buffer><expr> <Up> vimshell#term_mappings#send_keys("\<ESC>[A")
-
-    " Sticky key.
-    imap <buffer><expr> ;  <SID>texe_sticky_func()
-
-    " Escape key.
-    iunmap <buffer><ESC> <ESC>
-    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
-  endfunction
-  function! s:texe_sticky_func()
-    let l:sticky_table = {
-          \',' : '<', '.' : '>', '/' : '?',
-          \'1' : '!', '2' : '@', '3' : '#', '4' : '$', '5' : '%',
-          \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
-          \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
-          \}
-    let l:special_table = {
-          \"\<ESC>" : "\<ESC>", "\<Space>" : "\<Plug>(vimshell_term_send_semicolon)", "\<CR>" : ";\<CR>"
-          \}
-
-    if mode() !~# '^c'
-      echo 'Input sticky key: '
-    endif
-    let l:char = ''
-
-    while l:char == ''
-      let l:char = nr2char(getchar())
-    endwhile
-
-    if l:char =~ '\l'
-      return toupper(l:char)
-    elseif has_key(l:sticky_table, l:char)
-      return l:sticky_table[l:char]
-    elseif has_key(l:special_table, l:char)
-      return l:special_table[l:char]
-    else
-      return ''
-    endif
-  endfunction "}}}
-
-  " Keymap "{{{
-  nnoremap <silent> [Space]: :<C-u>VimShellTab<CR>
-  nnoremap <silent> [Space]; :<C-u>VimShellCreate<CR>
-  nnoremap <silent> [Space]l :<C-u>VimShellPop<CR>
-  nnoremap [Space]i  :<C-u>VimShellInteractive<Space>
-  nnoremap [Space]t  :<C-u>VimShellTerminal<Space>
-  "}}}
-
-endif
-" }}}
-
-" #- unite.vim -# "{{{
-if globpath(&rtp, 'autoload/unite.vim') != ''
-  " Set of unite directory "{{{
-  let s:unite_dir = g:vim_info_dir . '/.unite'
-  if !isdirectory(s:unite_dir)
-    call mkdir(s:unite_dir, 'p')
-  endif
-  let g:unite_data_directory = s:unite_dir
-  let g:unite_source_bookmark_directory = g:unite_data_directory . '/bookmark'
-  unlet s:unite_dir " }}}
-  " The prefix key. "{{{
-  nnoremap    [unite]   <Nop>
-  xnoremap    [unite]   <Nop>
-  nmap    t [unite]
-  xmap    t [unite]
-  " }}}
-  " Keymap for Source "{{{
-  nnoremap [unite]u  :<C-u>Unite<Space>
-  "nnoremap <silent> ;  :<C-u>Unite history/command command<CR>
-  nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
-  nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
-  nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-  nnoremap  [unite]f  :<C-u>Unite source<CR>
-  nnoremap <silent> [unite]t  :<C-u>UniteWithCursorWord -buffer-name=tag tag<CR>
-  xnoremap <silent> [unite]r  d:<C-u>Unite -buffer-name=register register<CR>
-  nnoremap <silent> [unite]w  :<C-u>UniteWithCursorWord -buffer-name=register buffer file_mru bookmark file<CR>
-  nnoremap <silent> [unite]h  :<C-u>Unite history/command<CR>
-  nnoremap <silent> [unite]q  :<C-u>Unite qflist -no-quit<CR>
-  nnoremap <silent> [unite]g  :<C-u>Unite grep -no-quit<CR>
-  nnoremap <silent> [unite]j  :<C-u>Unite poslist<CR>
-  nnoremap <silent> [unite]ma  :<C-u>Unite mapping<CR>
-  nnoremap <silent> [unite]me  :<C-u>Unite output:message<CR>
-  inoremap <silent> <C-z>  <C-o>:call unite#start(['register'], {'is_insert' : 1})<CR>
-
-  nnoremap <silent> [Window]s  :<C-u>Unite -buffer-name=files buffer_tab file_rec file file_mru<CR>
-  " nnoremap <silent> [Window]s  :<C-u>Unite -buffer-name=files buffer_tab file file_mru file<CR>
-  nnoremap <silent> [Window]t  :<C-u>Unite -buffer-name=files tab<CR>
-  nnoremap <silent> [Window]w  :<C-u>Unite window<CR>
-  nnoremap [Window]r  :<C-u>UniteResume<Space>
-  nnoremap <silent> [Space]b  :<C-u>UniteBookmarkAdd<CR>
-
-  " Execute help.
-  " nnoremap <C-h>  :<C-u>help<Space>
-  nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
-  " Execute help by cursor keyword.
-  " nnoremap <silent> g<C-h>  :<C-u>help<Space><C-r><C-w><CR>
-  nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>
-
-  " ColorScheme (Unite Beautiful Attack)
-  nnoremap <silent> [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
-  " Font selecter
-  nnoremap <silent> [unite]l :<C-u>Unite -auto-preview font
-  " Bookmark
-  nnoremap <silent> [unite]t :<C-u>Unite bookmark<CR>
-  " buffer_tab
-  nnoremap <silent> [Window]i :<C-u>Unite buffer_tab -buffer-name=buffer_tab -prompt=$$<CR>
-  " file_mru
-  nnoremap <silent> [Window]; :<C-u>UniteWithBufferDir file_mru -buffer-name=files -prompt=$$ <CR>
-  " }}}
-
-  let g:unite_enable_split_vertically = 1
-
-  let g:unite_winheight = 20
-  let g:unite_winwidth = 75
-
-  autocmd MyAutoCmd FileType unite call s:unite_my_settings()
-
-  call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'))
-  " Directory partial match.
-  " call unite#set_substitute_pattern('files', '\%([~.*]\+\)\@<!/', '*/*', 100)
-  " call unite#set_substitute_pattern('files', '^\\', substitute(substitute($HOME, '\\', '/', 'g'), ' ', '\\ ', 'g') . '/*', -100)
-  " Test.
-  call unite#set_substitute_pattern('files', '^\.v/', unite#util#substitute_path_separator($HOME).'/.vim/', 1000)
-  call unite#custom_alias('file', 'h', 'left')
-
-  " Custom actions."{{{
-  " tab open "{{{
-  let my_tabopen = {
-        \ 'description' : 'my tabopen items',
-        \ 'is_selectable' : 1,
-        \ }
-  function! my_tabopen.func(candidates)"{{{
-    call unite#take_action('tabopen', a:candidates)
-
-    let l:dir = isdirectory(a:candidates[0].word) ? a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
-    " execute g:unite_lcd_command '`=l:dir`'
-  endfunction"}}}
-  call unite#custom_action('file,buffer', 'tabopen', my_tabopen)
-  unlet my_tabopen"}}}
-  " replace "{{{
-  let my_replace = {
-        \ 'description' : 'replace quickfix',
-        \ 'is_selectable' : 1,
-        \ }
-  function! my_replace.func(candidates)"{{{
-    let l:qflist = []
-    for candidate in a:candidates
-      if bufnr(candidate.action__path) >= 0
-        call add(l:qflist, {
-              \ 'filename' : candidate.action__path,
-              \ 'lnum' : candidate.action__line,
-              \ 'text' : candidate.source__pattern,
-              \ })
-      endif
-    endfor
-
-    call setqflist(l:qflist)
-    call qfreplace#start('')
-  endfunction"}}}
-  "}}}
-  call unite#custom_action('source/grep/jump_list', 'replace', my_replace)
-  unlet my_replace
-  "}}}
-
-  " Custom filters."{{{
-  " call unite#custom_filters('file,buffer', ['sorter_default', 'converter_default'])
-  "}}}
-
-  let g:unite_enable_start_insert = 0
-
-  function! s:unite_my_settings() "{{{
-    " Overwrite settings.
-    imap <buffer>  jj      <Plug>(unite_insert_leave)
-    imap <buffer> <TAB>   <Plug>(unite_choose_action)
-    "imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    imap <buffer> <C-g>     <Plug>(unite_input_directory)
-    nmap <buffer><expr> r     unite#do_action('replace')
-    nmap <buffer> q     <Plug>(unite_exit)
-
-    " <C-l>: manual neocomplcache completion.
-    inoremap <buffer><C-l>  <C-x><C-u><C-p><Down>
-    inoremap <buffer><expr> [  pumvisible() ? "\<C-y>" : "\<C-x>\<C-u>\<C-p>\<Down>"
-  endfunction"}}}
-
-  let g:unite_source_line_enable_highlight = 1
-  let g:unite_source_line_search_word_highlight = 'PmenuSel'
-
-  let g:unite_cursor_line_highlight = 'TabLineSel'
-  let g:unite_abbr_highlight = 'Pmenu'
-
-  " let g:unite_source_file_mru_time_format = ''
-  let g:unite_source_file_mru_filename_format = ''
-  let g:unite_source_file_mru_limit = 300
-  let g:unite_source_directory_mru_time_format = ''
-  let g:unite_source_directory_mru_limit = 200
-  " grep
-  let g:unite_source_grep_command = 'grep'
-  let g:unite_source_grep_recursive_opt = '-r'
-  let g:unite_source_grep_default_opts = '-Hn -i'
-  " history/yank
-  let g:unite_source_history_yank_enable = 1
-  let g:unite_source_history_yank_limit = 1000
-  let g:unite_source_history_yank_file = g:unite_data_directory . '/history_yank'
-  " quick match table
-  let g:unite_quick_match_table = {
-        \'a' : 1, 's' : 2, 'd' : 3, 'f' : 4, 'g' : 5, 'h' : 6, 'k' : 7, 'l' : 8, ';' : 9,
-        \'q' : 10, 'w' : 11, 'e' : 12, 'r' : 13, 't' : 14, 'y' : 15, 'u' : 16, 'i' : 17, 'o' : 18, 'p' : 19,
-        \'1' : 20, '2' : 21, '3' : 22, '4' : 23, '5' : 24, '6' : 25, '7' : 26, '8' : 27, '9' : 28, '0' : 29,
-        \}
-
-  " call unite#custom_default_action('directory', 'cd')
-endif
-"}}}
-
-" #- quickrun.vim -# "{{{
-if globpath(&rtp, 'autoload/quickrun.vim') != ''
-  function! s:init_quickrun()
-    for [key, com] in items({
-          \   '<Leader>x' : '<=@i >:',
-          \   '<Leader>p' : '<=@i >!',
-          \   '<Leader>"' : '<=@i >=@"',
-          \   '<Leader>w' : '<=@i >',
-          \   '<Leader>q' : '<=@i >>',
-          \   '<Leader>vx' : '-eval 1 <=@i >:',
-          \   '<Leader>vp' : '-eval 1 <=@i >!',
-          \   '<Leader>v"' : '-eval 1 <=@i >=@"',
-          \   '<Leader>vw' : '-eval 1 <=@i >',
-          \   '<Leader>vq' : '-eval 1 <=@i >>',
-          \ })
-      execute 'nnoremap <silent>' key ':QuickRun' com '-mode n<CR>'
-      execute 'vnoremap <silent>' key ':QuickRun' com '-mode v<CR>'
-    endfor
-
-    call s:set_default('g:QuickRunConfig', {'mkd': {'command': 'mdv2html'}})
-    call s:set_default('g:QuickRunConfig', {'xmodmap': {}})
-  endfunction
-  call s:init_quickrun()
-  nmap <silent> [Space]r <Plug>(quickrun-op)
-
-  "if !exists('g:quickrun_config')
-  "  " Enable async.
-  "  let g:quickrun_config = {
-  "        \   '*': {'runmode': 'async:vimproc'},
-  "        \ }
-  "
-  "  if s:iswin
-  "    function! TexEncoding()
-  "      if &fileencoding ==# 'utf-8'
-  "        let l:arg = 'utf8 '
-  "      elseif &fileencoding =~# '^euc-\%(jp\|jisx0213\)$'
-  "        let l:arg = 'euc '
-  "      elseif &fileencoding =~# '^iso-2022-jp'
-  "        let l:arg = 'jis '
-  "      else " cp932
-  "        let l:arg = 'sjis '
-  "      endif
-  "
-  "      return l:arg
-  "    endfunction
-  "    let tex = 'platex -kanji={TexEncoding()}'
-  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi'] }
-  "  else
-  "    let tex = 'platex'
-  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi', 'open %s:r.pdf'] }
-  "  endif
-  "  unlet tex
-  "
-  "  let g:quickrun_config.vim = {}
-  "endif
-endif
-"}}}
-
-" #- vimfiler.vim -# "{{{
-if globpath(&rtp, 'autoload/vimfiler.vim') != ''
-  " Make directory "{{{
-  let s:vimfiler_dir = g:vim_info_dir . '/.vimfiler'
-  if !isdirectory(s:vimfiler_dir)
-    call mkdir(s:vimfiler_dir, 'p')
-  endif
-  let g:vimfiler_data_directory = s:vimfiler_dir
-  unlet s:vimfiler_dir "}}}
-
-  " Key-mapping "{{{
-  nnoremap <silent>[Space]v :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
-  nnoremap [Space]fo  :<C-u>VimFilerTab<CR>
-  nnoremap [Space]ff  :<C-u>VimFilerBufferDir<CR>
-  nnoremap [Space]si  :<C-u>VimFilerSimple<CR>
-  " File explorer like behavior.
-  nnoremap  <silent> [Space]h   :<C-u>execute 'VimFiler -buffer-name=explore -split -simple -winwidth=35 -toggle ' fnamemodify(bufname('%'), ':p:h')<CR>
-  " }}}
-
-  " suffix "{{{
-  call vimfiler#set_execute_file('vim', 'vim')
-  call vimfiler#set_execute_file('txt', 'vim')
-  if s:iswin
-    call vimfiler#set_execute_file('l', 'xyzzyclient')
-    call vimfiler#set_execute_file('xyzzy', 'xyzzyclient')
-    call vimfiler#set_execute_file('3GP,mp4,mkv', 'kmplayer')
-  else
-    call vimfiler#set_execute_file('gif,jpg,JPG,png,PNG', 'viewnior')
-    call vimfiler#set_execute_file('3GP,mp4,mkv', 'gxine')
-    call vimfiler#set_execute_file('mp3,wma,m4a', 'aqualung')
-  endif
-  " }}}
-
-  let g:vimfiler_split_command = 'VertSplit'
-  let g:vimfiler_edit_command = 'tabedit'
-  let g:vimfiler_pedit_command = 'vnew'
-
-  let g:vimfiler_enable_clipboard = 1
-  let g:vimfiler_safe_mode_by_default = 0
-  let g:vimfiler_cd_command = 'TabpageCD'
-
-  " Define filer command "{{{
-  if s:iswin
-    " Windows default. "{{{
-    let g:vimfiler_external_delete_command = 'system rmdir /Q /S $srcs'
-    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
-    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
-    let g:vimfiler_external_copy_directory_command = 'xcopy /s $srcs $dest'
-    let g:vimfiler_external_move_command = 'system move /Y $srcs $dest'
-    " }}}
-  else
-    " Linux default. "{{{
-    let g:vimfiler_external_copy_directory_command = 'cp -r $src $dest'
-    let g:vimfiler_external_copy_file_command = 'cp $src $dest'
-    let g:vimfiler_external_delete_command = 'rm -r $srcs'
-    let g:vimfiler_external_move_command = 'mv $srcs $dest'
-    " }}}
-  endif "}}}
-
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_detect_drives = s:iswin ? [
-        \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
-        \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/', 'Z:/'] :
-        \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
-        \ split(glob('/Users/*'), '\n')
-
-  " Set vimfiler use trash_box "{{{
-  let s:filer_trash_dir = g:vim_info_dir . '/others/.trash_box'
-  if !isdirectory(s:filer_trash_dir)
-    call mkdir(s:filer_trash_dir, 'p')
-  endif
-  let g:vimfiler_trashbox_directory = s:filer_trash_dir
-  unlet s:filer_trash_dir
-
-  if s:iswin && globpath(&rtp, 'autoload/vimproc.vim') != ''
-    let g:unite_kind_file_use_trashbox = 1
-  endif "}}}
-
-  " icons
-  let g:vimfiler_tree_leaf_icon = ' | '
-  let g:vimfiler_tree_opened_icon = '[-]'
-  let g:vimfiler_tree_closed_icon = '[ ]'
-  let g:vimfiler_file_icon = ' - '
-  let g:vimfiler_marked_file_icon = ' * '
-
-  autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
-  function! s:vimfiler_my_settings() "{{{
-    " Override vimfiler's setting
-
-    " Key-mappings "{{{
-    nunmap <buffer>t
-    nunmap <buffer>a
-    nunmap <buffer><TAB>
-    nmap <buffer><TAB> <Plug>(vimfiler_choose_action)
-    " like an operatortion that vim folding
-    nmap <buffer>za <Plug>(vimfiler_expand_tree)
-    "}}}
-
-  endfunction "}}}
-endif
-"}}}
-
-" #- surround.vim -# "{{{
-if globpath(&rtp, 'plugin/surround.vim') != ''
-  " Setting of surround for kana
-  let surround = g:vim_dir . '/bundle/surround.vim/plugin/surround.vim'
-  if filereadable(surround)
-    execute 'source ' . surround
-    unlet surround
-
-    call SurroundRegister('g', 'jk', "「\r」")
-    call SurroundRegister('g', 'jK', "【\r】")
-    call SurroundRegister('g', 'js', "『\r』")
-  endif
-
-  let g:surround_no_mappings = 1
-  autocmd MyAutoCmd FileType * call s:define_surround_keymappings()
-
-  function! s:define_surround_keymappings()
-    if !&modifiable
-      return
-    endif
-
-    nmap <buffer> ds   <Plug>Dsurround
-    nmap <buffer> cs   <Plug>Csurround
-    nmap <buffer> ys   <Plug>Ysurround
-    nmap <buffer> yS   <Plug>YSurround
-    nmap <buffer> yss  <Plug>Yssurround
-    nmap <buffer> ySs  <Plug>YSsurround
-    nmap <buffer> ySS  <Plug>YSsurround
-  endfunction
-endif
-"}}}
-
-" #- altercmd.vim -# "{{{
-if globpath(&rtp, 'autoload/altercmd.vim') != ''
-  call altercmd#define('<buffer>', 'cd', 'CD', 'i')
-  call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
-  if exists(':Tcolorscheme') == 2
-    call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
-    call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
-  else
-    call altercmd#define('<buffer>', 'co[lor]', 'colorscheme', 'i')
-    call altercmd#define('<cmdwin>', 'co[lor]', 'colorscheme', 'i')
-  endif
-  call altercmd#define('<cmdwin>', 'cd', 'CD', 'i')
-  call altercmd#define('<cmdwin>', 'sp[lit]', 'split', 'i')
-endif
-"}}}
-
-" #- echodoc.vim -# "{{{
-if globpath(&rtp, 'autoload/echodoc.vim') != ''
-  let g:echodoc_enable_at_startup = 1
-endif
-" }}}
-
-" #- ref.vim -# "{{{
-if globpath(&rtp, 'autoload/ref.vim') != ''
-  " Make cache directory "{{{
-  let s:ref_dir =  g:vim_info_dir . '/.ref/.vim_ref_cache'
-  if !isdirectory(s:ref_dir)
-    call mkdir(s:ref_dir, 'p')
-  endif
-  let g:ref_cache_dir = s:ref_dir " }}}
-  autocmd FileType ref call s:init_ref_viewer()
-  function! s:init_ref_viewer()
-    " Overwrite setting
-    nmap <buffer> b <Plug>(ref-back)
-    nmap <buffer> f <Plug>(ref-forward)
-    nnoremap <buffer> q <C-w>c
-    setlocal nonumber
-  endfunction
-endif
-" }}}
-
-" #- skk & eskk -# "{{{
-" check
-let iedskk = globpath(&rtp, 'plugin/skk.vim') != ''
-let iedeskk = globpath(&rtp, 'autoload/eskk.vim') != ''
-
-if iedskk || iedeskk
-  " Path to dictionary for skk "{{{
-  let skk_user_dir = expand('~/.dict')
-  " let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
-  let skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
-  if s:iswin
-    let skk_system_dict_dir = g:vim_info_dir . '/.dict'
-    let s:skk_system_dict = skk_system_dict_dir .  '/SKK-JISYO.L'
-  else
-    let s:skk_system_dict = '/usr/local/share/skk'
-  endif "}}}
-  " Make dictionary directory "{{{
-  if !isdirectory(skk_user_dir)
-    call mkdir(skk_user_dir, 'p')
-  endif
-  if !isdirectory(skk_system_dict_dir)
-    call mkdir(skk_system_dict_dir, 'p')
-  endif "}}}
-
-  let s:skk_user_dict_encoding = 'utf-8'
-  let s:skk_system_dict_encoding = 'euc-jp'
-
-  unlet skk_user_dir
-  unlet skk_system_dict_dir
-endif
-"}}}
-
-" #- skk.vim -# "{{{
-if iedskk
-  let g:skk_jisyo = skk_user_dict
-  let g:skk_jisyo_encoding = s:skk_user_dict_encoding
-  let g:skk_large_jisyo = s:skk_system_dict
-  let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
-
-  if iedeskk
-    let g:skk_control_j_key = '<C-g><C-j>'
-  else
-    let g:skk_control_j_key = '<C-j>'
-  endif
-  " Arpeggio map! fj    <Plug>(skk-enable-im)
-
-  let g:skk_manual_save_jisyo_keys = ''
-
-  let g:skk_egg_like_newline = 1
-  let g:skk_auto_save_jisyo = 1
-  let g:skk_imdisable_state = -1
-  let g:skk_keep_state = 0
-  let g:skk_show_candidates_count = 2
-  let g:skk_show_annotation = 0
-  let g:skk_sticky_key = ';'
-  let g:skk_use_color_cursor = 1
-  let g:skk_remap_lang_mode = 0
-
-  " cursor colors "{{{
-  if has('gui_running')
-    let g:skk_cursor_hira_color='#ff0f5f'
-    let g:skk_cursor_kata_color='#3fff5f'
-    let g:skk_cursor_zenei_color='#ffff5f'
-    let g:skk_cursor_ascii_color='#3f3fff'
-    let g:skk_cursor_abbrev_color='#5f5f5f'
-  else
-    let g:skk_cursor_hira_color='14'
-    let g:skk_cursor_kata_color='11'
-    let g:skk_cursor_zenei_color='8'
-    let g:skk_cursor_ascii_color='9'
-    let g:skk_cursor_abbrev_color='0'
-  endif
-  "}}}
-
-endif
-"}}}
-
-" #- eskk.vim -# "{{{
-if iedeskk
-  " make directory for eskk "{{{
-  let s:eskk_dir =  g:vim_info_dir . '/.eskk'
-  if !isdirectory(s:eskk_dir)
-    call mkdir(s:eskk_dir, 'p')
-  endif
-  let g:eskk#directory = s:eskk_dir
-   " }}}
-  if !exists('g:eskk#disable') || !g:eskk#disable
-    " Disable skk.vim
-    let g:plugin_skk_disable  = 1
-
-    let g:eskk#disable = 0
-    let g:eskk#debug = 1
-    let g:eskk#debug_out = "file"
-
-    " Cursor color
-    let g:eskk#use_color_cursor = 1
-    let g:eskk#cursor_color = {
-          \ 'ascii'  : ['#0f0f0f', '#2f5f8f'],
-          \ 'hira'   : ['#0f0f0f', '#8f2f5f'],
-          \ 'kata'   : ['#0f0f0f', '#2f8f4f'],
-          \ 'abbrev' : '#2f3f7f',
-          \ 'zenei'  : '#afbf2f',
-          \ }
-
-    let g:eskk#show_candidates_count = 2
-
-    let g:eskk#show_annotation = 1
-    " let g:eskk#rom_input_style = 'msime'
-    let g:eskk#rom_input_style = 'skk'
-    let g:eskk#egg_like_newline = 1
-
-    " Don't keep state
-    let g:eskk#keep_state = 0
-    let g:eskk#keep_state_beyond_buffer = 1
-
-    let g:eskk#marker_henkan = '$'
-    let g:eskk#marker_okuri = '*'
-    let g:eskk#marker_henkan_select = '@'
-    let g:eskk#marker_jisyo_touroku = '?'
-    let g:eskk#marker_popup = '#'
-
-    let g:eskk#dictionary_save_count = 5
-
-    "  set dictonary "{{{
-    " path, encoding
-    if has('vim_starting')
-      let g:eskk#dictionary = {
-            \   'path': s:skk_user_dict,
-            \   'sorted' : 0,
-            \   'encoding': s:skk_user_dict_encoding,
-            \}
-
-      let g:eskk#large_dictionary = {
-            \   'path': s:skk_system_dict,
-            \   'sorted' : 1,
-            \   'encoding': s:skk_system_dict_encoding,
-            \}
-    endif
-
-    " Backup
-    let g:eskk#backup_dictionary = s:eskk_dir . '/SKK-JISYO.L.BAK'
-    unlet s:eskk_dir "}}}
-
-    " Define table.
-    autocmd MyAutoCmd User eskk-initialize-pre call s:eskk_initial_pre()
-    function! s:eskk_initial_pre() "{{{
-      let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
-      call t.add_map('z ', '　')
-      call t.add_map('~', '〜')
-      call t.add_map('zc', '©')
-      call t.add_map('zr', '®')
-      call t.add_map('z9', '（')
-      call t.add_map('z0', '）')
-      call eskk#register_mode_table('hira', t)
-      unlet t
-    endfunction "}}}
-  endif
-endif
-" }}}
-
-" #- Restart.vim -# "{{{
-if globpath(&rtp, 'plugin/restart.vim') != ''
-  let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
-  " key mapping
-  nnoremap <silent> <Space><leader>r :<c-u>Restart<CR>
-  nnoremap <silent> <Space><leader>rm :<c-u>Restart!<CR>
-endif
-" }}}
-
-" #- caw.vim -# "{{{
-if globpath(&rtp, 'autoload/caw.vim') != ''
-  nmap gcc <Plug>(caw:i:toggle)
-  xmap gcc <Plug>(caw:i:toggle)
-endif
-"}}}
-
-" #- Vinarise -# "{{{
-if globpath(&rtp, 'autoload/vinarise.vim') != ''
-  let g:vinarise_enable_auto_detect = 1
-endif
-"}}}
-
-" #- smartchr -# "{{{
-if globpath(&rtp, 'autoload/smartchr.vim') != ''
-  inoremap <expr> , smartchr#one_of(', ', ',')
-  inoremap <expr> ? smartchr#one_of(' ? ', '?')
-
-  " Smart =.
-  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-        \ : smartchr#one_of(' = ', '=', ' == ')
-
-  augroup MyAutoCmd
-    " Substitute .. into -> .
-    autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
-    autocmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
-    autocmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
-    autocmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
-
-    autocmd FileType haskell
-          \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
-          \| inoremap <buffer> <expr> - smartchr#loop('-', ' <- ')
-          \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
-          \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
-          \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
-          \| inoremap <buffer> <expr> . smartchr#loop(' . ', '..', '.')
-
-    autocmd FileType scala
-          \ inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
-          \| inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' => ')
-          \| inoremap <buffer> <expr> : smartchr#loop(': ', ':', ' :: ')
-          \| inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
-
-    autocmd FileType eruby
-          \ inoremap <buffer> <expr> > smartchr#loop('>', '%>')
-          \| inoremap <buffer> <expr> < smartchr#loop('<', '<%', '<%=')
-  augroup END
-endif
-"}}}
-
-" #- stickykey -# "{{{
-if globpath(&rtp, 'autoload/stickykey.vim') != ''
-endif
-"}}}
-
-" #- quickhl.vim -# "{{{
-if globpath(&rtp, 'autoload/quickhl.vim') != ''
-nmap ZZl <Plug>(quickhl-toggle)
-xmap ZZl <Plug>(quickhl-toggle)
-nmap <Space>M <Plug>(quickhl-reset)
-xmap <Space>M <Plug>(quickhl-reset)
-
-" nmap <Space>j <Plug>(quickhl-match)
-
-" highlight color change
-let g:quickhl_colors = [
-      \ "guifg=#cfcfcf guibg=#2f002f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f007f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f2f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f0f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f3f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#1f3f0f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f1f1f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#5f4f2f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f2f4f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#4f1f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f1f gui=bold ",
-      \ ]
-
-let g:quickhl_keywords = [
-      \ "t9md",
-      \ "ujihisa",
-      \ "thinca",
-      \ "tyru",
-      \ "kana",
-      \ "mattn",
-      \ "Shougo",
-      \ ]
-
-endif
-" }}}
-
-" #- textmanip.vim -# "{{{
-if globpath(&rtp, 'autoload/textmanip.vim') != ''
-  if has('gui_running')
-    xmap <M-d> <Plug>(textmanip-duplicate-down)
-    nmap <M-d> <Plug>(textmanip-duplicate-down)
-    xmap <M-D> <Plug>(textmanip-duplicate-up)
-    nmap <M-D> <Plug>(textmanip-duplicate-up)
-
-    xmap <C-j> <Plug>(textmanip-move-down)
-    xmap <C-k> <Plug>(textmanip-move-up)
-    xmap <C-h> <Plug>(textmanip-move-left)
-    xmap <C-l> <Plug>(textmanip-move-right)
-  else
-    xmap <Space>d <Plug>(textmanip-duplicate-down)
-    nmap <Space>d <Plug>(textmanip-duplicate-down)
-    xmap <Space>D <Plug>(textmanip-duplicate-up)
-    nmap <Space>D <Plug>(textmanip-duplicate-up)
-
-    xmap <C-j> <Plug>(textmanip-move-down)
-    xmap <C-k> <Plug>(textmanip-move-up)
-    xmap <C-h> <Plug>(textmanip-move-left)
-    xmap <C-l> <Plug>(textmanip-move-right)
-  endif
-endif
-"}}}
-
-" #- ambicmd.vim -# "{{{
-if globpath(&rtp, 'autoload/ambicmd.vim') != ''
-  cnoremap <expr> <Space> ambicmd#expand("\<Space>")
-  cnoremap <expr> <CR>    ambicmd#expand("\<CR>")
-  cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
-endif
-" }}}
-
-" #- colorv -# "{{{
-if globpath(&rtp, 'plugin/colorv.vim') != ''
-  let colorv_cache_dir = g:vim_info_dir . '/.ColorV'
-  if !isdirectory(colorv_cache_dir)
-    call mkdir(colorv_cache_dir, 'p')
-  endif
-  let g:ColorV_cache_File = colorv_cache_dir . '/ColorV_cache'
-endif
-" }}}
-
-" #- visualstar -# "{{{
-if globpath(&rtp, 'plugin/visualstar.vim') != ''
-  map * <Plug>(visualstar-*)
-  map # <Plug>(visualstar-#)
-  map g* <Plug>(visualstar-g*)
-  map g# <Plug>(visualstar-g#)
-endif
-"}}}
-
-" #- openbrowser -# "{{{
-if globpath(&rtp, 'autoload/openbrowser.vim') != ''
-  nnoremap <silent>gx :<C-u>OpenBrowser expand('%')<CR>
-endif
-"}}}
-
-" #- winmove -# "{{{
-if globpath(&rtp, 'plugin/winmove.vim') != ''
-  let g:wm_move_up = '<Up>'
-  let g:wm_move_right = '<Right>'
-  let g:wm_move_down = '<Down>'
-  let g:wm_move_left = '<Left>'
-endif
-"}}}
-
-" #- FoldCC -# "{{{
-if globpath(&rtp, 'plugin/foldCC.vim') != ''
-  set foldtext=FoldCCtext()
-  set fillchars=vert:\|
-endif
-"}}}
-
-" #- fontzoom -#"{{{
-if globpath(&rtp, 'plugin/fontzoom.vim') != ''
-  nmap <F11> <Plug>(fontzoom-larger)
-  nmap <F12> <Plug>(fontzoom-smaller)
-endif
-"}}}
-
-" #- netrw.vim -# "{{{
-" Set of netrw configuration directory "{{{
-let s:netrw_dir = g:vim_info_dir . '/.netrw'
-if !isdirectory(s:netrw_dir)
-  call mkdir(s:netrw_dir, 'p')
-endif
-let g:netrw_home = s:netrw_dir " }}}
-let g:netrw_list_hide= '*.swp'
-nnoremap <silent> <BS> :<C-u>Explore<CR>
-" Change default directory.
-"set browsedir=current
-if executable('wget')
-  let g:netrw_http_cmd = 'wget'
-endif
-"}}}
-
-" #- matchit -# "{{{
-if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
-  source $VIMRUNTIME/macros/matchit.vim
-endif
-" }}}
-
-"}}}
-
-"---------------------------------------------------------------------------
-" Key-mappings: "{{{
-"
-
-" Too lazy to press Shift Key
-" noremap ; :
-" noremap : ;
-
-inoremap <C-@> <ESC>
-
-" Movement command line mode
-nnoremap <C-J> :
-
-" Quick save and quit. "{{{
-nnoremap <silent> [Space]w  :<C-u>update<CR>
-nnoremap <silent> [Space]fw :<C-u>write!<CR>
-" nnoremap <silent> [Space]q  :<C-u>quit<CR>
-nnoremap <silent> [Space]q  :<C-u>close<CR>
-nnoremap <silent> [Space]<leader>q  :<C-u>quit!<CR>
-nnoremap <silent> [Space]aq :<C-u>quitall<CR>
-" nnoremap <silent> [Space]fq :<C-u>quitall!<CR>
-nnoremap <silent> [Space]fq :<C-u>close!<CR>
-"}}}
-
-" Easy escape."{{{
-inoremap jj           <ESC>
-onoremap jj           <ESC>
-cnoremap jj           <C-c>
-inoremap j<Space>     j
-onoremap j<Space>     j
-cnoremap j<Space>     j
-"}}}
-
-" <CTRL> + j = Esc "{{{
-"inoremap <C-j> <Esc>
-" <CTRL> + [ = Esc
-"}}}
-
-" Movement on line "{{{
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-"}}}
-
-" Search selected area.
-vnoremap <silent> z/ <ESC>/\v%V
-vnoremap <silent> z? <ESC>?\v%V
-
-" Clear highlight
-nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
-
-" Highlight test
-if globpath(&rtp, 'autoload/unite.vim') != ''
-  nnoremap <silent> <Space>eh :<C-u>Unite color_set -cursor-line-highlight=NONE<CR>
-else
- nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
-endif
-
-" Edit setting of vimperator "{{{
-if s:iswin
-  nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
-  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
-else
-  nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
-  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
-endif " }}}
-
-" Command-line mode keymappings:"{{{
-" <C-a>, A: move to head.
-cnoremap <C-a>          <Home>
-"" <C-b>: previous char.
-cnoremap <C-b>          <Left>
-" <C-d>: delete char.
-cnoremap <C-d>          <Del>
-" <C-e>, E: move to end.
-cnoremap <C-e>          <End>
-" <C-f>: next char.
-cnoremap <C-f>          <Right>
-" <C-n>: next history.
-cnoremap <C-n>          <Down>
-" <C-p>: previous history.
-cnoremap <C-p>          <Up>
-" <C-k>, K: delete to end.
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
-" <C-y>: paste.
-cnoremap <C-y>          <C-r>*
-" <C-s>: view history.
-cnoremap <C-s>          <C-f>
-" <C-l>: view completion list.
-cnoremap <C-l>          <C-d>
-" <A-b>, W: move to previous word.
-cnoremap <A-b>          <S-Left>
-" <A-f>, B: move to next word.
-cnoremap <A-f>          <S-Right>
-cnoremap <S-TAB>        <C-p>
-" <C-g>: decide candidate.
-cnoremap <C-g>          <Space><C-h>
-" <C-t>: insert space.
-cnoremap <C-t>          <Space>
-"}}}
-
-" Auto escape / and ? in search command.
-cnoremap <expr> / getcmdtype() == '/' ? '\.' : '/'
-
-" Command line window. "{{{
-nnoremap <sid>(command-line-enter) q:
-xnoremap <sid>(command-line-enter) q:
-nnoremap <sid>(command-line-norange) q:<C-u>
-
-"noremap : q:i
-"xnoremap : q:i
-
-nmap :  <sid>(command-line-enter)
-xmap :  <sid>(command-line-enter)
-"
-autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
-function! s:init_cmdwin()  "{{{
-  nnoremap <buffer> q :<C-u>quit<CR>
-  nnoremap <buffer> <TAB> :<C-u>quit<CR>
-  nnoremap <buffer> ; :
-  xnoremap <buffer> ; :
-
-  " Neocomplcache
-  if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
-    inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
-    inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
-    inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
-    " Completion.
-    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
-  endif
-
-  " Altercmd.
-  if globpath(&rtp, 'autoload/altercmd.vim') != ''
-    call altercmd#define('<buffer>', 'grep', 'Grep', 'i')
-    call altercmd#define('<buffer>', 'uniq', 'Uniq', 'i')
-    call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
-  endif
-
-  " ambicmd
-  if globpath(&rtp, "autoload/ambicmd.vim") != ''
-    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-    inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
-  endif
-
-  startinsert!
-endfunction "}}}
-" }}}
-
-" [Space]: Other useful commands "{{{
-" Smart space mapping.
-" Notice: when starting other <Space> mappings in noremap, disappeared [Space].
-nnoremap  [Space]   <Nop>
-xnoremap  [Space]   <Nop>
-nmap  <Space>   [Space]
-xmap  <Space>   [Space]
-
-" Toggle Neocomplcache
-nnoremap <silent> <expr> [Space]cl neocomplcache#is_locked() ? "\<Esc>:<C-u>NeoComplCacheUnlock\<CR> \<Esc>:<C-u>echo 'Neocon is unlock done.'\<CR>" : "\<Esc>:<C-u>NeoComplCacheLock\<CR> \<ESC>:<C-u>echo 'Neocon is lock done.'\<CR>"
-
-" Echo syntax name.
-nnoremap [Space]sy  :<C-u>echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
-"}}}
-
-" Quickfix "{{{
-
-" nnoremap Q q
-nmap q [Quickfix]
-nnoremap [Quickfix] <Nop>
-
-" For quickfix list  "{{{
-nnoremap <silent> [Quickfix]n  :<C-u>cnext<CR>
-nnoremap <silent> [Quickfix]p  :<C-u>cprevious<CR>
-nnoremap <silent> [Quickfix]r  :<C-u>crewind<CR>
-nnoremap <silent> [Quickfix]N  :<C-u>cfirst<CR>
-nnoremap <silent> [Quickfix]P  :<C-u>clast<CR>
-nnoremap <silent> [Quickfix]fn :<C-u>cnfile<CR>
-nnoremap <silent> [Quickfix]fp :<C-u>cpfile<CR>
-nnoremap <silent> [Quickfix]l  :<C-u>clist<CR>
-nnoremap <silent> [Quickfix]q  :<C-u>cc<CR>
-nnoremap <silent> [Quickfix]o  :<C-u>copen<CR>
-nnoremap <silent> [Quickfix]c  :<C-u>cclose<CR>
-nnoremap <silent> [Quickfix]en :<C-u>cnewer<CR>
-nnoremap <silent> [Quickfix]ep :<C-u>colder<CR>
-nnoremap <silent> [Quickfix]m  :<C-u>make<CR>
-nnoremap [Quickfix]M  :<C-u>make<Space>
-nnoremap [Quickfix]g  :<C-u>grep<Space>
-" Toggle quickfix window.
-nnoremap <silent> [Quickfix]<Space> :<C-u>call <SID>toggle_quickfix_window()<CR>
-function! s:toggle_quickfix_window()
-  let _ = winnr('$')
-  cclose
-  if _ == winnr('$')
-    copen
-    setlocal nowrap
-    setlocal whichwrap=b,s
-  endif
-endfunction
-
-" For location list (mnemonic: Quickfix list for the current Window)  "{{{
-nnoremap <silent> [Quickfix]wn  :<C-u>lnext<CR>
-nnoremap <silent> [Quickfix]wp  :<C-u>lprevious<CR>
-nnoremap <silent> [Quickfix]wr  :<C-u>lrewind<CR>
-nnoremap <silent> [Quickfix]wP  :<C-u>lfirst<CR>
-nnoremap <silent> [Quickfix]wN  :<C-u>llast<CR>
-nnoremap <silent> [Quickfix]wfn :<C-u>lnfile<CR>
-nnoremap <silent> [Quickfix]wfp :<C-u>lpfile<CR>
-nnoremap <silent> [Quickfix]wl  :<C-u>llist<CR>
-nnoremap <silent> [Quickfix]wq  :<C-u>ll<CR>
-nnoremap <silent> [Quickfix]wo  :<C-u>lopen<CR>
-nnoremap <silent> [Quickfix]wc  :<C-u>lclose<CR>
-nnoremap <silent> [Quickfix]wep :<C-u>lolder<CR>
-nnoremap <silent> [Quickfix]wen :<C-u>lnewer<CR>
-nnoremap <silent> [Quickfix]wm  :<C-u>lmake<CR>
-nnoremap [Quickfix]wM  :<C-u>lmake<Space>
-nnoremap [Quickfix]w<Space>  :<C-u>lmake<Space>
-nnoremap [Quickfix]wg  :<C-u>lgrep<Space>
-"}}}
-
-"}}}
-"}}}
-
-" Change current directory.
-nnoremap <silent> [Space]cd :<C-u>CD %:h<CR>
-
-" s: Windows and buffers(High priority) "{{{
-" The prefix key.
-nnoremap    [Window]   <Nop>
-nmap    s [Window]
-nnoremap C         s
-xnoremap C         s
-nnoremap <silent> [Window]p  :<C-u>call <SID>split_nicely()<CR>
-nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
-nnoremap <silent> [Window]c  :<C-u>close<CR>
-"nnoremap <silent> -  :<C-u>close<CR>
-nnoremap <silent> [Window]o  :<C-u>only<CR>
-"nnoremap <silent> [Window]w  <C-w>w
-
-"" A .vimrc snippet that allows you to move around windows beyond tabs
-nnoremap <silent> <Tab> :call <SID>NextWindowOrTab()<CR>
-nnoremap <silent> <S-Tab> :call <SID>PreviousWindowOrTab()<CR>
-nnoremap <silent> [Space]<Space> <C-w>p
-
-function! s:NextWindowOrTab()
-  if tabpagenr('$') == 1 && winnr('$') == 1
-    call s:split_nicely()
-  elseif winnr() < winnr("$")
-    wincmd w
-  else
-    tabnext
-    1wincmd w
-  endif
-endfunction
-
-function! s:PreviousWindowOrTab()
-  if winnr() > 1
-    wincmd W
-  else
-    tabprevious
-    execute winnr("$") . "wincmd w"
-  endif
-endfunction
-
-nnoremap <silent> [Window]<Space>  :<C-u>call <SID>ToggleSplit()<CR>
-function! s:MovePreviousWindow() " "{{{
-  let l:prev_name = winnr()
-  silent! wincmd p
-  if l:prev_name == winnr()
-    silent! wincmd w
-  endif
-endfunction " }}}
-" If window isn't splited, split buffer. "{{{
-function! s:ToggleSplit()
-  let l:prev_name = winnr()
-  silent! wincmd w
-  if l:prev_name == winnr()
-    split
-  else
-    close
-  endif
-endfunction " }}}
-" Split nicely."{{{
-"command! SplitNicely call s:split_nicely()
-function! s:split_nicely()
-  " Split nicely.
-  if winwidth(0) > 2 * &winwidth
-    vsplit
-  else
-    split
-  endif
-  wincmd p
-endfunction
-"}}}
-" Delete current buffer."{{{
-nnoremap <silent> [Window]d  :<C-u>call <SID>CustomBufferDelete(0)<CR>
-nnoremap <silent> _  :<C-u>call <SID>CustomBufferDelete(0)<CR>
-function! s:CustomBufferDelete(is_force)
-  let current = bufnr('%')
-
-  call s:CustomAlternateBuffer()
-
-  if a:is_force
-    silent! execute 'bdelete! ' . current
-  else
-    silent! execute 'bdelete ' . current
-  endif
-endfunction
-"}}}
-" Delete input buffer."{{{
-nnoremap <silent> [Window]D  :<C-u>call <SID>InputBufferDelete(0)<CR>
-function! s:InputBufferDelete(is_force)
-  call s:ViewBufferList()
-
-  " Create list.
-  let [l:cnt, l:pos, l:list] = [0, 1, {}]
-  while l:pos <= bufnr('$')
-    if buflisted(l:pos)
-      let l:list[l:cnt] = l:pos
-      let l:cnt += 1
-    endif
-    let l:pos += 1
-  endwhile
-
-  let l:input = input('Select delete buffer: ', '')
-  if l:input == ''
-    " Cancel.
-    return
-  endif
-
-  for l:in in split(l:input)
-    if !has_key(l:list, l:in) || !bufexists(l:list[l:in])
-      echo "\nDon't exists buffer " . l:in
-      continue
-    endif
-
-    if l:in == bufnr('%') || l:in == bufname('%')
-      call s:CustomAlternateBuffer()
-    endif
-
-    echo bufnr(l:list[l:in])
-    if a:is_force
-      silent! execute 'bdelete! ' . l:list[l:in]
-    else
-      silent! execute 'bdelete ' . l:list[l:in]
-    endif
-  endfor
-endfunction
-"}}}
-" Force delete current buffer.
-nnoremap <silent> [Window]fq  :<C-u>call <SID>CustomBufferDelete(1)<CR>
-nnoremap <silent> [Window]fQ  :<C-u>call <SID>InputBufferDelete(1)<CR>
-" Delete current buffer and close current window.
-nnoremap <silent> [Window]d  :<C-u>call <SID>CustomBufferDelete(0)<CR>:if winnr() != 1 <Bar> close<CR>:endif<CR>
-nnoremap <silent> [Window]fd  :<C-u>call <SID>CustomBufferDelete(1)<CR>:<C-u>close<CR>
-" Buffer move.
-" Fast buffer switch."{{{
-function! s:CustomAlternateBuffer()
-  if bufnr('%') != bufnr('#') && buflisted(bufnr('#'))
-    buffer #
-  else
-    let l:cnt = 0
-    let l:pos = 1
-    let l:current = 0
-    while l:pos <= bufnr('$')
-      if buflisted(l:pos)
-        if l:pos == bufnr('%')
-          let l:current = l:cnt
-        endif
-
-        let l:cnt += 1
-      endif
-
-      let l:pos += 1
-    endwhile
-
-    if l:current > l:cnt / 2
-      bprevious
-    else
-      bnext
-    endif
-  endif
-endfunction
-"}}}
-"nnoremap <silent> [Window]q  :<C-u>call <SID>CustomBufferDelete(0)<CR>
-" Edit"{{{
-nnoremap [Window]b  :<C-u>edit<Space>
-nnoremap <silent> [Window]en  :<C-u>new<CR>
-nnoremap <silent> [Window]ee  :<C-u>JunkFile<CR>
-" nnoremap [Window]r  :<C-u>REdit<Space>
-"}}}
-if globpath(&rtp, 'autoload/unite.vim') != ''
-  " View buffer list.
-  nnoremap <silent> [Window]l  :<C-u>Unite buffer<CR>
-  " View tab list.
-  nnoremap <silent> [Window]t  :<C-u>Unite tab<CR>
-endif
-
-" Scroll other window.
-nnoremap <silent> <C-y> :<C-u>call <SID>ScrollOtherWindow(1)<CR>
-inoremap <silent> <A-y> <C-o>:<C-u>call <SID>ScrollOtherWindow(1)<CR>
-nnoremap <silent> <C-u> :<C-u>call <SID>ScrollOtherWindow(0)<CR>
-inoremap <silent> <A-u> <C-o>:<C-u>call <SID>ScrollOtherWindow(0)<CR>
-
-function! s:ScrollOtherWindow(direction)
-  execute 'wincmd' (winnr('#') == 0 ? 'w' : 'p')
-  execute (a:direction ? "normal! \<C-d>" : "normal! \<C-u>")
-  wincmd p
-endfunction
-"}}}
-
-" <C-t>: Tab pages"{{{
-"
-" The prefix key.
-nnoremap [Tabbed]   <Nop>
-nmap <C-t> [Tabbed]
-
-" Create tab page.
-nnoremap <silent> [Tabbed]c  :<C-u>tabnew<CR>
-nnoremap <silent> [Tabbed]d  :<C-u>tabclose<CR>
-nnoremap <silent> [Tabbed]o  :<C-u>tabonly<CR>
-nnoremap <silent> [Tabbed]i  :<C-u>tabs<CR>
-nmap [Tabbed]<C-n>  [Tabbed]n
-nmap [Tabbed]<C-c>  [Tabbed]c
-nmap [Tabbed]<C-o>  [Tabbed]o
-nmap [Tabbed]<C-i>  [Tabbed]i
-" Move to other tab page.
-nnoremap <silent> [Tabbed]j
-      \ :execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
-nnoremap <silent> [Window]j
-      \ :execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
-nnoremap <silent> [Tabbed]k  :<C-u>tabprevious<CR>
-nnoremap <silent> [Window]k  :<C-u>tabprevious<CR>
-nnoremap <silent> [Tabbed]K  :<C-u>tabfirst<CR>
-nnoremap <silent> [Window][  :<C-u>tabfirst<CR>
-nnoremap <silent> [Tabbed]J  :<C-u>tablast<CR>
-nnoremap <silent> [Window]]  :<C-u>tablast<CR>
-nnoremap <silent> [Tabbed]l
-      \ :<C-u>execute 'tabmove' min([tabpagenr() + v:count1 - 1, tabpagenr('$')])<CR>
-nnoremap <silent> [Tabbed]h
-      \ :<C-u>execute 'tabmove' max([tabpagenr() - v:count1 - 1, 0])<CR>
-nnoremap <silent> [Tabbed]L  :<C-u>tabmove<CR>
-nnoremap <silent> [Tabbed]H  :<C-u>tabmove 0<CR>
-nmap [Tabbed]n  [Tabbed]j
-nmap [Tabbed]p  [Tabbed]k
-nmap [Tabbed]<C-t>  [Tabbed]j
-nmap [Tabbed]<C-l>  [Tabbed]l
-nmap [Tabbed]<C-h>  [Tabbed]h
-
-" Change current tab like GNU screen.
-" Note that the numbers in {lhs}s are 0-origin.  See also 'tabline'.
-for i in range(10)
-  execute 'nnoremap <silent>' ('[Tabbed]'.(i))  ((i+1).'gt')
-  execute 'nnoremap <silent>' ('[Window]'.(i))  ((i+1).'gt')
-endfor
-unlet i
-"}}}
-
-" Switch the tab page
-nnoremap <silent> <C-n> :<C-u>tabnext<CR>
-nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
-
-" Move search word and fold open."{{{
-nnoremap n  nzz
-nnoremap N  Nzz
-nnoremap #  #zz
-nnoremap g*  g*zz
-nnoremap g#  g#zz
-"}}}
-
-" Smart <C-f>, <C-b>.
-nnoremap <silent> <C-f> z<CR><C-f>zz
-nnoremap <silent> <C-b> z-<C-b>zz
-
-" Execute help."{{{
-"nnoremap <C-h>  :<C-u>help<Space>
-"" Execute help by cursor keyword.
-"nnoremap <silent> g<C-h>  :<C-u>help<Space><C-r><C-w><CR>
-"}}}
-
-" Nop "{{{
-" Disable ZZ. and more "{{{
-nnoremap [Nop]  <Nop>
-nmap ZZ [Nop]
-nmap ZQ [Nop]
-nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
-" Todo: [Nop]l -> Display info
-nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
-
-nnoremap [Zop] <Nop>
-nmap <C-Z> [Zop]
-nnoremap [Zop]l :<C-U>echo "colorscheme <" . g:colors_name . ">"<CR>
-
-" Enter
-nnoremap [Enter] <Nop>
-nmap <CR> [Enter]
-
-" Ctrl-c
-nnoremap [C-c] <Nop>
-nmap <C-c> [C-c]
-" }}}
-"}}}
-
-" Redraw.
-nnoremap <silent> <C-l>    :<C-u>redraw!<CR>
-
-" Sticky shift in English keyboard."{{{
-" Sticky key.
-inoremap <expr> ;  <SID>sticky_func()
-cnoremap <expr> ;  <SID>sticky_func()
-snoremap <expr> ;  <SID>sticky_func()
-
-function! s:sticky_func() "{{{
-  let l:sticky_table = {
-        \',' : '<', '.' : '>', '/' : '?',
-        \'1' : '!', '2' : '"', '3' : '#', '4' : '$', '5' : '%',
-        \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
-        \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
-        \}
-  let l:special_table = {
-        \"\<ESC>" : "\<ESC>", "\<Space>" : ';', "\<CR>" : ";\<CR>"
-        \}
-
-  if mode() !~# '^c'
-    echo 'Input sticky key: '
-  endif
-  let l:char = ''
-
-  while l:char == ''
-    let l:char = nr2char(getchar())
-  endwhile
-
-  if l:char =~ '\l'
-    return toupper(l:char)
-  elseif has_key(l:sticky_table, l:char)
-    return l:sticky_table[l:char]
-  elseif has_key(l:special_table, l:char)
-    return l:special_table[l:char]
-  else
-    return ''
-  endif
-endfunction "}}}
-"}}}
-
-" Easy home directory."{{{
-function! HomedirOrBackslash()
-  if getcmdtype() == ':' && (getcmdline() =~# '^e\%[dit] ' || getcmdline() =~? '^r\%[ead]\?!' || getcmdline() =~? '^cd ')
-    return '~/'
-  else
-    return '\'
-  endif
-endfunction
-cnoremap <expr> <Bslash> HomedirOrBackslash()
-"}}}
-
-" use original q for macro, history search
-nnoremap <C-q> q
-
-" repeat command
-nnoremap c. q:<ESC>k<CR>
 "}}}
 
 "---------------------------------------------------------------------------
@@ -3145,7 +1472,7 @@ cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageC
 " #- Verbose -# "{{{
 "set verbose=15
 " Make recoding directory "{{{
-let s:verbosedir = g:vim_info_dir . '/others/.verbose'
+let s:verbosedir = g:vim_info_dir . '/.verbose'
 if !isdirectory(s:verbosedir)
   call mkdir(s:verbosedir, 'p')
 endif
@@ -3167,13 +1494,1726 @@ set viminfo='50,h,f1,n$INFO/.viminfo
 " Don't make viminfo
 "set viminfo=
 " }}}
+
+"}}}
+
+"---------------------------------------------------------------------------
+" Plugin:"{{{
+"
+
+" #- vimshell.vim -# "{{{
+if s:invateinthepath('autoload/vimshell.vim')
+  " Set recoding directory and initalize file "{{{
+  let s:shell_temp_dir = g:vim_info_dir . '/.vimshell'
+  if !isdirectory(s:shell_temp_dir)
+    call mkdir(s:shell_temp_dir, 'p')
+  endif
+  let g:vimshell_temporary_directory = s:shell_temp_dir " }}}
+  " let g:vimshell_vimshrc_path = s:shell_temp_dir .  '/.vimshrc'
+  let g:vimshell_vimshrc_path =  expand('~/.vimshrc')
+  unlet s:shell_temp_dir
+
+  "
+  let g:vimshell_enable_smart_case = 1
+  let g:vimshell_ignore_case = 1
+  let g:vimshell_environment_term = 'xterm'
+
+  " Platform detection
+  if s:iswin
+    " Windows "{{{
+    " User name @ host name [ working directory]
+    let g:vimshell_user_prompt=' $USERNAME . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
+    " Display user name on Windows.
+    " let g:vimshell_prompt = $USERNAME . "@" . hostname() . " $ "
+    let g:vimshell_prompt = $USERNAME . " $ "
+    " Use ckw.
+    let g:vimshell_use_ckw = 1
+    let g:vimshell_use_terminal_command = 'ckw -e' "}}}
+  else
+    " linux, mac "{{{
+    " User name @ host name [ working directory]
+    let g:vimshell_user_prompt=' $USER . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
+    " Display user name on Linux.
+    " let g:vimshell_prompt = $USER . "@" . hostname() . " $ "
+    let g:vimshell_prompt = $USER . " $ "
+    " Use normal shell history.
+    "let g:vimshell_external_history_path = expand('~/.zsh-history')
+    let g:vimshell_external_history_path = expand('~/.bash-history')
+    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
+    " Prefix "{{{
+    call vimshell#set_execute_file('gif,jpg,png', 'gexe viewnior')
+    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe gxine')
+    call vimshell#set_execute_file('mp3,wma,m4a', 'gexe aqualung') "}}}
+    let g:vimshell_execute_file_list['zip'] = 'zipinfo'
+    call vimshell#set_execute_file('tgz,gz', 'gzcat')
+    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
+    " }}}
+  endif
+
+  if globpath(&rtp, 'autoload/vcs.vim') != ''
+    let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+  else
+    let g:vimshell_right_prompt = '[%{mode()}]'
+  endif
+
+  " Initialize execute file list.
+  let g:vimshell_execute_file_list = {}
+  let g:vimshell_execute_file_list['pl'] = 'perl'
+  let g:vimshell_execute_file_list['py'] = 'python'
+  call vimshell#set_execute_file('txt,jax,vim,c,h,cpp,d,xml,java', 'vim')
+  if s:iswin
+    call vimshell#set_execute_file('l', 'gexe xyzzyclient')
+    call vimshell#set_execute_file('xyzzy', 'gexe xyzzyclient')
+    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe vlc.exe')
+  else
+    "let g:vimshell_execute_file_list['rb'] = 'ruby'
+    call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
+    call vimshell#set_execute_file('gif,jpg,JPG,png,PNG', 'gexe viewnior')
+  endif
+
+  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
+  function! s:vimshell_settings() "{{{
+    "imap <buffer><silent> &  <C-o>:call vimshell#mappings#push_and_execute('cd ..')<CR>
+    "nnoremap <buffer> T  Ga
+    "nmap <buffer> R   Gah<CR>
+    "call vimshell#altercmd#define('g', 'git')
+    call vimshell#altercmd#define('i', 'iexe')
+    call vimshell#altercmd#define('t', 'texe')
+    call vimshell#set_alias('sl', 'ls')
+    call vimshell#set_alias('l.', 'ls -d .*')
+    call vimshell#set_galias('ll', 'ls -l')
+    call vimshell#set_galias('df', 'df -h')
+    call vimshell#set_galias('du', 'du -h')
+    call vimshell#hook#set('chpwd', [s:SID_PREFIX().'my_chpwd'])
+    call vimshell#hook#set('emptycmd', [s:SID_PREFIX().'my_emptycmd'])
+    call vimshell#hook#set('preexec', [s:SID_PREFIX().'my_preexec'])
+    call vimshell#hook#set('preprompt', [s:SID_PREFIX().'my_preprompt'])
+    "Like old style history
+    inoremap <C-l> :<C-u>Unite -default-action=insert vimshell/history<CR>
+    "call s:init_vimshell_normal()
+  endfunction "}}}
+  " preexe "{{{
+  function! s:my_chpwd(args, context) "{{{
+    call vimshell#execute('ls -a')
+  endfunction "}}}
+  function! s:my_emptycmd(cmdline, context) "{{{
+    call vimshell#set_prompt_command('ls')
+    return 'ls'
+  endfunction "}}}
+  function! s:my_preprompt(args, context) "{{{
+    call vimshell#execute('echo "preprompt"')
+  endfunction "}}}
+  function! s:my_preexec(cmdline, context) "{{{
+    call vimshell#execute('echo "preexec"')
+
+    if a:cmdline =~# '^\s*diff\>'
+      call vimshell#set_syntax('diff')
+    endif
+    return a:cmdline
+  endfunction "}}}
+  "}}}
+  " Like old style vimshell history "{{{
+  "augroup vimrc-plugin-vimshell "{{{
+  "  autocmd!
+  "  autocmd FileType int-* call s:init_vimshell_int()
+  "augroup END "}}}
+  function! s:init_vimshell_int() "{{{
+    inoremap <buffer> <silent> <C-y> <C-r>=<SID>vimshell_complete_history()<CR><C-p>
+  endfunction "}}}
+  function! s:init_vimshell_normal() "{{{
+    inoremap <buffer> <silent> <C-y> <C-r>=<SID>complete_history()<CR><C-p>
+  endfunction "}}}
+  function! s:complete_history() "{{{
+    call complete(len(vimshell#get_prompt()) + 1, g:vimshell#hist_buffer)
+    return ''
+  endfunction "}}}
+  function! s:vimshell_complete_history() "{{{
+    call complete(len(vimshell#get_prompt()) + 1, b:interactive.command_history)
+    return ''
+  endfunction "}}}
+  "let s:context  = unite#get_context()
+  "if s:context.buffer_name  ==# 'completion'
+  "  inoremap <buffer> <expr> <C-Y> unite#do_action('insert')
+  "endif
+  "}}}
+
+  autocmd MyAutoCmd FileType int-* call s:interactive_settings()
+  function! s:interactive_settings() "{{{
+  endfunction "}}}
+
+  autocmd MyAutoCmd FileType term-* call s:terminal_settings()
+  function! s:terminal_settings() "{{{
+    inoremap <silent><buffer><expr> <Plug>(vimshell_term_send_semicolon) vimshell#term_mappings#send_key(';')
+    inoremap <silent><buffer><expr> j<Space> vimshell#term_mappings#send_key('j')
+    "inoremap <silent><buffer><expr> <Up> vimshell#term_mappings#send_keys("\<ESC>[A")
+
+    " Sticky key.
+    imap <buffer><expr> ;  <SID>texe_sticky_func()
+
+    " Escape key.
+    iunmap <buffer><ESC> <ESC>
+    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
+  endfunction
+  function! s:texe_sticky_func()
+    let l:sticky_table = {
+          \',' : '<', '.' : '>', '/' : '?',
+          \'1' : '!', '2' : '@', '3' : '#', '4' : '$', '5' : '%',
+          \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
+          \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
+          \}
+    let l:special_table = {
+          \"\<ESC>" : "\<ESC>", "\<Space>" : "\<Plug>(vimshell_term_send_semicolon)", "\<CR>" : ";\<CR>"
+          \}
+
+    if mode() !~# '^c'
+      echo 'Input sticky key: '
+    endif
+    let l:char = ''
+
+    while l:char == ''
+      let l:char = nr2char(getchar())
+    endwhile
+
+    if l:char =~ '\l'
+      return toupper(l:char)
+    elseif has_key(l:sticky_table, l:char)
+      return l:sticky_table[l:char]
+    elseif has_key(l:special_table, l:char)
+      return l:special_table[l:char]
+    else
+      return ''
+    endif
+  endfunction "}}}
+
+  " Keymap "{{{
+  nnoremap <silent> [Space]: :<C-u>VimShellTab<CR>
+  nnoremap <silent> [Space]; :<C-u>VimShellCreate<CR>
+  nnoremap <silent> [Space]l :<C-u>VimShellPop<CR>
+  nnoremap [Space]i  :<C-u>VimShellInteractive<Space>
+  nnoremap [Space]t  :<C-u>VimShellTerminal<Space>
+  "}}}
+
+endif
+" }}}
+
+" #- unite.vim -# "{{{
+if s:invateinthepath('autoload/unite.vim')
+  " Set of unite directory "{{{
+  let s:unite_dir = g:vim_info_dir . '/.unite'
+  if !isdirectory(s:unite_dir)
+    call mkdir(s:unite_dir, 'p')
+  endif
+  let g:unite_data_directory = s:unite_dir
+  let g:unite_source_bookmark_directory = g:unite_data_directory . '/bookmark'
+  unlet s:unite_dir " }}}
+  " The prefix key. "{{{
+  nnoremap    [unite]   <Nop>
+  xnoremap    [unite]   <Nop>
+  nmap    t [unite]
+  xmap    t [unite]
+  " }}}
+  " Keymap for Source "{{{
+  nnoremap [unite]u  :<C-u>Unite<Space>
+  "nnoremap <silent> ;  :<C-u>Unite history/command command<CR>
+  nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+  nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+  nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+  nnoremap  [unite]f  :<C-u>Unite source<CR>
+  nnoremap <silent> [unite]t  :<C-u>UniteWithCursorWord -buffer-name=tag tag<CR>
+  xnoremap <silent> [unite]r  d:<C-u>Unite -buffer-name=register register<CR>
+  nnoremap <silent> [unite]w  :<C-u>UniteWithCursorWord -buffer-name=register buffer file_mru bookmark file<CR>
+  nnoremap <silent> [unite]h  :<C-u>Unite history/command<CR>
+  nnoremap <silent> [unite]q  :<C-u>Unite qflist -no-quit<CR>
+  nnoremap <silent> [unite]g  :<C-u>Unite grep -no-quit<CR>
+  nnoremap <silent> [unite]j  :<C-u>Unite poslist<CR>
+  nnoremap <silent> [unite]ma  :<C-u>Unite mapping<CR>
+  nnoremap <silent> [unite]me  :<C-u>Unite output:message<CR>
+  inoremap <silent> <C-z>  <C-o>:call unite#start(['register'], {'is_insert' : 1})<CR>
+
+  nnoremap <silent> [Window]s  :<C-u>Unite -buffer-name=files buffer_tab file_rec file file_mru<CR>
+  " nnoremap <silent> [Window]s  :<C-u>Unite -buffer-name=files buffer_tab file file_mru file<CR>
+  nnoremap <silent> [Window]t  :<C-u>Unite -buffer-name=files tab<CR>
+  nnoremap <silent> [Window]w  :<C-u>Unite window<CR>
+  nnoremap [Window]r  :<C-u>UniteResume<Space>
+  nnoremap <silent> [Space]b  :<C-u>UniteBookmarkAdd<CR>
+
+  " Execute help.
+  " nnoremap <C-h>  :<C-u>help<Space>
+  nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
+  " Execute help by cursor keyword.
+  " nnoremap <silent> g<C-h>  :<C-u>help<Space><C-r><C-w><CR>
+  nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>
+
+  " ColorScheme (Unite Beautiful Attack)
+  nnoremap <silent> [unite]c :<C-u>Unite -auto-preview colorscheme<CR>
+  " Font selecter
+  nnoremap <silent> [unite]l :<C-u>Unite -auto-preview font
+  " Bookmark
+  nnoremap <silent> [unite]t :<C-u>Unite bookmark<CR>
+  " buffer_tab
+  nnoremap <silent> [Window]i :<C-u>Unite buffer_tab -buffer-name=buffer_tab -prompt=$$<CR>
+  " file_mru
+  nnoremap <silent> [Window]; :<C-u>UniteWithBufferDir file_mru -buffer-name=files -prompt=$$ <CR>
+  " }}}
+
+  let g:unite_enable_split_vertically = 1
+
+  let g:unite_winheight = 20
+  let g:unite_winwidth = 75
+
+  autocmd MyAutoCmd FileType unite call s:unite_my_settings()
+
+  call unite#set_substitute_pattern('files', '^\~', substitute($HOME, '\\', '/', 'g'))
+  " Directory partial match.
+  " call unite#set_substitute_pattern('files', '\%([~.*]\+\)\@<!/', '*/*', 100)
+  " call unite#set_substitute_pattern('files', '^\\', substitute(substitute($HOME, '\\', '/', 'g'), ' ', '\\ ', 'g') . '/*', -100)
+  " Test.
+  call unite#set_substitute_pattern('files', '^\.v/', unite#util#substitute_path_separator($HOME).'/.vim/', 1000)
+  call unite#custom_alias('file', 'h', 'left')
+
+  " Custom actions."{{{
+  " tab open "{{{
+  let my_tabopen = {
+        \ 'description' : 'my tabopen items',
+        \ 'is_selectable' : 1,
+        \ }
+  function! my_tabopen.func(candidates)"{{{
+    call unite#take_action('tabopen', a:candidates)
+
+    let l:dir = isdirectory(a:candidates[0].word) ? a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
+    " execute g:unite_lcd_command '`=l:dir`'
+  endfunction"}}}
+  call unite#custom_action('file,buffer', 'tabopen', my_tabopen)
+  unlet my_tabopen"}}}
+  " replace "{{{
+  let my_replace = {
+        \ 'description' : 'replace quickfix',
+        \ 'is_selectable' : 1,
+        \ }
+  function! my_replace.func(candidates)"{{{
+    let l:qflist = []
+    for candidate in a:candidates
+      if bufnr(candidate.action__path) >= 0
+        call add(l:qflist, {
+              \ 'filename' : candidate.action__path,
+              \ 'lnum' : candidate.action__line,
+              \ 'text' : candidate.source__pattern,
+              \ })
+      endif
+    endfor
+
+    call setqflist(l:qflist)
+    call qfreplace#start('')
+  endfunction"}}}
+  "}}}
+  call unite#custom_action('source/grep/jump_list', 'replace', my_replace)
+  unlet my_replace
+  "}}}
+
+  " Custom filters."{{{
+  " call unite#custom_filters('file,buffer', ['sorter_default', 'converter_default'])
+  "}}}
+
+  let g:unite_enable_start_insert = 0
+
+  function! s:unite_my_settings() "{{{
+    " Overwrite settings.
+    imap <buffer>  jj      <Plug>(unite_insert_leave)
+    imap <buffer> <TAB>   <Plug>(unite_choose_action)
+    "imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> '     <Plug>(unite_quick_match_default_action)
+    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+    imap <buffer> <C-g>     <Plug>(unite_input_directory)
+    nmap <buffer><expr> r     unite#do_action('replace')
+    nmap <buffer> q     <Plug>(unite_exit)
+
+    " <C-l>: manual neocomplcache completion.
+    inoremap <buffer><C-l>  <C-x><C-u><C-p><Down>
+    inoremap <buffer><expr> [  pumvisible() ? "\<C-y>" : "\<C-x>\<C-u>\<C-p>\<Down>"
+  endfunction"}}}
+
+  let g:unite_source_line_enable_highlight = 1
+  let g:unite_source_line_search_word_highlight = 'PmenuSel'
+
+  let g:unite_cursor_line_highlight = 'TabLineSel'
+  let g:unite_abbr_highlight = 'Pmenu'
+
+  " let g:unite_source_file_mru_time_format = ''
+  let g:unite_source_file_mru_filename_format = ''
+  let g:unite_source_file_mru_limit = 300
+  let g:unite_source_directory_mru_time_format = ''
+  let g:unite_source_directory_mru_limit = 200
+  " grep
+  let g:unite_source_grep_command = 'grep'
+  let g:unite_source_grep_recursive_opt = '-r'
+  let g:unite_source_grep_default_opts = '-Hn -i'
+  " history/yank
+  let g:unite_source_history_yank_enable = 1
+  let g:unite_source_history_yank_limit = 1000
+  let g:unite_source_history_yank_file = g:unite_data_directory . '/history_yank'
+  " quick match table
+  let g:unite_quick_match_table = {
+        \'a' : 1, 's' : 2, 'd' : 3, 'f' : 4, 'g' : 5, 'h' : 6, 'k' : 7, 'l' : 8, ';' : 9,
+        \'q' : 10, 'w' : 11, 'e' : 12, 'r' : 13, 't' : 14, 'y' : 15, 'u' : 16, 'i' : 17, 'o' : 18, 'p' : 19,
+        \'1' : 20, '2' : 21, '3' : 22, '4' : 23, '5' : 24, '6' : 25, '7' : 26, '8' : 27, '9' : 28, '0' : 29,
+        \}
+
+  " call unite#custom_default_action('directory', 'cd')
+endif
+"}}}
+
+" #- quickrun.vim -# "{{{
+if s:invateinthepath('autoload/quickrun.vim')
+  function! s:init_quickrun()
+    for [key, com] in items({
+          \   '<Leader>x' : '<=@i >:',
+          \   '<Leader>p' : '<=@i >!',
+          \   '<Leader>"' : '<=@i >=@"',
+          \   '<Leader>w' : '<=@i >',
+          \   '<Leader>q' : '<=@i >>',
+          \   '<Leader>vx' : '-eval 1 <=@i >:',
+          \   '<Leader>vp' : '-eval 1 <=@i >!',
+          \   '<Leader>v"' : '-eval 1 <=@i >=@"',
+          \   '<Leader>vw' : '-eval 1 <=@i >',
+          \   '<Leader>vq' : '-eval 1 <=@i >>',
+          \ })
+      execute 'nnoremap <silent>' key ':QuickRun' com '-mode n<CR>'
+      execute 'vnoremap <silent>' key ':QuickRun' com '-mode v<CR>'
+    endfor
+
+    call s:set_default('g:QuickRunConfig', {'mkd': {'command': 'mdv2html'}})
+    call s:set_default('g:QuickRunConfig', {'xmodmap': {}})
+  endfunction
+  call s:init_quickrun()
+  nmap <silent> [Space]r <Plug>(quickrun-op)
+
+  "if !exists('g:quickrun_config')
+  "  " Enable async.
+  "  let g:quickrun_config = {
+  "        \   '*': {'runmode': 'async:vimproc'},
+  "        \ }
+  "
+  "  if s:iswin
+  "    function! TexEncoding()
+  "      if &fileencoding ==# 'utf-8'
+  "        let l:arg = 'utf8 '
+  "      elseif &fileencoding =~# '^euc-\%(jp\|jisx0213\)$'
+  "        let l:arg = 'euc '
+  "      elseif &fileencoding =~# '^iso-2022-jp'
+  "        let l:arg = 'jis '
+  "      else " cp932
+  "        let l:arg = 'sjis '
+  "      endif
+  "
+  "      return l:arg
+  "    endfunction
+  "    let tex = 'platex -kanji={TexEncoding()}'
+  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi'] }
+  "  else
+  "    let tex = 'platex'
+  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi', 'open %s:r.pdf'] }
+  "  endif
+  "  unlet tex
+  "
+  "  let g:quickrun_config.vim = {}
+  "endif
+endif
+"}}}
+
+" #- vimfiler.vim -# "{{{
+if s:invateinthepath('autoload/vimfiler.vim')
+  " Make directory "{{{
+  let s:vimfiler_dir = g:vim_info_dir . '/.vimfiler'
+  if !isdirectory(s:vimfiler_dir)
+    call mkdir(s:vimfiler_dir, 'p')
+  endif
+  let g:vimfiler_data_directory = s:vimfiler_dir
+  unlet s:vimfiler_dir "}}}
+  " Key-mapping "{{{
+  nnoremap <silent>[Space]v :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
+  nnoremap [Space]fo  :<C-u>VimFilerTab<CR>
+  nnoremap [Space]ff  :<C-u>VimFilerBufferDir<CR>
+  nnoremap [Space]si  :<C-u>VimFilerSimple<CR>
+  " File explorer like behavior.
+  nnoremap  <silent> [Space]h   :<C-u>execute 'VimFiler -buffer-name=explore -split -simple -winwidth=35 -toggle ' fnamemodify(bufname('%'), ':p:h')<CR>
+  " }}}
+  " suffix "{{{
+  call vimfiler#set_execute_file('vim', 'vim')
+  call vimfiler#set_execute_file('txt', 'vim')
+  if s:iswin
+    call vimfiler#set_execute_file('l', 'xyzzyclient')
+    call vimfiler#set_execute_file('xyzzy', 'xyzzyclient')
+    call vimfiler#set_execute_file('3GP,mp4,mkv', 'kmplayer')
+  else
+    call vimfiler#set_execute_file('gif,jpg,JPG,png,PNG', 'viewnior')
+    call vimfiler#set_execute_file('3GP,mp4,mkv', 'gxine')
+    call vimfiler#set_execute_file('mp3,wma,m4a', 'aqualung')
+  endif
+  " }}}
+
+  let g:vimfiler_split_command = 'VertSplit'
+  let g:vimfiler_edit_command = 'tabedit'
+  let g:vimfiler_pedit_command = 'vnew'
+
+  let g:vimfiler_enable_clipboard = 1
+  let g:vimfiler_safe_mode_by_default = 0
+  let g:vimfiler_cd_command = 'TabpageCD'
+
+  " Define filer command "{{{
+  if s:iswin
+    " Windows default. "{{{
+    let g:vimfiler_external_delete_command = 'system rmdir /Q /S $srcs'
+    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
+    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
+    let g:vimfiler_external_copy_directory_command = 'xcopy /s $srcs $dest'
+    let g:vimfiler_external_move_command = 'system move /Y $srcs $dest'
+    " }}}
+  else
+    " Linux default. "{{{
+    let g:vimfiler_external_copy_directory_command = 'cp -r $src $dest'
+    let g:vimfiler_external_copy_file_command = 'cp $src $dest'
+    let g:vimfiler_external_delete_command = 'rm -r $srcs'
+    let g:vimfiler_external_move_command = 'mv $srcs $dest'
+    " }}}
+  endif "}}}
+
+  let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_detect_drives = s:iswin ? [
+        \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
+        \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/', 'Z:/'] :
+        \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
+        \ split(glob('/Users/*'), '\n')
+
+  " Set vimfiler use trash_box "{{{
+  let s:filer_trash_dir = g:vim_info_dir . '/others/.trash_box'
+  if !isdirectory(s:filer_trash_dir)
+    call mkdir(s:filer_trash_dir, 'p')
+  endif
+  let g:vimfiler_trashbox_directory = s:filer_trash_dir
+  unlet s:filer_trash_dir
+
+  if s:iswin && globpath(&rtp, 'autoload/vimproc.vim') != ''
+    let g:unite_kind_file_use_trashbox = 1
+  endif "}}}
+
+  " icons
+  let g:vimfiler_tree_leaf_icon = ' |-- '
+  let g:vimfiler_tree_opened_icon = '[-]'
+  let g:vimfiler_tree_closed_icon = '[ ]'
+  let g:vimfiler_file_icon = ' - '
+  let g:vimfiler_marked_file_icon = ' * '
+
+  autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
+  function! s:vimfiler_my_settings() "{{{
+    " Override vimfiler's setting
+    " Key-mappings "{{{
+    nunmap <buffer>t
+    nunmap <buffer>a
+    nunmap <buffer>O
+    nunmap <buffer><TAB>
+    nmap <buffer><TAB> <Plug>(vimfiler_choose_action)
+    " like an operatortion that vim folding
+    nmap <buffer>za <Plug>(vimfiler_expand_tree)
+    nmap <buffer>O <Plug>(vimfiler_sync_with_another_vimfiler)
+    "}}}
+
+  endfunction "}}}
+endif
+"}}}
+
+" #- surround.vim -# "{{{
+if s:invateinthepath('plugin/surround.vim')
+  " Setting of surround for kana
+  runtime! plugin/surround.vim
+
+    if exists('g:loaded_surround') && exists('*SurroundRegister')
+      call SurroundRegister('g', '&', "&lt;\r&gt;")
+      call SurroundRegister('g', 'C', "<![CDATA[\r]]>")
+
+      call SurroundRegister('g', 'jb', "（\r）")
+      call SurroundRegister('g', 'jB', "｛\r｝")
+      call SurroundRegister('g', 'jr', "［\r］")
+      call SurroundRegister('g', 'jk', "「\r」")
+      call SurroundRegister('g', 'jK', "『\r』")
+      call SurroundRegister('g', 'ja', "＜\r＞")
+      call SurroundRegister('g', 'jA', "≪\r≫")
+      call SurroundRegister('g', 'jy', "〈\r〉")
+      call SurroundRegister('g', 'jY', "《\r》")
+      call SurroundRegister('g', 'jt', "〔\r〕")
+      call SurroundRegister('g', 'js', "【\r】")
+    endif
+
+  let g:surround_no_mappings = 1
+  autocmd MyAutoCmd FileType * call s:define_surround_keymappings()
+
+  function! s:define_surround_keymappings()
+    if !&modifiable
+      return
+    endif
+
+    nmap <buffer> ds   <Plug>Dsurround
+    nmap <buffer> cs   <Plug>Csurround
+    nmap <buffer> ys   <Plug>Ysurround
+    nmap <buffer> yS   <Plug>YSurround
+    nmap <buffer> yss  <Plug>Yssurround
+    nmap <buffer> ySs  <Plug>YSsurround
+    nmap <buffer> ySS  <Plug>YSsurround
+  endfunction
+endif
+"}}}
+
+" #- echodoc.vim -# "{{{
+if s:invateinthepath('autoload/echodoc.vim')
+  let g:echodoc_enable_at_startup = 1
+endif
+" }}}
+
+" #- ref.vim -# "{{{
+if s:invateinthepath('autoload/ref.vim')
+  " Make cache directory "{{{
+  let s:ref_dir =  g:vim_info_dir . '/.ref/.vim_ref_cache'
+  if !isdirectory(s:ref_dir)
+    call mkdir(s:ref_dir, 'p')
+  endif
+  let g:ref_cache_dir = s:ref_dir " }}}
+  autocmd FileType ref call s:init_ref_viewer()
+  function! s:init_ref_viewer()
+    " Overwrite setting
+    nmap <buffer> b <Plug>(ref-back)
+    nmap <buffer> f <Plug>(ref-forward)
+    nnoremap <buffer> q <C-w>c
+    setlocal nonumber
+  endfunction
+endif
+" }}}
+
+" #- Restart.vim -# "{{{
+if s:invateinthepath('plugin/restart.vim')
+  let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
+  " key mapping
+  nnoremap <silent> <Space><leader>r :<C-u>Restart<CR>
+  nnoremap <silent> <Space><leader>rm :<C-u>Restart!<CR>
+endif
+" }}}
+
+" #- caw.vim -# "{{{
+if s:invateinthepath('autoload/caw.vim')
+  nmap gcc <Plug>(caw:i:toggle)
+  xmap gcc <Plug>(caw:i:toggle)
+endif
+"}}}
+
+" #- Vinarise -# "{{{
+if s:invateinthepath('autoload/vinarise.vim')
+  let g:vinarise_enable_auto_detect = 1
+  let g:vinarise_detect_large_file_size = 10000000
+  let g:vinarise_objdump_command = "objdump -Dslx"
+endif
+"}}}
+
+" #- smartchr -# "{{{
+if s:invateinthepath('autoload/smartchr.vim')
+  inoremap <expr> , smartchr#one_of(', ', ',')
+  inoremap <expr> ? smartchr#one_of(' ? ', '?')
+
+  " Smart =.
+  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+        \ : smartchr#one_of(' = ', '=', ' == ')
+
+  augroup MyAutoCmd
+    " Substitute .. into -> .
+    autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
+    autocmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
+    autocmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
+    autocmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
+
+    autocmd FileType haskell
+          \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
+          \| inoremap <buffer> <expr> - smartchr#loop('-', ' <- ')
+          \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
+          \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
+          \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
+          \| inoremap <buffer> <expr> . smartchr#loop(' . ', '..', '.')
+
+    autocmd FileType scala
+          \ inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
+          \| inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' => ')
+          \| inoremap <buffer> <expr> : smartchr#loop(': ', ':', ' :: ')
+          \| inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
+
+    autocmd FileType eruby
+          \ inoremap <buffer> <expr> > smartchr#loop('>', '%>')
+          \| inoremap <buffer> <expr> < smartchr#loop('<', '<%', '<%=')
+  augroup END
+endif
+"}}}
+
+" #- stickykey -# "{{{
+if s:invateinthepath('autoload/stickykey.vim')
+endif
+"}}}
+
+" #- quickhl.vim -# "{{{
+if s:invateinthepath('autoload/quickhl.vim')
+nmap ZZl <Plug>(quickhl-toggle)
+xmap ZZl <Plug>(quickhl-toggle)
+nmap <Space>M <Plug>(quickhl-reset)
+xmap <Space>M <Plug>(quickhl-reset)
+
+" nmap <Space>j <Plug>(quickhl-match)
+
+" highlight color change
+let g:quickhl_colors = [
+      \ "guifg=#cfcfcf guibg=#2f002f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f007f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f2f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f0f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#0f3f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#1f3f0f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f1f1f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#5f4f2f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#3f2f4f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#4f1f5f gui=bold ",
+      \ "guifg=#cfcfcf guibg=#2f5f1f gui=bold ",
+      \ ]
+
+let g:quickhl_keywords = [
+      \ "t9md",
+      \ "ujihisa",
+      \ "thinca",
+      \ "tyru",
+      \ "kana",
+      \ "mattn",
+      \ "Shougo",
+      \ ]
+
+endif
+" }}}
+
+" #- textmanip.vim -# "{{{
+if s:invateinthepath('autoload/textmanip.vim')
+  if has('gui_running')
+    xmap <M-d> <Plug>(textmanip-duplicate-down)
+    nmap <M-d> <Plug>(textmanip-duplicate-down)
+    xmap <M-D> <Plug>(textmanip-duplicate-up)
+    nmap <M-D> <Plug>(textmanip-duplicate-up)
+
+    xmap <C-j> <Plug>(textmanip-move-down)
+    xmap <C-k> <Plug>(textmanip-move-up)
+    xmap <C-h> <Plug>(textmanip-move-left)
+    xmap <C-l> <Plug>(textmanip-move-right)
+  else
+    xmap <Space>d <Plug>(textmanip-duplicate-down)
+    nmap <Space>d <Plug>(textmanip-duplicate-down)
+    xmap <Space>D <Plug>(textmanip-duplicate-up)
+    nmap <Space>D <Plug>(textmanip-duplicate-up)
+
+    xmap <C-j> <Plug>(textmanip-move-down)
+    xmap <C-k> <Plug>(textmanip-move-up)
+    xmap <C-h> <Plug>(textmanip-move-left)
+    xmap <C-l> <Plug>(textmanip-move-right)
+  endif
+endif
+"}}}
+
+" #- colorv.vim -# "{{{
+if s:invateinthepath('plugin/colorv.vim')
+  let colorv_cache_dir = g:vim_info_dir . '/.ColorV'
+  if !isdirectory(colorv_cache_dir)
+    call mkdir(colorv_cache_dir, 'p')
+  endif
+  let g:ColorV_cache_File = colorv_cache_dir . '/ColorV_cache'
+endif
+" }}}
+
+" #- visualstar.vim -# "{{{
+if s:invateinthepath('plugin/visualstar.vim')
+  map * <Plug>(visualstar-*)
+  map # <Plug>(visualstar-#)
+  map g* <Plug>(visualstar-g*)
+  map g# <Plug>(visualstar-g#)
+endif
+"}}}
+
+" #- openbrowser -# "{{{
+if s:invateinthepath('autoload/openbrowser.vim')
+  nnoremap <silent>gx :<C-u>OpenBrowser expand('%')<CR>
+endif
+"}}}
+
+" #- winmove.vim -# "{{{
+if s:invateinthepath('plugin/winmove.vim')
+  let g:wm_move_up = '<Up>'
+  let g:wm_move_right = '<Right>'
+  let g:wm_move_down = '<Down>'
+  let g:wm_move_left = '<Left>'
+endif
+"}}}
+
+" #- FoldCC.vim -# "{{{
+if s:invateinthepath('plugin/foldCC.vim')
+  set foldtext=FoldCCtext()
+  set fillchars=vert:\|
+endif
+"}}}
+
+" #- fontzoom.vim -#"{{{
+if s:invateinthepath('plugin/fontzoom.vim')
+  nmap <F11> <Plug>(fontzoom-larger)
+  nmap <F12> <Plug>(fontzoom-smaller)
+endif
+"}}}
+
+" #- netrw.vim -# "{{{
+" Set of netrw configuration directory "{{{
+let s:netrw_dir = g:vim_info_dir . '/.netrw'
+if !isdirectory(s:netrw_dir)
+  call mkdir(s:netrw_dir, 'p')
+endif
+let g:netrw_home = s:netrw_dir " }}}
+let g:netrw_list_hide= '*.swp'
+nnoremap <silent> <BS> :<C-u>Explore<CR>
+" Change default directory.
+"set browsedir=current
+if executable('wget')
+  let g:netrw_http_cmd = 'wget'
+endif
+"}}}
+
+" #- matchit -# "{{{
+if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
+  source $VIMRUNTIME/macros/matchit.vim
+endif
+" }}}
+
+" #- poslist.vim -#"{{{
+if s:invateinthepath('autoload/poslist.vim')
+  let g:poslist_histsize = 1000
+  nmap <C-o> <Plug>(poslist-prev-pos)
+  nmap <C-i> <Plug>(poslist-next-pos)
+endif
+"}}}
+
+" #- neocomplcache.vim -# "{{{
+if s:invateinthepath('autoload/neocomplcache.vim')
+" Setting of directory for neocomplcache "{{{
+let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
+" For snippets
+let s:neocon_snip_dir =  g:vim_misc_dir . '/snippets'
+if !isdirectory(s:neocon_temp_dir)
+  call mkdir(s:neocon_temp_dir, 'p')
+endif
+if !isdirectory(s:neocon_snip_dir)
+  call mkdir(s:neocon_snip_dir, 'p')
+endif
+let g:neocomplcache_temporary_dir = s:neocon_temp_dir
+let g:neocomplcache_snippets_dir = s:neocon_snip_dir " }}}
+
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+" Set auto completion length.
+let g:neocomplcache_auto_completion_start_length = 2
+" Set manual completion length.
+let g:neocomplcache_manual_completion_start_length = 0
+" Set minimum keyword length.
+let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_enable_cursor_hold_i = 1
+let g:neocomplcache_cursor_hold_i_time = 250
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_delimiter = 1
+"let g:neocomplcache_disable_caching_buffer_name_pattern = '[\[*]\%(unite\)[\]*]'
+let g:neocomplcache_disable_caching_file_path_pattern = '[\[*]\%(unite\)[\]*]'
+"let g:neocomplcache_disable_auto_select_buffer_name_pattern = '^\[\d\+\]vimshell'
+"let g:neocomplcache_disable_auto_complete = 0
+let g:neocomplcache_max_list = 100
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+      \ 'default' : '',
+      \ 'vimshell' : g:vim_info_dir . '/.vimshell/command-history',
+      \ 'text' : $HOME . '/.dict/SKK-JISYO.L',
+      \ 'txt' : $HOME . '/.dict/SKK-JISYO.L',
+      \ 'int-termtter' : g:vim_info_dir . '/.vimshell/int-history/int-termtter',
+      \ }
+
+if !s:iswin
+  let g:neocomplcache_dictionary_filetype_lists.help = '/usr/share/dict/words'
+endif
+
+let g:neocomplcache_omni_functions = {
+      \ 'python' : 'pythoncomplete#Complete',
+      \ 'ruby' : 'rubycomplete#Complete',
+      \ }
+
+" Define keyword pattern.
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"let g:neocomplcache_omni_patterns.php = '[^. *\t]\.\w*\|\h\w*::'
+
+if !exists('g:neocomplcache_same_filetype_lists')
+  let g:neocomplcache_same_filetype_lists = {}
+endif
+"let g:neocomplcache_same_filetype_lists.perl = 'ref'
+
+let g:neocomplcache_vim_completefuncs = {
+      \ 'Ref' : 'ref#complete',
+      \ 'Unite' : 'unite#complete_source',
+      \ 'VimShellExecute' : 'vimshell#complete#vimshell_execute_complete#completefunc',
+      \ 'VimShellInteractive' : 'vimshell#complete#vimshell_execute_complete#completefunc',
+      \ 'VimShellTerminal' : 'vimshell#complete#vimshell_execute_complete#completefunc',
+      \ }
+
+" Completion rank "{{{
+"let g:neocomplcache_plugin_completion_length = {
+"\ 'snippets_complete' : 1,
+"\ 'vim_complete' : 2,
+"\ 'buffer_complete' : 3,
+"\ 'syntax_complete' : 3,
+"\ 'tags_complete' : 4,
+"\ }
+" }}}
+
+" Plugin key-mappings."{{{
+imap <silent>L     <Plug>(neocomplcache_snippets_jump)
+"imap <expr>L    neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
+smap <silent>L     <Plug>(neocomplcache_snippets_jump)
+imap <silent>G     <Plug>(neocomplcache_snippets_force_expand)
+" imap <silent>J     <Plug>(neocomplcache_snippets_jump)
+
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"}}}
+
+" For neocomplcache."{{{
+" <C-f>, <C-b>: page move.
+inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   :
+      \neocomplcache#sources#completefunc_complete#call_completefunc('googlesuggest_complete#completefunc')
+" <C-y>: paste.
+inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() :  "\<C-r>\""
+" <C-e>: close popup.
+inoremap <expr><C-e>  pumvisible() ? neocomplcache#cancel_popup() : "\<End>"
+" <C-k>: omni completion.
+" inoremap <expr> <C-k>  &filetype == 'vim' ? neocomplcache#start_manual_complete('vim_complete') : neocomplcache#manual_omni_complete()
+if globpath(&rtp, 'autoload/unite.vim') != ''
+  " <C-k>: unite completion.
+  imap <C-k>  <Plug>(neocomplcache_start_unite_complete)
+  imap <C-q>  <Plug>(neocomplcache_start_quick_match)
+  imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
+endif
+"inoremap <expr> O  &filetype == 'vim' ? "\<C-x>\<C-v>" : "\<C-x>\<C-o>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" <C-n>: neocomplcache.
+inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
+" <C-p>: keyword completion.
+inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+"inoremap <expr>'  pumvisible() ? neocomplcache#close_popup() : "'"
+inoremap <expr>'  pumvisible() ? "\<C-y>" : "'"
+inoremap <expr>[  pumvisible() ? "\<C-n>" : "["
+inoremap <expr>]  pumvisible() ? "\<C-p>" : "]"
+
+
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>\<Down>"
+function! s:check_back_space()"{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+"}}}
+
+endif
+"}}}
+
+" #- ambicmd.vim -# "{{{
+if s:invateinthepath('autoload/ambicmd.vim')
+  cnoremap <expr> <Space> ambicmd#expand("\<Space>")
+  cnoremap <expr> <CR>    ambicmd#expand("\<CR>")
+  cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+endif
+" }}}
+
+" #- altercmd.vim -# "{{{
+if s:invateinthepath('autoload/altercmd.vim')
+  call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
+  call altercmd#define('<cmdwin>', 'sp[lit]', 'split', 'i')
+  if exists(':CD')
+    call altercmd#define('<buffer>', 'cd', 'CD', 'i')
+    call altercmd#define('<cmdwin>', 'cd', 'CD', 'i')
+  endif
+  if exists(':Tcolorscheme')
+    call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
+    call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
+  else
+    call altercmd#define('<buffer>', 'co[lor]', 'colorscheme', 'i')
+    call altercmd#define('<cmdwin>', 'co[lor]', 'colorscheme', 'i')
+  endif
+endif
+"}}}
+
+" #- skk & eskk -# "{{{
+" check
+let iedskk = s:invateinthepath('plugin/skk.vim')
+let iedeskk = s:invateinthepath('autoload/eskk.vim')
+
+if iedskk || iedeskk
+  " Path to dictionary for skk "{{{
+  let skk_user_dir = expand('~/.dict')
+  " let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
+  let skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
+  if s:iswin
+    let skk_system_dict_dir = g:vim_info_dir . '/.dict'
+    let s:skk_system_dict = skk_system_dict_dir .  '/SKK-JISYO.L'
+  else
+    let s:skk_system_dict = '/usr/local/share/skk'
+  endif "}}}
+  " Make dictionary directory "{{{
+  if !isdirectory(skk_user_dir)
+    call mkdir(skk_user_dir, 'p')
+  endif
+  if !isdirectory(skk_system_dict_dir)
+    call mkdir(skk_system_dict_dir, 'p')
+  endif "}}}
+
+  let s:skk_user_dict_encoding = 'utf-8'
+  let s:skk_system_dict_encoding = 'euc-jp'
+
+  unlet skk_user_dir
+  unlet skk_system_dict_dir
+endif
+"}}}
+
+" #- skk.vim -# "{{{
+if iedskk
+  let g:skk_jisyo = skk_user_dict
+  let g:skk_jisyo_encoding = s:skk_user_dict_encoding
+  let g:skk_large_jisyo = s:skk_system_dict
+  let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
+
+  if iedeskk
+    let g:skk_control_j_key = '<C-g><C-j>'
+  else
+    let g:skk_control_j_key = '<C-j>'
+  endif
+  " Arpeggio map! fj    <Plug>(skk-enable-im)
+
+  let g:skk_manual_save_jisyo_keys = ''
+
+  let g:skk_egg_like_newline = 1
+  let g:skk_auto_save_jisyo = 1
+  let g:skk_imdisable_state = -1
+  let g:skk_keep_state = 0
+  let g:skk_show_candidates_count = 2
+  let g:skk_show_annotation = 0
+  let g:skk_sticky_key = ';'
+  let g:skk_use_color_cursor = 1
+  let g:skk_remap_lang_mode = 0
+
+  " cursor colors "{{{
+  if has('gui_running')
+    let g:skk_cursor_hira_color='#ff0f5f'
+    let g:skk_cursor_kata_color='#3fff5f'
+    let g:skk_cursor_zenei_color='#ffff5f'
+    let g:skk_cursor_ascii_color='#3f3fff'
+    let g:skk_cursor_abbrev_color='#5f5f5f'
+  else
+    let g:skk_cursor_hira_color='14'
+    let g:skk_cursor_kata_color='11'
+    let g:skk_cursor_zenei_color='8'
+    let g:skk_cursor_ascii_color='9'
+    let g:skk_cursor_abbrev_color='0'
+  endif
+  "}}}
+
+endif
+"}}}
+
+" #- eskk.vim -# "{{{
+if iedeskk
+  " make directory for eskk "{{{
+  let s:eskk_dir =  g:vim_info_dir . '/.eskk'
+  if !isdirectory(s:eskk_dir)
+    call mkdir(s:eskk_dir, 'p')
+  endif
+  let g:eskk#directory = s:eskk_dir
+   " }}}
+  if !exists('g:eskk#disable') || !g:eskk#disable
+    " Disable skk.vim
+    let g:plugin_skk_disable  = 1
+
+    let g:eskk#disable = 0
+    let g:eskk#debug = 1
+    let g:eskk#debug_out = "file"
+
+    " Cursor color
+    let g:eskk#use_color_cursor = 1
+    let g:eskk#cursor_color = {
+          \ 'ascii'  : ['#0f0f0f', '#2f5f8f'],
+          \ 'hira'   : ['#0f0f0f', '#8f2f5f'],
+          \ 'kata'   : ['#0f0f0f', '#2f8f4f'],
+          \ 'abbrev' : '#2f3f7f',
+          \ 'zenei'  : '#afbf2f',
+          \ }
+
+    let g:eskk#show_candidates_count = 2
+
+    let g:eskk#show_annotation = 1
+    " let g:eskk#rom_input_style = 'msime'
+    let g:eskk#rom_input_style = 'skk'
+    let g:eskk#egg_like_newline = 1
+
+    " Don't keep state
+    let g:eskk#keep_state = 0
+    let g:eskk#keep_state_beyond_buffer = 1
+
+    let g:eskk#marker_henkan = '$'
+    let g:eskk#marker_okuri = '*'
+    let g:eskk#marker_henkan_select = '@'
+    let g:eskk#marker_jisyo_touroku = '?'
+    let g:eskk#marker_popup = '#'
+
+    let g:eskk#dictionary_save_count = 5
+
+    "  set dictonary "{{{
+    " path, encoding
+    if has('vim_starting')
+      let g:eskk#dictionary = {
+            \   'path': s:skk_user_dict,
+            \   'sorted' : 0,
+            \   'encoding': s:skk_user_dict_encoding,
+            \}
+
+      let g:eskk#large_dictionary = {
+            \   'path': s:skk_system_dict,
+            \   'sorted' : 1,
+            \   'encoding': s:skk_system_dict_encoding,
+            \}
+    endif
+
+    " Backup
+    let g:eskk#backup_dictionary = s:eskk_dir . '/SKK-JISYO.L.BAK'
+    unlet s:eskk_dir "}}}
+
+    " Define table.
+    autocmd MyAutoCmd User eskk-initialize-pre call s:eskk_initial_pre()
+    function! s:eskk_initial_pre() "{{{
+      let t = eskk#table#new('rom_to_hira*', 'rom_to_hira')
+      call t.add_map('z ', '　')
+      call t.add_map('~', '〜')
+      call t.add_map('zc', '©')
+      call t.add_map('zr', '®')
+      call t.add_map('z9', '（')
+      call t.add_map('z0', '）')
+      call eskk#register_mode_table('hira', t)
+      unlet t
+    endfunction "}}}
+  endif
+endif
+" }}}
+
+"}}}
+
+"---------------------------------------------------------------------------
+" Key-mappings: "{{{
+"
+
+" Too lazy to press Shift Key
+noremap ; :
+noremap : ;
+
+inoremap <C-@> <ESC>
+
+" Movement command line mode
+nnoremap <C-J> :
+
+" Quick save and quit. "{{{
+nnoremap <silent> [Space]w  :<C-u>update<CR>
+nnoremap <silent> [Space]fw :<C-u>write!<CR>
+" nnoremap <silent> [Space]q  :<C-u>quit<CR>
+nnoremap <silent> [Space]q  :<C-u>close<CR>
+nnoremap <silent> [Space]<leader>q  :<C-u>quit!<CR>
+nnoremap <silent> [Space]aq :<C-u>quitall<CR>
+" nnoremap <silent> [Space]fq :<C-u>quitall!<CR>
+nnoremap <silent> [Space]fq :<C-u>close!<CR>
+"}}}
+
+" Easy escape."{{{
+inoremap jj           <ESC>
+onoremap jj           <ESC>
+cnoremap jj           <C-c>
+inoremap j<Space>     j
+onoremap j<Space>     j
+cnoremap j<Space>     j
+"}}}
+
+" <CTRL> + j = Esc "{{{
+"inoremap <C-j> <Esc>
+" <CTRL> + [ = Esc
+"}}}
+
+" Movement on line "{{{
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+"}}}
+
+" Search selected area.
+vnoremap <silent> z/ <ESC>/\v%V
+vnoremap <silent> z? <ESC>?\v%V
+
+" Clear highlight
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+
+" Highlight test
+if s:invateinthepath('autoload/unite.vim')
+  nnoremap <silent> <Space>eh :<C-u>Unite color_set -cursor-line-highlight=NONE<CR>
+else
+ nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
+endif
+
+" Edit setting of vimperator "{{{
+if s:iswin
+  nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
+  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
+else
+  nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
+  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
+endif " }}}
+
+" Command-line mode keymappings:"{{{
+" <C-a>, A: move to head.
+cnoremap <C-a>          <Home>
+"" <C-b>: previous char.
+cnoremap <C-b>          <Left>
+" <C-d>: delete char.
+cnoremap <C-d>          <Del>
+" <C-e>, E: move to end.
+cnoremap <C-e>          <End>
+" <C-f>: next char.
+cnoremap <C-f>          <Right>
+" <C-n>: next history.
+cnoremap <C-n>          <Down>
+" <C-p>: previous history.
+cnoremap <C-p>          <Up>
+" <C-k>, K: delete to end.
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2]<CR>
+" <C-y>: paste.
+cnoremap <C-y>          <C-r>*
+" <C-s>: view history.
+cnoremap <C-s>          <C-f>
+" <C-l>: view completion list.
+cnoremap <C-l>          <C-d>
+" <A-b>, W: move to previous word.
+cnoremap <A-b>          <S-Left>
+" <A-f>, B: move to next word.
+cnoremap <A-f>          <S-Right>
+cnoremap <S-TAB>        <C-p>
+" <C-g>: decide candidate.
+cnoremap <C-g>          <Space><C-h>
+" <C-t>: insert space.
+cnoremap <C-t>          <Space>
+"}}}
+
+" Auto escape / and ? in search command.
+cnoremap <expr> / getcmdtype() == '/' ? '\.' : '/'
+
+" Command line window. "{{{
+nnoremap <sid>(command-line-enter) q:
+xnoremap <sid>(command-line-enter) q:
+nnoremap <sid>(command-line-norange) q:<C-u>
+
+"noremap : q:i
+"xnoremap : q:i
+
+nmap :  <sid>(command-line-enter)
+xmap :  <sid>(command-line-enter)
+"
+autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
+function! s:init_cmdwin()  "{{{
+  nnoremap <buffer> q :<C-u>quit<CR>
+  nnoremap <buffer> <TAB> :<C-u>quit<CR>
+  nnoremap <buffer> ; :
+  xnoremap <buffer> ; :
+
+  " Neocomplcache
+  if globpath(&rtp, 'autoload/neocomplcache.vim') != ''
+    inoremap <buffer><expr><CR> neocomplcache#close_popup()."\<CR>"
+    inoremap <buffer><expr><C-h> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()"\<C-h>"
+    inoremap <buffer><expr><BS> col('.') == 1 ? "\<ESC>:quit\<CR>" : neocomplcache#cancel_popup()."\<C-h>"
+    " Completion.
+    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
+  endif
+
+  " Altercmd.
+  if globpath(&rtp, 'autoload/altercmd.vim') != ''
+    call altercmd#define('<buffer>', 'grep', 'Grep', 'i')
+    call altercmd#define('<buffer>', 'uniq', 'Uniq', 'i')
+    call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
+  endif
+
+  " ambicmd
+  if globpath(&rtp, "autoload/ambicmd.vim") != ''
+    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+    inoremap <buffer> <expr> <CR>    ambicmd#expand("\<CR>")
+  endif
+
+  startinsert!
+endfunction "}}}
+" }}}
+
+" [Space]: Other useful commands "{{{
+" Smart space mapping.
+" Notice: when starting other <Space> mappings in noremap, disappeared [Space].
+nnoremap  [Space]   <Nop>
+xnoremap  [Space]   <Nop>
+nmap  <Space>   [Space]
+xmap  <Space>   [Space]
+
+" Toggle Neocomplcache
+nnoremap <silent> <expr> [Space]cl neocomplcache#is_locked() ? "\<Esc>:<C-u>NeoComplCacheUnlock\<CR> \<Esc>:<C-u>echo 'Neocon is unlock done.'\<CR>" : "\<Esc>:<C-u>NeoComplCacheLock\<CR> \<ESC>:<C-u>echo 'Neocon is lock done.'\<CR>"
+
+" Echo syntax name.
+nnoremap [Space]sy  :<C-u>echo synIDattr(synID(line('.'), col('.'), 1), "name")<CR>
+"}}}
+
+" Quickfix "{{{
+
+" nnoremap Q q
+nmap q [Quickfix]
+nnoremap [Quickfix] <Nop>
+
+" For quickfix list  "{{{
+nnoremap <silent> [Quickfix]n  :<C-u>cnext<CR>
+nnoremap <silent> [Quickfix]p  :<C-u>cprevious<CR>
+nnoremap <silent> [Quickfix]r  :<C-u>crewind<CR>
+nnoremap <silent> [Quickfix]N  :<C-u>cfirst<CR>
+nnoremap <silent> [Quickfix]P  :<C-u>clast<CR>
+nnoremap <silent> [Quickfix]fn :<C-u>cnfile<CR>
+nnoremap <silent> [Quickfix]fp :<C-u>cpfile<CR>
+nnoremap <silent> [Quickfix]l  :<C-u>clist<CR>
+nnoremap <silent> [Quickfix]q  :<C-u>cc<CR>
+nnoremap <silent> [Quickfix]o  :<C-u>copen<CR>
+nnoremap <silent> [Quickfix]c  :<C-u>cclose<CR>
+nnoremap <silent> [Quickfix]en :<C-u>cnewer<CR>
+nnoremap <silent> [Quickfix]ep :<C-u>colder<CR>
+nnoremap <silent> [Quickfix]m  :<C-u>make<CR>
+nnoremap [Quickfix]M  :<C-u>make<Space>
+nnoremap [Quickfix]g  :<C-u>grep<Space>
+" Toggle quickfix window.
+nnoremap <silent> [Quickfix]<Space> :<C-u>call <SID>toggle_quickfix_window()<CR>
+function! s:toggle_quickfix_window()
+  let _ = winnr('$')
+  cclose
+  if _ == winnr('$')
+    copen
+    setlocal nowrap
+    setlocal whichwrap=b,s
+  endif
+endfunction
+
+" For location list (mnemonic: Quickfix list for the current Window)  "{{{
+nnoremap <silent> [Quickfix]wn  :<C-u>lnext<CR>
+nnoremap <silent> [Quickfix]wp  :<C-u>lprevious<CR>
+nnoremap <silent> [Quickfix]wr  :<C-u>lrewind<CR>
+nnoremap <silent> [Quickfix]wP  :<C-u>lfirst<CR>
+nnoremap <silent> [Quickfix]wN  :<C-u>llast<CR>
+nnoremap <silent> [Quickfix]wfn :<C-u>lnfile<CR>
+nnoremap <silent> [Quickfix]wfp :<C-u>lpfile<CR>
+nnoremap <silent> [Quickfix]wl  :<C-u>llist<CR>
+nnoremap <silent> [Quickfix]wq  :<C-u>ll<CR>
+nnoremap <silent> [Quickfix]wo  :<C-u>lopen<CR>
+nnoremap <silent> [Quickfix]wc  :<C-u>lclose<CR>
+nnoremap <silent> [Quickfix]wep :<C-u>lolder<CR>
+nnoremap <silent> [Quickfix]wen :<C-u>lnewer<CR>
+nnoremap <silent> [Quickfix]wm  :<C-u>lmake<CR>
+nnoremap [Quickfix]wM  :<C-u>lmake<Space>
+nnoremap [Quickfix]w<Space>  :<C-u>lmake<Space>
+nnoremap [Quickfix]wg  :<C-u>lgrep<Space>
+"}}}
+
+"}}}
+"}}}
+
+" Change current directory.
+nnoremap <silent> [Space]cd :<C-u>CD %:h<CR>
+
+" s: Windows and buffers(High priority) "{{{
+" The prefix key.
+nnoremap    [Window]   <Nop>
+nmap    s [Window]
+nnoremap C         s
+xnoremap C         s
+nnoremap <silent> [Window]p  :<C-u>call <SID>split_nicely()<CR>
+nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
+nnoremap <silent> [Window]c  :<C-u>close<CR>
+"nnoremap <silent> -  :<C-u>close<CR>
+nnoremap <silent> [Window]o  :<C-u>only<CR>
+"nnoremap <silent> [Window]w  <C-w>w
+
+"" A .vimrc snippet that allows you to move around windows beyond tabs
+" nnoremap <silent> <Tab> :call <SID>NextWindowOrTab()<CR>
+" nnoremap <silent> <S-Tab> :call <SID>PreviousWindowOrTab()<CR>
+nnoremap <silent> [Space]<Space> <C-w>p
+
+function! s:NextWindowOrTab()
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    call s:split_nicely()
+  elseif winnr() < winnr("$")
+    wincmd w
+  else
+    tabnext
+    1wincmd w
+  endif
+endfunction
+
+function! s:PreviousWindowOrTab()
+  if winnr() > 1
+    wincmd W
+  else
+    tabprevious
+    execute winnr("$") . "wincmd w"
+  endif
+endfunction
+
+nnoremap <silent> [Window]<Space>  :<C-u>call <SID>ToggleSplit()<CR>
+function! s:MovePreviousWindow() " "{{{
+  let l:prev_name = winnr()
+  silent! wincmd p
+  if l:prev_name == winnr()
+    silent! wincmd w
+  endif
+endfunction " }}}
+" If window isn't splited, split buffer. "{{{
+function! s:ToggleSplit()
+  let l:prev_name = winnr()
+  silent! wincmd w
+  if l:prev_name == winnr()
+    split
+  else
+    close
+  endif
+endfunction " }}}
+" Split nicely."{{{
+"command! SplitNicely call s:split_nicely()
+function! s:split_nicely()
+  " Split nicely.
+  if winwidth(0) > 2 * &winwidth
+    vsplit
+  else
+    split
+  endif
+  wincmd p
+endfunction
+"}}}
+" Delete current buffer."{{{
+nnoremap <silent> [Window]d  :<C-u>call <SID>CustomBufferDelete(0)<CR>
+nnoremap <silent> _  :<C-u>call <SID>CustomBufferDelete(0)<CR>
+function! s:CustomBufferDelete(is_force)
+  let current = bufnr('%')
+
+  call s:CustomAlternateBuffer()
+
+  if a:is_force
+    silent! execute 'bdelete! ' . current
+  else
+    silent! execute 'bdelete ' . current
+  endif
+endfunction
+"}}}
+" Delete input buffer."{{{
+nnoremap <silent> [Window]D  :<C-u>call <SID>InputBufferDelete(0)<CR>
+function! s:InputBufferDelete(is_force)
+  call s:ViewBufferList()
+
+  " Create list.
+  let [l:cnt, l:pos, l:list] = [0, 1, {}]
+  while l:pos <= bufnr('$')
+    if buflisted(l:pos)
+      let l:list[l:cnt] = l:pos
+      let l:cnt += 1
+    endif
+    let l:pos += 1
+  endwhile
+
+  let l:input = input('Select delete buffer: ', '')
+  if l:input == ''
+    " Cancel.
+    return
+  endif
+
+  for l:in in split(l:input)
+    if !has_key(l:list, l:in) || !bufexists(l:list[l:in])
+      echo "\nDon't exists buffer " . l:in
+      continue
+    endif
+
+    if l:in == bufnr('%') || l:in == bufname('%')
+      call s:CustomAlternateBuffer()
+    endif
+
+    echo bufnr(l:list[l:in])
+    if a:is_force
+      silent! execute 'bdelete! ' . l:list[l:in]
+    else
+      silent! execute 'bdelete ' . l:list[l:in]
+    endif
+  endfor
+endfunction
+"}}}
+" Force delete current buffer.
+nnoremap <silent> [Window]fq  :<C-u>call <SID>CustomBufferDelete(1)<CR>
+nnoremap <silent> [Window]fQ  :<C-u>call <SID>InputBufferDelete(1)<CR>
+" Delete current buffer and close current window.
+nnoremap <silent> [Window]d  :<C-u>call <SID>CustomBufferDelete(0)<CR>:if winnr() != 1 <Bar> close<CR>:endif<CR>
+nnoremap <silent> [Window]fd  :<C-u>call <SID>CustomBufferDelete(1)<CR>:<C-u>close<CR>
+" Buffer move.
+" Fast buffer switch."{{{
+function! s:CustomAlternateBuffer()
+  if bufnr('%') != bufnr('#') && buflisted(bufnr('#'))
+    buffer #
+  else
+    let l:cnt = 0
+    let l:pos = 1
+    let l:current = 0
+    while l:pos <= bufnr('$')
+      if buflisted(l:pos)
+        if l:pos == bufnr('%')
+          let l:current = l:cnt
+        endif
+
+        let l:cnt += 1
+      endif
+
+      let l:pos += 1
+    endwhile
+
+    if l:current > l:cnt / 2
+      bprevious
+    else
+      bnext
+    endif
+  endif
+endfunction
+"}}}
+"nnoremap <silent> [Window]q  :<C-u>call <SID>CustomBufferDelete(0)<CR>
+" Edit"{{{
+nnoremap [Window]b  :<C-u>edit<Space>
+nnoremap <silent> [Window]en  :<C-u>new<CR>
+nnoremap <silent> [Window]ee  :<C-u>JunkFile<CR>
+" nnoremap [Window]r  :<C-u>REdit<Space>
+"}}}
+if globpath(&rtp, 'autoload/unite.vim') != ''
+  " View buffer list.
+  nnoremap <silent> [Window]l  :<C-u>Unite buffer<CR>
+  " View tab list.
+  nnoremap <silent> [Window]t  :<C-u>Unite tab<CR>
+endif
+
+" Scroll other window.
+nnoremap <silent> <C-y> :<C-u>call <SID>ScrollOtherWindow(1)<CR>
+inoremap <silent> <A-y> <C-o>:<C-u>call <SID>ScrollOtherWindow(1)<CR>
+nnoremap <silent> <C-u> :<C-u>call <SID>ScrollOtherWindow(0)<CR>
+inoremap <silent> <A-u> <C-o>:<C-u>call <SID>ScrollOtherWindow(0)<CR>
+
+function! s:ScrollOtherWindow(direction)
+  execute 'wincmd' (winnr('#') == 0 ? 'w' : 'p')
+  execute (a:direction ? "normal! \<C-d>" : "normal! \<C-u>")
+  wincmd p
+endfunction
+"}}}
+
+" <C-t>: Tab pages"{{{
+"
+" The prefix key.
+nnoremap [Tabbed]   <Nop>
+nmap <C-t> [Tabbed]
+
+" Create tab page.
+nnoremap <silent> [Tabbed]c  :<C-u>tabnew<CR>
+nnoremap <silent> [Tabbed]d  :<C-u>tabclose<CR>
+nnoremap <silent> [Tabbed]o  :<C-u>tabonly<CR>
+nnoremap <silent> [Tabbed]i  :<C-u>tabs<CR>
+nmap [Tabbed]<C-n>  [Tabbed]n
+nmap [Tabbed]<C-c>  [Tabbed]c
+nmap [Tabbed]<C-o>  [Tabbed]o
+nmap [Tabbed]<C-i>  [Tabbed]i
+" Move to other tab page.
+nnoremap <silent> [Tabbed]j
+      \ :execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
+nnoremap <silent> [Window]j
+      \ :execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
+nnoremap <silent> [Tabbed]k  :<C-u>tabprevious<CR>
+nnoremap <silent> [Window]k  :<C-u>tabprevious<CR>
+nnoremap <silent> [Tabbed]K  :<C-u>tabfirst<CR>
+nnoremap <silent> [Window][  :<C-u>tabfirst<CR>
+nnoremap <silent> [Tabbed]J  :<C-u>tablast<CR>
+nnoremap <silent> [Window]]  :<C-u>tablast<CR>
+nnoremap <silent> [Tabbed]l
+      \ :<C-u>execute 'tabmove' min([tabpagenr() + v:count1 - 1, tabpagenr('$')])<CR>
+nnoremap <silent> [Tabbed]h
+      \ :<C-u>execute 'tabmove' max([tabpagenr() - v:count1 - 1, 0])<CR>
+nnoremap <silent> [Tabbed]L  :<C-u>tabmove<CR>
+nnoremap <silent> [Tabbed]H  :<C-u>tabmove 0<CR>
+nmap [Tabbed]n  [Tabbed]j
+nmap [Tabbed]p  [Tabbed]k
+nmap [Tabbed]<C-t>  [Tabbed]j
+nmap [Tabbed]<C-l>  [Tabbed]l
+nmap [Tabbed]<C-h>  [Tabbed]h
+
+" Change current tab like GNU screen.
+" Note that the numbers in {lhs}s are 0-origin.  See also 'tabline'.
+for i in range(10)
+  execute 'nnoremap <silent>' ('[Tabbed]'.(i))  ((i+1).'gt')
+  execute 'nnoremap <silent>' ('[Window]'.(i))  ((i+1).'gt')
+endfor
+unlet i
+
+" Switch the tab page
+nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
+"}}}
+
+" Move search word and fold open."{{{
+nnoremap n  nzvzz
+nnoremap N  Nzvzz
+nnoremap #  #zvzz
+nnoremap g*  g*zvzz
+nnoremap g#  g#zvzz
+"}}}
+
+" Smart <C-f>, <C-b>.
+nnoremap <silent> <C-f> z<CR><C-f>zz
+nnoremap <silent> <C-b> z-<C-b>zz
+
+" Execute help."{{{
+"nnoremap <C-h>  :<C-u>help<Space>
+"" Execute help by cursor keyword.
+"nnoremap <silent> g<C-h>  :<C-u>help<Space><C-r><C-w><CR>
+"}}}
+
+" Nop "{{{
+" Disable ZZ. and more "{{{
+nnoremap [Nop]  <Nop>
+nmap ZZ [Nop]
+nmap ZQ [Nop]
+nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
+" Todo: [Nop]l -> Display info
+nnoremap [Nop]l :<C-u>echo "colorscheme <" . g:colors_name . ">"<CR>
+
+nnoremap [Zop] <Nop>
+nmap <C-Z> [Zop]
+nnoremap [Zop]l :<C-U>echo "colorscheme <" . g:colors_name . ">"<CR>
+" }}}
+
+" Enter
+nnoremap [Enter] <Nop>
+nmap <CR> [Enter]
+
+" Ctrl-c
+nnoremap [C-c] <Nop>
+nmap <C-c> [C-c]
+
+" Don't use replace-mode
+nmap R [-*-]
+nnoremap [-*-] <Nop>
+if s:invateinthepath('autoload/unite.vim')
+  nnoremap [-*-]; :<C-u>Unite process<CR>
+  nnoremap [-*-]: :<C-u>Unite menu<CR>
+endif
+
+"}}}
+
+" Redraw.
+nnoremap <silent> <C-l>    :<C-u>redraw!<CR>
+
+" Sticky shift in English keyboard."{{{
+" Sticky key.
+inoremap <expr> ;  <SID>sticky_func()
+cnoremap <expr> ;  <SID>sticky_func()
+snoremap <expr> ;  <SID>sticky_func()
+
+function! s:sticky_func() "{{{
+  let l:sticky_table = {
+        \',' : '<', '.' : '>', '/' : '?',
+        \'1' : '!', '2' : '"', '3' : '#', '4' : '$', '5' : '%',
+        \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
+        \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
+        \}
+  let l:special_table = {
+        \"\<ESC>" : "\<ESC>", "\<Space>" : ';', "\<CR>" : ";\<CR>"
+        \}
+
+  if mode() !~# '^c'
+    echo 'Input sticky key: '
+  endif
+  let l:char = ''
+
+  while l:char == ''
+    let l:char = nr2char(getchar())
+  endwhile
+
+  if l:char =~ '\l'
+    return toupper(l:char)
+  elseif has_key(l:sticky_table, l:char)
+    return l:sticky_table[l:char]
+  elseif has_key(l:special_table, l:char)
+    return l:special_table[l:char]
+  else
+    return ''
+  endif
+endfunction "}}}
+"}}}
+
+" Easy home directory."{{{
+function! HomedirOrBackslash()
+  if getcmdtype() == ':' && (getcmdline() =~# '^e\%[dit] ' || getcmdline() =~? '^r\%[ead]\?!' || getcmdline() =~? '^cd ')
+    return '~/'
+  else
+    return '\'
+  endif
+endfunction
+cnoremap <expr> <Bslash> HomedirOrBackslash()
+"}}}
+
+" use original q key for macro, history search
+nnoremap <C-q> q
+
+" repeat command
+nnoremap c. q:<ESC>k<CR>
+
 "}}}
 
 "---------------------------------------------------------------------------
 " #- Misc. -# "{{{
 "
 " Unite
-if globpath(&rtp, 'autoload/unite.vim') != ''
+if s:invateinthepath('autoload/unite.vim')
   " via : ujihisa's vimrc (neco, transparency)
   " neco
   " unite-neco "{{{
@@ -3251,24 +3291,29 @@ if globpath(&rtp, 'autoload/unite.vim') != ''
       \ }
 
   let g:highlight_colom.custom = [
-      \ 'Normal', 'NonText', 'LineNr', 'SpecialKey',
-      \ 'Directory', 'StatusLine', 'StatusLinenc', 'VertSplit',
-      \ 'Folded', 'FoldColumn', 'WildMenu', 'Cursor',
-      \ 'CursorIM', 'CursorLine', 'TabLine', 'TabLineSel',
-      \ 'TabLineFill', 'Pmenu', 'PmenuSel', 'PmenuSbar',
-      \ 'PmenuThumb', 'Title', 'MatchParen', 'Underlined',
-      \ 'ZenkakuSpace', 'IncSearch', 'Search', 'Visual',
-      \ 'Comment', 'Constant', 'Special', 'Identifier',
-      \ 'Statement', 'PreProc', 'Type', 'Ignore',
-      \ 'Todo', 'String', 'Question', 'MoreMsg',
-      \ 'ModeMsg', 'ErrorMsg', 'WarningMsg', 'Error',
+      \ 'Normal', 'LineNr',
+      \ 'NonText', 'SpecialKey',
+      \ 'WildMenu',
+      \ 'IncSearch', 'Search',
+      \ 'Folded', 'FoldColumn',
+      \ 'StatusLine', 'StatusLinenc',
+      \ 'VertSplit',
+      \ 'Question', 'MoreMsg', 'ModeMsg', 'ErrorMsg', 'Error', 'WarningMsg',
+      \ 'Cursor', 'CursorIM',
+      \ 'CursorLine',
+      \ 'Visual',
+      \ 'TabLine', 'TabLineSel', 'TabLineFill',
+      \ 'Pmenu', 'PmenuSel', 'PmenuSbar', 'PmenuThumb',
+      \ 'Title', 'MatchParen', 'Underlined',
+      \ 'Directory',
+      \ 'String', 'Statement', 'Comment', 'Constant', 'Special', 'Identifier', 'PreProc', 'Type',
+      \ 'Ignore', 'Todo',
       \ 'DiffText', 'DiffAdd', 'DiffChange', 'DiffDelete',
-      \ 'SignColumn', 'SpellBad', 'SpellCap', 'SpellRare',
-      \ 'SpellLocal', 'VisualNos', 'lCursor', 'ColorColumn',
-      \ 'CursorColumn', 'Quickhl0', 'Quickhl1', 'Quickhl2',
-      \ 'Quickhl3', 'Quickhl4', 'Quickhl5', 'Quickhl6',
-      \ 'Quickhl7', 'Quickhl8', 'Quickhl9', 'Quickhl10',
-      \ 'Quickhl11', 'Quickhl12',
+      \ 'SignColumn', 'SpellBad', 'SpellCap', 'SpellRare', 'SpellLocal',
+      \ 'Quickhl0', 'Quickhl1', 'Quickhl2', 'Quickhl3', 'Quickhl4', 'Quickhl5', 'Quickhl6',
+      \ 'Quickhl7', 'Quickhl8', 'Quickhl9', 'Quickhl10', 'Quickhl11', 'Quickhl12',
+      \ 'ZenkakuSpace',
+      \ 'CursorColumn', 'ColorColumn', 'lCursor', 'VisualNos',
       \ ] "}}}
 endif
 "  (^_^)
@@ -3349,7 +3394,7 @@ let ColorRoller.colors = [
       \ 'ZycUs', 'GxeiM',
       \ 'Moufr02', 'HwPng01',
       \ 'z1qt', 'joker',
-      \ 'rayven',
+      \ 'rayven', 'vinary',
       \ ]
 
 function! ColorRoller.change() "{{{
@@ -3361,6 +3406,7 @@ function! ColorRoller.change() "{{{
   endif
   redraw
   echo self.colors
+  doautocmd ColorScheme
 endfunction "}}}
 
 function! ColorRoller.roll() "{{{
@@ -3380,6 +3426,7 @@ nnoremap <silent> - :call ColorRoller.unroll()<CR>
 "}}}
 
 let g:is_wab = 'black'
+let g:is_vinary = 'black'
 
 "}}}
 
