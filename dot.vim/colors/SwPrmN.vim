@@ -42,7 +42,7 @@ highlight VisualNOS guibg=#aaeeee guifg=#3d3d3d gui=underline,bold
 highlight WarningMsg guifg=#fc4765 guibg=bg gui=NONE
 highlight WildMenu guifg=#2f5f85 guibg=#cfcfcf gui=NONE
 " fold "{{{2
-highlight Folded guifg=#5490f5 guibg=#1f1f20 gui=NONE
+highlight Folded guifg=#3f4faf guibg=#1a1a1f gui=NONE
 highlight FoldColumn guifg=#c0c0ff guibg=#0f101f gui=bold
 
 " diff "{{{2

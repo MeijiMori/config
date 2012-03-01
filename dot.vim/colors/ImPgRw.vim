@@ -26,18 +26,18 @@ highlight NonText guifg=#4e79c8 guibg=bg gui=NONE
 highlight Directory guifg=#2f5faf guibg=bg gui=NONE
 highlight ErrorMsg guifg=#af2f6f guibg=bg gui=NONE
 " search "{{{2
-highlight IncSearch guifg=#0f0f0f guibg=#8f2faf gui=bold
+highlight IncSearch guifg=#cfcfcf guibg=#8f2f5f gui=bold
 highlight Search guifg=#cfcfcf guibg=#21253f gui=bold
 "}}}2
-highlight MoreMsg guifg=#5fffa9 guibg=bg gui=NONE
-highlight ModeMsg guifg=#1f20ff guibg=#0f0f2f gui=NONE
+highlight MoreMsg guifg=#0f3f1f guibg=#3fcf3f gui=underline
+highlight ModeMsg guifg=#0f1f3f guibg=#3f3fcf gui=underline
 highlight LineNr  guifg=#3faf7f guibg=NONE gui=NONE
-highlight Question guifg=#6ff39f guibg=bg gui=NONE
+highlight Question guifg=#3f8f5f guibg=#afffaf gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#cfcfcf guibg=#0f102f gui=NONE
-highlight StatusLineNC guifg=#5f5f3f guibg=#c0afcf gui=NONE
+highlight StatusLineNC guifg=#6a6a6f guibg=#afafbf gui=NONE
 "}}}2
-highlight Title guifg=#a6dc72 guibg=NONE gui=NONE
+highlight Title guifg=#ff5f2f guibg=NONE gui=underline
 highlight VertSplit guifg=bg guibg=#0f0f1f gui=NONE
 " visual "{{{2
 highlight Visual guifg=#cfcfcf guibg=#0f1f3f gui=NONE
@@ -50,8 +50,8 @@ highlight Folded guifg=#cfcfcf guibg=#1f1f35 gui=NONE
 highlight FoldColumn guifg=#0f2faf guibg=bg gui=bold
 
 " diff "{{{2
-highlight DiffAdd guifg=#0f0f0f guibg=#afafcf gui=NONE
-highlight DiffChange guifg=#0f0f0f guibg=#ffbfff gui=NONE
+highlight DiffAdd guifg=#000000 guibg=#5fffaf gui=NONE
+highlight DiffChange guifg=#0f0f0f guibg=#ffcfaf gui=NONE
 highlight DiffDelete guifg=#0f0f0f guibg=#df4f9f gui=bold
 highlight DiffText guifg=#cfcfcf guibg=bg gui=NONE
 "}}}2
@@ -101,9 +101,9 @@ highlight Statement guifg=#3faf5f guibg=bg gui=NONE
 highlight PreProc guifg=#af2fff guibg=bg gui=NONE
 highlight type guifg=#1faf8f guibg=bg gui=NONE
 highlight underlined guifg=#9f7fff guibg=bg gui=underline
-highlight Ignore guifg=#047f75 gui=NONE gui=NONE
+highlight Ignore guifg=#047f75 gui=NONE gui=bold
 highlight Error guifg=#ff2faf guibg=bg gui=NONE
-highlight Todo guifg=#cfcfcf guibg=#101f3f gui=bold
+highlight Todo guifg=#3f3f3f guibg=#bfbfbf gui=bold,underline
 highlight string guifg=#ffcf8f guibg=bg gui=NONE
 
 " #- Color function -# "{{{1

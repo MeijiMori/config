@@ -29,7 +29,7 @@ highlight Search guifg=#0f0f0f guibg=#5088e1 gui=bold
 "}}}2
 highlight MoreMsg guifg=#95d5d9 guibg=#20202f gui=NONE
 highlight ModeMsg guifg=#c0a0ff guibg=#20202f gui=NONE
-highlight LineNr guifg=#0f3f5f guibg=#0f0f0f gui=NONE
+highlight LineNr guifg=#0f3f5f guibg=NONE gui=NONE
 highlight Question guifg=#6ab395 guibg=bg gui=NONE
 " statusline "{{{2
 highlight StatusLine guifg=#9d887c guibg=#20252f gui=NONE
