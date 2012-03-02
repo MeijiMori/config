@@ -1,7 +1,7 @@
 ﻿"=============================================================================
 " File: color_generator.vim <Unite source file>
 " Ex:
-" Note: It's too havy because too many syntax define.
+" Note: It's too heavy because too many syntax define.
 "=============================================================================
 
 let s:save_cpo = &cpo
@@ -118,7 +118,6 @@ function! s:source.gather_candidates(args, context) "{{{
     " cui
 
     while item_count < limit
-
       " For debug"{{{
       " echomsg "color_item : " . cl[item_count]
       "}}}

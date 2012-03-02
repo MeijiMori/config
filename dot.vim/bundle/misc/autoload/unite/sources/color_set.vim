@@ -2,7 +2,8 @@
 " File: color_set.vim <Unite source file>
 " Ex:   Replace highlight test and more ?
 " Todo: Overwrite syntax to variable
-" Note: Refer to unite-outline that way of syntax Highlight
+"       Auto update
+" Note: Refer to unite-outline that way of syntax Highlight and autocmds
 "       Refer to unite-colorscheme that way of run colorscheme
 "=============================================================================
 
@@ -19,64 +20,35 @@ let s:highlight_colom = {
 " Default
 " Default color item "{{{
 let s:highlight_colom.default = [
-      \ 'SpecialKey',
-      \ 'NonText',
-      \ 'Directory',
-      \ 'ErrorMsg',
-      \ 'IncSearch',
-      \ 'Search',
-      \ 'MoreMsg',
-      \ 'ModeMsg',
-      \ 'LineNr',
-      \ 'Question',
-      \ 'StatusLine',
-      \ 'StatusLinenc',
-      \ 'VertSplit',
-      \ 'Title',
-      \ 'Visual',
-      \ 'VisualNos',
-      \ 'WarningMsg',
-      \ 'WildMenu',
-      \ 'Folded',
-      \ 'FoldColumn',
-      \ 'DiffAdd',
-      \ 'DiffChange',
-      \ 'DiffDelete',
-      \ 'DiffText',
-      \ 'SignColumn',
-      \ 'Conceal',
-      \ 'SpellBad',
-      \ 'SpellCap',
-      \ 'SpellRare',
-      \ 'SpellLocal',
-      \ 'Pmenu',
-      \ 'PmenuSel',
-      \ 'PmenuSbar',
-      \ 'PmenuThumb',
-      \ 'TabLine',
-      \ 'TabLineSel',
-      \ 'TabLineFill',
-      \ 'CursorColumn',
-      \ 'CursorLine',
-      \ 'ColorColumn',
-      \ 'Cursor',
-      \ 'CursorIM',
-      \ 'lCursor',
-      \ 'MatchParen',
-      \ 'Normal',
-      \ 'Comment',
-      \ 'Constant',
-      \ 'Special',
-      \ 'Identifier',
-      \ 'Statement',
-      \ 'PreProc',
-      \ 'Type',
-      \ 'Underlined',
-      \ 'Ignore',
-      \ 'Error',
-      \ 'Todo',
+      \ 'SpecialKey', 'NonText',
+      \ 'Directory', 'ErrorMsg',
+      \ 'IncSearch', 'Search',
+      \ 'MoreMsg', 'ModeMsg',
+      \ 'LineNr', 'Question',
+      \ 'StatusLine', 'StatusLinenc',
+      \ 'VertSplit', 'Title',
+      \ 'Visual', 'VisualNos',
+      \ 'WarningMsg', 'WildMenu',
+      \ 'Folded', 'FoldColumn',
+      \ 'DiffAdd', 'DiffChange',
+      \ 'DiffDelete', 'DiffText',
+      \ 'SignColumn', 'Conceal',
+      \ 'SpellBad', 'SpellCap',
+      \ 'SpellRare', 'SpellLocal',
+      \ 'Pmenu', 'PmenuSel',
+      \ 'PmenuSbar', 'PmenuThumb',
+      \ 'TabLine', 'TabLineSel',
+      \ 'TabLineFill', 'CursorColumn',
+      \ 'CursorLine', 'ColorColumn',
+      \ 'Cursor', 'CursorIM',
+      \ 'lCursor', 'MatchParen',
+      \ 'Normal', 'Comment',
+      \ 'Constant', 'Special',
+      \ 'Identifier', 'Statement',
+      \ 'PreProc', 'Type',
+      \ 'Underlined', 'Ignore',
+      \ 'Error', 'Todo',
       \ 'String',
-      \ 'ZenkakuSpace',
       \ ]
 "}}}
 
@@ -92,6 +64,8 @@ endif
 let s:hl_item  = {
       \ 'hl_rule' : [],
       \ }
+
+let s:BUFVAR_COLORSET_DATA = 'unite_source_colorset_data'
 
 "}}}
 
@@ -121,72 +95,6 @@ function! s:source.gather_candidates(args, context) "{{{
 
   let result = []
   let s:hl_rule = []
-
-  "  (><) -> In this way, syntax item is added infinity ... "{{{
-  " Get highlight item
-  " redir  => result
-  " silent! highlight
-  " redir END
-
-  " for line in split(result, '\n')[1:]
-  "   let length = len(line)
-
-    " Debug"{{{
-    " echomsg "line : " . line
-    " echomsg "line.length : " . length
-    "}}}
-
-    " let word = matchstr(line, '\a\w*')
-
-    " Analyze colorinfo.
-    " let end = matchend(line, '\a\w*')
-    " let args = matchstr(line, 'x\{3}', end)
-    " if args == ""
-      " let word = ""
-    "   continue
-    " else
-    "   call add(s:hl_rule, {
-    "         \ 'name' : word,
-    "         \ 'pattern' : '/\S\+\ze : ' . word . '/'
-    "         \ })
-      " Debug"{{{
-      " echomsg 's:hl_rule.name : ' . s:hl_rule.name
-      " echomsg 's:hl_rule.pattern : ' . s:hl_rule.pattern
-      "}}}
-    " endif
-    " let x3end = matchend(line, 'x\{3}\s', end)
-
-    " Add highlight rule
-    " let s:hl_item.hl_rule = s:hl_rule
-
-    " Debug"{{{
-    " echomsg "args : " . args
-    " echomsg "end  : " . end
-    " echomsg "x3end : " . x3end
-    " for hl_rule in s:hl_rule
-    "   echomsg "hl_name : " . hl_rule.name
-    "   echomsg "hl_pattern : " . hl_rule.pattern
-    " endfor
-    " for hl_rule in s:hl_item.hl_rule
-    "   echomsg "hl_name : " . hl_rule.name
-    "   echomsg "hl_pattern : " . hl_rule.pattern
-    " endfor
-    " }}}
-
-    " color info
-    " let colorinfo = matchstr(line, '[a-zA-Z0-9=#,\ ]*', x3end)
-
-    " Debug"{{{
-    " echomsg "colorinfo : " . colorinfo
-    "}}}
-
-  "   call add(s:result, {
-  "         \ "word" : word,
-  "         \ "abbr" : printf('%-16s %s', word, colorinfo),
-  "         \ "kind" : "command",
-  "         \ "action__command" : "highlight " . word
-  "         \ })
-  " endfor"}}}
 
   " Add colorscheme name
   let mess = '++++++ Now colorscheme name ++++++'
@@ -267,7 +175,7 @@ function! s:source.gather_candidates(args, context) "{{{
       let frontcolor = ''
     endif
 
-    " Get front color
+    " Get back color
     if synIDattr(synIDtrans(hlID(coloritem)), 'bg#', env) != ''
       let backgroundcolor = env . 'bg=' . synIDattr(synIDtrans(hlID(coloritem)), 'bg#', env) . ' '
     else
@@ -370,6 +278,7 @@ endfunction "}}}
 " Hook
 " Init
 function! s:source.hooks.on_init(args, context) "{{{
+  call s:initialize_colorSet_data()
 endfunction "}}}
 " Syntax
 function! s:source.hooks.on_syntax(args, context) "{{{
@@ -385,8 +294,57 @@ function! s:source.hooks.on_syntax(args, context) "{{{
 
 endfunction "}}}
 
+" Misc
+function! s:initialize_colorSet_data() "{{{
+  let bufnr = bufnr('%')
+  let bufvars = getbufvar(bufnr, '')
+  if !has_key(bufvars, s:BUFVAR_COLORSET_DATA)
+    let bufvars[s:BUFVAR_COLORSET_DATA] = { 'state' : 'OK'}
+    call s:register_autocmds()
+  endif
+endfunction "}}}
+
+" autocmds
+function! s:register_autocmds() "{{{
+
+  " Autocommands
+  augroup plugin-unite-source-color_set "{{{
+    autocmd! * <buffer>
+    autocmd CursorHoldI <buffer>  call s:on_cursor_hold_i()
+    autocmd CursorHold  <buffer>  call s:on_cursor_hold()
+    autocmd ColorScheme <buffer>  call s:on_colorscheme()
+  augroup END "}}}
+
+endfunction "}}}
+
+" Autocmd
+function! s:on_cursor_hold_i() "{{{
+  let bufnr = bufnr('%')
+  if !s:has_colorset_data(bufnr)
+    return
+  endif
+  call s:update_buffer_changenr()
+  call unite#redraw()
+endfunction "}}}
+function! s:on_cursor_hold() "{{{
+  let bufnr = bufnr('%')
+  if !s:has_colorset_data(bufnr)
+    return
+  endif
+  call s:update_buffer_changenr()
+  call unite#redraw()
+  syntax clear uniteCandidateInputKeyword
+endfunction "}}}
+function! s:on_colorscheme() "{{{
+  let bufnr = bufnr('%')
+  if !s:has_colorset_data(bufnr)
+    return
+  endif
+  call s:update_buffer_changenr()
+  call unite#redraw()
+endfunction "}}}
+
 " Utility
-" Misc "{{{
 function! s:colorscheme_changer() "{{{
   let l:colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
         \ '[fnamemodify(v:val, ":t:r"), fnamemodify(v:val, ":h")]')
@@ -415,8 +373,23 @@ endfunction "}}}
 function! s:lookup(varname, default) "{{{
   return exists(a:varname) ? eval(a:varname) : a:default
 endfunction "}}}
-"}}}
-
+function! s:update_buffer_changenr() "{{{
+  call s:set_colorset_data(bufnr('%'), 'buffer_changenr', changenr())
+endfunction "}}}
+function! s:has_colorset_data(bufnr, ...) "{{{
+  if a:0
+    let key = a:1
+    let data = getbufvar(a:bufnr, s:BUFVAR_COLORSET_DATA)
+    return has_key(data, key)
+  else
+    let bufvars = getbufvar(a:bufnr, '')
+    return has_key(bufvars, s:BUFVAR_COLORSET_DATA)
+  endif
+endfunction "}}}
+function! s:set_colorset_data(bufnr, key, value) "{{{
+  let data = getbufvar(a:bufnr, s:BUFVAR_COLORSET_DATA)
+  let data[a:key] = a:value
+endfunction "}}}
 "}}}
 
 let &cpo = s:save_cpo
