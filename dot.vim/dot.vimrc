@@ -73,12 +73,12 @@ let g:mapleader = ','
 let g:maplocalleader = 'm'
 
 " Release keymappings for plug-in.
-"nnoremap ;  <Nop>
-"xnoremap ;  <Nop>
-"nnoremap m  <Nop>
-"xnoremap m  <Nop>
-"nnoremap ,  <Nop>
-"xnoremap ,  <Nop>
+" nnoremap ;  <Nop>
+" xnoremap ;  <Nop>
+" nnoremap m  <Nop>
+" xnoremap m  <Nop>
+" nnoremap ,  <Nop>
+" xnoremap ,  <Nop>
 
 if s:iswin
   " Exchange path separator.
@@ -109,9 +109,10 @@ if has('vim_starting')
     let msys_pass = 'z:\usr\bin\msys1.0'
     let git_pass = 'z:\usr\bin\Git'
     let gow_pass = 'z:\usr\bin\gow'
+    let python_pass = 'z:\usr\env\python2.6'
     let plus_bin = '\bin'
-    let $PATH = msys_pass . plus_bin . ';' . mingw_pass . plus_bin . ';' . git_pass . plus_bin . ';' . gow_pass . ';' . $PATH
-    unlet gow_pass
+    let $PATH = python_pass . ';' . msys_pass . plus_bin . ';' . mingw_pass . plus_bin . ';' . git_pass . plus_bin . ';' . gow_pass . ';' . $PATH
+    unlet gow_pass mingw_pass msys_pass git_pass python_pass plus_bin
   else
   " Set path.
   let $PATH = expand('~/ws/local/bin') . ':/usr/local/bin:' . $PATH
@@ -215,7 +216,7 @@ endif "}}}
 "}}}
 
 " #- singleton.vim -# "{{{
-if s:invateinthepath('autoload/singleton.vim')
+if s:invateinthepath('autoload/singleton.vim') && has('clientserver')
   call singleton#enable()
   let g:singleton#opener = 'tab drop'
 endif
@@ -669,7 +670,6 @@ augroup vimrc-auto-cursorline "{{{
     \ 'vimfiler',
     \ 'int-*',
     \ 'term-*',
-    \ 'unite',
     \ ]
 
   autocmd!
@@ -734,16 +734,18 @@ set title
 " Title length.
 set titlelen=999
 " Title string. "{{{
-let titlestr = ''
-let titlestr .= "%{expand('%:p:.')} "
-let titlestr .= "%(%m%r%w%)"
-let titlestr .= " "
-let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
-let titlestr .= "\[%n\]"
-let titlestr .= " - VIM"
+function! Titlestr()
+  let titlestr = ''
+  let titlestr .= "%{expand('%:p:.')} "
+  let titlestr .= "%(%m%r%w%)"
+  let titlestr .= " "
+  let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
+  let titlestr .= "\[%n\]"
+  let titlestr .= " - VIM"
+  return titlestr
+endfunction
 "}}}
-let &titlestring = titlestr
-unlet titlestr
+let &titlestring = Titlestr()
 "}}}
 
 " Set tabline."{{{
@@ -1550,10 +1552,10 @@ if s:invateinthepath('autoload/vimshell.vim')
     " }}}
   endif
 
-  if globpath(&rtp, 'autoload/vcs.vim') != ''
+  if s:invateinthepath('autoload/vcs.vim')
     let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
   else
-    let g:vimshell_right_prompt = '[%{mode()}]'
+    let g:vimshell_right_prompt = 'printf("%s%s%s", "[ ", mode(), " ]")'
   endif
 
   " Initialize execute file list.
