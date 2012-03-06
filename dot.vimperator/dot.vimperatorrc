@@ -174,10 +174,10 @@ nnoremap <Leader>t :tab<Space>
 nnoremap <Leader>td :tabduplicate<CR>
 nnoremap <Leader>gf :tab normal! gf<CR>
 " Tab moving
-nnoremap <C-n> :tabmove! +1<CR>
-nnoremap <C-p> :tabmove! -1<CR>
+nnoremap <C-n>   :tabnext <CR>
+nnoremap <C-p>   :tabprevious <CR>
 nnoremap <Right> :tabmove! +1<CR>
-nnoremap <Left> :tabmove! -1<CR>
+nnoremap <Left>  :tabmove! -1<CR>
 
 nnoremap <Leader>n n
 nnoremap <Leader>N N
@@ -280,6 +280,7 @@ autocmd!
 
 " ==================== plugin ======================== "{{{1
 " treestyletab.js
+nnoremap ,tc :<C-u>treestyle
 nnoremap ,tn :<C-u>treestyle next<CR>
 nnoremap ,tp :<C-u>treestyle previous<CR>
 
@@ -339,6 +340,10 @@ EOS
 " Firefox4でリンクにマウスオーバーしたときに出る下部のラベルを表示させない "{{{2
 " via http://twitter.com/#!/teramako/status/51672045787938816
 style chrome://* #statusbar-display { display: none; }
+
+
+" Off ime in ex_command mode "{{{2
+style -name commandline-ime chrome://* #liberator-commandline-command input { ime-mode: inactive; }
 
 
 " }}}1
