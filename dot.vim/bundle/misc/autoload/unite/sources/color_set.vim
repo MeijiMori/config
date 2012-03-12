@@ -57,7 +57,7 @@ if exists('g:highlight_colom.custom')
   let s:use_color_item = g:highlight_colom.custom
 else
   let color_item_length = len(s:highlight_colom.default)
-  let s:use_color_item = s:hightlight_colom.default
+  let s:use_color_item = s:highlight_colom.default
 endif
 
 " Highlight rule
@@ -137,7 +137,7 @@ function! s:source.gather_candidates(args, context) "{{{
 
   endif
 
-  for coloritem in g:highlight_colom.custom
+  for coloritem in s:use_color_item
 
   " Get highlight item
   redir  => highlight
@@ -278,7 +278,7 @@ endfunction "}}}
 " Hook
 " Init
 function! s:source.hooks.on_init(args, context) "{{{
-  call s:initialize_colorSet_data()
+  " call s:initialize_colorSet_data()
 endfunction "}}}
 " Syntax
 function! s:source.hooks.on_syntax(args, context) "{{{
@@ -300,7 +300,7 @@ function! s:initialize_colorSet_data() "{{{
   let bufvars = getbufvar(bufnr, '')
   if !has_key(bufvars, s:BUFVAR_COLORSET_DATA)
     let bufvars[s:BUFVAR_COLORSET_DATA] = { 'state' : 'OK'}
-    call s:register_autocmds()
+    " call s:register_autocmds()
   endif
 endfunction "}}}
 
