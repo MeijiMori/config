@@ -31,8 +31,8 @@ set animations
 
 
 " ==================== Colorscheme =================== "{{{1
-" colorscheme Rp2Tm
-colorscheme LieWs
+colorscheme Rp2Tm
+" colorscheme LieWs
 
 
 " ==================== Firefox options =============== "{{{1
@@ -50,7 +50,7 @@ set! browser.tabs.loadDivertedInBackground=true
 set! browser.tabs.loadBookmarksInBackground=true
 
 " Make caret mode's bar more visible
-set! ui.caretWidth=5
+set! ui.caretWidth=2
 set! ui.caretBlinkTime=1000
 
 " Don't close window when closed last tab
@@ -174,10 +174,10 @@ nnoremap <Leader>t :tab<Space>
 nnoremap <Leader>td :tabduplicate<CR>
 nnoremap <Leader>gf :tab normal! gf<CR>
 " Tab moving
-nnoremap <C-n>   :tabnext <CR>
-nnoremap <C-p>   :tabprevious <CR>
+nnoremap <C-n> :tabnext<CR>
+nnoremap <C-p> :tabprevious<CR>
 nnoremap <Right> :tabmove! +1<CR>
-nnoremap <Left>  :tabmove! -1<CR>
+nnoremap <Left> :tabmove! -1<CR>
 
 nnoremap <Leader>n n
 nnoremap <Leader>N N
@@ -223,13 +223,7 @@ inoremap <C-p> <Up>
 
 "}}}1
 " ==================== Abbreviations ================= "{{{1
-" normal "{{{2
-
-
 " command "{{{2
-
-
-" visual "{{{2
 
 
 " insert "{{{2
@@ -280,7 +274,6 @@ autocmd!
 
 " ==================== plugin ======================== "{{{1
 " treestyletab.js
-nnoremap ,tc :<C-u>treestyle
 nnoremap ,tn :<C-u>treestyle next<CR>
 nnoremap ,tp :<C-u>treestyle previous<CR>
 
@@ -340,6 +333,13 @@ EOS
 " Firefox4でリンクにマウスオーバーしたときに出る下部のラベルを表示させない "{{{2
 " via http://twitter.com/#!/teramako/status/51672045787938816
 style chrome://* #statusbar-display { display: none; }
+
+
+" slideshare のスライドをめくるマッピング {{{2
+" http://vimperator.g.hatena.ne.jp/nokturnalmortum/20111013/1318502000
+nnoremap -urls=www\\.slideshare\\.net l :slideshare next<CR>
+nnoremap -urls=www\\.slideshare\\.net h :slideshare prev<CR>
+
 
 
 " Off ime in ex_command mode "{{{2
