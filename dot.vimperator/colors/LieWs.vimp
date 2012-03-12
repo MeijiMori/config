@@ -1,4 +1,4 @@
-﻿" Note "{{{1
+﻿" Note: "{{{1
 " ==Vimperator_Color_Scheme==
 " name: LieWs
 " Refer to indigo.vimp, sweets.vimp
@@ -28,7 +28,7 @@ highlight Message color: #c3bcb4; background: #303030; font-size: 14px;
 highlight NonText font-weight: bold; color: #4ef9c8; background: #1a1b1c;
 highlight Preview font-weight: bold; color: #c3bcb4; background: #303030;
 highlight Prompt background: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat;
-highlight PromptText color: #1c1c1c; background: #d0d0f0; font-size: 12px;
+highlight PromptText color: #1c1c1c; background-color: rgba(230, 230, 256, 0.8); border-bottom: 3px solid #bfbfff; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 12px;
 
 " Cmd "{{{
 highlight CmdOutput font-weight: normal; color: #fdfdfd; background: #1f1f1f; font-size: 14px;
@@ -38,8 +38,8 @@ hi ContentSeparator border: none; display: -moz-box;
 " Comp "{{{
 highlight CompGroup color: #cfcfcf; background: #2f2f2f; font-size: 14px;
 highlight CompGroup:not(:first-of-type) color: #cfcfcf; background: #10101f; font-size: 14px;
-highlight CompTitle color: #7824af; background: -moz-linear-gradient(19% 99% 80deg, #2f2f2f, #cfcfcf, #b2a089 100%); font-size: 14px;
-highlight CompTitle>* color: #564234; background: #b2a089; border-botttom: 1px solid #000000; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 14px;
+highlight CompTitle color: #7824af; background: -moz-linear-gradient(19% 75% 90deg; #cfbfaf, #b2af8f, #b2a089 100%); font-size: 14px;
+highlight CompTitle>* color: #000000; background: #b2a089; border-bottom: 1px solid #5f5f8f; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 14px;
 highlight CompMsg font-weight: none; margin-left: 12px;
 highlight CompItem font-size: 12px;
 highlight CompItem[selected] font-weight: bold; color: #cfcfcf; background: #050c0f; font-size: 13px;
@@ -77,8 +77,8 @@ highlight Bell display: none;
 " Hint "{{{
 highlight Hint font-weight: normal; color: #efefff; background: #0f0f0f; border: none; maring: -0.7em 0 0 -0.7em; padding:0px 5px; font-size: 14px;
 highlight Hint::after content: attr(number);
-highlight HintElem font-weight: normal; color: #cfcfcf; background-color: rgba(20, 20, 20, 0.8);
 highlight HintActive font-weight: normal; color: #1f1f1f; background-color: rgba(100, 100, 100);
+highlight HintElem font-weight: normal; color: #cfcfcf; background-color: rgba(20, 20, 20, 0.8);
 highlight HintImage opacity: .5;
 " shadow (If this setting is too havey, next lines shounld be comment out) {{{
 hi -append Hint background-color: rgba(28, 28, 28, 0.8); border: 1px solid #0c0c2f; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
