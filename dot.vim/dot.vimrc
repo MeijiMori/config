@@ -103,19 +103,9 @@ endif
 
 " Only setting when first booting "{{{
 if has('vim_starting')
-  if s:iswin
-    " Setting of path for use tools
-    let mingw_pass = 'z:\usr\bin\MinGW'
-    let msys_pass = 'z:\usr\bin\msys1.0'
-    let git_pass = 'z:\usr\bin\Git'
-    let gow_pass = 'z:\usr\bin\gow'
-    let python_pass = 'z:\usr\env\python2.6'
-    let plus_bin = '\bin'
-    let $PATH = python_pass . ';' . msys_pass . plus_bin . ';' . mingw_pass . plus_bin . ';' . git_pass . plus_bin . ';' . gow_pass . ';' . $PATH
-    unlet gow_pass mingw_pass msys_pass git_pass python_pass plus_bin
-  else
-  " Set path.
-  let $PATH = expand('~/ws/local/bin') . ':/usr/local/bin:' . $PATH
+  let pathfile = g:vim_info_dir . '/'. 'others/path.vim'
+  if filereadable(pathfile)
+    execute 'source ' .  pathfile
   endif
 endif
 "}}}
@@ -184,9 +174,9 @@ augroup ReLoad
     autocmd  BufWritePost $MYVIMRC nested source $MYVIMRC | echo "source $MYVIMRC"
   else
     " Change color also reload .vimrc
-    autocmd  BufWritePost $MYVIMRC nested source $MYVIMRC |
-          \if has('gui_running') | source $MYGVIMRC | echo "source $MYVIMRC"
-    autocmd  BufWritePost $MYGVIMRC nested if has('gui_running') | source $MYGVIMRC | echo "source $MYGVIMRC"
+    autocmd BufWritePost $MYVIMRC nested source $MYVIMRC |
+          \ if has('gui_running') | source $MYGVIMRC | echo "source $MYVIMRC"
+    autocmd BufWritePost $MYGVIMRC nested if has('gui_running') | source $MYGVIMRC | echo "source $MYGVIMRC"
   endif
 augroup END
 "}}}
@@ -206,6 +196,7 @@ else
 endif
 unlet pmps
 
+" This code must be write before set up ftp plugin indent
 " #- rtputil.vim -# "{{{
 if s:invateinthepath('autoload/rtputil.vim')
   " path manager
@@ -408,10 +399,6 @@ if has('multi_byte_ime')
   xnoremap ? :<C-u>set imsearch=0<CR>?
 endif
 
-" Use ime ?
-" set noimdisable
-let &imdisable = 1
-
 "}}}
 
 "---------------------------------------------------------------------------
@@ -490,7 +477,7 @@ set updatetime=1000
 
 " Don't create backup?
 " Set of backup "{{{
-" Set directory bkup. "{{{
+" Make directory "{{{
 let s:bkupdir = g:vim_info_dir . '/.bkup'
 if !isdirectory(s:bkupdir)
   call mkdir(s:bkupdir, 'p')
@@ -508,7 +495,7 @@ set backup
 "set backup
 
 " Don't create swap file
-" Set swap file directory. "{{{
+" Make directory. "{{{
 set directory-=.
 let s:swapdir = g:vim_info_dir . '/.swap'
 if !isdirectory(s:swapdir)
@@ -589,10 +576,11 @@ if has('persistent_undo')
   " Set undofile. "{{{
   set undofile
   "let &undodir=&directory
+  " Make directory "{{{
   let s:undorectory = g:vim_info_dir . '/.undo'
   if !isdirectory(s:undorectory)
     call mkdir(s:undorectory, 'p')
-  endif
+  endif "}}}
   let &undodir=s:undorectory
   unlet s:undorectory "}}}
 endif
@@ -620,13 +608,13 @@ set keywordprg=:help
 " Binary whith xxd
 augroup Binary "{{{
   autocmd!
-  autocmd BufReadPre  *.bin let &bin=1
-  autocmd BufReadPost *.bin if &bin | %!xxd
-  autocmd BufReadPost *.bin set ft=xxd | endif
-  autocmd BufWritePre *.bin if &bin | %!xxd -r
-  autocmd BufWritePre *.bin endif
-  autocmd BufWritePost *.bin if &bin | %!xxd
-  autocmd BufWritePost *.bin set nomod | endif
+  autocmd BufReadPre   *.bin,*.exe,*.dll,*.so  let &bin=1
+  autocmd BufReadPost  *.bin,*.exe,*.dll,*.so  if &bin | %!xxd
+  autocmd BufReadPost  *.bin,*.exe,*.dll,*.so  set ft=xxd | endif
+  autocmd BufWritePre  *.bin,*.exe,*.dll,*.so  if &bin | %!xxd -r
+  autocmd BufWritePre  *.bin,*.exe,*.dll,*.so  endif
+  autocmd BufWritePost *.bin,*.exe,*.dll,*.so  if &bin | %!xxd
+  autocmd BufWritePost *.bin,*.exe,*.dll,*.so  set nomod | endif
 augroup END "}}}
 
 " Delete space at end of line (File type is not vim, help)
@@ -655,7 +643,7 @@ augroup END "}}}
 "
 
 " Antialias
-if has('mac')
+if s:ismac
   set antialias
 endif
 
@@ -668,13 +656,14 @@ augroup vimrc-auto-cursorline "{{{
   let cl_filetypes = [
     \ 'vimshell',
     \ 'vimfiler',
+    \ 'unite',
     \ 'int-*',
     \ 'term-*',
     \ ]
 
   autocmd!
   " Don't draw cursorline that filetype is vimshell and more
-  autocmd CursorHold,WinEnter,CursorMoved,CursorMovedI,WinLeave *
+  autocmd CursorHold,WinEnter,BufEnter,CursorMoved,CursorMovedI,WinLeave *
   \       let expr_ft = s:omitfiletype(cl_filetypes, 1, 0)
   autocmd CursorMoved,CursorMovedI * if expr_ft | call s:auto_cursorline('CursorMoved') | endif
   autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
@@ -729,7 +718,7 @@ set showcmd
 "diff Settings
 set diffopt=vertical
 
-" set title."{{{
+" Set title."{{{
 set title
 " Title length.
 set titlelen=999
@@ -741,11 +730,13 @@ function! Titlestr()
   let titlestr .= " "
   let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
   let titlestr .= "\[%n\]"
-  let titlestr .= " - VIM"
+  let envstr =  has('gui_running') ? 'GVim' : 'Vim'
+  let titlestr .= " - " . envstr
+  unlet envstr
   return titlestr
 endfunction
 "}}}
-let &titlestring = Titlestr()
+let &titlestring=Titlestr()
 "}}}
 
 " Set tabline."{{{
@@ -791,7 +782,7 @@ set showtabline=2
 " Set statusline. "{{{
 function! s:makestatusline() "{{{
   " mode
-  let l:sts = "[%{mode()}] "
+  let l:sts = "%<[%{mode('')}] "
   " let l:sts .= "[%n] %{winnr('$')>1 ? '[' . winnr() . '/' . winnr('$') . (winnr('#') == winnr() ? '#':'').']':''} "
   let l:sts .= "%{winnr('$')>1 ? '[' . winnr() . '/' . winnr('$') . (winnr('#') == winnr() ? '#':'').']':''} "
   let l:sts .= "%{expand('%:p:.')}"
@@ -804,7 +795,7 @@ function! s:makestatusline() "{{{
   if exists('g:loaded_eskk')    " eskk.vim
     "let l:sts .= ' %{eskk#statusline("IM:%s", "IM:off")}'
     " Too hevey
-    let l:sts .= ' %{eskk#statusline()}'
+    " let l:sts .= ' %{eskk#statusline()}'
   elseif exists('g:skk_loaded')    " skk.vim
 
     let l:sts .= ' %{SkkGetModeStr()}'
@@ -825,15 +816,16 @@ set laststatus=2
 " setlocal foldtext=getline(v:foldstart+1)
 
 " Turn down a long line appointed in 'breakat'
-" Set linebreak
+" Set linebreak "{{{
 set linebreak
 if s:iswin || !has('gui_running')
-  " let &showbreak='-->'
-  let &showbreak='>\'
+  " let &showbreak='>\'
+  let &showbreak='->'
 else
   let &showbreak='>\'
 endif
 set breakat=\ \	;:,!?
+"}}}
 
 " Do not display greetings message at the time of Vim start.
 set shortmess=aTI
@@ -903,7 +895,7 @@ set formatoptions+=mM
 
 " Scroll Off
 "set scrolloff=0
-let g:scrolloff = 5    " see below
+let g:scrolloff = 10    " see below
 
 " Hack for <LeftMouse> not to adjust ('scrolloff') when single-clicking.
 " Implement 'scrolloff' by auto-command to control the fire.
@@ -948,7 +940,7 @@ endfunction "}}}
 syntax enable
 
 " Enable smart indent.
-set autoindent smartindent
+set autoindent smartindent cindent
 
 augroup MyAutoCmd "{{{
 
@@ -1096,6 +1088,11 @@ endfunction "}}}
 
 "}}}
 
+augroup vim-print-source-colorscheme "{{{
+  autocmd!
+  " autocmd ColorScheme * echomsg 'ColorScheme ' . g:colors_name
+augroup END "}}}
+
 " html
 let g:html_dynamic_folds = 1
 
@@ -1167,18 +1164,18 @@ endfunction"}}}
 
 " Rename file "{{{
 command!
-      \ -nargs=1 -bang
-      \ -bar -complete=file
-      \ Rename saveas<bang> <args>
-      \ call delete(expand('#:p'))
+\  -nargs=1 -bang
+\  -bar -complete=file
+\  Rename saveas<bang> <args>
+\  call delete(expand('#:p'))
 "}}}
 
 " Capture ex command "{{{
 command!
-      \ -nargs=+ -bang
-      \ -complete=command
-      \ Capture
-      \ call s:cmd_capture([<f-args>], <bang>0)
+\  -nargs=+ -bang
+\  -complete=command
+\  Capture
+\  call s:cmd_capture([<f-args>], <bang>0)
 
 function! C(cmd)
   redir => result
@@ -1196,9 +1193,9 @@ endfunction "}}}
 
 " Print all mapping "{{{
 command!
-      \ -nargs=* -complete=mapping
-      \ AllMaps
-      \ map <args> | map! <args> | lmap <args>
+\  -nargs=* -complete=mapping
+\  AllMaps
+\  map <args> | map! <args> | lmap <args>
 "}}}
 
 " :HighlightWith {filetype} ['a 'b]  XXX: Don't work in some case."{{{
@@ -1473,26 +1470,27 @@ cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageC
 
 " #- Verbose -# "{{{
 "set verbose=15
-" Make recoding directory "{{{
+" Make directory "{{{
 let s:verbosedir = g:vim_info_dir . '/.verbose'
 if !isdirectory(s:verbosedir)
   call mkdir(s:verbosedir, 'p')
 endif
-let $VERBOSE=s:verbosedir
-set verbosefile=$VERBOSE/verboseinfo.txt "}}}
+let $VIMVERBOSEINFO=s:verbosedir
+" set verbosefile=$VIMVERBOSEINFO/verboseinfo.txt "}}}
 unlet s:verbosedir "}}}
 
 " #- viminfo -# "{{{
 " Set place for save infofile
+" Make directory "{{{
 let s:infodir = g:vim_info_dir . '/info'
 if !isdirectory(s:infodir)
   call mkdir(s:infodir, 'p')
-endif
-let $INFO=s:infodir
+endif "}}}
+let $VIMINFO=s:infodir
 unlet! s:infodir
 "set viminfo=<50,'10,h,r/a,n$INFO/.viminfo
 set viminfo&
-set viminfo='50,h,f1,n$INFO/.viminfo
+set viminfo='50,h,f1,n$VIMINFO/.viminfo
 " Don't make viminfo
 "set viminfo=
 " }}}
@@ -1503,204 +1501,9 @@ set viminfo='50,h,f1,n$INFO/.viminfo
 " Plugin:"{{{
 "
 
-" #- vimshell.vim -# "{{{
-if s:invateinthepath('autoload/vimshell.vim')
-  " Set recoding directory and initalize file "{{{
-  let s:shell_temp_dir = g:vim_info_dir . '/.vimshell'
-  if !isdirectory(s:shell_temp_dir)
-    call mkdir(s:shell_temp_dir, 'p')
-  endif
-  let g:vimshell_temporary_directory = s:shell_temp_dir " }}}
-  " let g:vimshell_vimshrc_path = s:shell_temp_dir .  '/.vimshrc'
-  let g:vimshell_vimshrc_path =  expand('~/.vimshrc')
-  unlet s:shell_temp_dir
-
-  "
-  let g:vimshell_enable_smart_case = 1
-  let g:vimshell_ignore_case = 1
-  let g:vimshell_environment_term = 'xterm'
-
-  " Platform detection
-  if s:iswin
-    " Windows "{{{
-    " User name @ host name [ working directory]
-    let g:vimshell_user_prompt=' $USERNAME . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
-    " Display user name on Windows.
-    " let g:vimshell_prompt = $USERNAME . "@" . hostname() . " $ "
-    let g:vimshell_prompt = $USERNAME . " $ "
-    " Use ckw.
-    let g:vimshell_use_ckw = 1
-    let g:vimshell_use_terminal_command = 'ckw -e' "}}}
-  else
-    " linux, mac "{{{
-    " User name @ host name [ working directory]
-    let g:vimshell_user_prompt=' $USER . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
-    " Display user name on Linux.
-    " let g:vimshell_prompt = $USER . "@" . hostname() . " $ "
-    let g:vimshell_prompt = $USER . " $ "
-    " Use normal shell history.
-    "let g:vimshell_external_history_path = expand('~/.zsh-history')
-    let g:vimshell_external_history_path = expand('~/.bash-history')
-    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
-    " Prefix "{{{
-    call vimshell#set_execute_file('gif,jpg,png', 'gexe viewnior')
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe gxine')
-    call vimshell#set_execute_file('mp3,wma,m4a', 'gexe aqualung') "}}}
-    let g:vimshell_execute_file_list['zip'] = 'zipinfo'
-    call vimshell#set_execute_file('tgz,gz', 'gzcat')
-    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
-    " }}}
-  endif
-
-  if s:invateinthepath('autoload/vcs.vim')
-    let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
-  else
-    let g:vimshell_right_prompt = 'printf("%s%s%s", "[ ", mode(), " ]")'
-  endif
-
-  " Initialize execute file list.
-  let g:vimshell_execute_file_list = {}
-  let g:vimshell_execute_file_list['pl'] = 'perl'
-  let g:vimshell_execute_file_list['py'] = 'python'
-  call vimshell#set_execute_file('txt,jax,vim,c,h,cpp,d,xml,java', 'vim')
-  if s:iswin
-    call vimshell#set_execute_file('l', 'gexe xyzzyclient')
-    call vimshell#set_execute_file('xyzzy', 'gexe xyzzyclient')
-    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe vlc.exe')
-  else
-    "let g:vimshell_execute_file_list['rb'] = 'ruby'
-    call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
-    call vimshell#set_execute_file('gif,jpg,JPG,png,PNG', 'gexe viewnior')
-  endif
-
-  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
-  function! s:vimshell_settings() "{{{
-    "imap <buffer><silent> &  <C-o>:call vimshell#mappings#push_and_execute('cd ..')<CR>
-    "nnoremap <buffer> T  Ga
-    "nmap <buffer> R   Gah<CR>
-    "call vimshell#altercmd#define('g', 'git')
-    call vimshell#altercmd#define('i', 'iexe')
-    call vimshell#altercmd#define('t', 'texe')
-    call vimshell#set_alias('sl', 'ls')
-    call vimshell#set_alias('l.', 'ls -d .*')
-    call vimshell#set_galias('ll', 'ls -l')
-    call vimshell#set_galias('df', 'df -h')
-    call vimshell#set_galias('du', 'du -h')
-    call vimshell#hook#set('chpwd', [s:SID_PREFIX().'my_chpwd'])
-    call vimshell#hook#set('emptycmd', [s:SID_PREFIX().'my_emptycmd'])
-    call vimshell#hook#set('preexec', [s:SID_PREFIX().'my_preexec'])
-    call vimshell#hook#set('preprompt', [s:SID_PREFIX().'my_preprompt'])
-    "Like old style history
-    inoremap <C-l> :<C-u>Unite -default-action=insert vimshell/history<CR>
-    "call s:init_vimshell_normal()
-  endfunction "}}}
-  " preexe "{{{
-  function! s:my_chpwd(args, context) "{{{
-    call vimshell#execute('ls -a')
-  endfunction "}}}
-  function! s:my_emptycmd(cmdline, context) "{{{
-    call vimshell#set_prompt_command('ls')
-    return 'ls'
-  endfunction "}}}
-  function! s:my_preprompt(args, context) "{{{
-    call vimshell#execute('echo "preprompt"')
-  endfunction "}}}
-  function! s:my_preexec(cmdline, context) "{{{
-    call vimshell#execute('echo "preexec"')
-
-    if a:cmdline =~# '^\s*diff\>'
-      call vimshell#set_syntax('diff')
-    endif
-    return a:cmdline
-  endfunction "}}}
-  "}}}
-  " Like old style vimshell history "{{{
-  "augroup vimrc-plugin-vimshell "{{{
-  "  autocmd!
-  "  autocmd FileType int-* call s:init_vimshell_int()
-  "augroup END "}}}
-  function! s:init_vimshell_int() "{{{
-    inoremap <buffer> <silent> <C-y> <C-r>=<SID>vimshell_complete_history()<CR><C-p>
-  endfunction "}}}
-  function! s:init_vimshell_normal() "{{{
-    inoremap <buffer> <silent> <C-y> <C-r>=<SID>complete_history()<CR><C-p>
-  endfunction "}}}
-  function! s:complete_history() "{{{
-    call complete(len(vimshell#get_prompt()) + 1, g:vimshell#hist_buffer)
-    return ''
-  endfunction "}}}
-  function! s:vimshell_complete_history() "{{{
-    call complete(len(vimshell#get_prompt()) + 1, b:interactive.command_history)
-    return ''
-  endfunction "}}}
-  "let s:context  = unite#get_context()
-  "if s:context.buffer_name  ==# 'completion'
-  "  inoremap <buffer> <expr> <C-Y> unite#do_action('insert')
-  "endif
-  "}}}
-
-  autocmd MyAutoCmd FileType int-* call s:interactive_settings()
-  function! s:interactive_settings() "{{{
-  endfunction "}}}
-
-  autocmd MyAutoCmd FileType term-* call s:terminal_settings()
-  function! s:terminal_settings() "{{{
-    inoremap <silent><buffer><expr> <Plug>(vimshell_term_send_semicolon) vimshell#term_mappings#send_key(';')
-    inoremap <silent><buffer><expr> j<Space> vimshell#term_mappings#send_key('j')
-    "inoremap <silent><buffer><expr> <Up> vimshell#term_mappings#send_keys("\<ESC>[A")
-
-    " Sticky key.
-    imap <buffer><expr> ;  <SID>texe_sticky_func()
-
-    " Escape key.
-    iunmap <buffer><ESC> <ESC>
-    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
-  endfunction
-  function! s:texe_sticky_func()
-    let l:sticky_table = {
-          \',' : '<', '.' : '>', '/' : '?',
-          \'1' : '!', '2' : '@', '3' : '#', '4' : '$', '5' : '%',
-          \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
-          \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
-          \}
-    let l:special_table = {
-          \"\<ESC>" : "\<ESC>", "\<Space>" : "\<Plug>(vimshell_term_send_semicolon)", "\<CR>" : ";\<CR>"
-          \}
-
-    if mode() !~# '^c'
-      echo 'Input sticky key: '
-    endif
-    let l:char = ''
-
-    while l:char == ''
-      let l:char = nr2char(getchar())
-    endwhile
-
-    if l:char =~ '\l'
-      return toupper(l:char)
-    elseif has_key(l:sticky_table, l:char)
-      return l:sticky_table[l:char]
-    elseif has_key(l:special_table, l:char)
-      return l:special_table[l:char]
-    else
-      return ''
-    endif
-  endfunction "}}}
-
-  " Keymap "{{{
-  nnoremap <silent> [Space]: :<C-u>VimShellTab<CR>
-  nnoremap <silent> [Space]; :<C-u>VimShellCreate<CR>
-  nnoremap <silent> [Space]l :<C-u>VimShellPop<CR>
-  nnoremap [Space]i  :<C-u>VimShellInteractive<Space>
-  nnoremap [Space]t  :<C-u>VimShellTerminal<Space>
-  "}}}
-
-endif
-" }}}
-
 " #- unite.vim -# "{{{
 if s:invateinthepath('autoload/unite.vim')
-  " Set of unite directory "{{{
+  " Make directory "{{{
   let s:unite_dir = g:vim_info_dir . '/.unite'
   if !isdirectory(s:unite_dir)
     call mkdir(s:unite_dir, 'p')
@@ -1807,9 +1610,22 @@ if s:invateinthepath('autoload/unite.vim')
     call setqflist(l:qflist)
     call qfreplace#start('')
   endfunction"}}}
-  "}}}
   call unite#custom_action('source/grep/jump_list', 'replace', my_replace)
   unlet my_replace
+  "}}}
+  " source action for file "{{{
+  let s:unite_action = {
+  \ 'description' : ':source files',
+  \ 'is_selectable' : 1,
+  \ }
+
+  function! s:unite_action.func(candidates) "{{{
+    for c in a:candidates
+      source `=c.action__path`
+    endfor
+  endfunction "}}}
+  call unite#custom_action('file', 'source', s:unite_action)
+  unlet! s:unite_action "}}}
   "}}}
 
   " Custom filters."{{{
@@ -1865,444 +1681,207 @@ if s:invateinthepath('autoload/unite.vim')
 endif
 "}}}
 
-" #- quickrun.vim -# "{{{
-if s:invateinthepath('autoload/quickrun.vim')
-  function! s:init_quickrun()
-    for [key, com] in items({
-          \   '<Leader>x' : '<=@i >:',
-          \   '<Leader>p' : '<=@i >!',
-          \   '<Leader>"' : '<=@i >=@"',
-          \   '<Leader>w' : '<=@i >',
-          \   '<Leader>q' : '<=@i >>',
-          \   '<Leader>vx' : '-eval 1 <=@i >:',
-          \   '<Leader>vp' : '-eval 1 <=@i >!',
-          \   '<Leader>v"' : '-eval 1 <=@i >=@"',
-          \   '<Leader>vw' : '-eval 1 <=@i >',
-          \   '<Leader>vq' : '-eval 1 <=@i >>',
-          \ })
-      execute 'nnoremap <silent>' key ':QuickRun' com '-mode n<CR>'
-      execute 'vnoremap <silent>' key ':QuickRun' com '-mode v<CR>'
-    endfor
-
-    call s:set_default('g:QuickRunConfig', {'mkd': {'command': 'mdv2html'}})
-    call s:set_default('g:QuickRunConfig', {'xmodmap': {}})
-  endfunction
-  call s:init_quickrun()
-  nmap <silent> [Space]r <Plug>(quickrun-op)
-
-  "if !exists('g:quickrun_config')
-  "  " Enable async.
-  "  let g:quickrun_config = {
-  "        \   '*': {'runmode': 'async:vimproc'},
-  "        \ }
-  "
-  "  if s:iswin
-  "    function! TexEncoding()
-  "      if &fileencoding ==# 'utf-8'
-  "        let l:arg = 'utf8 '
-  "      elseif &fileencoding =~# '^euc-\%(jp\|jisx0213\)$'
-  "        let l:arg = 'euc '
-  "      elseif &fileencoding =~# '^iso-2022-jp'
-  "        let l:arg = 'jis '
-  "      else " cp932
-  "        let l:arg = 'sjis '
-  "      endif
-  "
-  "      return l:arg
-  "    endfunction
-  "    let tex = 'platex -kanji={TexEncoding()}'
-  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi'] }
-  "  else
-  "    let tex = 'platex'
-  "    let g:quickrun_config.tex = { 'command' : tex, 'exec': ['%c %s', 'dvipdfmx %s:r.dvi', 'open %s:r.pdf'] }
-  "  endif
-  "  unlet tex
-  "
-  "  let g:quickrun_config.vim = {}
-  "endif
-endif
-"}}}
-
-" #- vimfiler.vim -# "{{{
-if s:invateinthepath('autoload/vimfiler.vim')
+" #- vimshell.vim -# "{{{
+if s:invateinthepath('autoload/vimshell.vim')
   " Make directory "{{{
-  let s:vimfiler_dir = g:vim_info_dir . '/.vimfiler'
-  if !isdirectory(s:vimfiler_dir)
-    call mkdir(s:vimfiler_dir, 'p')
+  let s:vshell_temp_dir = g:vim_info_dir . '/.vimshell'
+  if !isdirectory(s:vshell_temp_dir)
+    call mkdir(s:vshell_temp_dir, 'p')
   endif
-  let g:vimfiler_data_directory = s:vimfiler_dir
-  unlet s:vimfiler_dir "}}}
-  " Key-mapping "{{{
-  nnoremap <silent>[Space]v :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
-  nnoremap [Space]fo  :<C-u>VimFilerTab<CR>
-  nnoremap [Space]ff  :<C-u>VimFilerBufferDir<CR>
-  nnoremap [Space]si  :<C-u>VimFilerSimple<CR>
-  " File explorer like behavior.
-  nnoremap  <silent> [Space]h   :<C-u>execute 'VimFiler -buffer-name=explore -split -simple -winwidth=35 -toggle ' fnamemodify(bufname('%'), ':p:h')<CR>
-  " }}}
-  " suffix "{{{
-  call vimfiler#set_execute_file('vim', 'vim')
-  call vimfiler#set_execute_file('txt', 'vim')
+  let g:vimshell_temporary_directory = s:vshell_temp_dir " }}}
+  " let g:vimshell_vimshrc_path = s:vshell_temp_dir .  '/.vimshrc'
+  let g:vimshell_vimshrc_path =  expand('~/.vimshrc')
+  unlet s:vshell_temp_dir
+
+  "
+  let g:vimshell_enable_smart_case = 1
+  let g:vimshell_ignore_case = 1
+  let g:vimshell_environment_term = 'xterm'
+
+  " Platform detection
   if s:iswin
-    call vimfiler#set_execute_file('l', 'xyzzyclient')
-    call vimfiler#set_execute_file('xyzzy', 'xyzzyclient')
-    call vimfiler#set_execute_file('3GP,mp4,mkv', 'kmplayer')
+    " Windows "{{{
+    " Username @ hostname [ working directory]
+    let g:vimshell_user_prompt = ' $USERNAME . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
+    " Display user name on Windows.
+    " let g:vimshell_prompt = $USERNAME . "@" . hostname() . " $ "
+    let g:vimshell_prompt = "$ "
+    " Use ckw.
+    let g:vimshell_use_ckw = 1
+    let g:vimshell_use_terminal_command = 'ckw -e' "}}}
   else
-    call vimfiler#set_execute_file('gif,jpg,JPG,png,PNG', 'viewnior')
-    call vimfiler#set_execute_file('3GP,mp4,mkv', 'gxine')
-    call vimfiler#set_execute_file('mp3,wma,m4a', 'aqualung')
+    " linux, mac "{{{
+    " User name @ host name [ working directory]
+    let g:vimshell_user_prompt = ' $USER . " @ " . hostname() . " [ " . fnamemodify(getcwd(), ":~") . " ]"'
+    " Display user name on Linux.
+    " let g:vimshell_prompt = $USER . "@" . hostname() . " $ "
+    let g:vimshell_prompt =  "$ "
+    " Use normal shell history.
+    "let g:vimshell_external_history_path = expand('~/.zsh-history')
+    let g:vimshell_external_history_path = expand('~/.bash-history')
+    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
+    " Prefix "{{{
+    call vimshell#set_execute_file('gif,jpg,png', 'gexe viewnior')
+    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe gxine')
+    call vimshell#set_execute_file('mp3,wma,m4a', 'gexe aqualung') "}}}
+    let g:vimshell_execute_file_list['zip'] = 'zipinfo'
+    call vimshell#set_execute_file('tgz,gz', 'gzcat')
+    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
+    " }}}
   endif
-  " }}}
 
-  let g:vimfiler_split_command = 'VertSplit'
-  let g:vimfiler_edit_command = 'tabedit'
-  let g:vimfiler_pedit_command = 'vnew'
+  if s:invateinthepath('autoload/vcs.vim')
+    let g:vimshell_right_prompt = 'vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
+  else
+    let g:vimshell_right_prompt = 'printf("%s%s%s", "[ ", mode(), " ]")'
+  endif
 
-  let g:vimfiler_enable_clipboard = 1
-  let g:vimfiler_safe_mode_by_default = 0
-  let g:vimfiler_cd_command = 'TabpageCD'
-
-  " Define filer command "{{{
+  " Initialize execute file list.
+  let g:vimshell_execute_file_list = {}
+  let g:vimshell_execute_file_list['pl'] = 'perl'
+  let g:vimshell_execute_file_list['py'] = 'python'
+  call vimshell#set_execute_file('txt,jax,vim,c,h,cpp,d,xml,java', 'vim')
   if s:iswin
-    " Windows default. "{{{
-    let g:vimfiler_external_delete_command = 'system rmdir /Q /S $srcs'
-    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
-    let g:vimfiler_external_copy_file_command = 'system copy $src $dest'
-    let g:vimfiler_external_copy_directory_command = 'xcopy /s $srcs $dest'
-    let g:vimfiler_external_move_command = 'system move /Y $srcs $dest'
-    " }}}
+    call vimshell#set_execute_file('l', 'gexe xyzzyclient')
+    call vimshell#set_execute_file('xyzzy', 'gexe xyzzyclient')
+    call vimshell#set_execute_file('3GP,mp4,mkv', 'gexe vlc.exe')
   else
-    " Linux default. "{{{
-    let g:vimfiler_external_copy_directory_command = 'cp -r $src $dest'
-    let g:vimfiler_external_copy_file_command = 'cp $src $dest'
-    let g:vimfiler_external_delete_command = 'rm -r $srcs'
-    let g:vimfiler_external_move_command = 'mv $srcs $dest'
-    " }}}
-  endif "}}}
-
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_detect_drives = s:iswin ? [
-        \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
-        \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/', 'Z:/'] :
-        \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
-        \ split(glob('/Users/*'), '\n')
-
-  " Set vimfiler use trash_box "{{{
-  let s:filer_trash_dir = g:vim_info_dir . '/others/.trash_box'
-  if !isdirectory(s:filer_trash_dir)
-    call mkdir(s:filer_trash_dir, 'p')
+    "let g:vimshell_execute_file_list['rb'] = 'ruby'
+    call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
+    call vimshell#set_execute_file('gif,jpg,JPG,png,PNG', 'gexe viewnior')
   endif
-  let g:vimfiler_trashbox_directory = s:filer_trash_dir
-  unlet s:filer_trash_dir
 
-  if s:iswin && globpath(&rtp, 'autoload/vimproc.vim') != ''
-    let g:unite_kind_file_use_trashbox = 1
-  endif "}}}
-
-  " icons
-  let g:vimfiler_tree_leaf_icon = ' |-- '
-  let g:vimfiler_tree_opened_icon = '[-]'
-  let g:vimfiler_tree_closed_icon = '[ ]'
-  let g:vimfiler_file_icon = ' - '
-  let g:vimfiler_marked_file_icon = ' * '
-
-  autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
-  function! s:vimfiler_my_settings() "{{{
-    " Override vimfiler's setting
-    " Key-mappings "{{{
-    nunmap <buffer>t
-    nunmap <buffer>a
-    nunmap <buffer>O
-    nunmap <buffer><TAB>
-    nmap <buffer><TAB> <Plug>(vimfiler_choose_action)
-    " like an operatortion that vim folding
-    nmap <buffer>za <Plug>(vimfiler_expand_tree)
-    nmap <buffer>O <Plug>(vimfiler_sync_with_another_vimfiler)
-    "}}}
-
+  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
+  function! s:vimshell_settings() "{{{
+    " setlocal nonumber
+    "imap <buffer><silent> &  <C-o>:call vimshell#mappings#push_and_execute('cd ..')<CR>
+    "nnoremap <buffer> T  Ga
+    "nmap <buffer> R   Gah<CR>
+    "call vimshell#altercmd#define('g', 'git')
+    call vimshell#altercmd#define('i', 'iexe')
+    call vimshell#altercmd#define('t', 'texe')
+    call vimshell#set_alias('sl', 'ls')
+    call vimshell#set_alias('l.', 'ls -d .*')
+    call vimshell#set_galias('ll', 'ls -l')
+    call vimshell#set_galias('df', 'df -h')
+    call vimshell#set_galias('du', 'du -h')
+    call vimshell#hook#set('chpwd', [s:SID_PREFIX().'my_chpwd'])
+    call vimshell#hook#set('emptycmd', [s:SID_PREFIX().'my_emptycmd'])
+    call vimshell#hook#set('preexec', [s:SID_PREFIX().'my_preexec'])
+    call vimshell#hook#set('preprompt', [s:SID_PREFIX().'my_preprompt'])
+    "Like old style history
+    inoremap <C-l> :<C-u>Unite -default-action=insert vimshell/history<CR>
+    "call s:init_vimshell_normal()
   endfunction "}}}
-endif
-"}}}
+  " preexe "{{{
+  function! s:my_chpwd(args, context) "{{{
+    call vimshell#execute('ls -a')
+  endfunction "}}}
+  function! s:my_emptycmd(cmdline, context) "{{{
+    call vimshell#set_prompt_command('ls')
+    return 'ls'
+  endfunction "}}}
+  function! s:my_preprompt(args, context) "{{{
+    call vimshell#execute('echo "preprompt"')
+  endfunction "}}}
+  function! s:my_preexec(cmdline, context) "{{{
+    call vimshell#execute('echo "preexec"')
 
-" #- surround.vim -# "{{{
-if s:invateinthepath('plugin/surround.vim')
-  " Setting of surround for kana
-  runtime! plugin/surround.vim
-
-    if exists('g:loaded_surround') && exists('*SurroundRegister')
-      call SurroundRegister('g', '&', "&lt;\r&gt;")
-      call SurroundRegister('g', 'C', "<![CDATA[\r]]>")
-
-      call SurroundRegister('g', 'jb', "（\r）")
-      call SurroundRegister('g', 'jB', "｛\r｝")
-      call SurroundRegister('g', 'jr', "［\r］")
-      call SurroundRegister('g', 'jk', "「\r」")
-      call SurroundRegister('g', 'jK', "『\r』")
-      call SurroundRegister('g', 'ja', "＜\r＞")
-      call SurroundRegister('g', 'jA', "≪\r≫")
-      call SurroundRegister('g', 'jy', "〈\r〉")
-      call SurroundRegister('g', 'jY', "《\r》")
-      call SurroundRegister('g', 'jt', "〔\r〕")
-      call SurroundRegister('g', 'js', "【\r】")
+    if a:cmdline =~# '^\s*diff\>'
+      call vimshell#set_syntax('diff')
     endif
+    return a:cmdline
+  endfunction "}}}
+  "}}}
+  " Like old style vimshell history "{{{
+  "augroup vimrc-plugin-vimshell "{{{
+  "  autocmd!
+  "  autocmd FileType int-* call s:init_vimshell_int()
+  "augroup END "}}}
+  function! s:init_vimshell_int() "{{{
+    inoremap <buffer> <silent> <C-y> <C-r>=<SID>vimshell_complete_history()<CR><C-p>
+  endfunction "}}}
+  function! s:init_vimshell_normal() "{{{
+    inoremap <buffer> <silent> <C-y> <C-r>=<SID>complete_history()<CR><C-p>
+  endfunction "}}}
+  function! s:complete_history() "{{{
+    call complete(len(vimshell#get_prompt()) + 1, g:vimshell#hist_buffer)
+    return ''
+  endfunction "}}}
+  function! s:vimshell_complete_history() "{{{
+    call complete(len(vimshell#get_prompt()) + 1, b:interactive.command_history)
+    return ''
+  endfunction "}}}
+  "let s:context  = unite#get_context()
+  "if s:context.buffer_name  ==# 'completion'
+  "  inoremap <buffer> <expr> <C-Y> unite#do_action('insert')
+  "endif
+  "}}}
 
-  let g:surround_no_mappings = 1
-  autocmd MyAutoCmd FileType * call s:define_surround_keymappings()
+  autocmd MyAutoCmd FileType int-* call s:interactive_settings()
+  function! s:interactive_settings() "{{{
 
-  function! s:define_surround_keymappings()
-    if !&modifiable
-      return
+    "Key mapping
+    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
+  endfunction "}}}
+
+  autocmd MyAutoCmd FileType term-* call s:terminal_settings()
+  function! s:terminal_settings() "{{{
+    inoremap <silent><buffer><expr> <Plug>(vimshell_term_send_semicolon) vimshell#term_mappings#send_key(';')
+    inoremap <silent><buffer><expr> j<Space> vimshell#term_mappings#send_key('j')
+    "inoremap <silent><buffer><expr> <Up> vimshell#term_mappings#send_keys("\<ESC>[A")
+
+    " Sticky key.
+    imap <buffer><expr> ;  <SID>texe_sticky_func()
+
+    " Escape key.
+    iunmap <buffer><ESC> <ESC>
+    imap <buffer><ESC>   <Plug>(vimshell_term_send_escape)
+  endfunction "}}}
+  function! s:texe_sticky_func() "{{{
+    let l:sticky_table = {
+          \',' : '<', '.' : '>', '/' : '?',
+          \'1' : '!', '2' : '@', '3' : '#', '4' : '$', '5' : '%',
+          \'6' : '^', '7' : '&', '8' : '*', '9' : '(', '0' : ')', '-' : '_', '=' : '+',
+          \';' : ':', '[' : '{', ']' : '}', '`' : '~', "'" : "\"", '\' : '|',
+          \}
+    let l:special_table = {
+          \"\<ESC>" : "\<ESC>", "\<Space>" : "\<Plug>(vimshell_term_send_semicolon)", "\<CR>" : ";\<CR>"
+          \}
+
+    if mode() !~# '^c'
+      echo 'Input sticky key: '
     endif
+    let l:char = ''
 
-    nmap <buffer> ds   <Plug>Dsurround
-    nmap <buffer> cs   <Plug>Csurround
-    nmap <buffer> ys   <Plug>Ysurround
-    nmap <buffer> yS   <Plug>YSurround
-    nmap <buffer> yss  <Plug>Yssurround
-    nmap <buffer> ySs  <Plug>YSsurround
-    nmap <buffer> ySS  <Plug>YSsurround
-  endfunction
-endif
-"}}}
+    while l:char == ''
+      let l:char = nr2char(getchar())
+    endwhile
 
-" #- echodoc.vim -# "{{{
-if s:invateinthepath('autoload/echodoc.vim')
-  let g:echodoc_enable_at_startup = 1
-endif
-" }}}
+    if l:char =~ '\l'
+      return toupper(l:char)
+    elseif has_key(l:sticky_table, l:char)
+      return l:sticky_table[l:char]
+    elseif has_key(l:special_table, l:char)
+      return l:special_table[l:char]
+    else
+      return ''
+    endif
+  endfunction "}}}
 
-" #- ref.vim -# "{{{
-if s:invateinthepath('autoload/ref.vim')
-  " Make cache directory "{{{
-  let s:ref_dir =  g:vim_info_dir . '/.ref/.vim_ref_cache'
-  if !isdirectory(s:ref_dir)
-    call mkdir(s:ref_dir, 'p')
-  endif
-  let g:ref_cache_dir = s:ref_dir " }}}
-  autocmd FileType ref call s:init_ref_viewer()
-  function! s:init_ref_viewer()
-    " Overwrite setting
-    nmap <buffer> b <Plug>(ref-back)
-    nmap <buffer> f <Plug>(ref-forward)
-    nnoremap <buffer> q <C-w>c
-    setlocal nonumber
-  endfunction
-endif
-" }}}
+  " Keymap "{{{
+  nnoremap <silent> [Space]: :<C-u>VimShellTab<CR>
+  nnoremap <silent> [Space]; :<C-u>VimShellCreate<CR>
+  nnoremap <silent> [Space]l :<C-u>VimShellPop<CR>
+  nnoremap [Space]i  :<C-u>VimShellInteractive<Space>
+  nnoremap [Space]t  :<C-u>VimShellTerminal<Space>
+  "}}}
 
-" #- Restart.vim -# "{{{
-if s:invateinthepath('plugin/restart.vim')
-  let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
-  " key mapping
-  nnoremap <silent> <Space><leader>r :<C-u>Restart<CR>
-  nnoremap <silent> <Space><leader>rm :<C-u>Restart!<CR>
-endif
-" }}}
-
-" #- caw.vim -# "{{{
-if s:invateinthepath('autoload/caw.vim')
-  nmap gcc <Plug>(caw:i:toggle)
-  xmap gcc <Plug>(caw:i:toggle)
-endif
-"}}}
-
-" #- Vinarise -# "{{{
-if s:invateinthepath('autoload/vinarise.vim')
-  let g:vinarise_enable_auto_detect = 1
-  let g:vinarise_detect_large_file_size = 10000000
-  let g:vinarise_objdump_command = "objdump -Dslx"
-endif
-"}}}
-
-" #- smartchr -# "{{{
-if s:invateinthepath('autoload/smartchr.vim')
-  inoremap <expr> , smartchr#one_of(', ', ',')
-  inoremap <expr> ? smartchr#one_of(' ? ', '?')
-
-  " Smart =.
-  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-        \ : smartchr#one_of(' = ', '=', ' == ')
-
-  augroup MyAutoCmd
-    " Substitute .. into -> .
-    autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
-    autocmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
-    autocmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
-    autocmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
-
-    autocmd FileType haskell
-          \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
-          \| inoremap <buffer> <expr> - smartchr#loop('-', ' <- ')
-          \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
-          \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
-          \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
-          \| inoremap <buffer> <expr> . smartchr#loop(' . ', '..', '.')
-
-    autocmd FileType scala
-          \ inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
-          \| inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' => ')
-          \| inoremap <buffer> <expr> : smartchr#loop(': ', ':', ' :: ')
-          \| inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
-
-    autocmd FileType eruby
-          \ inoremap <buffer> <expr> > smartchr#loop('>', '%>')
-          \| inoremap <buffer> <expr> < smartchr#loop('<', '<%', '<%=')
-  augroup END
-endif
-"}}}
-
-" #- stickykey -# "{{{
-if s:invateinthepath('autoload/stickykey.vim')
-endif
-"}}}
-
-" #- quickhl.vim -# "{{{
-if s:invateinthepath('autoload/quickhl.vim')
-nmap ZZl <Plug>(quickhl-toggle)
-xmap ZZl <Plug>(quickhl-toggle)
-nmap <Space>M <Plug>(quickhl-reset)
-xmap <Space>M <Plug>(quickhl-reset)
-
-" nmap <Space>j <Plug>(quickhl-match)
-
-" highlight color change
-let g:quickhl_colors = [
-      \ "guifg=#cfcfcf guibg=#2f002f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f007f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f2f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f0f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#0f3f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#1f3f0f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f1f1f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#5f4f2f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f3f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#3f2f4f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#4f1f5f gui=bold ",
-      \ "guifg=#cfcfcf guibg=#2f5f1f gui=bold ",
-      \ ]
-
-let g:quickhl_keywords = [
-      \ "t9md",
-      \ "ujihisa",
-      \ "thinca",
-      \ "tyru",
-      \ "kana",
-      \ "mattn",
-      \ "Shougo",
-      \ ]
-
-endif
-" }}}
-
-" #- textmanip.vim -# "{{{
-if s:invateinthepath('autoload/textmanip.vim')
-  if has('gui_running')
-    xmap <M-d> <Plug>(textmanip-duplicate-down)
-    nmap <M-d> <Plug>(textmanip-duplicate-down)
-    xmap <M-D> <Plug>(textmanip-duplicate-up)
-    nmap <M-D> <Plug>(textmanip-duplicate-up)
-
-    xmap <C-j> <Plug>(textmanip-move-down)
-    xmap <C-k> <Plug>(textmanip-move-up)
-    xmap <C-h> <Plug>(textmanip-move-left)
-    xmap <C-l> <Plug>(textmanip-move-right)
-  else
-    xmap <Space>d <Plug>(textmanip-duplicate-down)
-    nmap <Space>d <Plug>(textmanip-duplicate-down)
-    xmap <Space>D <Plug>(textmanip-duplicate-up)
-    nmap <Space>D <Plug>(textmanip-duplicate-up)
-
-    xmap <C-j> <Plug>(textmanip-move-down)
-    xmap <C-k> <Plug>(textmanip-move-up)
-    xmap <C-h> <Plug>(textmanip-move-left)
-    xmap <C-l> <Plug>(textmanip-move-right)
-  endif
-endif
-"}}}
-
-" #- colorv.vim -# "{{{
-if s:invateinthepath('plugin/colorv.vim')
-  let colorv_cache_dir = g:vim_info_dir . '/.ColorV'
-  if !isdirectory(colorv_cache_dir)
-    call mkdir(colorv_cache_dir, 'p')
-  endif
-  let g:ColorV_cache_File = colorv_cache_dir . '/ColorV_cache'
-endif
-" }}}
-
-" #- visualstar.vim -# "{{{
-if s:invateinthepath('plugin/visualstar.vim')
-  map * <Plug>(visualstar-*)
-  map # <Plug>(visualstar-#)
-  map g* <Plug>(visualstar-g*)
-  map g# <Plug>(visualstar-g#)
-endif
-"}}}
-
-" #- openbrowser -# "{{{
-if s:invateinthepath('autoload/openbrowser.vim')
-  nnoremap <silent>gx :<C-u>OpenBrowser expand('%')<CR>
-endif
-"}}}
-
-" #- winmove.vim -# "{{{
-if s:invateinthepath('plugin/winmove.vim')
-  let g:wm_move_up = '<Up>'
-  let g:wm_move_right = '<Right>'
-  let g:wm_move_down = '<Down>'
-  let g:wm_move_left = '<Left>'
-endif
-"}}}
-
-" #- FoldCC.vim -# "{{{
-if s:invateinthepath('plugin/foldCC.vim')
-  set foldtext=FoldCCtext()
-  set fillchars=vert:\|
-endif
-"}}}
-
-" #- fontzoom.vim -#"{{{
-if s:invateinthepath('plugin/fontzoom.vim')
-  nmap <F11> <Plug>(fontzoom-larger)
-  nmap <F12> <Plug>(fontzoom-smaller)
-endif
-"}}}
-
-" #- netrw.vim -# "{{{
-" Set of netrw configuration directory "{{{
-let s:netrw_dir = g:vim_info_dir . '/.netrw'
-if !isdirectory(s:netrw_dir)
-  call mkdir(s:netrw_dir, 'p')
-endif
-let g:netrw_home = s:netrw_dir " }}}
-let g:netrw_list_hide= '*.swp'
-nnoremap <silent> <BS> :<C-u>Explore<CR>
-" Change default directory.
-"set browsedir=current
-if executable('wget')
-  let g:netrw_http_cmd = 'wget'
-endif
-"}}}
-
-" #- matchit -# "{{{
-if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
-  source $VIMRUNTIME/macros/matchit.vim
-endif
-" }}}
-
-" #- poslist.vim -#"{{{
-if s:invateinthepath('autoload/poslist.vim')
-  let g:poslist_histsize = 1000
-  nmap <C-o> <Plug>(poslist-prev-pos)
-  nmap <C-i> <Plug>(poslist-next-pos)
-endif
-"}}}
+endif "}}}
 
 " #- neocomplcache.vim -# "{{{
 if s:invateinthepath('autoload/neocomplcache.vim')
-" Setting of directory for neocomplcache "{{{
+" Make directory "{{{
 let s:neocon_temp_dir = g:vim_info_dir . '/.neco'
 " For snippets
 let s:neocon_snip_dir =  g:vim_misc_dir . '/snippets'
@@ -2344,10 +1923,10 @@ let g:neocomplcache_max_list = 100
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
       \ 'default' : '',
-      \ 'vimshell' : g:vim_info_dir . '/.vimshell/command-history',
+      \ 'vimshell' : g:vimshell_temporary_directory . '/command-history',
       \ 'text' : $HOME . '/.dict/SKK-JISYO.L',
       \ 'txt' : $HOME . '/.dict/SKK-JISYO.L',
-      \ 'int-termtter' : g:vim_info_dir . '/.vimshell/int-history/int-termtter',
+      \ 'int-termtter' : g:vimshell_temporary_directory . '/int-history/int-termtter',
       \ }
 
 if !s:iswin
@@ -2452,6 +2031,435 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 endif
 "}}}
 
+" #- vimfiler.vim -# "{{{
+if s:invateinthepath('autoload/vimfiler.vim')
+  " Make directory "{{{
+  let s:vimfiler_dir = g:vim_info_dir . '/.vimfiler'
+  if !isdirectory(s:vimfiler_dir)
+    call mkdir(s:vimfiler_dir, 'p')
+  endif
+  let g:vimfiler_data_directory = s:vimfiler_dir
+  unlet s:vimfiler_dir "}}}
+  " suffix "{{{
+  let g:vimfiler_execute_file_list = {}
+
+  " text
+  for s:i in split(
+    \ 'asm,bash,c,cc,cf,cfg,cgi,class,clj,cnf,conf,cpp,cs,css,csv,diff,dtd,el,' .
+    \ 'erb,erl,go,groovy,h,hpp,hs,ini,io,jam,java,jax,js,json,jsp,l,lhs,log,lua,' .
+    \ 'map,mf,mkd,ml,ng,note,nyaos,objectmacro,patch,php,pl,pm,po,pro,properties,ps1,' .
+    \ 'py,rb,reg,sablecc,scala,scm,sh,sql,ss,tex,txt,vba,viki,vim,vimgolf,xml,' .
+    \ 'xsl,xul,xyzzy,y,yaml,yml,zsh', ',')
+    let g:vimfiler_execute_file_list[s:i] = 'vim'
+  endfor
+  unlet s:i
+  if s:iswin
+    " img "{{{
+    for s:i in split(
+      \ 'fig,jpg,jpeg,JPG,png,PNG', ',')
+      let g:vimfiler_execute_file_list[s:i] = local_bin . '/VLC/vlc.exe'
+    endfor
+    unlet s:i "}}}
+    " movie"{{{
+    for s:i in split(
+      \ '3GP,mp4,mkv,wmv,AVI', ',')
+      let g:vimfiler_execute_file_list[s:i] = local_bin . '/VLC/vlc.exe'
+    endfor
+    unlet s:i"}}}
+    " music"{{{
+    for s:i in split(
+      \ 'mp3,AVI', ',')
+      let g:vimfiler_execute_file_list[s:i] = local_bin . '/foobar2000/foobar2000.exe'
+    endfor
+    unlet s:i"}}}
+  else
+    " img"{{{
+    for s:i in split(
+      \ 'gif,jpg,JPG,jpeg,png,PNG', ',')
+      let g:vimfiler_execute_file_list[s:i] = 'viewnior'
+    endfor
+    unlet s:i"}}}
+    " movie"{{{
+    for s:i in split(
+      \ '3GP,mp4,mkv,wmv,AVI', ',')
+      let g:vimfiler_execute_file_list[s:i] = 'gxine'
+    endfor
+    unlet s:i"}}}
+    " music"{{{
+    for s:i in split(
+      \ 'mp3,wma,m4a, ',')
+      let g:vimfiler_execute_file_list[s:i] = 'aqualung'
+    endfor
+    unlet s:i"}}}
+  endif
+  " }}}
+
+  let g:vimfiler_split_command = 'VertSplit'
+  let g:vimfiler_edit_command = 'tabedit'
+  let g:vimfiler_pedit_command = 'vnew'
+
+  let g:vimfiler_enable_clipboard = 1
+  let g:vimfiler_safe_mode_by_default = 0
+  let g:vimfiler_cd_command = 'TabpageCD'
+
+  " Define filer command "{{{
+  if s:iswin
+    " Windows default. "{{{
+    " let g:unite_kind_file_delete_file_command = ''
+    " let g:unite_kind_file_delete_directory_command = ''
+    " let g:unite_kind_file_copy_file_command = ''
+    " let g:unite_kind_file_copy_directory_command = ''
+    " let g:unite_kind_file_move_command = ''
+    " }}}
+  else
+    " Linux default. "{{{
+    " let g:unite_kind_file_delete_file_command = 'rm $srcs'
+    " let g:unite_kind_file_delete_directory_command = 'rm -r $srcs'
+    " let g:unite_kind_file_copy_file_command = 'cp $src $dest'
+    " let g:unite_kind_file_copy_directory_command = 'cp -r $src $dest'
+    " let g:unite_kind_file_move_command = 'mv $srcs $dest'
+    " }}}
+  endif "}}}
+
+  let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_detect_drives = s:iswin ? [
+        \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
+        \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/', 'Z:/'] :
+        \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
+        \ split(glob('/Users/*'), '\n')
+
+  " Set vimfiler use trash_box "{{{
+  let s:filer_trash_dir = g:vim_info_dir . '/others/.trash_box'
+  if !isdirectory(s:filer_trash_dir)
+    call mkdir(s:filer_trash_dir, 'p')
+  endif
+  let g:vimfiler_trashbox_directory = s:filer_trash_dir
+  unlet s:filer_trash_dir
+
+  if s:iswin && s:invateinthepath('autoload/vimproc.vim') != ''
+    let g:unite_kind_file_use_trashbox = 1
+  endif "}}}
+
+  " icons "{{{
+  let g:vimfiler_file_icon        = ' - '
+  let g:vimfiler_marked_file_icon = ' * '
+  let g:vimfiler_tree_closed_icon = '[ ]'
+  let g:vimfiler_tree_opened_icon = '[-]'
+  let g:vimfiler_tree_leaf_icon   = ' |-'
+  " }}}
+
+   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
+   function! s:vimfiler_my_settings() "{{{
+     " Override vimfiler's setting
+    " Key-mappings "{{{
+    nunmap <buffer> t
+    nunmap <buffer> a
+    nunmap <buffer> O
+    nunmap <buffer> <TAB>
+    nunmap <buffer> gc
+    nmap <buffer> <TAB> <Plug>(vimfiler_choose_action)
+    " like an operatortion that vim folding
+    nmap <buffer> za <Plug>(vimfiler_expand_tree)
+    nmap <buffer> O <Plug>(vimfiler_sync_with_another_vimfiler)
+    nmap <buffer> gc <Plug>(vimfiler_cd_vim_current_dir)
+    "}}}
+
+  endfunction "}}}
+
+  " Key-mapping "{{{
+  nnoremap <silent>[Space]v :<C-u>silent! execute 'VimFiler ' fnamemodify(bufname('%'), ':p:h')<CR>
+  nnoremap [Space]fo  :<C-u>VimFiler<CR>
+  nnoremap [Space]ff  :<C-u>VimFilerBufferDir<CR>
+  nnoremap [Space]si  :<C-u>VimFilerSimple<CR>
+  " File explorer like behavior.
+  nnoremap  <silent> [Space]h   :<C-u>execute 'VimFiler -buffer-name=explore -split -simple -winwidth=35 -toggle ' fnamemodify(bufname('%'), ':p:h')<CR>
+  " }}}
+endif
+"}}}
+
+" #- echodoc.vim -# "{{{
+if s:invateinthepath('autoload/echodoc.vim')
+  let g:echodoc_enable_at_startup = 1
+endif
+" }}}
+
+" #- vinarise.vim -# "{{{
+if s:invateinthepath('autoload/vinarise.vim')
+  let g:vinarise_enable_auto_detect = 1
+  let g:vinarise_detect_large_file_size = 10000000
+  let g:vinarise_objdump_command = "objdump"
+endif
+"}}}
+
+" #- quickrun.vim -# "{{{
+if s:invateinthepath('autoload/quickrun.vim')
+endif
+"}}}
+
+" #- surround.vim -# "{{{
+if s:invateinthepath('plugin/surround.vim')
+  " Setting of surround for kana
+  runtime! plugin/surround.vim
+
+    if exists('g:loaded_surround') && exists('*SurroundRegister')
+      call SurroundRegister('g', '&', "&lt;\r&gt;")
+      call SurroundRegister('g', 'C', "<![CDATA[\r]]>")
+
+      call SurroundRegister('g', 'jb', "（\r）")
+      call SurroundRegister('g', 'jB', "｛\r｝")
+      call SurroundRegister('g', 'jr', "［\r］")
+      call SurroundRegister('g', 'jk', "「\r」")
+      call SurroundRegister('g', 'jK', "『\r』")
+      call SurroundRegister('g', 'ja', "＜\r＞")
+      call SurroundRegister('g', 'jA', "≪\r≫")
+      call SurroundRegister('g', 'jy', "〈\r〉")
+      call SurroundRegister('g', 'jY', "《\r》")
+      call SurroundRegister('g', 'jt', "〔\r〕")
+      call SurroundRegister('g', 'js', "【\r】")
+    endif
+
+  let g:surround_no_mappings = 1
+  autocmd MyAutoCmd FileType * call s:define_surround_keymappings()
+
+  function! s:define_surround_keymappings()
+    if !&modifiable
+      return
+    endif
+
+    nmap <buffer> ds   <Plug>Dsurround
+    nmap <buffer> cs   <Plug>Csurround
+    nmap <buffer> ys   <Plug>Ysurround
+    nmap <buffer> yS   <Plug>YSurround
+    nmap <buffer> yss  <Plug>Yssurround
+    nmap <buffer> ySs  <Plug>YSsurround
+    nmap <buffer> ySS  <Plug>YSsurround
+  endfunction
+endif
+"}}}
+
+" #- ref.vim -# "{{{
+if s:invateinthepath('autoload/ref.vim')
+  " Make directory "{{{
+  let s:ref_dir =  g:vim_info_dir . '/.ref'
+  if !isdirectory(s:ref_dir)
+    call mkdir(s:ref_dir, 'p')
+  endif
+  let g:ref_cache_dir = s:ref_dir " }}}
+  autocmd FileType ref call s:init_ref_viewer()
+  function! s:init_ref_viewer()
+    " Overwrite setting
+    nmap <buffer> b <Plug>(ref-back)
+    nmap <buffer> f <Plug>(ref-forward)
+    nnoremap <buffer> q <C-w>c
+    setlocal nonumber
+  endfunction
+endif
+" }}}
+
+" #- restart.vim -# "{{{
+if s:invateinthepath('plugin/restart.vim')
+  let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages,guifontwide'
+  " key mapping
+  nnoremap <silent> <Space><leader>r :<C-u>Restart<CR>
+  nnoremap <silent> <Space><leader>rm :<C-u>Restart!<CR>
+endif
+" }}}
+
+" #- caw.vim -# "{{{
+if s:invateinthepath('autoload/caw.vim')
+  nmap gcc <Plug>(caw:i:toggle)
+  xmap gcc <Plug>(caw:i:toggle)
+endif
+"}}}
+
+" #- smartchr.vim -# "{{{
+if s:invateinthepath('autoload/smartchr.vim')
+  inoremap <expr> , smartchr#one_of(', ', ',')
+  inoremap <expr> ? smartchr#one_of(' ? ', '?')
+
+  " Smart =.
+  inoremap <expr> = search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+        \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+        \ : smartchr#one_of(' = ', '=', ' == ')
+
+  augroup MyAutoCmd
+    " Substitute .. into -> .
+    autocmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
+    autocmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
+    autocmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
+    autocmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
+
+    autocmd FileType haskell
+          \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
+          \| inoremap <buffer> <expr> - smartchr#loop('-', ' <- ')
+          \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
+          \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
+          \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
+          \| inoremap <buffer> <expr> . smartchr#loop(' . ', '..', '.')
+
+    autocmd FileType scala
+          \ inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
+          \| inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' => ')
+          \| inoremap <buffer> <expr> : smartchr#loop(': ', ':', ' :: ')
+          \| inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
+
+    autocmd FileType eruby
+          \ inoremap <buffer> <expr> > smartchr#loop('>', '%>')
+          \| inoremap <buffer> <expr> < smartchr#loop('<', '<%', '<%=')
+  augroup END
+endif
+"}}}
+
+" #- stickykey.vim -# "{{{
+if s:invateinthepath('autoload/stickykey.vim')
+endif
+"}}}
+
+" #- quickhl.vim -# "{{{
+if s:invateinthepath('autoload/quickhl.vim')
+  nmap ZZl <Plug>(quickhl-toggle)
+  xmap ZZl <Plug>(quickhl-toggle)
+  nmap <Space>M <Plug>(quickhl-reset)
+  xmap <Space>M <Plug>(quickhl-reset)
+
+  " nmap <Space>j <Plug>(quickhl-match)
+
+  " highlight color change
+  let g:quickhl_colors = [
+  \ "guifg=#5f2f3f guibg=#cf3f8f gui=underline,bold ",
+  \ "guifg=#5f3f2f guibg=#cf8f3f gui=underline,bold ",
+  \ "guifg=#2f5f3f guibg=#3fcf8f gui=underline,bold ",
+  \ "guifg=#2f3f5f guibg=#3f8fcf gui=underline,bold ",
+  \ "guifg=#3f5f2f guibg=#8fcf3f gui=underline,bold ",
+  \ "guifg=#3f2f5f guibg=#8f3fcf gui=underline,bold ",
+  \ "guifg=#5f5f3f guibg=#afaf8f gui=underline,bold ",
+  \ "guifg=#6f5f9f guibg=#bfafff gui=underline,bold ",
+  \ "guifg=#6f9f5f guibg=#bfffaf gui=underline,bold ",
+  \ "guifg=#9f5f6f guibg=#ffafbf gui=underline,bold ",
+  \ "guifg=#9f6f5f guibg=#ffbfaf gui=underline,bold ",
+  \ "guifg=#5f6f9f guibg=#afbfff gui=underline,bold ",
+  \ "guifg=#5f9f6f guibg=#afffbf gui=underline,bold ",
+  \ "guifg=#5f5f7f guibg=#afafcf gui=underline,bold ",
+  \ "guifg=#afafcf guibg=#3f3f5f gui=underline,bold ",
+  \ ]
+
+  let g:quickhl_keywords = [
+  \ "t9md",
+  \ "ujihisa",
+  \ "thinca",
+  \ "tyru",
+  \ "kana",
+  \ "mattn",
+  \ "Shougo",
+  \ ]
+
+endif
+" }}}
+
+" #- textmanip.vim -# "{{{
+if s:invateinthepath('autoload/textmanip.vim')
+  if has('gui_running')
+    xmap <M-d> <Plug>(textmanip-duplicate-down)
+    nmap <M-d> <Plug>(textmanip-duplicate-down)
+    xmap <M-D> <Plug>(textmanip-duplicate-up)
+    nmap <M-D> <Plug>(textmanip-duplicate-up)
+
+    xmap <C-j> <Plug>(textmanip-move-down)
+    xmap <C-k> <Plug>(textmanip-move-up)
+    xmap <C-h> <Plug>(textmanip-move-left)
+    xmap <C-l> <Plug>(textmanip-move-right)
+  else
+    xmap <Space>d <Plug>(textmanip-duplicate-down)
+    nmap <Space>d <Plug>(textmanip-duplicate-down)
+    xmap <Space>D <Plug>(textmanip-duplicate-up)
+    nmap <Space>D <Plug>(textmanip-duplicate-up)
+
+    xmap <C-j> <Plug>(textmanip-move-down)
+    xmap <C-k> <Plug>(textmanip-move-up)
+    xmap <C-h> <Plug>(textmanip-move-left)
+    xmap <C-l> <Plug>(textmanip-move-right)
+  endif
+endif
+"}}}
+
+" #- colorv.vim -# "{{{
+if s:invateinthepath('plugin/colorv.vim')
+  let colorv_cache_dir = g:vim_info_dir . '/.ColorV'
+  if !isdirectory(colorv_cache_dir)
+    call mkdir(colorv_cache_dir, 'p')
+  endif
+  let g:ColorV_cache_File = colorv_cache_dir . '/ColorV_cache'
+endif
+" }}}
+
+" #- visualstar.vim -# "{{{
+if s:invateinthepath('plugin/visualstar.vim')
+  map * <Plug>(visualstar-*)
+  map # <Plug>(visualstar-#)
+  map g* <Plug>(visualstar-g*)
+  map g# <Plug>(visualstar-g#)
+endif
+"}}}
+
+" #- openbrowser.vim -# "{{{
+if s:invateinthepath('autoload/openbrowser.vim')
+  nnoremap <silent>gx :<C-u>OpenBrowser expand('%')<CR>
+endif
+"}}}
+
+" #- winmove.vim -# "{{{
+if s:invateinthepath('plugin/winmove.vim')
+  let g:wm_move_up = '<Up>'
+  let g:wm_move_right = '<Right>'
+  let g:wm_move_down = '<Down>'
+  let g:wm_move_left = '<Left>'
+endif
+"}}}
+
+" #- FoldCC.vim -# "{{{
+if s:invateinthepath('plugin/foldCC.vim')
+  set foldtext=FoldCCtext()
+  set fillchars=vert:\|
+endif
+"}}}
+
+" #- fontzoom.vim -#"{{{
+if s:invateinthepath('plugin/fontzoom.vim')
+  nmap <F11> <Plug>(fontzoom-larger)
+  nmap <F12> <Plug>(fontzoom-smaller)
+endif
+"}}}
+
+" #- netrw.vim -# "{{{
+" Make directory "{{{
+let s:netrw_dir = g:vim_info_dir . '/.netrw'
+if !isdirectory(s:netrw_dir)
+  call mkdir(s:netrw_dir, 'p')
+endif
+let g:netrw_home = s:netrw_dir " }}}
+let g:netrw_list_hide= '*.swp'
+nnoremap <silent> <BS> :<C-u>Explore<CR>
+" Change default directory.
+"set browsedir=current
+if executable('wget')
+  let g:netrw_http_cmd = 'wget'
+endif
+"}}}
+
+" #- matchit -# "{{{
+if filereadable(expand('$VIMRUNTIME/macros/matchit.vim'))
+  source $VIMRUNTIME/macros/matchit.vim
+endif
+" }}}
+
+" #- poslist.vim -#"{{{
+if s:invateinthepath('autoload/poslist.vim')
+  let g:poslist_histsize = 1000
+  nmap <C-o> <Plug>(poslist-prev-pos)
+  nmap <C-i> <Plug>(poslist-next-pos)
+endif
+"}}}
+
 " #- ambicmd.vim -# "{{{
 if s:invateinthepath('autoload/ambicmd.vim')
   cnoremap <expr> <Space> ambicmd#expand("\<Space>")
@@ -2464,11 +2472,11 @@ endif
 if s:invateinthepath('autoload/altercmd.vim')
   call altercmd#define('<buffer>', 'sp[lit]', 'split', 'i')
   call altercmd#define('<cmdwin>', 'sp[lit]', 'split', 'i')
-  if exists(':CD')
+  if exists(':CD') == 2
     call altercmd#define('<buffer>', 'cd', 'CD', 'i')
     call altercmd#define('<cmdwin>', 'cd', 'CD', 'i')
   endif
-  if exists(':Tcolorscheme')
+  if exists(':Tcolorscheme') == 2
     call altercmd#define('<buffer>', 'co[lor]', 'Tcolorscheme', 'i')
     call altercmd#define('<cmdwin>', 'co[lor]', 'Tcolorscheme', 'i')
   else
@@ -2487,9 +2495,9 @@ if iedskk || iedeskk
   " Path to dictionary for skk "{{{
   let skk_user_dir = expand('~/.dict')
   " let s:skk_user_dir = g:vim_info_dir . '/others/dict/usr'
-  let skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
+  let s:skk_user_dict = skk_user_dir . '/SKK-JISYO.L'
+  let skk_system_dict_dir = g:vim_info_dir . '/.dict'
   if s:iswin
-    let skk_system_dict_dir = g:vim_info_dir . '/.dict'
     let s:skk_system_dict = skk_system_dict_dir .  '/SKK-JISYO.L'
   else
     let s:skk_system_dict = '/usr/local/share/skk'
@@ -2507,12 +2515,17 @@ if iedskk || iedeskk
 
   unlet skk_user_dir
   unlet skk_system_dict_dir
+
+  " Use ime ?
+  " set noimdisable
+  let &imdisable = 1
+
 endif
 "}}}
 
 " #- skk.vim -# "{{{
 if iedskk
-  let g:skk_jisyo = skk_user_dict
+  let g:skk_jisyo = s:skk_user_dict
   let g:skk_jisyo_encoding = s:skk_user_dict_encoding
   let g:skk_large_jisyo = s:skk_system_dict
   let g:skk_large_jisyo_encoding = s:skk_system_dict_encoding
@@ -2557,7 +2570,7 @@ endif
 
 " #- eskk.vim -# "{{{
 if iedeskk
-  " make directory for eskk "{{{
+  " Make directory "{{{
   let s:eskk_dir =  g:vim_info_dir . '/.eskk'
   if !isdirectory(s:eskk_dir)
     call mkdir(s:eskk_dir, 'p')
@@ -2693,19 +2706,19 @@ vnoremap <silent> z? <ESC>?\v%V
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
 " Highlight test
+command! -nargs=0 Hitest source<bang> $VIMRUNTIME/syntax/hitest.vim
+
 if s:invateinthepath('autoload/unite.vim')
   nnoremap <silent> <Space>eh :<C-u>Unite color_set -cursor-line-highlight=NONE<CR>
 else
- nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
+  nnoremap <silent> <Space>eh :<C-u>aboveleft source $VIMRUNTIME/syntax/hitest.vim<CR>
 endif
 
-" Edit setting of vimperator "{{{
+" Edit setting of vimperator configure "{{{
 if s:iswin
   nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
-  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
 else
   nnoremap <silent><Space>ef :<C-u>edit $HOME/.vimperatorrc<CR>
-  nnoremap <silent><Space>ep :<C-u>edit $HOME/.pentadactylrc<CR>
 endif " }}}
 
 " Command-line mode keymappings:"{{{
@@ -3288,6 +3301,8 @@ if s:invateinthepath('autoload/unite.vim')
   "}}}
   " color_set
   " color_set "{{{
+  let g:color_set_abbr_color = 'Pmenu'
+
   let g:highlight_colom = {
       \ 'custom' : {},
       \ }
@@ -3313,7 +3328,7 @@ if s:invateinthepath('autoload/unite.vim')
       \ 'DiffText', 'DiffAdd', 'DiffChange', 'DiffDelete',
       \ 'SignColumn', 'SpellBad', 'SpellCap', 'SpellRare', 'SpellLocal',
       \ 'Quickhl0', 'Quickhl1', 'Quickhl2', 'Quickhl3', 'Quickhl4', 'Quickhl5', 'Quickhl6',
-      \ 'Quickhl7', 'Quickhl8', 'Quickhl9', 'Quickhl10', 'Quickhl11', 'Quickhl12',
+      \ 'Quickhl7', 'Quickhl8', 'Quickhl9', 'Quickhl10', 'Quickhl11', 'Quickhl12', 'Quickhl13', 'Quickhl14',
       \ 'ZenkakuSpace',
       \ 'CursorColumn', 'ColorColumn', 'lCursor', 'VisualNos',
       \ ] "}}}
@@ -3370,9 +3385,7 @@ endfunction
 " }}}
 "}}}
 " Junk File "{{{
-" #########################################################################
-"  Open junk file. via.http://vim-users.jp/2010/11/hack181/
-" #########################################################################
+" Open junk file. via.http://vim-users.jp/2010/11/hack181/
 command! -nargs=0 JunkFile call s:open_junk_file()
 function! s:open_junk_file()
   let l:junk_dir = g:vim_dir . '/junk'. strftime('/%Y')
@@ -3389,15 +3402,18 @@ endfunction
 " ColorRoller "{{{
 let ColorRoller = {}
 let ColorRoller.colors = [
-      \ 'cu', 'YacEv',
-      \ 'Opposer', 'Layven',
-      \ 'Trimsh', 'ImPgRw',
-      \ 'Jager', 'Cugfr',
-      \ 'ZycUs', 'GxeiM',
-      \ 'Moufr02', 'HwPng01',
-      \ 'z1qt', 'joker',
-      \ 'rayven', 'vinary',
-      \ ]
+  \ 'cu', 'YacEv',
+  \ 'Opposer', 'Layven',
+  \ 'RiALM', 'ImPgRw',
+  \ 'Jager', 'Cugfr',
+  \ 'ZycUs', 'gL',
+  \ 'LieWs2', 'HwPng01',
+  \ 'ttm', 'joker',
+  \ 'niL', 'fLaeI',
+  \ 'oeNmP', 'GxeiM',
+  \ 'yzzyr', 'eZiM',
+  \ 'sI0tM', 'ilis',
+  \ ]
 
 function! ColorRoller.change() "{{{
   let color = get(self.colors, 0)
@@ -3438,3 +3454,5 @@ set secure
 " End: "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
+
+
