@@ -26,8 +26,8 @@ highlight NonText guifg=#1f60ff guibg=bg gui=bold
 highlight Directory guifg=#2f8f7f guibg=bg gui=bold
 highlight ErrorMsg guifg=#cf2f5f guibg=NONE gui=NONE
 " Search "{{{2
-highlight IncSearch guifg=#0f0f0f guibg=#5faf5f gui=bold
-highlight Search guifg=#0f0f0f guibg=#2f3faf gui=bold
+highlight IncSearch guifg=#1f5f2f guibg=#5faf5f gui=underline
+highlight Search guifg=#1f2f5f guibg=#2f3faf gui=underline
 " }}}2
 highlight MoreMsg guifg=#2f8f5f guibg=bg gui=NONE
 highlight ModeMsg guifg=#cfcfff guibg=bg gui=bold
@@ -44,7 +44,7 @@ highlight Visual guifg=#cfcfcf guibg=#0f1f3f gui=NONE
 highlight VisualNOS guifg=#cfaf8f guibg=#2f3f6f gui=bold
 " }}}2
 highlight WarningMsg guifg=#ff2f8f guibg=bg gui=NONE
-highlight WildMenu guifg=#0f1f5f guibg=#afafaf gui=NONE
+highlight WildMenu guifg=#0f1f5f guibg=#afafaf gui=underline
 " fold "{{{2
 highlight Folded guifg=#bfbfbf guibg=#1f203f gui=NONE
 highlight FoldColumn guifg=#bfbfbf guibg=#0f203f gui=bold

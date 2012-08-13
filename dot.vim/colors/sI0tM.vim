@@ -2,7 +2,8 @@
 " Note: "{{{2
 " hilight ZenkakuSpace /　/
 " matchparen ({[*]})
-" This colorscheme is improved darkblue
+" This colorscheme is refer to RiALM
+
 
 " #- Vim color file reset -# "{{{1
 " First remove all existing highlighting.
@@ -14,43 +15,46 @@ if version > 580
   endif
 endif
 
+
 " #- colorscheme name -# "{{{1
-let colors_name = "RiALM"
+let colors_name = "sI0tM"
+
 
 " #- highlighting groups various ooccasions -# "{{{1
-highlight Normal guifg=#efefef guibg=#192a4f gui=NONE
-highlight SpecialKey guifg=#5f2fcf guibg=NONE gui=NONE
-highlight NonText guifg=#99ffff guibg=#1f2f4f gui=NONE
-highlight Directory guifg=#5f8fff guibg=bg gui=bold
+" highlight Normal guifg=#cfcfcf guibg=#102144 gui=NONE
+highlight Normal guifg=#cfcfcf guibg=#0f1f3f gui=NONE
+highlight NonText guifg=#afcfff guibg=#1f2f4f gui=NONE
+highlight SpecialKey guifg=#5f5fff guibg=NONE gui=NONE
+highlight Directory guifg=#2f5fff guibg=bg gui=bold
 highlight ErrorMsg guifg=#5f1f3f guibg=#cf3f5f gui=underline
-" search "{{{2
-highlight IncSearch guifg=#5f3f2f guibg=#bf6f4f gui=underline
-highlight Search guifg=#0f3f5f guibg=#4f6fbf gui=underline
+" Search "{{{2
+highlight IncSearch guifg=#8f5f1f guibg=#cf8f5f gui=underline
+highlight Search guifg=#1f3f5f guibg=#5f8fff gui=underline
 " }}}2
-highlight MoreMsg guifg=#0f5f8f guibg=#3f8fcf gui=underline
-highlight ModeMsg guifg=#5f5f5f guibg=#cfcfcf gui=underline
-highlight LineNr ctermfg=white guifg=#75d99d gui=NONE
-highlight Question guifg=#0f8f5f guibg=#3fcf8f gui=underline
-" statusline "{{{2
-highlight StatusLine guifg=#cfcfcf guibg=#101f3f gui=NONE
-highlight StatusLineNC guifg=#5f5f3f guibg=#c4b2ab gui=NONE
+highlight MoreMsg guifg=#0f3f6f guibg=#2f7fbf gui=underline
+highlight ModeMsg guifg=#3f3f3f guibg=#afafaf gui=underline
+highlight LineNr guifg=#2fd99d guibg=NONE gui=NONE
+highlight Question guifg=#2f5f3f guibg=#0fbf8f gui=underline
+" Statusline "{{{2
+highlight StatusLine guifg=#cfcfff guibg=#151a2f gui=NONE
+highlight StatusLineNC guifg=#4f3f5f guibg=#bfafcf gui=NONE
 " }}}2
-highlight Title guifg=#2fd4c6 guibg=bg gui=bold,underline
-highlight VertSplit guifg=#23447f guibg=#1f1f4f gui=NONE
-" visual "{{{2
-highlight Visual gui=NONE guifg=#ffffff guibg=#001f3f
-highlight VisualNOS gui=underline,bold guifg=#cfcfcf guibg=#0f2f5f
+highlight Title guifg=#3fdfaf guibg=bg gui=bold,underline
+highlight VertSplit guifg=#5f5fff guibg=bg gui=NONE
+" Visual "{{{2
+highlight Visual guifg=#afafaf guibg=#1f2f4f gui=NONE
+highlight VisualNOS guifg=#cfcfcf guibg=#0f2f5f gui=underline,bold
 " }}}2
-highlight WarningMsg guifg=#5f2f8f guibg=#cf5fff gui=underline
-highlight WildMenu guifg=#ffffff guibg=#1f3f5f gui=NONE
-" fold "{{{2
-highlight Folded guifg=#bfbfbf guibg=#102040 gui=NONE
-highlight FoldColumn guifg=#ffffff guibg=#1f2f5f gui=bold
+highlight WarningMsg guifg=#5f2f6f guibg=#cf5fff gui=underline
+highlight WildMenu guifg=#cfcfcf guibg=#3f1f3f gui=underline
+" Fold "{{{2
+highlight Folded guifg=#bfbfcf guibg=#1a1c3f gui=NONE
+highlight FoldColumn guifg=#5f8fff guibg=#1a2a5a gui=bold
 
-" diff "{{{2
-highlight DiffAdd guifg=fg guibg=#5f8f4f gui=NONE
-highlight DiffChange guifg=fg guibg=#cf6f4f gui=NONE
-highlight DiffDelete guifg=fg guibg=#9f2f3f gui=bold
+" Diff "{{{2
+highlight DiffAdd guifg=#1f3f2f guibg=#5fcfaf gui=NONE
+highlight DiffChange guifg=#2f3f1f guibg=#cfaf5f gui=NONE
+highlight DiffDelete guifg=#3f2f1f guibg=#cf5faf gui=NONE
 highlight DiffText guifg=fg guibg=bg gui=NONE
 " }}}2
 highlight SignColumn guifg=#ff5f7f guibg=bg gui=NONE
@@ -61,21 +65,22 @@ highlight SpellRare guifg=#5fff8f guibg=bg gui=NONE
 highlight SpellLocal guifg=#ffcf5f guibg=bg gui=NONE
 
 " pmenu "{{{2
-highlight pmenu guifg=#cfcfcf guibg=#050f2f gui=NONE
+highlight pmenu guifg=#cfcfcf guibg=#0f0f2f gui=NONE
+highlight pmenu guifg=#0f0f0f guibg=#afafcf gui=NONE
 highlight PmenuSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
-highlight pmenuSbar guifg=#afafaf guibg=#0f0f0f gui=NONE
-highlight PmenuThumb guifg=#afafaf guibg=#0f1f1f gui=NONE
+highlight pmenuSbar guifg=fg guibg=#1f1f2f gui=NONE
+highlight PmenuThumb guifg=#afafaf guibg=#0f3f3f gui=NONE
 
 " tabline "{{{2
-highlight TabLine guifg=#aaaaaa guibg=#190a3f gui=underline
+highlight TabLine guifg=#afafaf guibg=#0f1f3f gui=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#15305f gui=NONE
-highlight TabLineFill guifg=#415676 guibg=#100a3f gui=underline,bold
+highlight TabLineFill guifg=#3f5faf guibg=#0f1f3f gui=underline,bold
 
 " cursor "{{{2
 highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
 highlight CursorLine guifg=NONE guibg=#1f2f5f gui=NONE
 highlight CursorColumn guifg=NONE guibg=grey40 gui=NONE
-highlight Cursor guifg=#000000 guibg=#5faf7f gui=NONE
+highlight Cursor guifg=#000000 guibg=#2f9f5f gui=NONE
 " IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#bfbfbf guibg=#5f0f3f gui=NONE
@@ -83,21 +88,24 @@ endif
 
 " }}}2
 
+
 " #- syntax highlighting group -# "{{{1
 highlight lCursor guifg=#000000 guibg=#5fcfaf gui=NONE
-highlight MatchParen guifg=#1f0f3f guibg=#3f5f8f gui=bold
+" highlight MatchParen guifg=#0f2f5f guibg=#3f5faf gui=NONE
+highlight MatchParen guifg=#3f3f5f guibg=#8f8fff gui=underline
 highlight comment guifg=#3f5fff guibg=bg gui=NONE
 highlight Constant guifg=#7fffaf guibg=bg gui=NONE
 highlight Special guifg=#deffed guibg=bg gui=NONE
-highlight Identifier guifg=#b6f5eb guibg=bg gui=NONE
-highlight Statement guifg=#ffcf7f guibg=bg gui=NONE
-highlight PreProc guifg=#ffadfe guibg=bg gui=NONE
-highlight type guifg=#59c390 guibg=bg gui=NONE
+highlight Identifier guifg=#ffbf9f guibg=bg gui=NONE
+highlight Statement guifg=#2fcfaf guibg=bg gui=NONE
+highlight PreProc guifg=#af2fff guibg=bg gui=NONE
+highlight type guifg=#5fcfaf guibg=bg gui=NONE
 highlight underlined guifg=#56efcc guibg=bg gui=underline
-highlight Ignore guifg=#4f50ff guibg=bg gui=bold
+highlight Ignore guifg=#1f2faf guibg=bg gui=bold
 highlight Error guifg=#fd4899 guibg=bg gui=NONE
-highlight string guifg=#ffc8ff guibg=bg gui=NONE
-highlight Todo guifg=#cfafcf guibg=#1f2f5f gui=bold,underline
+highlight Todo guifg=#af7fcf guibg=#cfcfff gui=bold,underline
+highlight string guifg=#2f5fff guibg=bg gui=NONE
+
 
 " #- color functions -# "{{{1
 " this code is written mrkn256.vim
@@ -315,6 +323,9 @@ else
   " Cui
 endif
 
+
 " #- END: -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
+
+

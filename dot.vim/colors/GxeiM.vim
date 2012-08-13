@@ -3,7 +3,7 @@
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
 " Guicolorscheme file
-" This colorscheme is improved default and default sakura editor color
+" This colorscheme is improved default colorscheme and default sakura editor color
 
 " #- vim color file reset -# "{{{1
 " First remove all existing highlighting.
@@ -15,44 +15,46 @@ if version > 580
   endif
 endif
 
+
 " #- color scheme name -# "{{{1
 let g:colors_name = "GxeiM"
+
 
 " #- highlighting groups for various occasions "{{{1
 highlight Normal guifg=#0f0f0f guibg=#ffffef gui=NONE
 highlight SpecialKey guifg=#1f915f guibg=bg gui=NONE
 highlight NonText guifg=#2b3b76 guibg=#ffffff gui=NONE
-highlight Directory guifg=#2b609b guibg=#fffee0 gui=bold
-highlight ErrorMsg guifg=#af1f5f guibg=#e8dfcb gui=NONE
+highlight Directory guifg=#2b609b guibg=bg gui=bold
+highlight ErrorMsg guifg=#af1f5f guibg=#e8dfcb gui=underline
 " search "{{{2
-highlight IncSearch guifg=#0f0f0f guibg=#cc88e1 gui=bold
-highlight Search guifg=#0f0f0f guibg=#5088e1 gui=bold
+highlight IncSearch guifg=#3f2f4f guibg=#af8fff gui=bold,underline
+highlight Search guifg=#2f2f5f guibg=#8fafff gui=bold,underline
 "}}}2
-highlight MoreMsg guifg=#66765a guibg=#e8dfcb gui=NONE
-highlight ModeMsg guifg=#4a4741 guibg=#e8dfcb gui=NONE
+highlight MoreMsg guifg=#66765a guibg=#e8dfcb gui=underline
+highlight ModeMsg guifg=#4a4741 guibg=#e8dfcb gui=underline
 highlight LineNr ctermfg=white guifg=#b57720 gui=NONE
-highlight Question guifg=#345749 guibg=bg gui=NONE
+highlight Question guifg=#345749 guibg=bg gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#ffffff guibg=#10202f gui=NONE
 highlight StatusLineNC guifg=#7b8b85 guibg=#0f1f2f gui=NONE
 "}}}2
-highlight Title guifg=#177479 guibg=bg gui=bold
+highlight Title guifg=#177479 guibg=#cfffff gui=bold
 highlight VertSplit guifg=fg guibg=#0f1f2f gui=NONE
 " visual "{{{2
 highlight Visual guifg=#cfcfcf guibg=#2c325f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#2f3f5f gui=underline,bold
 "}}}2
-highlight WarningMsg guifg=#af2f5f guibg=#e8dfcb gui=NONE
-highlight WildMenu guifg=#001f5f guibg=#efefff gui=NONE
+highlight WarningMsg guifg=#af2f5f guibg=#e8dfcb gui=underline
+highlight WildMenu guifg=#001f5f guibg=#efefff gui=underline
 " fold "{{{2
 highlight Folded guifg=#001f5f guibg=#bfcfdf gui=NONE
 highlight FoldColumn guifg=#1c417c guibg=bg gui=bold
 
 " diff "{{{2
-highlight DiffAdd guifg=#000000 guibg=#afffcf gui=bold
-highlight DiffChange guifg=#ea69dc guibg=#fff6e6 gui=NONE
-highlight DiffDelete guifg=#a62c74 guibg=#fff6e6 gui=NONE
-highlight DiffText guifg=#16187f guibg=#fff6e6 gui=NONE
+highlight DiffAdd guifg=fg guibg=#afffcf gui=NONE
+highlight DiffChange guifg=fg guibg=#ffaf5f gui=NONE
+highlight DiffDelete guifg=fg guibg=#cf4f9f gui=NONE
+highlight DiffText guifg=fg guibg=bg gui=NONE
 "}}}2
 highlight SignColumn guifg=#a65774 guibg=bg gui=NONE
 " spell "{{{2
@@ -61,9 +63,9 @@ highlight SpellCap guifg=#506399 guibg=bg gui=NONE
 highlight SpellRare guifg=#509982 guibg=bg gui=NONE
 highlight SpellLocal guifg=#998c50 guibg=bg gui=NONE
 
-" pemu "{{{2
+" pmenu "{{{2
 highlight Pmenu guifg=#10102f guibg=#dbdbf3 gui=NONE
-highlight PmenuSel guifg=#bfbfbf guibg=#2f265f gui=NONE
+highlight PmenuSel guifg=#bfbfbf guibg=#0f2f5f gui=NONE
 highlight PmenuSbar guifg=#cccccc guibg=#3a3b3c gui=NONE
 highlight PmenuThumb guifg=#0f0f0f guibg=#21365f gui=NONE
 
@@ -84,9 +86,10 @@ endif
 
 "}}}2
 
+
 " #- syntax highlighting groups -# "{{{1
 highlight lCursor guifg=#575757 guibg=#000000 gui=NONE
-highlight MatchParen guifg=#20202f guibg=#a26fac gui=bold
+highlight MatchParen guifg=#4f2f5f guibg=#e2bffc gui=bold,underline
 highlight comment guifg=#1f3f8f guibg=NONE gui=NONE
 highlight Constant guifg=#0f2f7f guibg=bg gui=NONE
 highlight Special guifg=#003857 guibg=bg gui=NONE
@@ -94,11 +97,12 @@ highlight Identifier guifg=#1f5f0f guibg=bg gui=NONE
 highlight Statement guifg=#0f2f7f guibg=bg gui=NONE
 highlight PreProc guifg=#7c207b guibg=bg gui=NONE
 highlight type guifg=#0f3f1f guibg=bg gui=NONE
-highlight underlined guifg=#399620 guibg=#f4f8c9 gui=NONE
+highlight underlined guifg=#399620 guibg=#f4f8c9 gui=underline
 highlight Ignore guifg=#105f20 guibg=bg gui=bold
 highlight Error guifg=#af2f5f guibg=bg gui=NONE
-highlight Todo guifg=#4e5ca0 guibg=#cfcfdf gui=bold
+highlight Todo guifg=#4e5ca0 guibg=#cfcfdf gui=bold,underline
 highlight string guifg=#7f1f2f guibg=bg gui=NONE
+
 
 " #- Color function -# "{{{1
 " this code is written mrkn256.vim
@@ -319,3 +323,5 @@ endif
 " #- END -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
+
+

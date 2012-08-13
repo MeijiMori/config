@@ -25,7 +25,7 @@ highlight NonText guifg=#1f3f5f guibg=bg gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Directory guifg=#7f7f9f guibg=NONE gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight ErrorMsg guifg=#3f0f0f guibg=#cf5f5f gui=NONE
+highlight ErrorMsg guifg=#3f0f0f guibg=#cf5f5f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " search "{{{
 highlight IncSearch guifg=#5f1f2f guibg=#cf5f5f gui=bold,underline
@@ -44,12 +44,12 @@ highlight Question guifg=#003f0f guibg=#5fcf8f gui=underline
 " Statusline "{{{
 highlight StatusLine guifg=#efefef guibg=#2a1f2f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight StatusLineNC guifg=#7f5f6f guibg=#ffcfcf gui=underline
+highlight StatusLineNC guifg=#7f5f6f guibg=#efdfff gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " }}}
 highlight VertSplit guifg=#efcfef guibg=#efe0ff gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight Title guifg=#af5f0f guibg=bg gui=underline
+highlight Title guifg=#af5f0f guibg=bg gui=bold,underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " Visual "{{{
 highlight Visual guifg=#efefef guibg=#0f1f3f gui=NONE
@@ -74,7 +74,7 @@ highlight DiffChange guifg=fg guibg=#ffffcf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight DiffDelete guifg=fg guibg=#ffafcf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight DiffText guifg=#6f6f6f guibg=bg gui=NONE
+highlight DiffText guifg=fg guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " }}}
 highlight SignColumn guifg=#5f0f2f guibg=bg gui=NONE
@@ -125,7 +125,7 @@ endif
 " #- syntax highlighting groups -# "{{{1
 highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight MatchParen guifg=#000000 guibg=#bfbfff gui=bold
+highlight MatchParen guifg=#5f5f8f guibg=#bfbfff gui=bold,underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight comment guifg=#3f4f8f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE

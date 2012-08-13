@@ -48,7 +48,7 @@ highlight StatusLine guifg=#efefef guibg=#1f2f3f gui=NONE
 highlight StatusLineNC guifg=#7f5f6f guibg=#cfafaf gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " }}}2
-highlight VertSplit guifg=#6f6f6f guibg=#dfdfdf gui=bold
+highlight VertSplit guifg=#6f6f9f guibg=#dfcfff gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Title guifg=#2f7f8f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE

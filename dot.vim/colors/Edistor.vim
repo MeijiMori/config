@@ -20,19 +20,19 @@ let g:colors_name = "Edistor"
 highlight Normal guifg=#000000 guibg=#fbf5fb gui=NONE
 highlight SpecialKey guifg=#0f8f8f guibg=bg gui=NONE
 highlight NonText guifg=#6d29ea guibg=#ffffff gui=bold
-highlight Directory guifg=#1e64ae guibg=bg gui=NONE
-highlight ErrorMsg guifg=#ff4faf guibg=bg gui=NONE
+highlight Directory guifg=#1e64ae guibg=bg gui=bold
+highlight ErrorMsg guifg=#5f2f0f guibg=#ffaf8f gui=underline
 " search "{{{2
-highlight IncSearch guifg=#000000 guibg=#bf7cad gui=bold
-highlight Search guifg=#000000 guibg=#3373b5 gui=bold
+highlight IncSearch guifg=#000000 guibg=#bf7fff gui=bold
+highlight Search guifg=#000000 guibg=#3373ff gui=bold
 " }}}2
-highlight MoreMsg guifg=#1f2f5f guibg=#efcfef gui=underline
-highlight ModeMsg guifg=#5f2f3f guibg=#ffcfcf gui=underline
-highlight LineNr guifg=#9e7105 guibg=bg gui=NONE
-highlight Question guifg=#0f7f3f guibg=#7fcf7f gui=NONE
+highlight MoreMsg guifg=#1f2f5f guibg=#7f7fff gui=underline
+highlight ModeMsg guifg=#5f2f3f guibg=#ff7f7f gui=underline
+highlight LineNr guifg=#9e7105 guibg=NONE gui=NONE
+highlight Question guifg=#0f7f3f guibg=#7fcf7f gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#fdfdfd guibg=#1f293c gui=NONE
-highlight StatusLineNC guifg=#ffffff guibg=#3f3d3b gui=NONE
+highlight StatusLineNC guifg=#606080 guibg=#c8c8d8 gui=NONE
 " }}}2
 highlight VertSplit guifg=#44aaff guibg=#3a3b3c gui=NONE
 highlight Title guifg=#b568a9 guibg=bg gui=underline
@@ -40,9 +40,8 @@ highlight Title guifg=#b568a9 guibg=bg gui=underline
 highlight Visual guifg=#ffffff guibg=#0f3f6f gui=NONE
 highlight VisualNOS guifg=#2f2f2f guibg=#8f8fff gui=underline,bold
 " }}}2
-"highlight WarningMsg guifg=#db7bda guibg=#fbe0ff gui=NONE
-highlight WarningMsg guifg=#ff4faf guibg=bg gui=NONE
-highlight WildMenu guifg=#1f2f5f guibg=#dfdfff gui=NONE
+highlight WarningMsg guifg=#db7bda guibg=#fbe0ff gui=NONE
+highlight WildMenu guifg=#1f2f5f guibg=#dfdfff gui=underline
 " fold "{{{2
 highlight Folded guifg=#0b1958 guibg=#b3bce1 gui=NONE
 highlight FoldColumn guifg=#3150a6 guibg=#ffedfa gui=bold
@@ -69,13 +68,13 @@ highlight PmenuThumb guifg=#3d3f3d guibg=#000000 gui=NONE
 " tabline "{{{2
 highlight TabLine guifg=#9d887c guibg=#3a3b3c gui=NONE
 highlight TabLineSel guifg=#f0f0f0 guibg=#2f3f6f gui=NONE
-highlight TabLineFill guifg=#564234 guibg=#3a3b3c gui=underline
+highlight TabLineFill guifg=#564234 guibg=#3a3b3c gui=underline,bold
 
 " cursor "{{{2
 highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
 highlight CursorLine guifg=NONE guibg=#d6efff gui=NONE
 highlight CursorColumn guifg=NONE guibg=bg gui=NONE
-highlight Cursor guifg=#000000 guibg=#2f5f9f gui=NONE
+highlight Cursor guifg=#000000 guibg=#2f5fff gui=NONE
 " Cursor color for IME status "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#8f1f3f gui=NONE
@@ -93,10 +92,10 @@ highlight Statement guifg=#ff0080 guibg=bg gui=NONE
 highlight PreProc guifg=#ff66ff guibg=bg gui=NONE
 highlight type guifg=#008040 guibg=bg gui=NONE
 highlight underlined guifg=#0e8655 guibg=bg gui=underline
-highlight Ignore guifg=#084f88 guibg=bg gui=bold
-highlight Error guifg=#964236 guibg=#fff0fe gui=NONE
+highlight Ignore guifg=#0f4f5f guibg=bg gui=bold
+highlight Error guifg=#ff0f3f guibg=#fff0fe gui=NONE
 highlight Todo guifg=#009a7a guibg=#bce5f5 gui=bold,underline
-highlight string guifg=#ff00ff guibg=#ffffff gui=NONE
+highlight string guifg=#ff00ff guibg=bg gui=NONE
 highlight function guifg=#3a45b1 guibg=bg gui=NONE
 
 " #- Color function -# "{{{1
@@ -318,3 +317,5 @@ endif
 " #- END -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
+
+

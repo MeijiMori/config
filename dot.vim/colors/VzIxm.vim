@@ -2,7 +2,6 @@
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
-" !date
 " Guicolorscheme file
 
 

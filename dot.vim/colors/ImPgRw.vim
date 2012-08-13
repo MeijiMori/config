@@ -1,4 +1,4 @@
-﻿" #- Vim color file -# "{{{1
+" #- Vim color file -# "{{{1
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
@@ -23,16 +23,16 @@ let g:colors_name = "ImPgRw"
 highlight Normal guifg=#cfcfcf guibg=#16152d gui=NONE
 highlight SpecialKey guifg=#3f2faf guibg=bg gui=NONE
 highlight NonText guifg=#4e79c8 guibg=bg gui=NONE
-highlight Directory guifg=#2f5faf guibg=bg gui=NONE
-highlight ErrorMsg guifg=#af2f6f guibg=bg gui=NONE
+highlight Directory guifg=#2f5faf guibg=bg gui=bold
+highlight ErrorMsg guifg=#af2f6f guibg=bg gui=underline
 " search "{{{2
-highlight IncSearch guifg=#cfcfcf guibg=#8f2f5f gui=bold
-highlight Search guifg=#cfcfcf guibg=#21253f gui=bold
+highlight IncSearch guifg=#cfcfcf guibg=#8f2f5f gui=bold,underline
+highlight Search guifg=#cfcfcf guibg=#21253f gui=bold,underline
 "}}}2
-highlight MoreMsg guifg=#0f3f1f guibg=#3fcf3f gui=underline
-highlight ModeMsg guifg=#0f1f3f guibg=#3f3fcf gui=underline
+highlight MoreMsg guifg=#0f3f1f guibg=#5fbf8f gui=underline
+highlight ModeMsg guifg=#0f1f3f guibg=#5f8fbf gui=underline
 highlight LineNr  guifg=#3faf7f guibg=NONE gui=NONE
-highlight Question guifg=#3f8f5f guibg=#afffaf gui=underline
+highlight Question guifg=#0f5f2f guibg=#8fcf8f gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#cfcfcf guibg=#0f102f gui=NONE
 highlight StatusLineNC guifg=#6a6a6f guibg=#afafbf gui=NONE
@@ -55,12 +55,12 @@ highlight DiffChange guifg=#0f0f0f guibg=#ffcfaf gui=NONE
 highlight DiffDelete guifg=#0f0f0f guibg=#df4f9f gui=bold
 highlight DiffText guifg=#cfcfcf guibg=bg gui=NONE
 "}}}2
-highlight SignColumn gui=NONE guifg=#f65774 guibg=bg
+highlight SignColumn gui=NONE guifg=#ff2f5f guibg=bg
 " spell "{{{2
-highlight SpellBad guifg=#5f3f8f guibg=bg gui=NONE
-highlight SpellCap guifg=#3f4f8f guibg=bg gui=NONE
-highlight SpellRare guifg=#3f8f7f guibg=bg gui=NONE
-highlight SpellLocal guifg=#8f7f3f guibg=bg gui=NONE
+highlight SpellBad guifg=#ff3f5f guibg=bg gui=underline
+highlight SpellCap guifg=#1f2fff guibg=bg gui=NONE
+highlight SpellRare guifg=#3fff7f guibg=bg gui=NONE
+highlight SpellLocal guifg=#efdf3f guibg=bg gui=NONE
 
 " pmenu "{{{2
 highlight Pmenu guifg=#0f0f0f guibg=#c0c0cf gui=NONE
@@ -76,7 +76,7 @@ highlight PmenuThumb guifg=#0f0f0f guibg=#afa21f gui=bold
 " highlight TabLineFill guifg=#2f5fff guibg=#21253f gui=NONE
 highlight TabLine guifg=#af8faf guibg=#0f0f1f gui=NONE
 highlight TabLineSel guifg=#cfcfcf guibg=#21253f gui=NONE
-highlight TabLineFill guifg=#2f5fff guibg=#0f0f1f gui=NONE
+highlight TabLineFill guifg=#2f5fff guibg=#0f0f1f gui=bold
 
 " cursor "{{{2
 highlight CursorColumn guifg=fg guibg=bg gui=NONE
@@ -92,7 +92,7 @@ endif
 
 " #- syntax highlighting group -# "{{{1
 highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
-highlight MatchParen guifg=#0f0f1f guibg=#0f2f5f gui=bold
+highlight MatchParen guifg=#000000 guibg=#0f2f5f gui=bold,underline
 highlight comment guifg=#2f5f9f guibg=bg gui=NONE
 highlight Constant guifg=#2faf7b guibg=bg gui=NONE
 highlight Special guifg=#deffed guibg=bg gui=NONE

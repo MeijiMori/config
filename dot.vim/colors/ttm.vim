@@ -1,8 +1,7 @@
-﻿" #- Vim color file -# "{{{1
+" #- Vim color file -# "{{{1
 " NOTE: "{{{2
-" MatchParen "{[(*)]}
+" MatchParen {[(*)]}
 " highlighting ZenkakuSpace /　/
-" !date
 " Guicolorscheme file
 
 " #- Vim color file reset -# "{{{1
@@ -19,30 +18,30 @@ endif
 let g:colors_name = "ttm"
 
 " #- Highlighting groups for various occasions -# "{{{1
-highlight Normal guifg=#cfcfcf guibg=#0f0f0f gui=NONE
+highlight Normal guifg=#cfcfcf guibg=#0c0a0f gui=NONE
 highlight SpecialKey guifg=#5f0fcf guibg=bg gui=NONE
-highlight NonText guifg=#2f8f2f guibg=#1f0f1f gui=NONE
+highlight NonText guifg=#3f0fff guibg=#1f0f1f gui=NONE
 highlight Directory guifg=#2f5fe0 guibg=bg gui=bold
-highlight ErrorMsg guifg=#af082f guibg=#ffafaf gui=NONE
+highlight ErrorMsg guifg=#5f0f2f guibg=#cf5f7f gui=underline
 " search "{{{2
 highlight IncSearch guifg=#cfcfcf guibg=#3f5f1f gui=bold
 highlight Search guifg=#cfcfcf guibg=#2f1f5f gui=bold
 "}}}2
-highlight MoreMsg guifg=#2f8f6f guibg=#afffaf gui=NONE
-highlight ModeMsg guifg=#2f1fbf guibg=#afafff gui=NONE
+highlight MoreMsg guifg=#0f4f1f guibg=#5fcf7f gui=underline
+highlight ModeMsg guifg=#1f0f4f guibg=#5f7fcf gui=underline
 highlight LineNr guifg=#5f0f3f guibg=NONE gui=NONE
-highlight Question guifg=#2faf2f guibg=#afffaf gui=NONE
+highlight Question guifg=#3f3f0f guibg=#8f8f2f gui=underline
 " statusline "{{{2
-highlight StatusLine guifg=#ffffff guibg=#101020 gui=NONE
+highlight StatusLine guifg=#ffffff guibg=#101020 gui=underline
 highlight StatusLineNC guifg=#565234 guibg=#c4b2ab gui=NONE
 "}}}2
-highlight Title guifg=#72dc95 guibg=bg gui=NONE
+highlight Title guifg=#72dc95 guibg=bg gui=underline
 highlight VertSplit guifg=#7f1f5f guibg=#0f0f0f gui=bold
 " visual "{{{2
 highlight Visual guifg=#afafaf guibg=#1f0f2f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#1f2f3f gui=underline,bold
 "}}}2
-highlight WarningMsg guifg=#ff0f3f guibg=#ffafaf gui=NONE
+highlight WarningMsg guifg=#4f0f1f guibg=#cf5f7f gui=underline
 highlight WildMenu guifg=#cfcfcf guibg=#0f6f1f gui=bold
 " fold "{{{2
 highlight Folded guifg=#9f9f9f guibg=#150f15 gui=NONE
@@ -56,10 +55,10 @@ highlight DiffText guifg=fg guibg=bg gui=NONE
 " }}}
 highlight SignColumn guibg=bg guifg=#ffffb0 gui=NONE
 " spell "{{{2
-highlight SpellBad guifg=#af5fbf guibg=bg gui=NONE
-highlight SpellCap guifg=#7f6fbf guibg=bg gui=NONE
-highlight SpellRare guifg=#7fcfaf guibg=bg gui=NONE
-highlight SpellLocal guifg=#bfaf5f guibg=bg gui=NONE
+highlight SpellBad guifg=#ff2faf guibg=bg gui=underline
+highlight SpellCap guifg=#2f5faf guibg=bg gui=NONE
+highlight SpellRare guifg=#2fcf8f guibg=bg gui=NONE
+highlight SpellLocal guifg=#ffaf5f guibg=bg gui=NONE
 
 " pmenu "{{{2
 "highlight Pmenu guifg=#cccccd guibg=#3f3f3f gui=NONE
@@ -72,9 +71,9 @@ highlight PmenuSbar guifg=#cccccc guibg=#101020 gui=NONE
 highlight PmenuThumb guifg=#aaaaaa guibg=#1f2f5f gui=NONE
 
 " tabline "{{{2
-highlight TabLine guifg=#9b9b9f guibg=#1f1f1f gui=NONE
+highlight TabLine guifg=#9b9b9f guibg=#1f1f1f gui=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#1f2f5f gui=NONE
-highlight TabLineFill guifg=#7f7f7f guibg=#1f1f1f gui=underline
+highlight TabLineFill guifg=#7f7f7f guibg=#1f1f1f gui=bold,underline
 
 " cursor "{{{2
 highlight CursorColumn guifg=fg guibg=bg gui=NONE
@@ -93,14 +92,14 @@ highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
 highlight MatchParen guifg=#0f0f0f guibg=#3f2f8f gui=bold
 highlight comment guifg=#2f5faf guibg=bg gui=NONE
 highlight Constant guifg=#8d549f guibg=bg gui=NONE
-highlight Identifier guifg=#ffff6f guibg=bg gui=NONE
+highlight Identifier guifg=#ff8f5f guibg=bg gui=NONE
 highlight Special guifg=#aeffed guibg=bg gui=NONE
 highlight Statement guifg=#3faf5f guibg=bg gui=NONE
 highlight PreProc guifg=#2f21f7 guibg=bg gui=NONE
 highlight type guifg=#5faf8f guibg=bg gui=NONE
 highlight underlined guifg=#2fcf8f guibg=bg gui=underline
 highlight Ignore guifg=#047f75 guibg=NONE gui=bold
-highlight Error guifg=#af2f5f guibg=#ff8faf gui=NONE
+highlight Error guifg=#8f0f2f guibg=#ff8faf gui=NONE
 highlight Todo guifg=#ff5f2a guibg=#000000 gui=bold,underline
 highlight string guifg=#5f6fcf guibg=bg gui=NONE
 

@@ -26,17 +26,17 @@ highlight NonText guifg=#3f7f5f guibg=bg gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight Directory guifg=#1f4f6f guibg=NONE gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight ErrorMsg guifg=#3f0f1f guibg=#af3f5f gui=NONE
+highlight ErrorMsg guifg=#3f0f1f guibg=#af3f5f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " search "{{{
-highlight IncSearch guifg=#afafaf guibg=#2f2f5f gui=bold
+highlight IncSearch guifg=#3f5f8f guibg=#5f8fcf gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight Search guifg=#afafaf guibg=#1f5f2f gui=bold
+highlight Search guifg=#3f8f5f guibg=#5fcf8f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 "}}}
-highlight MoreMsg guifg=#002f0f guibg=#0f5f2f gui=NONE
+highlight MoreMsg guifg=#002f0f guibg=#0f5f2f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight ModeMsg guifg=#000f2f guibg=#0f2f5f gui=NONE
+highlight ModeMsg guifg=#000f2f guibg=#0f2f5f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight LineNr guifg=#9f4f7f guibg=NONE gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
@@ -53,19 +53,19 @@ highlight VertSplit guifg=#6f6f6f guibg=#0f0f1f gui=bold
 highlight Title guifg=#2f7f8f guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " visual "{{{2
-highlight Visual guifg=#efefef guibg=#1f2f5f gui=NONE
+highlight Visual guifg=#cfcfcf guibg=#1f2f3f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#1f2f5f gui=underline,bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " }}}2
-highlight WarningMsg guifg=#3f0f1f guibg=#af2f5f gui=NONE
+highlight WarningMsg guifg=#3f0f1f guibg=#af2f5f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=bold
+highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 " fold "{{{2
 highlight Folded guifg=#8f8f8f guibg=#1f1f1f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight FoldColumn guifg=#8f8f8f guibg=#1a1a1f gui=bold
+highlight FoldColumn guifg=#2f5f5f guibg=#1a1a1f gui=bold
           \ ctermfg=16 ctermbg=12 cterm=NONE
 
 " diff "{{{2
@@ -101,7 +101,7 @@ highlight PmenuThumb guifg=fg guibg=#2f5f3f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
 
 " tabline "{{{2
-highlight TabLine guifg=#5f5f5f guibg=#dfdfdf gui=NONE
+highlight TabLine guifg=#5f5f5f guibg=#dfdfdf gui=underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight TabLineSel guifg=#cfcfcf guibg=#000f1f gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
@@ -126,7 +126,7 @@ endif
 " #- syntax highlighting groups -# "{{{1
 highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
-highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold
+highlight MatchParen guifg=#3f2f5f guibg=#8f8fff gui=bold,underline
           \ ctermfg=16 ctermbg=12 cterm=NONE
 highlight comment guifg=#5f8fcf guibg=bg gui=NONE
           \ ctermfg=16 ctermbg=12 cterm=NONE
@@ -369,6 +369,9 @@ else
   " Cui
 endif
 
+
 " #- End -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
+
+

@@ -7,12 +7,12 @@
 "                         w w 1wq
 "                          f      w
 "            /\_______/\    w       w2
-"           /   o   o   \    / w wwsa
-"          I >        <  I  /
-"         /_I  w  w  w   _\i
-"           I w - - - w I
-"           \ _w_ _ _w_/
-"
+"           /   o _ o   \    / w wwsa
+"          I   =  -  =   I  /
+"         /_I  w  w  w  I_\i
+"        ~  I w - - - w I  *
+"           \ _w_ _ _w_ /
+"              "     "
 " #- First remove all existing highlighting. -# "{{{1
 set background=dark
 if version > 580
@@ -46,42 +46,44 @@ if s:is_vinary_t "{{{2
   highlight NonText guifg=#af3faf guibg=bg gui=bold
   highlight Directory guifg=#5fafaf guibg=bg gui=bold
   highlight ErrorMsg guifg=#9f0f3f guibg=#ffafaf gui=underline
-  highlight IncSearch guifg=#000000 guibg=#8fcf8f gui=bold
-  highlight Search guifg=#000000 guibg=#8f8fcf gui=bold
-  highlight MoreMsg guifg=#0f5f0f guibg=#5faf5f gui=underline
-  highlight ModeMsg guifg=#0f0f5f guibg=#5f5faf gui=underline
+  " Search "{{{3
+  highlight IncSearch guifg=#0f2f1f guibg=#2fcf8f gui=bold,underline
+  highlight Search guifg=#1f0f2f guibg=#3f2fff gui=bold,underline
+  "}}}3
+  highlight MoreMsg guifg=#001f00 guibg=#5fcf5f gui=underline
+  highlight ModeMsg guifg=#00001f guibg=#5f5fcf gui=underline
   highlight LineNr guifg=#3fcfaf guibg=NONE gui=NONE
-  highlight Question guifg=#8f3f3f guibg=#cfafaf gui=underline
-  " Statusline "{{{3
-  highlight StatusLine guifg=#cfcfcf guibg=#0a000f gui=NONE
-  highlight StatusLineNC guifg=#4f4f4f guibg=#cfcfff gui=NONE
+  highlight Question guifg=#8f1f3f guibg=#cf7faf gui=underline
+  " statusline "{{{3
+  highlight StatusLine guifg=#cfcfcf guibg=#0a000f gui=underline
+  highlight StatusLineNC guifg=#3f3f3f guibg=#cfcfff gui=NONE
   " }}}3
   highlight VertSplit guifg=#7f7fcf guibg=#000000 gui=bold
   highlight Title guifg=#ff5f5f guibg=bg gui=underline
-  " Visual "{{{3
+  " visual "{{{3
   highlight Visual guifg=#cfcfcf guibg=#1f1f3f gui=NONE
   highlight VisualNOS guifg=#ffffff guibg=#3f4f7f gui=underline,bold
   " }}}3
   highlight WarningMsg guifg=#8f2f4f guibg=#ffafaf gui=underline
   highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=NONE
-  " Fold "{{{3
+  " fold "{{{3
   highlight Folded guifg=#afafaf guibg=#121015 gui=NONE
   highlight FoldColumn guifg=#8f8fff guibg=bg gui=bold
 
   " diff "{{{3
-  highlight DiffAdd guifg=fg guibg=#2f5f2f gui=NONE
-  highlight DiffChange guifg=fg guibg=#4f4f0f gui=NONE
+  highlight DiffAdd guifg=fg guibg=#1f6f3f gui=NONE
+  highlight DiffChange guifg=fg guibg=#8f8f0f gui=NONE
   highlight DiffDelete guifg=fg guibg=#8f2f3f gui=bold
   highlight DiffText guifg=fg guibg=bg gui=NONE
   " }}}3
-  highlight SignColumn guifg=#7f2f4f guibg=bg gui=NONE
-  " Spell "{{{3
-  highlight SpellBad guifg=#5f3f7f guibg=bg gui=NONE
-  highlight SpellCap guifg=#3f4f7f guibg=bg gui=NONE
-  highlight SpellRare guifg=#3f7f6f guibg=bg gui=NONE
-  highlight SpellLocal guifg=#5faf3f guibg=bg gui=NONE
+  highlight SignColumn guifg=#bf2f3f guibg=bg gui=NONE
+  " spell "{{{3
+  highlight SpellBad guifg=#ff3f5f guibg=bg gui=underline
+  highlight SpellCap guifg=#3f4fff guibg=bg gui=NONE
+  highlight SpellRare guifg=#3fff6f guibg=bg gui=NONE
+  highlight SpellLocal guifg=#cfff3f guibg=bg gui=NONE
 
-  " Pmenu "{{{3
+  " pmenu "{{{3
   highlight Pmenu guifg=#cfcfcf guibg=#0f0f1f gui=NONE
   highlight PmenuSel guifg=#dfdfdf guibg=#1f2f5f gui=NONE
   highlight PmenuSbar guifg=#cfcfcf guibg=#1f1f1f gui=NONE
@@ -90,7 +92,7 @@ if s:is_vinary_t "{{{2
   " tabline "{{{3
   highlight TabLine guifg=#5f5f5f guibg=#efefff gui=NONE
   highlight TabLineSel guifg=#cfcfcf guibg=#1f2f5f gui=NONE
-  highlight TabLineFill guifg=#5f5f5f guibg=#efefff gui=bold
+  highlight TabLineFill guifg=#2f3f5f guibg=#efefff gui=bold
 
   " cursor "{{{3
   highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
@@ -117,19 +119,19 @@ else "{{{2
   highlight ModeMsg guifg=#0f5f3f guibg=#cfffcf gui=underline
   highlight LineNr guifg=#af5f1f guibg=NONE gui=NONE
   highlight Question guifg=#5f0f3f guibg=#ffcfcf gui=underline
-  " Statusline "{{{3
+  " statusline "{{{3
   highlight StatusLine guifg=#5f5f5f guibg=#cfcfcf gui=NONE
   highlight StatusLineNC guifg=#6f6f6f guibg=#efdfcf gui=NONE
   " }}}3
   highlight VertSplit guifg=#6f6f6f guibg=#cfcfcf gui=bold
   highlight Title guifg=#af5f8f guibg=bg gui=underline
-  " Visual "{{{3
+  " visual "{{{3
   highlight Visual guifg=#ffffff guibg=#1f2f5f gui=NONE
   highlight VisualNOS guifg=#ffffff guibg=#3f4f7f gui=underline,bold
   " }}}3
   highlight WarningMsg guifg=#cf2f4f guibg=#ffcfcf gui=NONE
   highlight WildMenu guifg=#cfcfcf guibg=#2f3f5f gui=NONE
-  " Fold "{{{3
+  " fold "{{{3
   highlight Folded guifg=#3f3f3f guibg=#efefff gui=NONE
   highlight FoldColumn guifg=#5f5faf guibg=#fff0fc gui=bold
 
@@ -140,13 +142,13 @@ else "{{{2
   highlight DiffText guifg=#4f4f4f guibg=bg gui=NONE
   " }}}3
   highlight SignColumn guifg=#7f2f4f guibg=bg gui=NONE
-  " Spell "{{{3
-  highlight SpellBad guifg=#5f3f7f guibg=bg gui=NONE
+  " spell "{{{3
+  highlight SpellBad guifg=#5f3f7f guibg=bg gui=underline
   highlight SpellCap guifg=#3f4f7f guibg=bg gui=NONE
   highlight SpellRare guifg=#3f7f6f guibg=bg gui=NONE
   highlight SpellLocal guifg=#5faf3f guibg=bg gui=NONE
 
-  " Pmenu "{{{3
+  " pmenu "{{{3
   highlight Pmenu guifg=#cfcfcf guibg=#0f0f1f gui=NONE
   highlight PmenuSel guifg=#dfdfdf guibg=#1f2f5f gui=NONE
   highlight PmenuSbar guifg=#cfcfcf guibg=#1f1f1f gui=NONE
@@ -176,7 +178,7 @@ endif
 if s:is_vinary_t "{{{2
   " black
   highlight lCursor guifg=#3f3f3f guibg=#7ea3a6 gui=NONE
-  highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold
+  highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold,underline
   highlight comment guifg=#8f4fff guibg=bg gui=NONE
   highlight Constant guifg=#3f2fff guibg=bg gui=NONE
   highlight Special guifg=#afafff guibg=bg gui=NONE

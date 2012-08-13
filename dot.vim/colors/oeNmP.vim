@@ -37,7 +37,7 @@ highlight StatusLineNC guifg=#5f5f3f guibg=#c4b2ab gui=NONE
 highlight Title guifg=#afbf7f guibg=NONE gui=underline
 highlight VertSplit guifg=fg guibg=bg gui=NONE
 " visual "{{{2
-highlight Visual guifg=#cccccc guibg=#102f5f gui=NONE
+highlight Visual guifg=#cfcfcf guibg=#1f2f4f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#3f5f8f gui=bold,underline
 "}}}2
 highlight WarningMsg guifg=#ff4765 guibg=bg gui=NONE
@@ -68,7 +68,7 @@ highlight PmenuThumb gui=NONE guifg=#000000 guibg=#2f5f4f
 " tabline "{{{2
 highlight TabLine guifg=#8f8f8f guibg=#0f0f3f gui=NONE
 highlight TabLineSel guifg=#cfcfcf guibg=#1f1f5f gui=NONE
-highlight TabLineFill guifg=#0f3f3f guibg=#0f0f3f gui=underline
+highlight TabLineFill guifg=#0f3f3f guibg=#0f0f3f gui=underline,bold
 
 " cursor "{{{2
 highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE

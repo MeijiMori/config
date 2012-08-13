@@ -2,7 +2,7 @@
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /　/
-" Elif emehcsroloc dradnats ym
+" elif emehcsroloc dradnats ym
 
 " #- reset -# "{{{1
 set background=dark
@@ -42,7 +42,7 @@ highlight LineNr guifg=#ff1f3f guibg=NONE gui=NONE
 highlight Question guifg=#5f2f1f guibg=#ffaf7f gui=NONE
                 \ ctermfg=5 ctermbg=bg cterm=NONE
 " Statusline "{{{2
-highlight StatusLine guifg=#cfcfcf guibg=#0a0010 gui=NONE
+highlight StatusLine guifg=#cfcfcf guibg=#0a0010 gui=underline
                 \ ctermfg=1 ctermbg=10 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#cfafaf gui=NONE
                 \ ctermfg=10 ctermbg=1 cterm=NONE
@@ -139,7 +139,7 @@ highlight PreProc guifg=#8f5fcf guibg=bg gui=NONE
                 \ cterm=NONE ctermfg=14 ctermbg=bg
 highlight type guifg=#0faf7f guibg=bg gui=NONE
                 \ cterm=NONE ctermfg=9 ctermbg=bg
-highlight Ignore guifg=#1faf5f guibg=bg gui=bold
+highlight Ignore guifg=#0f3f1f guibg=bg gui=bold
                 \ cterm=NONE ctermfg=13 ctermbg=bg
 highlight underlined guifg=#3faf5f guibg=bg gui=underline
                 \ cterm=underline ctermfg=10 ctermbg=bg

@@ -21,15 +21,15 @@ highlight Normal guifg=#000000 guibg=#c4c4c4 gui=NONE
 highlight SpecialKey guifg=#334645 guibg=bg gui=bold
 highlight NonText guifg=#1f3faf guibg=bg gui=bold
 highlight Directory guifg=#348e43 guibg=bg gui=bold
-highlight ErrorMsg guifg=#af0f3f guibg=#cf8faf gui=NONE
+highlight ErrorMsg guifg=#af0f3f guibg=#cf8faf gui=underline
 " search "{{{2
-highlight IncSearch guifg=#0f0f0f guibg=#af5f7f gui=bold
-highlight Search guifg=#0f0f0f guibg=#a0aff6 gui=bold
+highlight IncSearch guifg=#5f2f3f guibg=#af5f7f gui=underline
+highlight Search guifg=#2f3f5f guibg=#a0aff6 gui=underline
 " }}}2
-highlight MoreMsg guifg=#0f4f2f guibg=#afcfaf gui=NONE
-highlight ModeMsg guifg=#0f2f4f guibg=#afafcf gui=NONE
+highlight MoreMsg guifg=#0f4f2f guibg=#afcfaf gui=underline
+highlight ModeMsg guifg=#0f2f4f guibg=#afafcf gui=underline
 highlight LineNr gui=NONE guifg=#b85f40 guibg=NONE ctermfg=white
-highlight Question guifg=#0f4f4f guibg=#afcfcf gui=NONE
+highlight Question guifg=#0f4f4f guibg=#afcfcf gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#ffffff guibg=#0f1f2f gui=NONE
 highlight StatusLineNC guifg=#0f0f0f guibg=#cfcfcf gui=NONE
@@ -40,7 +40,7 @@ highlight VertSplit guifg=#999999 guibg=bg gui=NONE
 highlight Visual guifg=#cfcfcf guibg=#0f2f5f gui=NONE
 highlight VisualNOS guifg=#cfcfcf guibg=#2a3e9f gui=underline,bold
 " }}}2
-highlight WarningMsg guifg=#721237 guibg=#af5f7f gui=NONE
+highlight WarningMsg guifg=#721237 guibg=#af5f7f gui=underline
 highlight WildMenu guifg=#0f3f5f guibg=#cfcfcf gui=NONE
 " fold "{{{2
 highlight Folded guifg=#000000 guibg=#9f9f9f gui=NONE
@@ -52,12 +52,12 @@ highlight DiffChange guifg=#615292 guibg=#bfafff gui=NONE
 highlight DiffDelete guifg=#a62c74 guibg=#df9fff gui=bold
 highlight DiffText guifg=#3f3f3f guibg=bg gui=NONE
 " }}}2
-highlight SignColumn gui=NONE gui=bold guifg=#7f375f guibg=bg
+highlight SignColumn guifg=#7f375f guibg=bg gui=NONE
 " spell "{{{2
-highlight SpellBad guifg=#6f2f8f guibg=bg gui=bold
-highlight SpellCap guifg=#2f5f8f guibg=bg gui=bold
-highlight SpellRare guifg=#2f7f6f guibg=bg gui=bold
-highlight SpellLocal guifg=#7f6f2f guibg=bg gui=bold
+highlight SpellBad guifg=#6f2f8f guibg=bg gui=NONE
+highlight SpellCap guifg=#2f5f8f guibg=bg gui=NONE
+highlight SpellRare guifg=#2f7f6f guibg=bg gui=NONE
+highlight SpellLocal guifg=#7f6f2f guibg=bg gui=NONE
 
 " pmenu "{{{2
 highlight Pmenu guifg=#333333 guibg=#cbcbc3 gui=NONE
@@ -86,7 +86,7 @@ endif
 
 " #- sytntax highlighting -# "{{{1
 highlight lCursor guifg=#575757 guibg=#171615 gui=NONE
-highlight MatchParen guifg=#101010 guibg=#4f73ad gui=bold
+highlight MatchParen guifg=#1f1f4f guibg=#4f73ad gui=bold,underline
 highlight comment gui=NONE  guibg=bg guifg=#0c4396
 highlight Constant guifg=#820960 guibg=bg gui=NONE
 highlight Identifier guifg=#003f00 guibg=bg gui=NONE
@@ -96,10 +96,10 @@ highlight Statement guifg=#0f1f6f guibg=bg gui=NONE
 "highlight PreProc guifg=#b871b7 guibg=#3a3b3c gui=NONE
 highlight PreProc guifg=#7f0f4f guibg=bg gui=NONE
 highlight type guifg=#1f4f2f guibg=bg gui=NONE
-highlight underlined guifg=#2f5f1f guibg=bg gui=bold,underline
+highlight underlined guifg=#5f8f8f guibg=bg gui=bold,underline
 highlight Ignore guifg=#354b6c guibg=bg gui=NONE
 highlight Error guifg=#af0f2f guibg=bg gui=NONE
-highlight Todo guifg=#0f0f0f guibg=#cf8fcf gui=bold,underline
+highlight Todo guifg=#8f5faf guibg=#cfcfff gui=bold,underline
 highlight string guifg=#2f3faf guibg=bg gui=NONE
 
 " #- Color function -# "{{{1
