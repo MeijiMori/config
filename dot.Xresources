@@ -1,4 +1,4 @@
-! Basic? !{{{
+! Basic? !{{{1
 ! =====
 Rxvt.geometry: 80x25
 
@@ -50,8 +50,9 @@ Rxvt.scrollWithBuffer: false
 Rxvt.termName: rxvt
 ! Rxvt.tripleclickwords: ...
 Rxvt.utmpInhibit: false
-! }}}
-! Font !{{{
+
+
+! Font !{{{1
 ! =====
 ! Inconsolata
 URxvt.font:\
@@ -66,8 +67,9 @@ URxvt.italicFont:\
 URxvt.boldItalicFont:\
     xft:Inconsolata,\
     xft:Ricty:style=Regular-Mono
-!}}}
-! Color !{{{
+
+
+! Color !{{{1
 ! =====
 Rxvt.background: #20202f
 Rxvt.foreground: #cccccc
@@ -99,7 +101,7 @@ Rxvt.cursorColor2: #000000
 Rxvt.scrollColor: #1f2f5f
 ! Rxvt.troughColor: #666666
 ! Rxvt.pointerColor: ...
-! }}}
 
-! __END__
+
+! __END__ !{{{1
 ! vim: filetype=xdefaults
