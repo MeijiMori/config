@@ -1,4 +1,4 @@
-﻿" #- Vim color file -# "{{{1
+" #- Vim color file -# "{{{1
 " NOTE: "{{{2
 " MatchParen "{[(*)]}"
 " highlighting ZenkakuSpace /　/
@@ -38,6 +38,8 @@ highlight MoreMsg guifg=#0f5f2f guibg=#5faf7f gui=underline
                 \ ctermfg=12 ctermbg=0 cterm=NONE
 highlight ModeMsg guifg=#5f5f5f guibg=#bfbfbf gui=underline
                 \ ctermfg=12 ctermbg=9 cterm=NONE
+highlight CursorLineNr guifg=#3f3fcf guibg=NONE gui=NONE
+                \ ctermfg=11 ctermbg=NONE cterm=NONE
 highlight LineNr guifg=#cfbfb0 guibg=NONE gui=NONE
                 \ ctermfg=11 ctermbg=NONE cterm=NONE
 highlight Question guifg=#0f2f5f guibg=#2f5f8f gui=underline
@@ -45,8 +47,6 @@ highlight Question guifg=#0f2f5f guibg=#2f5f8f gui=underline
 " statusline "{{{2
 highlight StatusLine guifg=#cfcfcf guibg=#00051f gui=NONE
                 \ ctermfg=1 ctermbg=10 cterm=NONE
-" highlight StatusLineNC guifg=#565234 guibg=#c4b2ab gui=NONE
-        "       \ ctermfg=10 ctermbg=1 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#c0afcf gui=NONE
                 \ ctermfg=10 ctermbg=1 cterm=NONE
 "}}}2
@@ -76,11 +76,11 @@ highlight FoldColumn guifg=#3f30cf guibg=#000010 gui=bold
 
 
 " diff "{{{2
-highlight DiffAdd guifg=#1f3f2f guibg=#5fcfaf gui=NONE
+highlight DiffAdd guifg=fg guibg=#2f8f5f gui=NONE
                 \ ctermfg=bg ctermbg=11 cterm=NONE
-highlight DiffChange guifg=#2f3f1f guibg=#afcf5f gui=NONE
+highlight DiffChange guifg=fg guibg=#af6f2f gui=NONE
                 \ ctermfg=bg ctermbg=5 cterm=NONE
-highlight DiffDelete guifg=#3f1f2f guibg=#cf5faf gui=NONE
+highlight DiffDelete guifg=fg guibg=#af2f4f gui=NONE
                 \ ctermfg=bg ctermbg=2 cterm=NONE
 highlight DiffText guifg=fg guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
@@ -125,11 +125,11 @@ highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
 highlight CursorLine guifg=NONE guibg=#00051f gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
 highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
-highlight Cursor guifg=#000000 guibg=#cfcfcf gui=NONE
+highlight Cursor guifg=#000000 guibg=#b0b0cf gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
-"IME status color for cursor "{{{3
+" IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
-  highlight CursorIM guifg=#000000 guibg=#af2651 gui=NONE
+  highlight CursorIM guifg=#2f0f0f guibg=#af2f5f gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
 endif
 
@@ -139,7 +139,7 @@ endif
 " #- Syntax highlighting group -# "{{{1
 highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
                 \ ctermfg=10 ctermbg=0 cterm=NONE
-highlight MatchParen guifg=#8f5f3f guibg=#ff8f5f gui=bold
+highlight MatchParen guifg=#afafaf guibg=#10101f gui=bold,underline
                 \ ctermfg=0 ctermbg=1 cterm=NONE
 " highlight comment guifg=#4f79ff guibg=bg gui=NONE
 highlight comment guifg=#1f5fef guibg=bg gui=NONE
@@ -167,10 +167,32 @@ highlight underlined guifg=#568cff guibg=bg gui=underline
                 \ cterm=underline ctermfg=10 ctermbg=bg
 highlight Error guifg=#f04f7e guibg=bg gui=NONE
                 \ cterm=NONE ctermfg=14 ctermbg=bg
-highlight Todo guifg=#cf5fcf guibg=#dfcfff gui=bold,underline
+highlight Todo guifg=#7f7f7f guibg=#cfcfff gui=bold,underline
                 \ cterm=NONE ctermfg=9 ctermbg=12
 highlight string guifg=#ffc8e6 guibg=bg gui=NONE
                 \ cterm=NONE ctermfg=5 ctermbg=bg
+
+" #- hl-User -# "{{{1
+highlight User1 guifg=#3f3f3f guibg=#cfcfff gui=NONE
+                \ ctermfg=10 ctermbg=2 cterm=NONE
+highlight User2 guifg=#5f5f5f guibg=#afafff gui=NONE
+                \ ctermfg=10 ctermbg=3 cterm=NONE
+highlight User3 guifg=#afafff guibg=#2f2f3f gui=NONE
+                \ ctermfg=10 ctermbg=4 cterm=NONE
+highlight User4 guifg=#5f2f5f guibg=#cfafff gui=NONE
+                \ ctermfg=10 ctermbg=1 cterm=NONE
+highlight User5 guifg=#2f5f5f guibg=#afcfff gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight User6 guifg=#2f2f5f guibg=#5f5faf gui=NONE
+                \ ctermfg=10 ctermbg=8 cterm=NONE
+highlight User7 guifg=#5f2f2f guibg=#af5f5f gui=NONE
+                \ ctermfg=10 ctermbg=10 cterm=NONE
+highlight User8 guifg=#2f5f2f guibg=#5faf5f gui=NONE
+                \ ctermfg=10 ctermbg=11 cterm=NONE
+highlight User9 guifg=#5f5f2f guibg=#afaf5f gui=NONE
+                \ ctermfg=10 ctermbg=12 cterm=NONE
+
+
 
 " #- Color function -# "{{{1
 " this code is written mrkn256.vim
