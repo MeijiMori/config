@@ -1,0 +1,85 @@
+" My vimrc for purevim
+
+" Default "{{{1
+" All setting value return to default
+set all&
+" All keymapping value return to default
+mapclear!
+
+" Initialize autocmd.
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+" Delete all autocmd
+autocmd!
+
+" Env "{{{1
+" windows ?
+let s:iswin = has('win32') || has('win64')
+" mac ?
+let s:ismac = !s:iswin && has('macunix') || has('mac')
+
+" Enabled setting "{{{1
+" Enable syntax
+syntax enable
+colorscheme desert
+
+" enable fold
+set foldenable
+set foldmethod=marker
+
+" Disabled setting "{{{1
+if has('multi_byte_ime')
+	set iminsert=0 imsearch=0
+	nnoremap / :<C-u>set imsearch=0<CR>/
+	xnoremap / :<C-u>set imsearch=0<CR>/
+	nnoremap ? :<C-u>set imsearch=0<CR>?
+	xnoremap ? :<C-u>set imsearch=0<CR>?
+endif
+
+" View "{{{1
+" Show linenumber
+set number
+set numberwidth=10
+" Show always statusline
+set laststatus=2
+" Show always tabline
+set showtabline=2
+" Ruler on
+set ruler
+" Show cmd
+set showcmd
+" Show title
+set title
+" Set wildmenu
+set wildmenu
+set wildchar=<tab>
+" Set cmdwindow size
+set cmdheight=2
+
+" Disable errorbell
+set noerrorbells
+" Disable visualbell
+set visualbell t_vb=
+
+" Gui and Cui setting "{{{1
+if has('gui_running')
+	" font
+	if s:iswin
+		set guifont=Ubuntu\ Mono:h10, MS\ Gothic:h9:cSHIFTJIS
+		set guifontwide=Migu\ 1M:h9:cSHIFTJIS, MS\ Gothic:h9:cSHIFTJIS
+	else
+	endif
+else
+endif
+
+" Plugin "{{{1
+" Add runtimepath in $VIM/plugins
+for path in split(glob($VIM.'/plugins/*'), '\n')
+  if isdirectory(path) | let &runtimepath = &runtimepath.','.path | end
+endfor
+
+" End "{{{1
+" vim: fen:fdm=marker
+" vim: filetype=vim

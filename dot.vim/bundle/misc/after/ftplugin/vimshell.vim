@@ -1,5 +1,3 @@
-" No cursorline
-setlocal nocursorline
 
 " Insert vimshell history
 function! s:complete_history()

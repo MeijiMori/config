@@ -2,7 +2,6 @@
 " NOTE: "{{{2
 " MatchParen "{[(*)]}
 " highlighting ZenkakuSpace /¡¡/
-" !date
 " Guicolorscheme file
 " May I improved candycode.vim ...
 
@@ -19,7 +18,7 @@ endif
 " #- Colorscheme name -# "{{{1
 let g:colors_name="cu"
 
-"#- Highlighting groups for various occasions -# "{{{1
+" #- Highlighting groups for various occasions -# "{{{1
 
 highlight Normal       guifg=#ffffff       guibg=#00000f       gui=NONE
       \   ctermfg=white       ctermbg=black       cterm=NONE

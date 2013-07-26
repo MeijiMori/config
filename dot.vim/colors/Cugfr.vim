@@ -42,7 +42,7 @@ highlight VisualNOS guifg=#3d3d3d guibg=#cfcfcf gui=underline,bold
 highlight WarningMsg guifg=#ff2f5f guibg=bg gui=NONE
 highlight WildMenu guifg=#cfcfff guibg=#0f0f1f gui=NONE
 " #- fold -# "{{{
-highlight Folded guifg=#0f0f1f guibg=#afafcf gui=underline
+highlight Folded guifg=#cfcfcf guibg=#0a0f1f gui=NONE
 highlight FoldColumn guifg=#2f1fcf guibg=bg gui=bold
 " }}}
 " #- Diff -# "{{{

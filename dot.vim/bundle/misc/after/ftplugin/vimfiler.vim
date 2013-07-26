@@ -1,2 +1,0 @@
-" No cursorline
-setlocal nocursorline

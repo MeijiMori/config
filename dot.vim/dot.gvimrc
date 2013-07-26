@@ -49,7 +49,7 @@ endif "}}}
 
 " Save the setting of font. "{{{
 " Make directory "{{{
-let g:save_font_dir = g:vimdir . '/initfiles/font'
+let g:save_font_dir = g:vim_dir . '/initfiles/font'
 let g:save_font_file = g:save_font_dir . "/.vimfont"
 if !isdirectory(g:save_font_dir)
   call mkdir(g:save_font_dir, 'p')
@@ -60,16 +60,16 @@ augroup SaveFont "{{{
   function! s:save_font() "{{{
     if s:iswin || has('unix')
       " If invite space in fontname, replace it ! (\ )
-      let recodefont = substitute(&guifont, ' ', '\\ ', 'g')
-      let recodefontw = substitute(&guifontwide, ' ', '\\ ', 'g')
+      " let recodefont = substitute(&guifont, ' ', '\\ ', 'g')
+      " let recodefontw = substitute(&guifontwide, ' ', '\\ ', 'g')
       let options = [
-      \ 'set guifontwide=' . recodefontw,
-      \ 'set guifont=' . recodefont
+      \ 'let &guifontwide=' . string(&guifontwide),
+      \ 'let &guifont=' . string(&guifont)
       \]
     else
       let options = [
-      \ 'set guifontwide=' . recodefontw,
-      \ 'set guifont=' . recodefont
+      \ 'set guifontwide=' . &guifontwide,
+      \ 'set guifont=' . &guifont
       \]
     endif
     call writefile(options, g:save_font_file)
@@ -106,7 +106,7 @@ endif
 " Save window postion and width "{{{
 " Save the setting of window. "{{{
 " Make directory "{{{
-let g:save_window_dir = g:vimdir . '/initfiles/win'
+let g:save_window_dir = g:vim_dir . '/initfiles/win'
 let g:save_window_file = g:save_window_dir . "/.vimwinpos" "}}}
 
 if !isdirectory(g:save_window_dir)
@@ -114,7 +114,7 @@ if !isdirectory(g:save_window_dir)
 endif "}}}
 augroup SaveWindow " "{{{
   autocmd!
-  autocmd VimLeavePre * call s:save_window()
+  autocmd BufWritePre,VimLeavePre * call s:save_window()
   function! s:save_window() " "{{{
     let options = [
     \ 'set columns=' . &columns,
@@ -139,7 +139,7 @@ endif
 
 " Save the setting of colorscheme. "{{{
 " Make directory "{{{
-let g:save_color_dir = g:vimdir . '/initfiles/color'
+let g:save_color_dir = g:vim_dir . '/initfiles/color'
 let g:save_color_file = g:save_color_dir . "/.vimcolor"
 
 if !isdirectory(g:save_color_dir)
@@ -197,7 +197,7 @@ function! s:ColorToggle() "{{{
   endif
   execute 'colorscheme ' colorlist[l:index][0]
 endfunction " }}}
-nnoremap ,ct :<C-u>call <SID>ColorToggle() \| echomsg "colorscheme <"g:colors_name">"<CR>
+nnoremap <silent> ,ct :<C-u>call <SID>ColorToggle() \| redraw \| echomsg "colorscheme <"g:colors_name">"<CR>
 
 "}}}
 
@@ -260,14 +260,11 @@ if has('kaoriya')
   "set guioptions+=C
 
   " Hide window title,button Toggle
-  function! s:GuiOptionsToggle() "{{{
-    if &guioptions !~# 'C'
-      set guioptions+=C
-    else
-      set guioptions-=C
-    endif
-  endfunction " }}}
-  nnoremap <silent>TH :<C-u>call <SID>GuiOptionsToggle()<CR>
+  nnoremap <silent><F2> :<C-u> if &guioptions !~# 'C' <Bar>
+  \ set guioptions+=C <Bar>
+  \ else <Bar>
+  \ set guioptions-=C <Bar>
+  \ endif <CR>
 endif
 
 "}}}
@@ -286,51 +283,13 @@ set vb t_vb=
 set guicursor&
 set guicursor=a:blinkon0
 
-function! s:GuiTabLabel() "{{{
-  " Initialize print string on tab
-  let l:labal = ''
-  " Get information of buffer for inbyte tab
-  let l:bufnrlist = tabpagebuflist(v:lnum)
-  " Add buffer name to print string (only file name)
-  let l:bufname = fnamemodify(bufname(l:bufnrlist[tabpagewinnr(v:lnum) - 1]),
-  \'t')
-  " If no buffer name, title is "[No Name]"
-  let l:label = l:bufname == '' ? '[No Name]' : l:bufname
-  " If exists any windows in tab, add window count
-  l:wincount = tabpagewinnr(v:lnum, '$')
-  if l:wincount > 1
-    let l:label .= '[' . l:wincount . ']'
-  endif
-  " If exists changed buffer, add character '!'
-  for bufnr in l:bufnrlist
-    if getbufvar(bufnr, "&modified")
-      let l:label .= ' !'
-      break
-    endif
-  endfor
-  " Return print string
-  return l:label
-endfunction "}}}
-" Set guitababel in tabline
-"let &tabline="%N:\ %{my_tabline()}"
-"set guitablabel=%N:\ %{GuiTabLabel()}
-
 "}}}
 
 "---------------------------------------------------------------------------
 " Platform depends:"{{{
 "
 if s:iswin
-  " For Windows "{{{
-  set shell=ckw "}}}
 else
-  " For Linux "{{{
-  if executable('zsh')
-    " Use zsh.
-    set shell=zsh
-  elseif executable('bash')
-    set shell=bash
-  endif "}}}
 endif
 "}}}
 
