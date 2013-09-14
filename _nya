@@ -19,7 +19,7 @@ option uncompletechar ,;=``
 option +history
 option histfilesize 100000
 # history save file
-option savehist ~/.nyaos_history
+option savehist $HOME/.nyaos_history
 
 # Prompt
 # option prompt $e[31;40;1m[$p]$_$e[35;1m$USERNAME$e[0m@$e[34;1m$USERDOMAIN$e[30;1m$ $e[37;1m
@@ -46,6 +46,8 @@ myalias{
   # alias ls "ls.exe"
   alias vi "vim.exe"
   alias vim "gvim.exe"
+  # cd
+  # alias cd pushd
   # pure vim
   alias purevim "gvim.exe -u NONE -N"
   # shutdown
@@ -108,6 +110,14 @@ if not "%1" == "" cd --basedir "%1"
 # autocd
 source %NYAOS_DIR%/_nya.d/opt/auto_cd.lua
 
+### FUNCTTION #{{{1
+cdd{
+  cd %1 && ls %1
+}
+
+mkcd{
+  md %1 && cd %1
+}
 
 
 ### EXPAND BY LUA #{{{1
@@ -127,21 +137,21 @@ source %NYAOS_DIR%/_nya.d/opt/auto_cd.lua
 # "
 
 # Title
-# lua_e "
-#   function nyaos.title()
-#     return false, 'title'
-#   end
-# "
+lua_e "
+  function nyaos.title()
+    return '[$W]'
+  end
+"
 
 # Color Print
 # lua_e "
-#   co = [ 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 45, 46, 47 ]
-#   function nyaos.command.copt()
-#     foreach cl co
-#       print cl
-#     end
+# co = [ 30, 31, 32, 33, 34, 35, 36, 37, 41, 42, 45, 46, 47 ]
+# function nyaos.command.copt()
+#   for in co
+#     print cl
 #   end
-# "
+# end
+"
 
 
 
