@@ -25,7 +25,7 @@ option savehist $HOME/.nyaos_history
 # option prompt $e[31;40;1m[$p]$_$e[35;1m$USERNAME$e[0m@$e[34;1m$USERDOMAIN$e[30;1m$ $e[37;1m
 # user@host cwd
 # $
-option prompt $e[35;1m$USERNAME$e[33;1m@$e[34;1m$USERDOMAIN$e[30;1m $e[37;1m[$p]$_$e[30;1m$ $e[0m
+option prompt $e[35;1m$USERNAME$e[33;1m@$e[34;1m$USERDOMAIN$e[30;1m $e[31;1m[$p]$_$e[30;1m$ $e[0m
 
 # ls colors
 option ls_colors=fi=37;1:di=32;1:sy=31;ro=1;32:hi=0;34:ex=0;31
@@ -102,6 +102,17 @@ myalias
 mykeybind
 
 
+### FUNCTION #{{{1
+cd{
+  __cd__ $*
+  ls
+}
+
+mkcd{
+  md %1 && cd %1
+}
+
+
 ### MISC #{{{1
 
 # Open send to file's directory
@@ -109,16 +120,6 @@ if not "%1" == "" cd --basedir "%1"
 
 # autocd
 source %NYAOS_DIR%/_nya.d/opt/auto_cd.lua
-
-### FUNCTTION #{{{1
-cdd{
-  cd %1 && ls %1
-}
-
-mkcd{
-  md %1 && cd %1
-}
-
 
 ### EXPAND BY LUA #{{{1
 
