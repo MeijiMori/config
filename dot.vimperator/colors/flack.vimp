@@ -6,17 +6,17 @@
 
 " Color "{{{1
 highlight Boolean color: #5d89ff; background-color: #fff0fa;
-highlight Function font-weight: bold; color: #22a5ef; background-color: #cfcfff;
+highlight Function font-weight: bold; color: #2fa5ef; background-color: #fff0fa;
 highlight Null font-weight: bold; color: #ff9f55; background-color: #cfcfff;
 highlight Number font-weight: bold; color: #7dd98d; background-color: #cfcfff;
 highlight Object font-weight: bold; color: #4ea9f8; background-color: #cfcfff;
-highlight String font-weight: bold; color: #ffc8e6; background-color: #fff0fa;
+highlight String font-weight: bold; color: #ff2f5f; background-color: #fff0fa;
 highlight Mapping font-weight: bold; color: #2f5fcf; background-color: #cfcfff;
 
 highlight Key font-weight: bold; color: #4156f6; background-color: #cfcfff;
 
-highlight Enabled color: #5fcfff; background-color: #fff0fa;
-highlight Disabled color: #8f8f8f; background-color: #fff0fa;
+highlight Disabled color: #6f6f6f; background-color: #fff0fa;
+highlight Enabled color: #5f2faf; background-color: #fff0fa;
 
 highlight Normal color: #1f1f2f; background-color: #fff0fa; font-size: 13px;
 highlight ErrorMsg color: #5f1f2f; background-color: #cf8faf; font-size: 12px;
@@ -24,10 +24,10 @@ highlight InfoMsg font-weight: bold; color: #0f3f5f; background-color: #3f7faf;
 highlight ModeMsg font-weight: bold; color: #6f6f8f; background-color: #cfcfff;
 highlight MoreMsg font-weight: bold; color: #0f5f3f; background-color: #3faf7f;
 highlight WarningMsg color: #5f2f0f; background-color: #ff7f5f; font-size: 12px;
-highlight Message color: #cfcfff; background-color: #8f8faf; font-size: 14px;
+highlight Message color: #cfcfff; background-color: #8f8faf; font-size: 12px;
 highlight NonText font-weight: bold; color: #8f8fff; background-color: #fff0ff;
 highlight Preview font-weight: Normal; color: #0f0f0f; background-color: #6faf8f;
-highlight Prompt background-color: url("chrome://liberator/skin/prompt.png"); width: 13px; background-position: center; background-repeat: no-repeat;
+highlight Prompt background-color: url("chrome://liberator/skin/prompt.png"); width: 14px; background-position: center; background-repeat: no-repeat;
 highlight PromptText color: #cfcfcf; background-color: rgba(0, 10, 25, 0.8); border-bottom: 1px solid #5f5fcf; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 12px;
 
 " Cmd "{{{
@@ -52,7 +52,7 @@ highlight CompDesc color: #2f7f3f; background-color: none; width: 500px; max-wid
 " }}}
 
 highlight Indicator font-weight: bold; color: #415676; background-color: #cfcfff;
-highlight Filter font-weight: bold; color: #33ff99; background-color: #cfcfff;
+highlight Filter font-weight: bold; color: #3faf5f; background-color: #fff0fa;
 
 highlight Keyword font-weight: bold; font-size: 15px color: #4e80ff; background-color: #fff0fa;
 highlight Tag font-size: 13px; letter-spacing: 2px; color: #fff0fa; color: #aaffaa;
@@ -147,7 +147,7 @@ style -name tab chrome://* <<EOM
 
 #content {
   color: #0f0f0f !important;
-  background-color: #efe0ef !important;
+  background-color: #0f0f0f !important;
 }
 
 .tabs-alltabs-button {
@@ -162,7 +162,7 @@ style -name tab chrome://* <<EOM
 
 /* tab bar position: top */
 .tabs-container .box-inherit.scrollbox-innerbox {
-  border-bottom: 1px solid #404040;
+  border-bottom: 1px solid #0f0f0f;
 }
 
 /* remove tab selection menu */
@@ -171,8 +171,8 @@ style -name tab chrome://* <<EOM
 }
 
 .tabs-container scrollbox {
-  background-color: #adadad;
-  border-bottom: 1px solid #333;
+  background-color: #cfcfcf;
+  border-bottom: 1px solid #afafaf;
 }
 
 .tabbrowser-tab {
@@ -191,37 +191,41 @@ style -name tab chrome://* <<EOM
 
   color: #cfcfcf !important;
   background-image: none !important;
-  background-color: #2f2f2f !important;
+  background-color: #1f1f1f !important;
   text-align: left !important;
   /*text-shadow: none !important;*/
-  text-shadow: 1px 1px 2px #0f0f2f !important;
+  text-shadow: 1px 1px 1px #0f0f2f !important;
+  border-top:    1px solid #2f2f2f !important;
+  border-right:  1px solid #2f2f2f !important;
+  border-bottom: 1px solid #2f2f2f !important;
+  border-left:   1px solid #2f2f2f !important;
 }
 
 .tabbrowser-tab[selected=false] {
-  border-top: 1px solid #2f2f2f !important;
-  border-bottom: 1px solid #2f2f2f !important;
-  background-color: #cfcfff !important;
+  background-color: #2f2f2f !important;
 }
 
 .tabbrowser-tab[selected=true] {
   font-weight: bold;
   color: #cfcfcf !important;
-  background-color: #2f2f5f !important;
-  maring: -0.7em 0 0 -0.7em;
-  padding: 0px 5px;
+  background-color: #0f1f3f !important;
+  border-top:    2px solid #1f1f5f !important;
+  border-right:  2px solid #1f1f5f !important;
+  border-bottom: 2px solid #1f1f5f !important;
+  border-left:   2px solid #1f1f5f !important;
 }
 
 .tabbrowser-tab[selected=true].tab-text {
   font-weight: normal;
   font-size: 15px;
-  color: #cfcfcf !important;
+  color: #0f0f0f !important;
   background-color: none !important;
 }
 
 /* This color is tab's empty */
 .tabbrowser-strip {
-  color: #415676 !important;
-  background-color: #fff0fa !important;
+  color: #cfcfcf !important;
+  background-color: #0f0f0f !important;
 }
 
 /* remove close button */
