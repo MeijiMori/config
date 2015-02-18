@@ -46,7 +46,6 @@ highlight CompItem[selected] font-weight: bold; color: #2fff8f; background-color
 highlight CompItem>* height: 18px; min-height: 18px; padding: 0 0.5ex;
 highlight CompIcon width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
 highlight CompIcon>img max-width: 16px; max-height: 16px; vertical-align: middle;
-r
 highlight CompResult width: 500px; max-width: 500px; overflow: hidden;
 highlight CompDesc color: #2f7f3f; background-color: none; width: 500px; max-width: 500px;
 " }}}
