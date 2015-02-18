@@ -42,7 +42,7 @@ highlight CompTitle color: #7824af; background-color: -moz-linear-gradient(19% 7
 highlight CompTitle>* color: #afafaf; background-color: #0f1f2f; border-bottom: 1px solid #8f1f4f; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #2f1fff; font-size: 14px;
 highlight CompMsg font-weight: none; margin-left: 12px;
 highlight CompItem font-size: 12px;
-highlight CompItem[selected] font-weight: bold; color: #afafff; background-color: #0f1f2f; font-size: 13px;
+highlight CompItem[selected] font-weight: bold; color: #2fff8f; background-color: #000f2f; font-size: 13px;
 highlight CompItem>* height: 18px; min-height: 18px; padding: 0 0.5ex;
 highlight CompIcon width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
 highlight CompIcon>img max-width: 16px; max-height: 16px; vertical-align: middle;
@@ -179,7 +179,6 @@ style -name tab chrome://* <<EOM
   -moz-apperance: none !important;
   margin: 0 !important;
   padding: 0 0 0 5pt !important;
-  margin-bottom: 1pt !important;
   -moz-border-radius-topleft: 10pt !important;
   -moz-border-radius-topright 0 !important;
   -moz-border-radius-bottomright: 0 !important;
