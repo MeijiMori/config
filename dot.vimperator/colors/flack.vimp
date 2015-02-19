@@ -150,8 +150,8 @@ style -name tab chrome://* <<EOM
 }
 
 .tabs-alltabs-button {
-  margin: 0 !important;
-  padding: 2px 0 !important;
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
 .tabs-container {
@@ -160,9 +160,11 @@ style -name tab chrome://* <<EOM
 }
 
 /* tab bar position: top */
+/*
 .tabs-container .box-inherit.scrollbox-innerbox {
   border-bottom: 1px solid #0f0f0f;
 }
+*/
 
 /* remove tab selection menu */
 .tabs-container > stack {
@@ -175,24 +177,19 @@ style -name tab chrome://* <<EOM
 }
 
 .tabbrowser-tab {
-  -moz-apperance: none !important;
   margin: 0 !important;
   padding: 0 0 0 5pt !important;
+  -moz-apperance: none !important;
   -moz-border-radius-topleft: 10pt !important;
   -moz-border-radius-topright 0 !important;
   -moz-border-radius-bottomright: 0 !important;
   -moz-border-radius-bottomleft: 8pt !important;
-
-  //border-top: 2px solid #cfcfcf !important;
-  //border-bottom: 3px solid #000000 !important;
-  border: none !important;
-
   color: #cfcfcf !important;
-  background-image: none !important;
   background-color: #1f1f1f !important;
+  background-image: none !important;
   text-align: left !important;
-  /*text-shadow: none !important;*/
   text-shadow: 1px 1px 1px #0f0f2f !important;
+  border: none !important;
   border-top:    1px solid #2f2f2f !important;
   border-right:  1px solid #2f2f2f !important;
   border-bottom: 1px solid #2f2f2f !important;
@@ -214,7 +211,7 @@ style -name tab chrome://* <<EOM
 }
 
 .tabbrowser-tab[selected=true].tab-text {
-  font-weight: normal;
+  font-weight: bold;
   font-size: 15px;
   color: #0f0f0f !important;
   background-color: none !important;
@@ -227,19 +224,22 @@ style -name tab chrome://* <<EOM
 }
 
 /* remove close button */
-/*.tab-close-button {
-  display: none;
-}*/
-
-/* remove new tab button */
-/*.tabs-newtab-button {
+.tab-close-button {
   display: none !important;
-}*/
+}
+
+.tabs-newtab-button {
+  /* remove new tab button */
+  /*display: none !important;*/
+  color: #0f0f0f !important;
+  background-color: #0f0f0f !important;
+  border: 2px solid #cf2f5f !important;
+}
 
 /* splitter */
-.treestyletab-splitter {
+/*.treestyletab-splitter {
   width: 0 !important;
-}
+}*/
 
 .treestyletab-splitter grippy {
   display: none !important;
