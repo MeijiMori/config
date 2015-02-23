@@ -8,7 +8,7 @@
 highlight Boolean color: #5d89ff; background-color: #fff0fa;
 highlight Function font-weight: bold; color: #2fa5ef; background-color: #fff0fa;
 highlight Null font-weight: bold; color: #ff9f55; background-color: #cfcfff;
-highlight Number font-weight: bold; color: #7dd98d; background-color: #cfcfff;
+highlight Number font-weight: bold; color: #7dd98d;
 highlight Object font-weight: bold; color: #4ea9f8; background-color: #cfcfff;
 highlight String font-weight: bold; color: #ff2f5f; background-color: #fff0fa;
 highlight Mapping font-weight: bold; color: #2f5fcf; background-color: #cfcfff;
@@ -27,11 +27,11 @@ highlight WarningMsg color: #5f2f0f; background-color: #ff7f5f; font-size: 12px;
 highlight Message color: #cfcfff; background-color: #8f8faf; font-size: 12px;
 highlight NonText font-weight: bold; color: #8f8fff; background-color: #fff0ff;
 highlight Preview font-weight: Normal; color: #0f0f0f; background-color: #6faf8f;
-highlight Prompt background-color: url("chrome://liberator/skin/prompt.png"); width: 14px; background-position: center; background-repeat: no-repeat;
+highlight Prompt background-color: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat;
 highlight PromptText color: #cfcfcf; background-color: rgba(0, 10, 25, 0.8); border-bottom: 1px solid #5f5fcf; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 12px;
 
 " Cmd "{{{
-highlight CmdOutput font-weight: normal; color: #000000; background-color: #131319; font-size: 14px;
+highlight CmdOutput font-weight: normal; color: #000000; background-color: #efdfff; font-size: 14px;
 highlight CmdLine   font-weight: normal; color: #000000; background-color: #efdfff; font-size: 14px;
 " }}}
 hi ContentSeparator border: none; display: -moz-box;
@@ -65,9 +65,9 @@ highlight StatusLine font-size: 13px; font-weight: normal; color: #5f5f5f; backg
 
 highlight TabNumber font-weight: normal; color: #000000; background-color: #cfcfff;
 
-highlight Title font-size: 12px; letter-spacing: 2px; color: #333; color: #72dc95;
-highlight URL       font-size: 13px; letter-spacing: 2px; color: #fff0fa; color: #2f5fcf;
-highlight URL:hover font-size: 13px; letter-spacing: 2px; color: #fff0fa; color: #ffaacc;
+highlight Title font-size: 12px; letter-spacing: 2px; color: #333; background-color: #72dc95;
+highlight URL       font-size: 13px; letter-spacing: 2px; color: #3faf5f; background-color: none;
+highlight URL:hover font-size: 13px; letter-spacing: 2px; color: #8f8fff; background-color: #0f0f2f;
 
 highlight FrameIndicator font-weight: bold; color: #f84865; background-color: #2f2f2f;
 
@@ -75,10 +75,10 @@ highlight FrameIndicator font-weight: bold; color: #f84865; background-color: #2
 highlight Bell display: none;
 
 " Hint "{{{
-highlight Hint font-weight: normal; color: #8f3f5f; background-color: #fcfaff; border: none; maring: -0.7em 0 0 -0.7em; padding:0px 5px; font-size: 14px;
+highlight Hint font-weight: bold; color: #dfdfdf; background-color: #0f0f0f; border: solid 2px #0f0f2f; maring: -0.7em 0 0 -0.7em; padding:0px 5px; font-size: 14px;
 highlight Hint::after content: attr(number);
-highlight HintElem font-weight: normal; color: #cfcfcf; background-color: rgba(20, 50, 70, 10);
-highlight HintActive font-weight: normal; color: #1f1f1f; background-color: rgba(100, 100, 100, 0.8);
+highlight HintElem font-weight: normal; color: #cfcfcf; background-color: rgba(50, 80, 120, 20);
+highlight HintActive font-weight: normal; color: #cfcfcf; background-color: rgba(120, 120, 180, 20);
 highlight HintImage opacity: .8;
 " shadow (If this setting is too havey, next lines shounld be comment out) {{{
 " highlight -append highlightnt background-color: rgba(5, 10, 45, 0.8); border: 1px solid #0c0c2f; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
@@ -188,7 +188,7 @@ style -name tab chrome://* <<EOM
   background-color: #1f1f1f !important;
   background-image: none !important;
   text-align: left !important;
-  text-shadow: 1px 1px 1px #0f0f2f !important;
+  text-shadow: 1px 1px 1px #5f5f5f !important;
   border: none !important;
   border-top:    1px solid #2f2f2f !important;
   border-right:  1px solid #2f2f2f !important;
@@ -212,9 +212,7 @@ style -name tab chrome://* <<EOM
 
 .tabbrowser-tab[selected=true].tab-text {
   font-weight: bold;
-  font-size: 15px;
-  color: #0f0f0f !important;
-  background-color: none !important;
+  font-size: 20px;
 }
 
 /* This color is tab's empty */
@@ -249,10 +247,6 @@ style -name tab chrome://* <<EOM
 #content tab:not([selected]) {
   color: #8a9fcf !important;
   background-color: #fff0fa !important;
-  /*
-  color: #8a9fcf  !important;
-  background-color: #fff0fa !important;
-  */
 }
 EOM
 
