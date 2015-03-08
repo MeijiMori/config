@@ -248,6 +248,12 @@ style -name tab chrome://* <<EOM
   color: #8a9fcf !important;
   background-color: #fff0fa !important;
 }
+
+/* child tabs */
+.tabbrowser-tab[treestyletab-children] {
+  margin-left: 10px !important;
+}
+
 EOM
 
 
