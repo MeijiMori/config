@@ -27,7 +27,7 @@ highlight WarningMsg color: #5f2f0f; background-color: #ff7f5f; font-size: 12px;
 highlight Message color: #cfcfff; background-color: #8f8faf; font-size: 12px;
 highlight NonText font-weight: bold; color: #8f8fff; background-color: #fff0ff;
 highlight Preview font-weight: Normal; color: #0f0f0f; background-color: #6faf8f;
-highlight Prompt background-color: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat;
+highlight Prompt background: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat;
 highlight PromptText color: #cfcfcf; background-color: rgba(0, 10, 25, 0.8); border-bottom: 1px solid #5f5fcf; padding: 1px 0.5ex; text-shadow: 1px 1px 2px #0f0f2f; font-size: 12px;
 
 " Cmd "{{{
@@ -54,7 +54,7 @@ highlight Indicator font-weight: bold; color: #415676; background-color: #cfcfff
 highlight Filter font-weight: bold; color: #3faf5f; background-color: #fff0fa;
 
 highlight Keyword font-weight: bold; font-size: 15px color: #4e80ff; background-color: #fff0fa;
-highlight Tag font-size: 13px; letter-spacing: 2px; color: #fff0fa; color: #aaffaa;
+highlight Tag font-size: 13px; letter-spacing: 2px; color: #2fcfaf; background-color: #fff0fa;
 
 highlight LineNr font-weight: bold; color: #c3bcb4; background-color: #cfcfff;
 highlight Question font-weight: bold; color: #0f3f5f; background-color: #3f7faf;
@@ -177,8 +177,6 @@ style -name tab chrome://* <<EOM
 }
 
 .tabbrowser-tab {
-  margin: 0 !important;
-  padding: 0 0 0 5pt !important;
   -moz-apperance: none !important;
   -moz-border-radius-topleft: 10pt !important;
   -moz-border-radius-topright 0 !important;
@@ -247,11 +245,6 @@ style -name tab chrome://* <<EOM
 #content tab:not([selected]) {
   color: #8a9fcf !important;
   background-color: #fff0fa !important;
-}
-
-/* child tabs */
-.tabbrowser-tab[treestyletab-children] {
-  margin-left: 10px !important;
 }
 
 EOM
