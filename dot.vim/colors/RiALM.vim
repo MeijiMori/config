@@ -19,302 +19,163 @@ let colors_name = "RiALM"
 
 " #- highlighting groups various ooccasions -# "{{{1
 highlight Normal guifg=#efefef guibg=#192a4f gui=NONE
-highlight SpecialKey guifg=#5f2fcf guibg=NONE gui=NONE
-highlight NonText guifg=#99ffff guibg=#1f2f4f gui=NONE
+                \ ctermfg=255 ctermbg=17 cterm=NONE
+highlight SpecialKey guifg=#8f5fff guibg=NONE gui=NONE
+                \ ctermfg=55 ctermbg=bg cterm=NONE
+highlight NonText guifg=#39ffff guibg=bg gui=NONE
+                \ ctermfg=33 ctermbg=bg cterm=NONE
 highlight Directory guifg=#5f8fff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#5f1f3f guibg=#cf3f5f gui=underline
+                \ ctermfg=52 ctermbg=134 cterm=underline
 " search "{{{2
 highlight IncSearch guifg=#5f3f2f guibg=#bf6f4f gui=underline
+                \ ctermfg=2 ctermbg=49 cterm=underline
 highlight Search guifg=#0f3f5f guibg=#4f6fbf gui=underline
+                \ ctermfg=20 ctermbg=4 cterm=underline
 " }}}2
-highlight MoreMsg guifg=#0f5f8f guibg=#3f8fcf gui=underline
+highlight MoreMsg guifg=#0f4f0f guibg=#3f8fcf gui=underline
+                \ ctermfg=2 ctermbg=86 cterm=underline
 highlight ModeMsg guifg=#5f5f5f guibg=#cfcfcf gui=underline
+                \ ctermfg=240 ctermbg=255 cterm=underline
 highlight LineNr ctermfg=white guifg=#75d99d gui=NONE
-highlight Question guifg=#0f8f5f guibg=#3fcf8f gui=underline
+                \ ctermfg=50 ctermbg=NONE cterm=NONE
+highlight CursorLineNr guifg=#2f2fff guibg=#1f2f5f gui=NONE
+                \ ctermfg=21 ctermbg=NONE cterm=bold
+highlight CursorColumn guifg=NONE guibg=grey40 gui=NONE
+                \ ctermfg=21 ctermbg=NONE cterm=bold
+highlight Question guifg=#0f5f3f guibg=#3fcf8f gui=underline
+                \ ctermfg=2 ctermbg=86 cterm=underline
 " statusline "{{{2
 highlight StatusLine guifg=#cfcfcf guibg=#101f3f gui=NONE
+                \ ctermfg=252 ctermbg=17 cterm=NONE
 highlight StatusLineNC guifg=#5f5f3f guibg=#c4b2ab gui=NONE
+                \ ctermfg=131 ctermbg=181 cterm=NONE
 " }}}2
-highlight Title guifg=#2fd4c6 guibg=bg gui=bold,underline
 highlight VertSplit guifg=#23447f guibg=#1f1f4f gui=NONE
+                \ ctermfg=21 ctermbg=17 cterm=NONE
+highlight Title guifg=#2fd4c6 guibg=bg gui=bold,underline
+                \ ctermfg=49 ctermbg=bg cterm=underline,bold
 " visual "{{{2
-highlight Visual gui=NONE guifg=#ffffff guibg=#001f3f
-highlight VisualNOS gui=underline,bold guifg=#cfcfcf guibg=#0f2f5f
+highlight Visual guifg=#ffffff guibg=#001f3f gui=NONE
+                \ ctermfg=fg ctermbg=25 cterm=NONE
+highlight VisualNOS guifg=#cfcfcf guibg=#0f2f5f gui=underline,bold
+                \ ctermfg=fg ctermbg=19 cterm=underline,bold
 " }}}2
 highlight WarningMsg guifg=#5f2f8f guibg=#cf5fff gui=underline
+                \ ctermfg=160 ctermbg=200 cterm=underline,bold
 highlight WildMenu guifg=#ffffff guibg=#1f3f5f gui=NONE
+                \ ctermfg=253 ctermbg=18 cterm=NONE
 " fold "{{{2
 highlight Folded guifg=#bfbfbf guibg=#102040 gui=NONE
+                \ ctermfg=254  ctermbg=18 cterm=NONE
 highlight FoldColumn guifg=#ffffff guibg=#1f2f5f gui=bold
+                \ ctermfg=250 ctermbg=17 cterm=bold
 
 " diff "{{{2
 highlight DiffAdd guifg=fg guibg=#5f8f4f gui=NONE
+                \ ctermfg=fg ctermbg=36 cterm=NONE
 highlight DiffChange guifg=fg guibg=#cf6f4f gui=NONE
+                \ ctermfg=fg ctermbg=173 cterm=NONE
 highlight DiffDelete guifg=fg guibg=#9f2f3f gui=bold
+                \ ctermfg=fg ctermbg=161 cterm=NONE
 highlight DiffText guifg=fg guibg=bg gui=NONE
+                \ ctermfg=fg ctermbg=bg cterm=NONE
 " }}}2
 highlight SignColumn guifg=#ff5f7f guibg=bg gui=NONE
+                \ ctermfg=161 ctermbg=bg cterm=NONE
 " spell "{{{2
 highlight SpellBad guifg=#cf5fdf guibg=bg gui=NONE
+                \ ctermfg=165 ctermbg=bg cterm=NONE
 highlight SpellCap guifg=#5f9fff guibg=bg gui=NONE
+                \ ctermfg=117 ctermbg=bg cterm=NONE
 highlight SpellRare guifg=#5fff8f guibg=bg gui=NONE
+                \ ctermfg=115 ctermbg=bg cterm=NONE
 highlight SpellLocal guifg=#ffcf5f guibg=bg gui=NONE
+                \ ctermfg=179 ctermbg=bg cterm=NONE
 
 " pmenu "{{{2
 highlight pmenu guifg=#cfcfcf guibg=#050f2f gui=NONE
+                \ ctermfg=fg ctermbg=232 cterm=NONE
 highlight PmenuSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
+                \ ctermfg=fg ctermbg=18 cterm=NONE
 highlight pmenuSbar guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuThumb guifg=#afafaf guibg=#0f1f1f gui=NONE
+                \ ctermfg=fg ctermbg=23 cterm=NONE
 
 " tabline "{{{2
 highlight TabLine guifg=#aaaaaa guibg=#190a3f gui=underline
+                \ ctermfg=250 ctermbg=17 cterm=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#15305f gui=NONE
+                \ ctermfg=252 ctermbg=17 cterm=NONE
 highlight TabLineFill guifg=#415676 guibg=#100a3f gui=underline,bold
+                \ ctermfg=68 ctermbg=17 cterm=underline,bold
 
 " cursor "{{{2
 highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
+                \ ctermfg=NONE ctermbg=bg cterm=NONE
 highlight CursorLine guifg=NONE guibg=#1f2f5f gui=NONE
-highlight CursorColumn guifg=NONE guibg=grey40 gui=NONE
+                \ ctermfg=NONE ctermbg=18 cterm=NONE
 highlight Cursor guifg=#000000 guibg=#5faf7f gui=NONE
+                \ ctermfg=16 ctermbg=35 cterm=NONE
 " IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#bfbfbf guibg=#5f0f3f gui=NONE
+                \ ctermfg=16 ctermbg=9 cterm=NONE
 endif
 
 " }}}2
 
 " #- syntax highlighting group -# "{{{1
-highlight lCursor guifg=#000000 guibg=#5fcfaf gui=NONE
-highlight MatchParen guifg=#1f0f3f guibg=#3f5f8f gui=bold
+highlight lCursor guifg=#000000 guibg=#afff8f gui=NONE
+                \ ctermfg=16 ctermbg=35 cterm=NONE
+highlight MatchParen guifg=fg guibg=#ffaf3f gui=bold
+                \ ctermfg=15 ctermbg=11 cterm=bold
 highlight comment guifg=#3f5fff guibg=bg gui=NONE
-highlight Constant guifg=#7fffaf guibg=bg gui=NONE
+                \ ctermfg=33 ctermbg=bg cterm=NONE
+highlight Constant guifg=#8fffaf guibg=bg gui=NONE
+                \ ctermfg=84 ctermbg=bg cterm=NONE
 highlight Special guifg=#deffed guibg=bg gui=NONE
-highlight Identifier guifg=#b6f5eb guibg=bg gui=NONE
+                \ ctermfg=159 ctermbg=bg cterm=NONE
+highlight Identifier guifg=#5fffaf guibg=bg gui=NONE
+                \ ctermfg=78 ctermbg=bg cterm=NONE
 highlight Statement guifg=#ffcf7f guibg=bg gui=NONE
-highlight PreProc guifg=#ffadfe guibg=bg gui=NONE
-highlight type guifg=#59c390 guibg=bg gui=NONE
+                \ ctermfg=180 ctermbg=bg cterm=NONE
+highlight PreProc guifg=#cf3faf guibg=bg gui=NONE
+                \ ctermfg=171 ctermbg=bg cterm=NONE
+highlight type guifg=#3fcf8f guibg=bg gui=NONE
+                \ ctermfg=42 ctermbg=bg cterm=NONE
 highlight underlined guifg=#56efcc guibg=bg gui=underline
+                \ ctermfg=49 ctermbg=bg cterm=underline
 highlight Ignore guifg=#4f50ff guibg=bg gui=bold
+                \ ctermfg=63 ctermbg=bg cterm=bold
 highlight Error guifg=#fd4899 guibg=bg gui=NONE
-highlight string guifg=#ffc8ff guibg=bg gui=NONE
+                \ ctermfg=9 ctermbg=bg cterm=NONE
 highlight Todo guifg=#cfafcf guibg=#1f2f5f gui=bold,underline
+                \ ctermfg=141 ctermbg=bg cterm=bold,underline
+highlight string guifg=#ffc8ff guibg=bg gui=NONE
+                \ ctermfg=5 ctermbg=bg cterm=NONE
 
-" #- color functions -# "{{{1
-" this code is written mrkn256.vim
-if has("gui_running") || &t_Co == 88 || &t_Co == 256
-  " functions "{{{
-  " returns an approximate grey index for the given grey level
-  function! <SID>grey_number(x) "{{{
-    if &t_Co == 88
-      if a:x < 23
-        return 0
-      elseif a:x < 69
-        return 1
-      elseif a:x < 103
-        return 2
-      elseif a:x < 127
-        return 3
-      elseif a:x < 150
-        return 4
-      elseif a:x < 173
-        return 5
-      elseif a:x < 196
-        return 6
-      elseif a:x < 219
-        return 7
-      elseif a:x < 243
-        return 8
-      else
-        return 9
-      endif
-    else
-      if a:x < 14
-        return 0
-      else
-        let l:n = (a:x - 8) / 10
-        let l:m = (a:x - 8) % 10
-        if l:m < 5
-          return l:n
-        else
-          return l:n + 1
-        endif
-      endif
-    endif
-  endfun "}}}
-
-  " returns the actual grey level represented by the grey index
-  function! <SID>grey_level(n) "{{{
-    if &t_Co == 88
-      if a:n == 0
-        return 0
-      elseif a:n == 1
-        return 46
-      elseif a:n == 2
-        return 92
-      elseif a:n == 3
-        return 115
-      elseif a:n == 4
-        return 139
-      elseif a:n == 5
-        return 162
-      elseif a:n == 6
-        return 185
-      elseif a:n == 7
-        return 208
-      elseif a:n == 8
-        return 231
-      else
-        return 255
-      endif
-    else
-      if a:n == 0
-        return 0
-      else
-        return 8 + (a:n * 10)
-      endif
-    endif
-  endfun "}}}
-
-  " returns the palette index for the given grey index
-  function! <SID>grey_color(n) "{{{
-    if &t_Co == 88
-      if a:n == 0
-        return 16
-      elseif a:n == 9
-        return 79
-      else
-        return 79 + a:n
-      endif
-    else
-      if a:n == 0
-        return 16
-      elseif a:n == 25
-        return 231
-      else
-        return 231 + a:n
-      endif
-    endif
-  endfun "}}}
-
-  " returns an approximate color index for the given color level
-  function! <SID>rgb_number(x) "{{{
-    if &t_Co == 88
-      if a:x < 69
-        return 0
-      elseif a:x < 172
-        return 1
-      elseif a:x < 230
-        return 2
-      else
-        return 3
-      endif
-    else
-      if a:x < 75
-        return 0
-      else
-        let l:n = (a:x - 55) / 40
-        let l:m = (a:x - 55) % 40
-        if l:m < 20
-          return l:n
-        else
-          return l:n + 1
-        endif
-      endif
-    endif
-  endfun "}}}
-
-  " returns the actual color level for the given color index
-  function! <SID>rgb_level(n) "{{{
-    if &t_Co == 88
-      if a:n == 0
-        return 0
-      elseif a:n == 1
-        return 139
-      elseif a:n == 2
-        return 205
-      else
-        return 255
-      endif
-    else
-      if a:n == 0
-        return 0
-      else
-        return 55 + (a:n * 40)
-      endif
-    endif
-  endfun "}}}
-
-  " returns the palette index for the given R/G/B color indices
-  function! <SID>rgb_color(x, y, z) "{{{
-    if &t_Co == 88
-      return 16 + (a:x * 16) + (a:y * 4) + a:z
-    else
-      return 16 + (a:x * 36) + (a:y * 6) + a:z
-    endif
-  endfun "}}}
-
-  " returns the palette index to approximate the given R/G/B color levels
-  function! <SID>color(r, g, b) "{{{
-    " get the closest grey
-    let l:gx = <SID>grey_number(a:r)
-    let l:gy = <SID>grey_number(a:g)
-    let l:gz = <SID>grey_number(a:b)
-
-    " get the closest color
-    let l:x = <SID>rgb_number(a:r)
-    let l:y = <SID>rgb_number(a:g)
-    let l:z = <SID>rgb_number(a:b)
-
-    if l:gx == l:gy && l:gy == l:gz
-      " there are two possibilities
-      let l:dgr = <SID>grey_level(l:gx) - a:r
-      let l:dgg = <SID>grey_level(l:gy) - a:g
-      let l:dgb = <SID>grey_level(l:gz) - a:b
-      let l:dgrey = (l:dgr * l:dgr) + (l:dgg * l:dgg) + (l:dgb * l:dgb)
-      let l:dr = <SID>rgb_level(l:gx) - a:r
-      let l:dg = <SID>rgb_level(l:gy) - a:g
-      let l:db = <SID>rgb_level(l:gz) - a:b
-      let l:drgb = (l:dr * l:dr) + (l:dg * l:dg) + (l:db * l:db)
-      if l:dgrey < l:drgb
-        " use the grey
-        return <SID>grey_color(l:gx)
-      else
-        " use the color
-        return <SID>rgb_color(l:x, l:y, l:z)
-      endif
-    else
-      " only one possibility
-      return <SID>rgb_color(l:x, l:y, l:z)
-    endif
-  endfun
-
-  " returns the palette index to approximate the 'rrggbb' hex string
-  function! <SID>rgb(rgb)
-    let l:r = ("0x" . strpart(a:rgb, 0, 2)) + 0
-    let l:g = ("0x" . strpart(a:rgb, 2, 2)) + 0
-    let l:b = ("0x" . strpart(a:rgb, 4, 2)) + 0
-
-    return <SID>color(l:r, l:g, l:b)
-  endfun "}}}
-
-  " sets the highlighting for the given group
-  function! <SID>X(group, fg, bg, attr) "{{{
-    if a:fg != ""
-      exec "highlight " . a:group . " guifg=#" . a:fg . " ctermfg=" . <SID>rgb(a:fg)
-    endif
-    if a:bg != ""
-      exec "highlight " . a:group . " guibg=#" . a:bg . " ctermbg=" . <SID>rgb(a:bg)
-    endif
-    if a:attr != ""
-      exec "highlight " . a:group . " gui=" . a:attr . " cterm=" . a:attr
-    endif
-  endfun "}}}
-  " }}}
-  " Gui
-else
-  " Cui
-endif
-
+" #- User -# "{{{1
+highlight User1 guifg=#afafaf guibg=#2f2f2f gui=NONE
+                \ ctermfg=251 ctermbg=236 cterm=NONE
+highlight User2 guifg=#0f0f3f guibg=#0f3f8f gui=NONE
+                \ ctermfg=17 ctermbg=27 cterm=NONE
+highlight User3 guifg=#0f3f0f guibg=#0f8f3f gui=NONE
+                \ ctermfg=22 ctermbg=35 cterm=NONE
+highlight User4 guifg=#3f2f0f guibg=#8f3f0f gui=NONE
+                \ ctermfg=174 ctermbg=94 cterm=NONE
+highlight User5 guifg=#3f0f0f guibg=#8f0f3f gui=NONE
+                \ ctermfg=88 ctermbg=125 cterm=NONE
+highlight User6 guifg=#5f5f0f guibg=#8f8f0f gui=NONE
+                \ ctermfg=94 ctermbg=229 cterm=NONE
+highlight User7 guifg=#5f0f5f guibg=#8f3f8f gui=NONE
+                \ ctermfg=88 ctermbg=201 cterm=NONE
+highlight User8 guifg=#3f5f3f guibg=#8f8f5f gui=NONE
+                \ ctermfg=130 ctermbg=222 cterm=NONE
+highlight User9 guifg=#5f5f5f guibg=#afafcf gui=NONE
+                \ ctermfg=244 ctermbg=189 cterm=NONE
 " #- END: -# "{{{1
 " vim: fen:fdm=marker
 " vim: filetype=vim
