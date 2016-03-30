@@ -46,7 +46,7 @@ highlight Question guifg=#1faf5f guibg=#dfffdf gui=NONE
           \ ctermfg=41 ctermbg=121 cterm=NONE
 " Statusline "{{{2
 highlight StatusLine guifg=#efefef guibg=#1f2f3f gui=NONE
-          \ ctermfg=254 ctermbg=17 cterm=NONE
+          \ ctermfg=254 ctermbg=234 cterm=NONE
 highlight StatusLineNC guifg=#7f5f6f guibg=#cfafaf gui=NONE
           \ ctermfg=131 ctermbg=181 cterm=NONE
 " }}}2
@@ -66,9 +66,9 @@ highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=bold
           \ ctermfg=254 ctermbg=17 cterm=bold
 " Fold "{{{2
 highlight Folded guifg=#1f1f1f guibg=#efe5ef gui=NONE
-          \ ctermfg=235 ctermbg=189 cterm=NONE
+          \ ctermfg=235 ctermbg=254 cterm=NONE
 highlight FoldColumn guifg=#3f3f3f guibg=#fff5ff gui=bold
-          \ ctermfg=238 ctermbg=7 cterm=bold
+          \ ctermfg=238 ctermbg=225 cterm=bold
 
 " Diff "{{{2
 highlight DiffAdd guifg=fg guibg=#afffcf gui=NONE

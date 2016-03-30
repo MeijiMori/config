@@ -32,7 +32,7 @@ highlight ErrorMsg guifg=#5f1f3f guibg=#cf3f5f gui=underline
 highlight IncSearch guifg=#5f3f2f guibg=#bf6f4f gui=underline
                 \ ctermfg=2 ctermbg=49 cterm=underline
 highlight Search guifg=#0f3f5f guibg=#4f6fbf gui=underline
-                \ ctermfg=20 ctermbg=4 cterm=underline
+                \ ctermfg=18 ctermbg=21 cterm=underline
 " }}}2
 highlight MoreMsg guifg=#0f4f0f guibg=#3f8fcf gui=underline
                 \ ctermfg=2 ctermbg=86 cterm=underline
@@ -41,7 +41,7 @@ highlight ModeMsg guifg=#5f5f5f guibg=#cfcfcf gui=underline
 highlight LineNr ctermfg=white guifg=#75d99d gui=NONE
                 \ ctermfg=50 ctermbg=NONE cterm=NONE
 highlight CursorLineNr guifg=#2f2fff guibg=#1f2f5f gui=NONE
-                \ ctermfg=21 ctermbg=NONE cterm=bold
+                \ ctermfg=17 ctermbg=111 cterm=NONE
 highlight CursorColumn guifg=NONE guibg=grey40 gui=NONE
                 \ ctermfg=21 ctermbg=NONE cterm=bold
 highlight Question guifg=#0f5f3f guibg=#3fcf8f gui=underline

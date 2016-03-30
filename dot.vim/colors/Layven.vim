@@ -25,7 +25,7 @@ highlight SpecialKey guifg=#585fff guibg=bg gui=NONE
 highlight NonText guifg=#6f79ff guibg=bg gui=NONE
                 \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#2f5fe0 guibg=bg gui=bold
-                \ ctermfg=125 ctermbg=bg cterm=underline
+                \ ctermfg=125 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#4f1f1f guibg=#cf4f7f gui=underline
                 \ ctermfg=160 ctermbg=134 cterm=NONE
 " search "{{{2
@@ -39,7 +39,7 @@ highlight MoreMsg guifg=#0f5f2f guibg=#5faf7f gui=underline
 highlight ModeMsg guifg=#5f5f5f guibg=#bfbfbf gui=underline
                 \ ctermfg=242 ctermbg=252 cterm=underline
 highlight CursorLineNr guifg=#3f3fcf guibg=NONE gui=bold
-                \ ctermfg=27 ctermbg=NONE cterm=NONE
+                \ ctermfg=93 ctermbg=16 cterm=NONE
 highlight LineNr guifg=#cfbfb0 guibg=NONE gui=NONE
                 \ ctermfg=187 ctermbg=NONE cterm=NONE
 highlight Question guifg=#0f2f5f guibg=#2f5f8f gui=underline
@@ -48,7 +48,7 @@ highlight Question guifg=#0f2f5f guibg=#2f5f8f gui=underline
 highlight StatusLine guifg=#cfcfcf guibg=#00051f gui=NONE
                 \ ctermfg=15 ctermbg=16 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#c0afcf gui=NONE
-                \ ctermfg=101 ctermbg=147 cterm=NONE
+                \ ctermfg=96 ctermbg=183 cterm=NONE
 "}}}2
 highlight VertSplit guifg=#aaaaaa guibg=#1f1f2f gui=bold
                 \ ctermfg=250 ctermbg=16 cterm=bold
@@ -100,7 +100,7 @@ highlight SpellLocal guifg=#cfaf5f guibg=bg gui=NONE
 
 " pmenu "{{{2
 highlight Pmenu guifg=#cfcfcf guibg=#151a1f gui=NONE
-                \ ctermfg=fg ctermbg=232 cterm=NONE
+                \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
                 \ ctermfg=fg ctermbg=17 cterm=NONE
 highlight PmenuSbar guifg=#cccccc guibg=#1f1f2f gui=NONE
@@ -125,6 +125,8 @@ highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
 highlight CursorLine guifg=NONE guibg=#00051f gui=NONE
                 \ ctermfg=NONE ctermbg=16 cterm=NONE
 highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
+                \ ctermfg=fg ctermbg=0 cterm=NONE
+highlight Conceal guifg=NONE guibg=#20355f gui=NONE
                 \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight Cursor guifg=#000000 guibg=#b0b0cf gui=NONE
                 \ ctermfg=NONE ctermbg=250 cterm=NONE
@@ -152,7 +154,7 @@ highlight Special guifg=#aeffed guibg=bg gui=NONE
                 \ ctermfg=6 ctermbg=bg cterm=NONE
 " highlight Identifier guifg=#ccb0d7 guibg=bg gui=NONE
 highlight Identifier guifg=#cf3fff guibg=bg gui=NONE
-                \ ctermfg=186 ctermbg=bg cterm=NONE
+                \ ctermfg=201 ctermbg=bg cterm=NONE
 " highlight Statement guifg=#94de92 guibg=bg gui=NONE
 highlight Statement guifg=#2fcf6f guibg=bg gui=NONE
                 \ ctermfg=49 ctermbg=bg cterm=NONE

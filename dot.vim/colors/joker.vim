@@ -41,7 +41,7 @@ highlight ModeMsg guifg=#4f3fdf guibg=NONE gui=NONE
 highlight LineNr guifg=#5f0f3f guibg=NONE gui=NONE
           \ ctermfg=53 ctermbg=bg cterm=NONE
 highlight CursorLineNr guifg=#8f1f5f guibg=NONE gui=NONE
-          \ ctermfg=57 ctermbg=bg cterm=NONE
+          \ ctermfg=57 ctermbg=0 cterm=NONE
 highlight Question guifg=#6acf95 guibg=NONE gui=NONE
           \ ctermfg=42 ctermbg=bg cterm=underline
 " statusline "{{{2
