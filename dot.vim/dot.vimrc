@@ -282,9 +282,22 @@ let s:save_color_file = s:save_color_dir . "/.vimcolor"
 if !isdirectory(s:save_color_dir)
   call mkdir(s:save_color_dir, 'p')
 endif "}}}3
+" Save colorschme
+augroup SaveColor "{{{3
+  autocmd!
+  autocmd BufWritePre,VimLeavePre * call s:save_color()
+  function! s:save_color() "{{{4
+    let options = [
+    \ 'colorscheme ' . g:colors_name
+    \]
+    call writefile(options, s:save_color_file)
+  endfunction
+augroup END "}}}3
+
 if filereadable(s:save_color_file)
   try
     execute 'source ' s:save_color_file
+    color Layven
   catch 185
     " Not sloved colorscheme ...
     let csname = <SID>ColorschemeRandom()
@@ -293,6 +306,13 @@ if filereadable(s:save_color_file)
   endtry
 endif
 
+" Terminal color
+"let g:terminal_ansi_colors = [
+"      \ "#0f0f0f", "#c50f1f", "#0f8d64", "#814d25",
+"      \ "#2353b1", "#881798", "#359fcf", "#cccccc",
+"      \ "#767676", "#e74856", "#88b422", "#cfa42b",
+"      \ "#6290ea", "#c800b2", "#44bfe0", "#e8e8e8"
+"      \ ]
 
 " Indent "{{{2
 set autoindent
@@ -325,8 +345,6 @@ set list
 set listchars=tab:>-,trail:_
 set wrap
 set whichwrap+=h,l,<,>,[,],b,s,~
-set ruler
-set rulerformat=%15(%c%V\ %p%%%)
 
 set cmdheight=2
 set showcmd
@@ -337,19 +355,86 @@ set diffopt=vertical
 set title
 set titlelen=999
 function! Titlestr() "{{{3
-  let titlestr = ''
-  "let titlestr .= "%{expand('%:p:.')} "
-  let titlestr .= "%t "
-  let titlestr .= "%(%m%r%w%)"
-  let titlestr .= "%q"
-  let titlestr .= " "
-  let titlestr .= "%<\(%{SnipMid(getcwd(),80-len(expand('%:p:.')),'...')}\) "
-  let titlestr .= "%y"
-  let titlestr .= " - " . v:servername
-  return titlestr
+  let l:tstr = ''
+  let l:tstr .= "%t "
+  let l:tstr .= "%(%m%r%w %)"
+  let l:tstr .= "%q"
+  let l:tstr .= "%y"
+  let l:tstr .= "%([%{fnamemodify(expand('%:h'), ':~')}]%)"
+  if v:servername !=# ""
+    let l:tstr .= " - " . v:servername
+  endif
+  return l:tstr
 endfunction "}}}3
 let &titlestring=Titlestr()
-let &titleold=""
+set titleold="" "}}}2
+
+
+
+set linebreak
+if s:iswin || !has('gui_running')
+  " let &showbreak='>\'
+  let &showbreak='->'
+else
+  let &showbreak='->'
+endif
+set breakat=\ \	;:,!?
+" Do not display greetings message at the time of Vim start.
+set shortmess=aTI
+
+" sound on errors
+set noerrorbells
+
+" Disable bell.
+set visualbell t_bv=
+set belloff=all
+
+" Display candidate supplement.
+set wildmenu
+set wildmode=list:longest,full
+" Increase history amount.
+set history=200
+" Display all the information of the tag by the supplement of the Insert mode.
+set showfulltag
+" Can supplement a tag in a command-line.
+set wildoptions=tagfile
+
+" Enable spell check.
+set spelllang=en_us
+
+" Completion setting.
+set completeopt=menuone,preview
+" Don't complete from other buffer.
+set complete=.
+"set complete=.,w,b,i,t
+" Set popup menu max height.
+set pumheight=20
+
+" Report changes.
+set report=0
+
+" Maintain a current line at the time of movement as much as possible.
+set nostartofline
+
+set splitbelow
+set splitright
+
+set winwidth=60
+set winheight=20
+set cmdwinheight=5
+set noequalalways
+
+set previewheight=3
+set helpheight=12
+
+set lazyredraw
+
+set display=lastline
+set display+=uhex
+
+autocmd MyAutoCmd FileType * setl formatoptions-=ro | setl formatoptions+=mM
+
+set formatoptions+=mM
 
 " Tabline: "{{{2
 " Always show tab
@@ -400,85 +485,25 @@ function! Makestatusline() "{{{3
   let l:sts = "%t"
   let l:sts .= "%m%r%h"
   let l:sts .= " "
-  let l:sts .= "%<(%{SnipMid(getcwd(), 80-len(expand('%:p:.')), '..')}) "
+  let l:sts .= "%{'['.(&fenc!='' ? &fenc : &enc)}:"
+  let l:sts .= "%{&ff}]"
+  let l:sts .= "%y"
 
   let l:sts .= "%="
   let l:sts .= "%("
   let l:sts .= "%)"
-  let l:sts .= "%y"
-  let l:sts .= "%{'['.(&fenc!='' ? &fenc : &enc)}:"
-  let l:sts .= "%{&ff}]"
+  if !empty(expand('%:h'))
+    let l:sts .= "[%{fnamemodify(expand('%:h'), ':~')}]"
+  endif
  return l:sts
 endfunction "}}}3
 set statusline=%!Makestatusline()
 
 
-
-set linebreak
-if s:iswin || !has('gui_running')
-  " let &showbreak='>\'
-  let &showbreak='->'
-else
-  let &showbreak='->'
-endif
-set breakat=\ \	;:,!?
-" Do not display greetings message at the time of Vim start.
-set shortmess=aTI
-
-" sound on errors
-set noerrorbells
-
-" Disable bell.
-set visualbell t_bv=
-
-" Display candidate supplement.
-set wildmenu
-set wildmode=list:longest,full
-" Increase history amount.
-set history=200
-" Display all the information of the tag by the supplement of the Insert mode.
-set showfulltag
-" Can supplement a tag in a command-line.
-set wildoptions=tagfile
-
-" Enable spell check.
-set spelllang=en_us
-
-" Completion setting.
-set completeopt=menuone,preview
-" Don't complete from other buffer.
-set complete=.
-"set complete=.,w,b,i,t
-" Set popup menu max height.
-set pumheight=20
-
-" Report changes.
-set report=0
-
-" Maintain a current line at the time of movement as much as possible.
-set nostartofline
-
-set splitbelow
-set splitright
-
-set winwidth=60
-set winheight=20
-set cmdwinheight=5
-set noequalalways
-
-set previewheight=3
-set helpheight=12
-
-set lazyredraw
-
-set display=lastline
-set display+=uhex
-
-autocmd MyAutoCmd FileType * setl formatoptions-=ro | setl formatoptions+=mM
-
-set formatoptions+=mM
-
-" Scroll Off
+" ruler "{{{2
+set ruler
+set rulerformat=%15(%c%V\ %p%%%) "}}}2
+" Scroll Off "{{{2
 "set scrolloff=0
 let g:scrolloff = 10    " see below
 
@@ -684,18 +709,6 @@ augroup vim-delete-space-end-of-line
 
 augroup END "}}}2
 
-" Save colorschme "{{{2
-augroup SaveColor "{{{3
-  autocmd!
-  autocmd BufWritePre,VimLeavePre * call s:save_color()
-  function! s:save_color() "{{{3
-    let options = [
-    \ 'colorscheme ' . g:colors_name
-    \]
-    call writefile(options, s:save_color_file)
-  endfunction " }}}3
-augroup END "}}}2
-
 " Cursorline "{{{2
 augroup vimrc-auto-cursorline
 
@@ -812,11 +825,19 @@ augroup MyAutoCmd "{{{
 
 augroup END " }}}
 
+"augroup test-startup "{{{2
+"
+"  autocmd ColorScheme * echo g:colors_name
+"
+"augroup END "}}}2
+
 
 " Keymaps: "{{{1
 
+" quick save
 nnoremap <silent> <Space>w  :<C-u>update<CR>
 nnoremap <silent> <Space>fw :<C-u>write!<CR>
+" quick close
 " nnoremap <silent> <Space>q  :<C-u>quit<CR>
 nnoremap <silent> <Space>q  :<C-u>quit<CR>
 nnoremap <silent> <Space><leader>q  :<C-u>quit!<CR>
@@ -831,6 +852,8 @@ noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
+
+noremap ^ g^
 
 " Clear highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
