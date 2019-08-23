@@ -9,11 +9,17 @@ shopt -u sourcepath                     # Don't search PATH for `source'
 
 
 # ALIAS #{{{1
+alias ls='ls -FC --color=auto'
 alias la='ls -a'
 alias ll='ls -l'
 alias ld='ls -d'
 alias l.='ls -d .*'
 alias sl='ls'
+
+alias df='df -h'
+alias du='du -h'
+
+alias less='less --no-init --LONG-PROMPT --ignore-case --LINE-NUMBER --RAW-CONTROL-CHARS'
 
 
 # PROMPT #{{{1
@@ -23,11 +29,12 @@ alias sl='ls'
 
 _set_up_prompt() {
   local _c_reset='\[\e[0m\]'
-  local _c_cyan='\[\e[36m\]'
-  local _c_green='\[\e[32m\]'
   local _c_red='\[\e[31m\]'
+  local _c_green='\[\e[32m\]'
   local _c_yellow='\[\e[33m\]'
   local _c_blue='\[\e[34m\]'
+  local _c_perple='\[\e[35m\]'
+  local _c_cyan='\[\e[36m\]'
 
   local _c_user
   case "$USER" in
@@ -37,17 +44,11 @@ _set_up_prompt() {
   local _c_host
   case "$HOSTNAME" in
     WS02) _c_host="$_c_blue" ;;
-    *)
-    if [ "$ENV_WORKING" != "$ENV_ACCESS" ]; then
-      _c_host="$_c_cyan"
-    else
-      _c_host="$_c_green"
-    fi
-    ;;
+    *) _c_host="$_c_perple" ;;
   esac
 
   local _prompt_title='\[\e]0;\u@\h \w\007\]'
-  local _prompt_host="$_c_user\\u$_c_reset$_c_host@\\h$_c_reset"
+  local _prompt_host="$_c_user\\u$_c_reset$_c_cyan@$_c_reset$_c_host\\h$_c_reset"
   local _prompt_cwd="[$_c_yellow\\w$_c_reset]"
   local _prompt_main='\$ '
   if [[ 2 -le $SHLVL ]]; then  # is nested interactive shell?
@@ -79,6 +80,9 @@ cd () {
   command cd $1
   ls
 }
+
+# FUNCTIONS #{{{1
+
 
 # __ END __ #{{{1
 # vim: fen:fdm=marker
