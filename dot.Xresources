@@ -103,5 +103,13 @@ Rxvt.scrollColor: #1f2f5f
 ! Rxvt.pointerColor: ...
 
 
+! tabbed !{{{1
+! =====
+
+Rxvt.perl-ext-common: tabbed
+Rxvt.tabbed.tabbar-fg: 243
+Rxvt.tabbed.tabbar-bg: 237
+Rxvt.tabbed.tab-fg: 250
+Rxvt.tabbed.tab-bg: 30
 ! __END__ !{{{1
 ! vim: filetype=xdefaults
