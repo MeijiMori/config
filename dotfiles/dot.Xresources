@@ -1,6 +1,9 @@
+! My Xresources
+
 ! Basic? !{{{1
 ! =====
-Rxvt.geometry: 80x25
+
+Rxvt.geometry: 115x32
 
 Rxvt.scrollBar: true
 ! Rxvt.scrollBar_align: ...
@@ -54,23 +57,28 @@ Rxvt.utmpInhibit: false
 
 ! Font !{{{1
 ! =====
-! Inconsolata
+
 URxvt.font:\
+    xft:Terminus:style=Regular:size=13:antialias=true, \
     xft:Inconsolata:style=Medium:size=13:antialias=true,\
     xft:Ricty:style=Regular-Mono
 URxvt.boldFont:\
+    xft:Terminus:style=bold:size=13, \
     xft:Inconsolata,\
     xft:Ricty:style=Regular-Mono
 URxvt.italicFont:\
+    xft:Terminus,\
     xft:Inconsolata,\
     xft:Ricty:style=Regular-Mono
 URxvt.boldItalicFont:\
+    xft:Terminus,\
     xft:Inconsolata,\
     xft:Ricty:style=Regular-Mono
 
 
 ! Color !{{{1
 ! =====
+
 Rxvt.background: #20202f
 Rxvt.foreground: #cccccc
 
@@ -111,5 +119,7 @@ Rxvt.tabbed.tabbar-fg: 243
 Rxvt.tabbed.tabbar-bg: 237
 Rxvt.tabbed.tab-fg: 250
 Rxvt.tabbed.tab-bg: 30
+
+
 ! __END__ !{{{1
 ! vim: filetype=xdefaults

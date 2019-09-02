@@ -430,6 +430,8 @@ _cache_hosts=($( print_known_hosts ))
 # KEYMAPPING #{{{1
 disable r
 
+bindkey -s "^[OM" "^M"
+
 
 # MISC. #{{{1
 
