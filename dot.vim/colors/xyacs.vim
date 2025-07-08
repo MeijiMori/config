@@ -11,7 +11,7 @@ if exists("syntax_on")
 endif
 
 " #- This colorscheme name -# "{{{1
-let g:colors_name = "xyacs"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- Highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#ffffff guibg=#0f0f0f gui=NONE
@@ -20,6 +20,8 @@ highlight SpecialKey guifg=#af2f5f guibg=bg gui=NONE
                 \ ctermfg=125 ctermbg=bg cterm=NONE
 highlight NonText guifg=#3f7fff guibg=bg gui=bold
                 \ ctermfg=75 ctermbg=bg cterm=bold
+highlight EndOfBuffers guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#5f8fcf guibg=bg gui=NONE
                 \ ctermfg=75 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#cf2f4f guibg=NONE gui=NONE
@@ -36,6 +38,12 @@ highlight ModeMsg guifg=#2faf8f guibg=bg gui=NONE
                 \ ctermfg=43 ctermbg=bg cterm=NONE
 highlight LineNr guifg=#cfcfcf guibg=NONE gui=NONE
                 \ ctermfg=251 ctermbg=bg cterm=NONE
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight CursorLineNr guifg=#9f4f7f guibg=#af8fff gui=NONE
+                \ ctermfg=197 ctermbg=189 cterm=bold
 highlight Question guifg=#2fffcf guibg=bg gui=NONE
                 \ ctermfg=49 ctermbg=bg cterm=NONE
 " Statusline "{{{2
@@ -43,6 +51,13 @@ highlight StatusLine guifg=#cfcfcf guibg=#1f1f2f gui=bold
                 \ ctermfg=255 ctermbg=234 cterm=bold
 highlight StatusLineNC guifg=#5f5f5f guibg=#0f0f1f gui=NONE
                 \ ctermfg=240 ctermbg=233 cterm=NONE
+" terminal "{{{3
+highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=0 ctermbg=10 cterm=NONE
+highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                \ ctermfg=96 ctermbg=183 cterm=NONE
 " }}}2
 highlight VertSplit guifg=#6f6f6f guibg=#dfdfdf gui=NONE
                 \ ctermfg=248 ctermbg=255 cterm=NONE
@@ -104,6 +119,14 @@ highlight TabLine guifg=#afafaf guibg=#4f4f4f gui=NONE
 highlight TabLineSel guifg=#dfdfdf guibg=#7f7f7f gui=NONE
                 \ ctermfg=15 ctermbg=242 cterm=NONE
 highlight TabLineFill guifg=#5f5f5f guibg=#3f3f3f gui=NONE
+                \ ctermfg=241 ctermbg=235 cterm=NONE
+
+"tabpanel "{{{2
+highlight TabPanel guifg=#afafaf guibg=#4f4f4f gui=NONE
+                \ ctermfg=255 ctermbg=237 cterm=NONE
+highlight TabPanelSel guifg=#dfdfdf guibg=#7f7f7f gui=NONE
+                \ ctermfg=15 ctermbg=242 cterm=NONE
+highlight TabPanelFill guifg=#5f5f5f guibg=#3f3f3f gui=NONE
                 \ ctermfg=241 ctermbg=235 cterm=NONE
 
 " cursor "{{{2

@@ -15,7 +15,7 @@ if version > 580
 endif
 
 " #- Colorscheme name -# "{{{1
-let g:colors_name = "joker"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- Highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cfcfcf guibg=#1f001f gui=NONE
@@ -24,6 +24,8 @@ highlight SpecialKey guifg=#585fff guibg=bg gui=NONE
           \ ctermfg=63 ctermbg=bg cterm=NONE
 highlight NonText guifg=#1f59ff guibg=#1f0f1f gui=NONE
           \ ctermfg=27 ctermbg=bg cterm=NONE
+highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+          \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#2f5fe0 guibg=bg gui=bold
           \ ctermfg=27 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#f84865 guibg=bg gui=NONE
@@ -42,6 +44,10 @@ highlight LineNr guifg=#5f0f3f guibg=NONE gui=NONE
           \ ctermfg=53 ctermbg=bg cterm=NONE
 highlight CursorLineNr guifg=#8f1f5f guibg=NONE gui=NONE
           \ ctermfg=57 ctermbg=0 cterm=NONE
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+          \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+          \ ctermfg=164 ctermbg=bg cterm=NONE
 highlight Question guifg=#6acf95 guibg=NONE gui=NONE
           \ ctermfg=42 ctermbg=bg cterm=underline
 " statusline "{{{2
@@ -49,6 +55,11 @@ highlight StatusLine guifg=#ffffff guibg=#101020 gui=NONE
           \ ctermfg=15 ctermbg=234 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#c4b2ab gui=NONE
           \ ctermfg=95 ctermbg=180 cterm=NONE
+" #- Terminal -# "{{{3
+highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
+                \ ctermfg=11 ctermbg=bg cterm=NONE
+highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
+                \ ctermfg=11 ctermbg=bg cterm=NONE
 "}}}2
 highlight VertSplit guifg=#7f1f5f guibg=#0f0f0f gui=bold
           \ ctermfg=9 ctermbg=bg cterm=bold

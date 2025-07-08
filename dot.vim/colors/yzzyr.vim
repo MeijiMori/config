@@ -17,7 +17,7 @@ endif
 
 
 " #- This colorscheme theme name -# "{{{1
-let g:colors_name = "yzzyr"
+let g:colors_name = expand('<sfile>:t:r')
 
 
 " #- highligt groups for various occasions -# "{{{1
@@ -27,6 +27,8 @@ highlight SpecialKey guifg=#8f5fff guibg=bg gui=NONE
                 \ ctermfg=135 ctermbg=bg cterm=NONE
 highlight NonText guifg=#3f3fff guibg=bg gui=bold
                 \ ctermfg=27 ctermbg=bg cterm=bold
+highlight EndOfBuffers guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#3f2fcf guibg=bg gui=bold
                 \ ctermfg=57 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#5f2f0f guibg=#ffaf8f gui=underline
@@ -45,6 +47,12 @@ highlight LineNr guifg=#3f8f6f guibg=NONE gui=NONE
                 \ ctermfg=35 ctermbg=NONE cterm=NONE
 highlight CursorLineNr guifg=#3f8f6f guibg=NONE gui=bold
                 \ ctermfg=132 ctermbg=NONE cterm=bold
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight CursorLineNr guifg=#9f4f7f guibg=#af8fff gui=NONE
+                \ ctermfg=197 ctermbg=189 cterm=bold
 highlight Question guifg=#0f3f0f guibg=#3faf3f gui=underline
                 \ ctermfg=22 ctermbg=47 cterm=underline
 " statusline "{{{2
@@ -52,6 +60,13 @@ highlight StatusLine guifg=#cfcfcf guibg=#0f1a1f gui=NONE
                 \ ctermfg=255 ctermbg=233 cterm=NONE
 highlight StatusLineNC guifg=#606080 guibg=#c8c8d8 gui=underline
                 \ ctermfg=61 ctermbg=234 cterm=underline
+" terminal "{{{3
+highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=0 ctermbg=10 cterm=NONE
+highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                \ ctermfg=96 ctermbg=183 cterm=NONE
 " }}}2
 highlight VertSplit guifg=#4f2f5f guibg=#1f1f1f gui=bold
                 \ ctermfg=53 ctermbg=233 cterm=bold
@@ -117,6 +132,15 @@ highlight TabLineSel guifg=#cfcfcf guibg=#3f3f5f gui=NONE
                 \ ctermfg=255 ctermbg=17 cterm=NONE
 highlight TabLineFill guifg=#3f5f6f guibg=#0a000f gui=bold,underline
                 \ ctermfg=67 ctermbg=16 cterm=bold,underline
+
+
+" tabpanel "{{{2
+highlight TabPanel guifg=#3f3f8f guibg=#0a000f gui=NONE
+                \ ctermfg=63 ctermbg=232 cterm=NONE
+highlight TabPanelSel guifg=#cfcfcf guibg=#3f3f5f gui=NONE
+                \ ctermfg=255 ctermbg=17 cterm=NONE
+highlight TabPanelFill guifg=#3f5f6f guibg=#0a000f gui=bold,NONE
+                \ ctermfg=67 ctermbg=16 cterm=bold,NONE
 
 
 " cursor "{{{2

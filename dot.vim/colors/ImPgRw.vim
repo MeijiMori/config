@@ -17,7 +17,7 @@ if version > 580
 endif
 
 " #- colorscheme name -# "{{{1
-let g:colors_name = "ImPgRw"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cfcfcf guibg=#16152d gui=NONE
@@ -26,6 +26,8 @@ highlight SpecialKey guifg=#3f2faf guibg=bg gui=NONE
                 \ ctermfg=57 ctermbg=bg cterm=NONE
 highlight NonText guifg=#3f3ff8 guibg=NONE gui=NONE
                 \ ctermfg=27 ctermbg=NONE cterm=NONE
+highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#2f5faf guibg=bg gui=bold
                 \ ctermfg=33 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#af2f6f guibg=bg gui=underline
@@ -44,13 +46,22 @@ highlight LineNr  guifg=#3faf7f guibg=NONE gui=NONE
                 \ ctermfg=41 ctermbg=bg cterm=NONE
 highlight CursorLineNr  guifg=#3faf7f guibg=NONE gui=bold
                 \ ctermfg=41 ctermbg=bg cterm=bold
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
 highlight Question guifg=#0f5f2f guibg=#8fcf8f gui=underline
                 \ ctermfg=22 ctermbg=42 cterm=underline
 " statusline "{{{2
 highlight StatusLine guifg=#cfcfcf guibg=#0f102f gui=NONE
                 \ ctermfg=248 ctermbg=232 cterm=NONE
-highlight StatusLineNC guifg=#afafaf guibg=#afafbf gui=NONE
+highlight StatusLineNC guifg=#0f0f3f guibg=#2f5faf gui=NONE
                 \ ctermfg=238 ctermbg=249 cterm=NONE
+" #- Terminal -# "{{{1
+highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
+                \ ctermfg=11 ctermbg=bg cterm=NONE
+highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
+                \ ctermfg=11 ctermbg=bg cterm=NONE
 "}}}2
 highlight VertSplit guifg=bg guibg=#0f0f1f gui=NONE
                 \ ctermfg=bg ctermbg=16 cterm=NONE
@@ -82,7 +93,7 @@ highlight DiffDelete guifg=#0f0f0f guibg=#df4f9f gui=bold
 highlight DiffText guifg=#cfcfcf guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 "}}}2
-highlight SignColumn guifg=#ff2f5f guibg=bg gui=NONE
+highlight SignColumn guifg=#ff2f5f guibg=#100f1f gui=NONE
                 \ ctermfg=9 ctermbg=bg cterm=NONE
 " spell "{{{2
 highlight SpellBad guifg=#ff3f5f guibg=bg gui=underline

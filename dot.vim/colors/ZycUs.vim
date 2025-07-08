@@ -16,7 +16,7 @@ if version > 580
 endif
 
 " #- This colorscheme name -# "{{{1
-let g:colors_name = "ZycUs"
+let g:colors_name = expand('<sfile>:t:r')
 " #- Highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cfcfbf guibg=#0f0f0f gui=NONE
                 \ ctermfg=255 ctermbg=232 cterm=NONE
@@ -24,6 +24,8 @@ highlight SpecialKey guifg=#af2f5f guibg=bg gui=NONE
                 \ ctermfg=9 ctermbg=NONE cterm=NONE
 highlight NonText guifg=#4f5fcf guibg=bg gui=bold
                 \ ctermfg=12 ctermbg=bg cterm=bold
+highlight EndOfBuffers guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#5f8fcf guibg=bg gui=NONE
                 \ ctermfg=27 ctermbg=bg cterm=NONE
 highlight ErrorMsg gui=NONE guifg=#cf2f4f guibg=NONE
@@ -40,6 +42,12 @@ highlight ModeMsg guifg=#1f3f7f guibg=#8fafcf gui=NONE
                 \ ctermfg=17 ctermbg=75 cterm=NONE
 highlight CursorLineNr guifg=#3f3fcf guibg=NONE gui=bold
                 \ ctermfg=9 ctermbg=NONE cterm=NONE
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight CursorLineNr guifg=#9f4f7f guibg=#af8fff gui=NONE
+                \ ctermfg=197 ctermbg=189 cterm=bold
 highlight LineNr guifg=#ff8f7f guibg=NONE gui=NONE
                 \ ctermfg=209 ctermbg=NONE cterm=NONE
 highlight Question guifg=#2fffcf guibg=bg gui=NONE
@@ -49,6 +57,13 @@ highlight StatusLine guifg=#cfcfcf guibg=#0f1f2f gui=NONE
                 \ ctermfg=7 ctermbg=17 cterm=NONE
 highlight StatusLineNC guifg=#afafaf guibg=#2f0025 gui=NONE
                 \ ctermfg=7 ctermbg=53 cterm=NONE
+" terminal "{{{3
+highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=0 ctermbg=10 cterm=NONE
+highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                \ ctermfg=96 ctermbg=183 cterm=NONE
 " }}}2
 highlight VertSplit guifg=#6f6f6f guibg=#dfdfdf gui=NONE
                 \ ctermfg=246 ctermbg=255 cterm=NONE
@@ -111,6 +126,14 @@ highlight TabLine guifg=#2f3f9f guibg=#0f0f1f gui=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
                 \ ctermfg=15 ctermbg=17 cterm=NONE
 highlight TabLineFill guifg=#2f3f8f guibg=#0f0f1f gui=underline
+                \ ctermfg=25 ctermbg=232 cterm=NONE
+
+" tabline "{{{2
+highlight Tabpanel guifg=#2f3f9f guibg=#0f0f1f gui=NONE
+                \ ctermfg=25 ctermbg=232 cterm=NONE
+highlight TabPanelSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
+                \ ctermfg=15 ctermbg=17 cterm=NONE
+highlight TabPanelFill guifg=#2f3f8f guibg=#0f0f1f gui=NONE
                 \ ctermfg=25 ctermbg=232 cterm=NONE
 
 " cursor "{{{2

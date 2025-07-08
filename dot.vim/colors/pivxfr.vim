@@ -16,7 +16,7 @@ if version > 580
 endif
 
 " #- colorscheme name -# "{{{1
-let g:colors_name = "pivxfr"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cccccc guibg=#101010 gui=NONE
@@ -25,6 +25,8 @@ highlight SpecialKey guifg=#af7ecf guibg=bg gui=NONE
           \ ctermfg=135 ctermbg=bg cterm=NONE
 highlight NonText guifg=#5f3fcf guibg=#101020 gui=NONE
           \ ctermfg=57 ctermbg=0 cterm=NONE
+highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+          \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#3fafff guibg=bg gui=bold
           \ ctermfg=39 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#ff4f8f guibg=bg gui=NONE
@@ -43,6 +45,10 @@ highlight LineNr guifg=#2f5fff guibg=NONE gui=NONE
           \ ctermfg=27 ctermbg=bg cterm=NONE
 highlight CursorLineNr guifg=#2f5fff guibg=NONE gui=NONE
           \ ctermfg=35 ctermbg=0 cterm=NONE
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+          \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+          \ ctermfg=164 ctermbg=bg cterm=NONE
 highlight Question guifg=#2f8f5f guibg=bg gui=underline
           \ ctermfg=28 ctermbg=bg cterm=underline
 " statusline "{{{2
@@ -50,6 +56,13 @@ highlight StatusLine guifg=#e0f0e0 guibg=#080f1f gui=NONE
           \ ctermfg=15 ctermbg=0 cterm=NONE
 highlight StatusLineNC guifg=#000000 guibg=#bfbfbf gui=NONE
           \ ctermfg=233 ctermbg=251 cterm=NONE
+" terminal "{{{3
+highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=0 ctermbg=10 cterm=NONE
+highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                \ ctermfg=96 ctermbg=183 cterm=NONE
 "}}}2
 highlight VertSplit guifg=#9f9f9f guibg=#02020f gui=NONE
           \ ctermfg=239 ctermbg=232 cterm=NONE
@@ -111,6 +124,14 @@ highlight TabLine guifg=#555555 guibg=#bbbbbb gui=NONE
 highlight TabLineSel guifg=#000000 guibg=#cccccc gui=NONE
           \ ctermfg=232 ctermbg=250 cterm=NONE
 highlight TabLineFill guifg=#3f0f8f guibg=#bfbfbf gui=NONE
+          \ ctermfg=56 ctermbg=247 cterm=NONE
+
+" tabpanel "{{{2
+highlight TabPanel guifg=#555555 guibg=#bbbbbb gui=NONE
+          \ ctermfg=235 ctermbg=246 cterm=NONE
+highlight TabPanelSel guifg=#000000 guibg=#cccccc gui=NONE
+          \ ctermfg=232 ctermbg=250 cterm=NONE
+highlight TabPanelFill guifg=#3f0f8f guibg=#bfbfbf gui=NONE
           \ ctermfg=56 ctermbg=247 cterm=NONE
 
 " cursor "{{{2

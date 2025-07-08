@@ -16,7 +16,7 @@ if version > 580
 endif
 
 " #- This colorscheme name -# "{{{1
-let g:colors_name = "wab"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- check -# "{{{1
 let s:is_wab_t = 1
@@ -36,6 +36,7 @@ if s:is_wab_t
   highlight Normal guifg=#cfcfcf guibg=#000000 gui=NONE
   highlight SpecialKey guifg=#afafaf guibg=bg gui=NONE
   highlight NonText guifg=#3f3f3f guibg=bg gui=NONE
+  highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
   highlight Directory guifg=#5f5f5f guibg=bg gui=bold
   highlight ErrorMsg guifg=#0f0f0f guibg=#3f3f3f gui=NONE
   " Search "{{{2
@@ -45,10 +46,20 @@ if s:is_wab_t
   highlight MoreMsg guifg=#2f2f2f guibg=#cfcfff gui=NONE
   highlight ModeMsg guifg=#2f2f2f guibg=#afafaf gui=NONE
   highlight LineNr guifg=#1f1f1f guibg=NONE gui=NONE
+  highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+  highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+  highlight CursorLineNr guifg=#9f4f7f guibg=#af8fff gui=NONE
   highlight Question guifg=#3f3f3f guibg=#8f8f8f gui=NONE
   " Statusline "{{{2
   highlight StatusLine guifg=#ffffff guibg=#0f0f0f gui=NONE
   highlight StatusLineNC guifg=#6f6f6f guibg=#cfcfcf gui=NONE
+  " terminal "{{{3
+  highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+        \ ctermfg=10 ctermbg=0 cterm=NONE
+  highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+        \ ctermfg=0 ctermbg=10 cterm=NONE
+  highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+        \ ctermfg=96 ctermbg=183 cterm=NONE
   " }}}2
   highlight VertSplit guifg=bg guibg=bg gui=bold
   highlight Title guifg=#cfcfcf guibg=bg gui=bold,underline
@@ -86,21 +97,27 @@ if s:is_wab_t
   highlight TabLineSel guifg=#cfcfcf guibg=#000000 gui=underline
   highlight TabLineFill guifg=#ffffff guibg=#1f1f1f gui=underline
 
+  " tabpanel "{{{2
+  highlight TabPanel guifg=#cfcfcf guibg=#1f1f1f gui=NONE
+  highlight TabPanelSel guifg=#cfcfcf guibg=#000000 gui=NONE
+  highlight TabPanelFill guifg=#ffffff guibg=#1f1f1f gui=NONE
+
   " cursor "{{{2
   highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
   highlight ColorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
-  highlight CursorLine guifg=NONE guibg=#0a0a0a gui=NONE
+  highlight CursorPanel guifg=NONE guibg=#0a0a0a gui=NONE
   highlight Cursor guifg=#000000 guibg=#afafaf gui=NONE
   " IME status color for cursor "{{{3
   if has('multi_byte_ime') || has('xim')
     highlight CursorIM gui=NONE guifg=#cfcfcf guibg=#afafaf
   endif
 
-  " }}}2
+" }}}2
 else
   highlight Normal guifg=#000000 guibg=#dfdfdf gui=NONE
   highlight SpecialKey guifg=#8f8f8f guibg=bg gui=NONE
   highlight NonText guifg=#3f3f3f guibg=bg gui=NONE
+  highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
   highlight Directory guifg=#3f3f3f guibg=bg gui=bold
   highlight ErrorMsg guifg=#0f0f0f guibg=#3f3f3f gui=NONE
   " Search "{{{2
@@ -110,10 +127,20 @@ else
   highlight MoreMsg guifg=#2f2f2f guibg=#cfcfff gui=NONE
   highlight ModeMsg guifg=#2f2f2f guibg=#afafaf gui=NONE
   highlight LineNr guifg=#1f1f1f guibg=NONE gui=NONE
+  highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+  highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+  highlight CursorLineNr guifg=#9f4f7f guibg=#af8fff gui=NONE
   highlight Question guifg=#3f3f3f guibg=#8f8f8f gui=NONE
   " Statusline "{{{2
   highlight StatusLine guifg=#ffffff guibg=#1f1f1f gui=NONE
   highlight StatusLineNC guifg=#6f6f6f guibg=#cfcfcf gui=NONE
+  " terminal "{{{3
+  highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+        \ ctermfg=10 ctermbg=0 cterm=NONE
+  highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+        \ ctermfg=0 ctermbg=10 cterm=NONE
+  highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+        \ ctermfg=96 ctermbg=183 cterm=NONE
   " }}}2
   highlight VertSplit guifg=bg guibg=bg gui=bold
   highlight Title guifg=#5f5f5f guibg=#cfcfcf gui=bold,underline
@@ -151,10 +178,16 @@ else
   highlight TabLineSel guifg=#0f0f0f guibg=#bfbfbf gui=underline
   highlight TabLineFill guifg=#1f1f1f guibg=#cfcfcf gui=underline
 
+
+  " tabpanel "{{{2
+  highlight TabPanel guifg=#1f1f1f guibg=#cfcfcf gui=NONE
+  highlight TabPanelSel guifg=#0f0f0f guibg=#bfbfbf gui=NONE
+  highlight TabPanelFill guifg=#1f1f1f guibg=#cfcfcf gui=NONE
+
   " cursor "{{{2
   highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
   highlight ColorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
-  highlight CursorLine guifg=NONE guibg=#afafaf gui=NONE
+  highlight CursorPanel guifg=NONE guibg=#afafaf gui=NONE
   highlight Cursor guifg=#cfcfcf guibg=#0f0f0f gui=NONE
   " IME status color for cursor "{{{3
   if has('multi_byte_ime') || has('xim')
@@ -408,8 +441,8 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
       exec "highlight " . a:group . " gui=" . a:attr . " cterm=" . a:attr
     endif
   endfun "}}}
-  " }}}
-  " Gui
+" }}}
+" Gui
 else
   " Cui
 endif

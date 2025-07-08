@@ -16,7 +16,7 @@ if version > 580
 endif
 
 " #- Colorscheme name -# "{{{1
-let g:colors_name = "JyuRoKu"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- Highlighting groups for various occasions -# "{{{1
 highlight Normal ctermfg=7 ctermbg=0 cterm=NONE
@@ -30,12 +30,16 @@ highlight Search ctermfg=2 ctermbg=11 cterm=bold,underline
 "}}}2
 highlight MoreMsg ctermfg=7 ctermbg=0 cterm=NONE
 highlight ModeMsg ctermfg=8 ctermbg=7 cterm=NONE
-highlight LineNr ctermfg=7 ctermbg=0 cterm=NONE
+highlight LineNr ctermfg=6 ctermbg=bg cterm=NONE
+highlight LineNrAbove ctermfg=16 ctermbg=bg cterm=NONE
+highlight LineNrBelow ctermfg=16 ctermbg=bg cterm=NONE
 highlight CursorLineNr ctermfg=1 ctermbg=15 cterm=NONE
 highlight Question ctermfg=3 ctermbg=0 cterm=NONE
 " Statusline "{{{2
 highlight StatusLine ctermfg=8 ctermbg=0 cterm=NONE
 highlight StatusLineNC ctermfg=8 ctermbg=7 cterm=NONE
+highlight StatusLineTerm ctermfg=8 ctermbg=0 cterm=NONE
+highlight StatusLineTermNC ctermfg=0 ctermbg=7 cterm=NONE
 "}}}
 highlight VertSplit ctermfg=0 ctermbg=3 cterm=NONE
 highlight Title ctermfg=11 ctermbg=0 cterm=bold,underline
@@ -71,13 +75,20 @@ highlight PmenuThumb ctermfg=fg ctermbg=10 cterm=NONE
 " Tabline "{{{2
 highlight TabLine ctermfg=8 ctermbg=0 cterm=NONE
 highlight TabLineSel ctermfg=7 ctermbg=1 cterm=NONE
-highlight TabLineFill ctermfg=2 ctermbg=7 cterm=NONE
+highlight TabLineFill ctermfg=9 ctermbg=16 cterm=NONE
+" Tabpanel "{{{2
+highlight TabPanel ctermfg=8 ctermbg=0 cterm=NONE
+highlight TabPanelSel ctermfg=7 ctermbg=1 cterm=NONE
+highlight TabPanelFill ctermfg=2 ctermbg=7 cterm=NONE
 
 " Cursor "{{{2
 highlight Cursor ctermfg=0 ctermbg=2 cterm=NONE
 highlight CursorColumn ctermfg=0 ctermbg=0 cterm=NONE
 highlight CursorLine ctermfg=NONE ctermbg=1 cterm=NONE
 highlight CursorColumn ctermfg=0 ctermbg=0 cterm=NONE
+
+" Terminal "{{{2
+highlight Terminal ctermfg=fg ctermbg=bg cterm=NONE
 
 " #- Syntax highlighting group -# "{{{1
 highlight MatchParen ctermfg=0 ctermbg=14 cterm=bold

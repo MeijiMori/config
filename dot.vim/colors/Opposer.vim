@@ -14,7 +14,7 @@ if version > 580
 endif
 
 " #- colorscheme name -# "{{{1
-let g:colors_name = "Opposer"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- highlighting colorscheme -# "{{{1
 highlight Normal guifg=#000000 guibg=#c4c4c4 gui=NONE
@@ -23,6 +23,8 @@ highlight SpecialKey guifg=#334645 guibg=bg gui=bold
                 \ ctermfg=17 ctermbg=bg cterm=bold
 highlight NonText guifg=#1f3faf guibg=bg gui=bold
                 \ ctermfg=18 ctermbg=bg cterm=bold
+highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#348e43 guibg=bg gui=bold
                 \ ctermfg=22 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#af0f3f guibg=#cf8faf gui=underline
@@ -41,12 +43,20 @@ highlight LineNr gui=NONE guifg=#b85f40 guibg=NONE
                 \ ctermfg=166 ctermbg=bg cterm=NONE
 highlight CursorLineNr gui=NONE guifg=#b85f40 guibg=NONE
                 \ ctermfg=130 ctermbg=252 cterm=NONE
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
 highlight Question guifg=#0f4f4f guibg=#afcfcf gui=underline
                 \ ctermfg=17 ctermbg=123 cterm=underline
 " statusline "{{{2
 highlight StatusLine guifg=#ffffff guibg=#0f1f2f gui=NONE
                 \ ctermfg=15 ctermbg=232 cterm=NONE
 highlight StatusLineNC guifg=#0f0f0f guibg=#cfcfcf gui=NONE
+                \ ctermfg=0 ctermbg=250 cterm=NONE
+highlight StatusLineTerm guifg=#0f0f0f guibg=#cfcfff gui=NONE
+                \ ctermfg=15 ctermbg=232 cterm=NONE
+highlight StatusLineTermNC guifg=#afafaf guibg=#1f1f2f gui=NONE
                 \ ctermfg=0 ctermbg=250 cterm=NONE
 " }}}2
 highlight VertSplit guifg=#999999 guibg=bg gui=NONE
@@ -102,15 +112,19 @@ highlight PmenuThumb guifg=#000000 guibg=#2f3f7f gui=NONE
                 \ ctermfg=fg ctermbg=25 cterm=NONE
 
 " tabline "{{{2
-" highlight TabLine guifg=#999999 guibg=#40404f gui=NONE
-" highlight TabLineSel guifg=#cfcfcf guibg=#1f2f4f gui=NONE
-" highlight TabLineFill guifg=#5f5f5f guibg=#353a3a gui=NONE
 highlight TabLine guifg=#3f5faf guibg=#0f0f1f gui=underline
                 \ ctermfg=21 ctermbg=232 cterm=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#1f2f4f gui=NONE
                 \ ctermfg=15 ctermbg=17 cterm=NONE
 highlight TabLineFill guifg=#2f2f5f guibg=#00001f gui=underline
                 \ ctermfg=21 ctermbg=16 cterm=underline
+" tabpanel "{{{2
+highlight TabPanel guifg=#3f5faf guibg=#0f0f1f gui=NONE
+                \ ctermfg=21 ctermbg=232 cterm=NONE
+highlight TabPanelSel guifg=#cfcfcf guibg=#1f2f4f gui=NONE
+                \ ctermfg=15 ctermbg=17 cterm=NONE
+highlight TabPanelFill guifg=#2f2f5f guibg=#c4c4c4 gui=NONE
+                \ ctermfg=21 ctermbg=16 cterm=NONE
 
 " cursor "{{{2
 highlight CursorColumn guifg=#000000 guibg=#3a3b3c gui=NONE
@@ -126,7 +140,29 @@ if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#af3f3f gui=NONE
                 \ ctermfg=0 ctermbg=124 cterm=NONE
 endif
-"}}}2
+
+" terminal: "{{{2
+if has('terminal')
+  highlight Terminal guifg=fg guibg=bg gui=NONE
+  " Terminal color
+  let g:terminal_ansi_colors = [
+    \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
+    \ "#00378a", "#881798", "#3a96dd", "#8f8f8f",
+    \ "#767676", "#872836", "#16960c", "#6a7f84",
+    \ "#3b789f", "#94005e", "#61d6d6", "#989898"
+    \ ]
+endif
+
+
+
+" toolbar "{{{2
+highlight ToolbarButton guifg=#3f1f8f guibg=#afafff gui=NONE
+          \ ctermfg=fg ctermbg=bg cterm=NONE
+highlight ToolbarLine guifg=#5f0f0f guibg=#df3fcf gui=NONE
+          \ ctermfg=fg ctermbg=bg cterm=NONE
+
+
+
 
 " #- sytntax highlighting -# "{{{1
 highlight lCursor guifg=#575757 guibg=#171615 gui=NONE

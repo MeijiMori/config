@@ -17,7 +17,7 @@ if version > 580
 endif
 
 " #- colorscheme name -#{{{1
-let g:colors_name = "Nebilim"
+let g:colors_name = expand('<sfile>:t:r')
 
 " #- highlighting groups for various occasions -# "{{{1
 highlight Normal guifg=#cccccc guibg=#303030 gui=NONE
@@ -26,6 +26,8 @@ highlight SpecialKey guifg=#6f3faf guibg=#303030 gui=NONE
                 \ ctermfg=56 ctermbg=bg cterm=NONE
 highlight NonText guifg=#4ef9c8 guibg=#3f3f3f gui=NONE
                 \ ctermfg=48 ctermbg=236 cterm=NONE
+highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+                \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#5f7fff guibg=#303030 gui=NONE
                 \ ctermfg=33 ctermbg=bg cterm=bold
 highlight ErrorMsg guifg=#f84865 guibg=#303030 gui=NONE
@@ -44,6 +46,10 @@ highlight LineNr guifg=#c3bcb4 guibg=#353535 gui=NONE
                 \ ctermfg=252 ctermbg=233 cterm=NONE
 highlight CursorLineNr guifg=#c3bcb4 guibg=#353535 gui=NONE
                 \ ctermfg=0 ctermbg=7 cterm=bold
+highlight LineNrAbove guifg=#9f4fff guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
+highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
+                \ ctermfg=164 ctermbg=bg cterm=NONE
 highlight Question guifg=#6ab3b5 guibg=#303030 gui=NONE
                 \ ctermfg=43 ctermbg=234 cterm=underline
 " statusline "{{{2
@@ -51,6 +57,15 @@ highlight StatusLine guifg=#cccccc guibg=#2f2f2f gui=NONE
                 \ ctermfg=252 ctermbg=233 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#b2a089 gui=NONE
                 \ ctermfg=95 ctermbg=180 cterm=NONE
+" terminal "{{{2
+highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+                \ ctermfg=10 ctermbg=0 cterm=NONE
+highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                \ ctermfg=0 ctermbg=10 cterm=NONE
+highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                \ ctermfg=96 ctermbg=183 cterm=NONE
+
+
 "}}}2
 highlight VertSplit guifg=#3059ff guibg=#2f2f2f gui=NONE
                 \ ctermfg=27 ctermbg=234 cterm=NONE
