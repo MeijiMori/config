@@ -87,10 +87,6 @@ highlight Folded guifg=#1f1f1f guibg=#af85ef gui=NONE
           \ ctermfg=235 ctermbg=250 cterm=NONE
 highlight FoldColumn guifg=#5f2fdf guibg=#af86df gui=bold
           \ ctermfg=233 ctermbg=255 cterm=bold
-highlight CursorLineFold guifg=#9f4f7f guibg=#af8fff gui=NONE
-          \ ctermfg=197 ctermbg=189 cterm=bold
-highlight CursorLineSign guifg=#9f4f7f guibg=#af8fff gui=NONE
-          \ ctermfg=197 ctermbg=189 cterm=bold
 " }}}
 " Diff "{{{
 highlight DiffAdd guifg=fg guibg=#afffcf gui=NONE
@@ -171,6 +167,10 @@ highlight ColorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
           \ ctermfg=bg ctermbg=fg cterm=NONE
 highlight Cursor guifg=#000000 guibg=#ff6faf gui=NONE
           \ ctermfg=0 ctermbg=29 cterm=NONE
+highlight CursorLineFold guifg=#9f4f7f guibg=#af8fff gui=NONE
+          \ ctermfg=197 ctermbg=189 cterm=bold
+highlight CursorLineSign guifg=#9f4f7f guibg=#af8fff gui=NONE
+          \ ctermfg=197 ctermbg=189 cterm=bold
 " IME status color for cursor "{{{
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#af2f3f gui=NONE
@@ -230,7 +230,7 @@ highlight Special guifg=#3f8fcf guibg=bg gui=NONE
           \ ctermfg=147 ctermbg=bg cterm=NONE
 highlight Identifier guifg=#8f2faf guibg=bg gui=NONE
           \ ctermfg=214 ctermbg=bg cterm=NONE
-highlight Statement guifg=#cf7f9f guibg=bg gui=NONE
+highlight Statement guifg=#cf7f7f guibg=bg gui=NONE
           \ ctermfg=53 ctermbg=bg cterm=NONE
 highlight PreProc guifg=#cf0f8f guibg=bg gui=NONE
           \ ctermfg=89 ctermbg=bg cterm=NONE

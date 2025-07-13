@@ -139,6 +139,11 @@ endif
 " terminal: "{{{2
 if has('terminal')
   highlight Terminal guifg=fg guibg=bg gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                  \ ctermfg=0 ctermbg=10 cterm=NONE
+  highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                  \ ctermfg=96 ctermbg=183 cterm=NONE
   " Terminal color
   let g:terminal_ansi_colors = [
     \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
@@ -147,7 +152,6 @@ if has('terminal')
     \ "#3b789f", "#94005e", "#61d6d6", "#989898"
     \ ]
 endif
-
 
 
 " toolbar "{{{2

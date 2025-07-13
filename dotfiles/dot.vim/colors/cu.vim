@@ -57,11 +57,6 @@ highlight StatusLine   guifg=#0f1f3f       guibg=#cfcfdf       gui=NONE
       \   ctermfg=black       ctermbg=white       cterm=bold
 highlight StatusLineNC guifg=#56523f       guibg=#c4b2ab       gui=NONE
       \   ctermfg=darkgray    ctermbg=white       cterm=NONE
-" #- Terminal -# "{{{3
-highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
-                \ ctermfg=11 ctermbg=bg cterm=NONE
-highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
-                \ ctermfg=11 ctermbg=bg cterm=NONE
 "}}}
 highlight VertSplit    guifg=#c2bfa5       guibg=#c2bfa5       gui=NONE
       \   ctermfg=white       ctermbg=white       cterm=NONE
@@ -156,6 +151,22 @@ if has('multi_byte_ime') || has('xim')
         \   ctermfg=black       ctermbg=white       cterm=reverse
 endif
 "}}}
+" terminal: "{{{2
+if has('terminal')
+  highlight Terminal guifg=fg guibg=bg gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
+                  \ ctermfg=11 ctermbg=bg cterm=NONE
+  highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
+                  \ ctermfg=11 ctermbg=bg cterm=NONE
+  " Terminal color
+  let g:terminal_ansi_colors = [
+    \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
+    \ "#00378a", "#881798", "#3a96dd", "#8f8f8f",
+    \ "#767676", "#872836", "#16960c", "#6a7f84",
+    \ "#3b789f", "#94005e", "#61d6d6", "#989898"
+    \ ]
+endif
 
 "highlight Menu
 "highlight Scrollbar

@@ -87,8 +87,23 @@ highlight CursorColumn ctermfg=0 ctermbg=0 cterm=NONE
 highlight CursorLine ctermfg=NONE ctermbg=1 cterm=NONE
 highlight CursorColumn ctermfg=0 ctermbg=0 cterm=NONE
 
-" Terminal "{{{2
-highlight Terminal ctermfg=fg ctermbg=bg cterm=NONE
+" terminal: "{{{2
+  highlight Terminal guifg=fg guibg=bg gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  " Terminal color
+  let g:terminal_ansi_colors = [
+    \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
+    \ "#00378a", "#881798", "#3a96dd", "#8f8f8f",
+    \ "#767676", "#872836", "#16960c", "#6a7f84",
+    \ "#3b789f", "#94005e", "#61d6d6", "#989898"
+    \ ]
+endif
+
+
 
 " #- Syntax highlighting group -# "{{{1
 highlight MatchParen ctermfg=0 ctermbg=14 cterm=bold

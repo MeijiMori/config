@@ -54,12 +54,6 @@ highlight StatusLine guifg=#cfcfff guibg=#0f0f1f gui=NONE
 highlight StatusLineNC guifg=#5f5f3f guibg=#bfafcf gui=NONE
                 \ ctermfg=59 ctermbg=248 cterm=NONE
 
-" #- Terminal -# "{{{2
-highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
-                \ ctermfg=11 ctermbg=bg cterm=NONE
-highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
-                \ ctermfg=11 ctermbg=bg cterm=NONE
-" }}}
 highlight VertSplit guifg=#c2bfa5 guibg=bg gui=NONE
                 \ ctermfg=7 ctermbg=232 cterm=NONE
 highlight Title guifg=#22935f guibg=bg gui=NONE
@@ -127,7 +121,7 @@ highlight TabPanelSel guifg=#cccccf guibg=#0f1f3f gui=NONE
 highlight TabPanelFill guifg=#5f2f3f guibg=#cfcfcf gui=NONE
                 \ ctermfg=125 ctermbg=250 cterm=NONE
 
-" #- Cursor -# "{{{
+" #- Cursor -# "{{{2
 highlight CursorColumn guifg=NONE guibg=#20355f gui=NONE
                 \ ctermfg=NONE ctermbg=0 cterm=NONE
 highlight CursorLine guifg=NONE guibg=#0f1a4f gui=NONE
@@ -136,13 +130,29 @@ highlight ColorColumn guifg=NONE guibg=#20355f gui=NONE
                 \ ctermfg=NONE ctermbg=NONE cterm=NONE
 highlight Cursor guifg=#0f0f0f guibg=#ff8f5f gui=NONE
                 \ ctermfg=fg ctermbg=22 cterm=NONE
-"IME status color for cursor "{{{
+"IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=#000000 guibg=#8f0f2f gui=NONE
                 \ ctermfg=fg ctermbg=52 cterm=NONE
 endif
-" }}}
-" }}}
+
+
+" #- Terminal -# {{{2
+if has('terminal')
+  highlight Terminal guifg=fg guibg=bg gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  " Terminal color
+  let g:terminal_ansi_colors = [
+    \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
+    \ "#00378a", "#881798", "#3a96dd", "#8f8f8f",
+    \ "#767676", "#872836", "#16960c", "#6a7f84",
+    \ "#3b789f", "#94005e", "#61d6d6", "#989898"
+    \ ]
+endif
 
 " #- syntax highlighting group -# "{{{1
 highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE

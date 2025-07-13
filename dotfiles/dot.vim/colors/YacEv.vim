@@ -59,13 +59,6 @@ highlight StatusLine guifg=#000000 guibg=#c8c8d8 gui=NONE
                 \ ctermfg=234 ctermbg=252 cterm=NONE
 highlight StatusLineNC guifg=#565234 guibg=#c4b2ab gui=NONE
                 \ ctermfg=238 ctermbg=95 cterm=NONE
-" terminal "{{{3
-highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
-                \ ctermfg=10 ctermbg=0 cterm=NONE
-highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
-                \ ctermfg=0 ctermbg=10 cterm=NONE
-highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
-                \ ctermfg=96 ctermbg=183 cterm=NONE
 " }}}2
 highlight VertSplit guifg=#5f5f5f guibg=#c8c8d8 gui=NONE
                 \ ctermfg=235 ctermbg=248 cterm=NONE
@@ -150,6 +143,23 @@ if has('multi_byte_ime') || has('xim')
                 \ ctermfg=248 ctermbg=234 cterm=underline
 endif
 " }}}2
+" terminal: "{{{2
+if has('terminal')
+  highlight Terminal guifg=fg guibg=bg gui=NONE
+                  \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
+                  \ ctermfg=0 ctermbg=10 cterm=NONE
+  highlight StatusLineTermNC guifg=#565234 guibg=#c0afcf gui=bold
+                  \ ctermfg=96 ctermbg=183 cterm=NONE
+  " Terminal color
+  let g:terminal_ansi_colors = [
+        \ "#0c0c0c", "#c50f1f", "#13a10e", "#c19c00",
+        \ "#0037da", "#881798", "#3a96dd", "#cccccc",
+        \ "#767676", "#e74856", "#16c60c", "#eadf84",
+        \ "#3b78ff", "#b4009e", "#61d6d6", "#e8e8e8"
+        \ ]
+
+endif
 
 
 " #- syntax highlighting groups -# "{{{1

@@ -54,10 +54,6 @@ highlight StatusLine guifg=#efefef guibg=#2a1f2f gui=underline
           \ ctermfg=15 ctermbg=0 cterm=underline
 highlight StatusLineNC guifg=#7f5f6f guibg=#efdfff gui=underline
           \ ctermfg=239 ctermbg=250 cterm=underline
-highlight StatusLineTerm guifg=#0f0f0f guibg=#aaafff gui=underline
-          \ ctermfg=15 ctermbg=0 cterm=underline
-highlight StatusLineTermNC guifg=#7f5f6f guibg=#efcfff gui=underline
-          \ ctermfg=239 ctermbg=250 cterm=underline
 " }}}2
 highlight VertSplit guifg=#efcfef guibg=#efe0ff gui=bold
           \ ctermfg=219 ctermbg=250 cterm=bold
@@ -148,6 +144,11 @@ endif
 "" terminal: "{{{2
 if has('terminal')
   highlight Terminal guifg=fg guibg=bg gui=NONE
+            \ ctermfg=fg ctermbg=bg cterm=NONE
+  highlight StatusLineTerm guifg=#0f0f0f guibg=#aaafff gui=underline
+            \ ctermfg=15 ctermbg=0 cterm=underline
+  highlight StatusLineTermNC guifg=#7f5f6f guibg=#efcfff gui=underline
+            \ ctermfg=239 ctermbg=250 cterm=underline
   " Terminal color
   let g:terminal_ansi_colors = [
         \ "#0c0c0c", "#850f1f", "#13710e", "#819c00",
