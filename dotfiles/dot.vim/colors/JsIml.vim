@@ -26,8 +26,6 @@ highlight NonText guifg=#af7fff guibg=bg gui=bold
           \ ctermfg=35 ctermbg=bg cterm=bold
 highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
           \ ctermfg=33 ctermbg=NONE cterm=NONE
-highlight EndOfBUffer guifg=#af7fff guibg=bg gui=bold
-          \ ctermfg=35 ctermbg=bg cterm=bold
 highlight Directory guifg=#cf2fff guibg=NONE gui=bold
           \ ctermfg=17 ctermbg=NONE cterm=bold
 highlight ErrorMsg guifg=#8f2f4f guibg=#efbfff gui=NONE
@@ -165,8 +163,10 @@ highlight CursorLine guifg=NONE guibg=#af8ff5 gui=NONE
           \ ctermfg=NONE ctermbg=224 cterm=NONE
 highlight ColorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
           \ ctermfg=bg ctermbg=fg cterm=NONE
-highlight Cursor guifg=#000000 guibg=#ff6faf gui=NONE
+highlight Cursor guifg=#000000 guibg=#8f5fff gui=NONE
           \ ctermfg=0 ctermbg=29 cterm=NONE
+highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
+          \ ctermfg=fg ctermbg=39 cterm=NONE
 highlight CursorLineFold guifg=#9f4f7f guibg=#af8fff gui=NONE
           \ ctermfg=197 ctermbg=189 cterm=bold
 highlight CursorLineSign guifg=#9f4f7f guibg=#af8fff gui=NONE
@@ -217,8 +217,6 @@ highlight Tooltip guifg=#000000 guibg=#af5fcf gui=NONE
 
 " #- syntax highlighting groups -# "{{{1
 highlight Conceal guifg=#0f0f0f guibg=#7ea3e6 gui=NONE
-          \ ctermfg=fg ctermbg=39 cterm=NONE
-highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
           \ ctermfg=fg ctermbg=39 cterm=NONE
 highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold
           \ ctermfg=232 ctermbg=26 cterm=bold,underline

@@ -19,7 +19,7 @@ endif
 let g:colors_name = expand('<sfile>:t:r')
 
 " #- Highlighting groups for various occasions -# "{{{1
-highlight Normal guifg=#0f0f0f guibg=#faf5da gui=NONE
+highlight Normal guifg=#0f0f0f guibg=#fdf5da gui=NONE
       \ ctermfg=0 ctermbg=230 cterm=NONE
 highlight SpecialKey guifg=#5f5fcf guibg=bg gui=NONE
       \ ctermfg=21 ctermbg=230 cterm=NONE
@@ -164,19 +164,19 @@ highlight lCursor guifg=#2f2f2f guibg=#7ea3a6 gui=NONE
       \ ctermfg=255 ctermbg=234 cterm=NONE
 highlight MatchParen guifg=#0f0f0f guibg=#5f9f5f gui=bold
       \ ctermfg=22 ctermbg=36 cterm=bold,underline
-highlight comment guifg=#0f3f7f guibg=bg gui=NONE
+highlight comment guifg=#2f5fcf guibg=bg gui=NONE
       \ ctermfg=19 ctermbg=NONE cterm=NONE
-highlight Constant guifg=#0d5f2f guibg=bg gui=NONE
+highlight Constant guifg=#3d9f5f guibg=bg gui=NONE
       \ ctermfg=29 ctermbg=NONE cterm=NONE
-highlight Special guifg=#0f2f5f guibg=bg gui=NONE
+highlight Special guifg=#3f5faf guibg=bg gui=NONE
       \ ctermfg=109 ctermbg=NONE cterm=NONE
-highlight Identifier guifg=#af1f2f guibg=bg gui=NONE
+highlight Identifier guifg=#cf1f2f guibg=bg gui=NONE
       \ ctermfg=124 ctermbg=NONE cterm=NONE
-highlight Statement guifg=#7f2f3f guibg=bg gui=NONE
+highlight Statement guifg=#bf2f5f guibg=bg gui=NONE
       \ ctermfg=88 ctermbg=NONE cterm=NONE
-highlight PreProc guifg=#2f3f9f guibg=bg gui=NONE
+highlight PreProc guifg=#2f3fcd guibg=bg gui=NONE
       \ ctermfg=21 ctermbg=NONE cterm=NONE
-highlight type guifg=#1f5f3f guibg=bg gui=NONE
+highlight type guifg=#1f8f5f guibg=bg gui=NONE
       \ ctermfg=22 ctermbg=NONE cterm=NONE
 highlight underlined guifg=#265faf guibg=#ffffcf gui=underline
       \ ctermfg=26 ctermbg=223 cterm=underline
