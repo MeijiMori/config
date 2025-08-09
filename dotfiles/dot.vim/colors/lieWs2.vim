@@ -63,7 +63,7 @@ highlight StatusLineTermNC guifg=#6f6f8f guibg=#cfcfff gui=underline
 " terminal "{{{2
   " terminal: "{{{2
 if has('terminal')
-  highlight Terminal guifg=#cfcfcf guibg=#00000f gui=NONE
+  highlight Terminal guifg=fg guibg=bg gui=NONE
                   \ ctermfg=10 ctermbg=0 cterm=NONE
   highlight StatusLineTerm guifg=#afafaf guibg=#0f0f0f gui=NONE
                   \ ctermfg=0 ctermbg=10 cterm=NONE

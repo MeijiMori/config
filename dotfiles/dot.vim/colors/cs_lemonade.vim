@@ -32,7 +32,7 @@ let s:const= "#329481"
 let s:comment="#323796"
 let s:func="#0c6d0a"
 let s:str="#2337c7"
-let s:type="#a59055"
+let s:type="#f59055"
 let s:var="#846237"
 let s:warning="#ff2828"
 let s:warning2="#ff8800"
@@ -63,7 +63,7 @@ execute 'highlight MessageWindow                 guifg=fg guibg=#cfcfdf gui=NONE
 execute 'highlight LineNr                        guifg='s:fg2' guibg='s:bg2
 execute 'highlight LineNrAbove                   guifg=#8f8fff guibg=bg gui=NONE'
 execute 'highlight LineNrBelow                   guifg=#8f8fff guibg=bg gui=NONE'
-execute 'highlight CursorLineNr                  guifg='s:fg' guibg='s:bg2
+execute 'highlight CursorLineNr                  guifg=#ff6f4f guibg='s:bg2
 
 
 " stautsline "{{{2
@@ -131,19 +131,18 @@ execute 'highlight PopupSelected                 guifg=#cfcfcf  guibg=#1f3fff gu
 
 
 " cursor "{{{2
-execute 'highlight Cursor                        guifg='s:bg' guibg='s:fg
-execute 'highlight CursorIM                      guifg=#0f0f0f guibg=#ef0fff gui=NONE'
+execute 'highlight Cursor                        guifg=#0f0f0f guibg=#ffaf7f gui=NONE'
+execute 'highlight CursorIM                      guifg=#0f0f0f guibg=#8fff1f gui=NONE'
 execute 'highlight lCursor                       guifg=#0f0f0f guibg=#ef0fff gui=NONE'
 execute 'highlight CursorColumn                  guibg='s:bg2
 
 
 " cursorline "{{{2
 execute 'highlight CursorLine                    guibg='s:bg2
-execute 'highlight CursorLineNr                  guifg='s:str' guibg='s:bg
 execute 'highlight CursorLineFold                guifg=fg guibg=#ffaf3f gui=NONE'
 execute 'highlight CursorLineSign                guifg=fg guibg=#ffafff gui=NONE'
 " quickfixline "{{{3
-execute 'highlight QuickFixLine                  guifg=fg guibg=#ffafff gui=NONE'
+execute 'highlight QuickFixLine                  guifg=fg guibg=#ffaf5f gui=NONE'
 
 
 " scrollbar "{{{2

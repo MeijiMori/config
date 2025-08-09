@@ -312,6 +312,6 @@ highlight User9 guifg=#5f5f2f guibg=#ffff5f gui=NONE
 
 
 " #- END -# "{{{1
-" vim: foldenable:foldmarker=marker
+" vim: fen:fdm=marker
 " vim: filetype=vim
 
