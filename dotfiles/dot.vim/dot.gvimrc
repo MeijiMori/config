@@ -49,7 +49,7 @@ endif "}}}
 
 " Save the setting of font. "{{{
 " Make directory "{{{
-let g:save_font_dir = g:vim_dir . '/initfiles/font'
+let g:save_font_dir = g:vim_info_dir . '/font'
 let g:save_font_file = g:save_font_dir . "/.vimfont"
 if !isdirectory(g:save_font_dir)
   call mkdir(g:save_font_dir, 'p')
@@ -106,7 +106,7 @@ endif
 " Save window postion and width "{{{
 " Save the setting of window. "{{{
 " Make directory "{{{
-let g:save_window_dir = g:vim_dir . '/initfiles/win'
+let g:save_window_dir = g:vim_info_dir . '/win'
 let g:save_window_file = g:save_window_dir . "/.vimwinpos" "}}}
 
 if !isdirectory(g:save_window_dir)
@@ -139,7 +139,7 @@ endif
 
 " Save the setting of colorscheme. "{{{
 " Make directory "{{{
-let g:save_color_dir = g:vim_dir . '/initfiles/color'
+let g:save_color_dir = g:vim_dir . '/color'
 let g:save_color_file = g:save_color_dir . "/.vimcolor"
 
 if !isdirectory(g:save_color_dir)
@@ -169,7 +169,7 @@ endfunction "}}}
 if filereadable(g:save_color_file)
   try
     execute 'source ' g:save_color_file
-  catch 185
+  catch /E:185/
     " Not sloved colorscheme ...
     let csname = <SID>ColorschemeRandom()
     execute 'colorscheme ' csname
