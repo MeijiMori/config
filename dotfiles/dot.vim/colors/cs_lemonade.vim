@@ -91,7 +91,7 @@ execute 'highlight Added                         guifg=#3faf5f guibg=bg gui=NONE
 execute 'highlight Change                        guifg=fg guibg=#ffefaf'
 execute 'highlight Removed                       guifg=#cf5f8f guibg=bg gui=NONE'
 "}}}2
-execute 'highlight SignColumn                    guifg=#0f0f0f guibg='s:bg2 ' gui=NONE'
+execute 'highlight SignColumn                    guifg=#0f0f0f guibg=#ffcf8f gui=NONE'
 execute 'highlight ColorColumn                   guibg='s:bg2
 " spell "{{{2
 execute 'highlight SpellBad                      guifg=fg guibg=bg gui=undercurl'
@@ -122,6 +122,7 @@ execute 'highlight TabLineSel                    guifg=#0f0f0f guibg=#efe0ff gui
 " tabpanel "{{{2
 execute 'highlight TabPanel                      guifg=#0f0f0f guibg=#ffefff gui=NONE'
 execute 'highlight TabPanelFill                  guifg=#0f0fff guibg=#feefe0 gui=NONE'
+execute 'highlight TabPanelTitle                 guifg=#0f0f0f guibg=#cecfff gui=NONE'
 execute 'highlight TabPanelSel                   guifg=#0f0f0f guibg=#efe0ff gui=NONE'
 
 
@@ -146,7 +147,7 @@ execute 'highlight QuickFixLine                  guifg=fg guibg=#ffaf5f gui=NONE
 
 
 " scrollbar "{{{2
-execute 'highlight Scrollvar                     guifg=fg guibg=#efefff gui=NONE'
+execute 'highlight Scrollbar                     guifg=fg guibg=#efefff gui=NONE'
 
 
 " terminal: "{{{2

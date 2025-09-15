@@ -17,6 +17,7 @@ endif
 
 
 " #- Colorscheme name -# "{{{1
+" name: qoil
 let g:colors_name = expand('<sfile>:t:r')
 
 
@@ -29,6 +30,8 @@ highlight EndOfBuffer guifg=#2f2fff guibg=#ffeffd gui=bold
                 \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#2f8f39 guibg=bg gui=bold
                 \ ctermfg=125 ctermbg=bg cterm=bold
+
+
 " Search: "{{{2
 highlight IncSearch guifg=#0f5f3f guibg=#3fcf8f gui=bold,underline
                 \ ctermfg=20 ctermbg=32 cterm=NONE
@@ -39,14 +42,14 @@ highlight Search guifg=#0f5f2f guibg=#5fafff gui=bold,underline
 
 
 " Message: "{{{2
-highlight ErrorMsg guifg=#2f1f0f guibg=#ffafcf gui=underline
-                \ ctermfg=160 ctermbg=134 cterm=NONE
 highlight MoreMsg guifg=#0f5f2f guibg=#8fdf9f gui=underline
                 \ ctermfg=2 ctermbg=49 cterm=NONE
 highlight ModeMsg guifg=#0f5f5f guibg=#afcfff gui=underline
                 \ ctermfg=242 ctermbg=252 cterm=underline
 highlight MsgArea guifg=#0f5f5f guibg=#fff0f5 gui=NONE
                 \ ctermfg=242 ctermbg=252 cterm=NONE
+highlight ErrorMsg guifg=#2f1f0f guibg=#ffafcf gui=underline
+                \ ctermfg=160 ctermbg=134 cterm=NONE
 highlight WarningMsg guifg=#8f5f3f guibg=#ffcfaf gui=underline
                 \ ctermfg=2 ctermbg=bg cterm=NONE
 highlight Question guifg=#0f0f5f guibg=#7fafcf gui=underline
@@ -141,7 +144,7 @@ highlight Menu guifg=#2f2f2f guibg=#3fafcf gui=None
 
 
 " Quickfix: "{{{2
-highlight QuickFixLine guifg=#0f0f0f guibg=#cfafff gui=bold
+highlight QuickFixLine guifg=#0f0f0f guibg=#efefff gui=bold
       \ ctermfg=fg ctermbg=bg cterm=NONE
 
 
@@ -152,13 +155,13 @@ highlight ToolbarLine guifg=fg guibg=#efcfff gui=NONE
                 \ ctermfg=180 ctermbg=bg cterm=NONE
 
 
-" Tooltip "{{{2
+" Tooltip: "{{{2
 highlight Tooltip guifg=#0f0f0f guibg=#efefff gui=None
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 
 
-" Scrollbar "{{{2
-highlight Menu guifg=#2f2f2f guibg=#3fafcf gui=None
+" Scrollbar: "{{{2
+highlight Scrollbar guifg=#2f2f2f guibg=#3fafcf gui=None
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 
 
@@ -212,8 +215,12 @@ highlight TabPanel guifg=#0f0f0f guibg=#efdfff gui=NONE
                 \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight TabPanelSel guifg=#ffffff guibg=#0f2f8f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=underline
+highlight TabPanelSelMark guifg=#ff3f3f guibg=bg gui=NONE
+                \ ctermfg=fg ctermbg=16 cterm=underline
 highlight TabPanelFill guifg=#2f0f8f guibg=#afcfef gui=NONE
                 \ ctermfg=128 ctermbg=0 cterm=NONE
+highlight TabPanelTitle guifg=#ffffff guibg=#af0f7f gui=NONE
+                \ ctermfg=232 ctermbg=244 cterm=NONE
 
 
 " Cursor: "{{{2
@@ -227,6 +234,7 @@ highlight Cursor guifg=#000000 guibg=#cfafff gui=NONE
                 \ ctermfg=NONE ctermbg=250 cterm=NONE
 highlight CmdlineCursor guifg=#000000 guibg=#cfffff gui=NONE
                 \ ctermfg=NONE ctermbg=250 cterm=NONE
+
 
 " IME status color for cursor "{{{3
 if has('multi_byte_ime') || has('xim')

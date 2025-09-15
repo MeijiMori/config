@@ -57,11 +57,11 @@ highlight WildMenu ctermfg=7 ctermbg=1 cterm=bold,underline
 
 " LineNr: "{{{2
 highlight LineNr ctermfg=6 ctermbg=bg cterm=NONE
-      \ guifg=#dfaf3f guibg=bg gui=bold
+      \ guifg=#dfaf3f guibg=bg gui=NONE
 highlight LineNrAbove ctermfg=9 ctermbg=bg cterm=NONE
-      \ guifg=#3f5fff guibg=bg gui=bold
+      \ guifg=#3f5fff guibg=bg gui=NONE
 highlight LineNrBelow ctermfg=2 ctermbg=bg cterm=NONE
-      \ guifg=#3faf5f guibg=bg gui=bold
+      \ guifg=#3faf5f guibg=bg gui=NONE
 
 
 " Statusline: "{{{2
