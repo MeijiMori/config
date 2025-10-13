@@ -61,7 +61,8 @@ Rxvt.utmpInhibit: false
 URxvt.font:\
     xft:Terminus:style=Regular:size=13:antialias=true, \
     xft:Inconsolata:style=Medium:size=13:antialias=true,\
-    xft:Ricty:style=Regular-Mono
+    xft:Ricty:style=Regular-Mono, \
+    xft:DejaVu Sans Mono:style=Medium:size=13:antialias=true
 URxvt.boldFont:\
     xft:Terminus:style=bold:size=13, \
     xft:Inconsolata,\
