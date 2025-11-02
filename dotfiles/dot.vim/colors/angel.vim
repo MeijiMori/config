@@ -71,7 +71,7 @@ highlight StatusLine guifg=#3f0f1f guibg=#cf2f5f gui=NONE
       \ ctermfg=231 ctermbg=233 cterm=NONE
 highlight StatusLineNC guifg=#5f3f3f guibg=#bfafaf gui=NONE
       \ ctermfg=95 ctermbg=181 cterm=NONE
-highlight StatusLineTerm guifg=#005f2f guibg=#8fcf8f gui=NONE
+highlight StatusLineTerm guifg=#3f0f5f guibg=#7f2fff gui=NONE
       \ ctermfg=11 ctermbg=bg cterm=NONE
 highlight StatusLineTermNc guifg=#5f0f2f guibg=#cf8f8f gui=NONE
       \ ctermfg=11 ctermbg=bg cterm=NONE

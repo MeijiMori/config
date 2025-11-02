@@ -81,6 +81,7 @@ highlight StatusLineTerm guifg=#000f2f guibg=#dfffff gui=NONE
 highlight StatusLineTermNc guifg=#002f2f guibg=#cfcfff gui=NONE
                 \ ctermfg=11 ctermbg=bg cterm=NONE
 " }}}2
+
 highlight VertSplit guifg=#af8fff guibg=bg gui=bold
                 \ ctermfg=250 ctermbg=16 cterm=bold
 highlight WinSeparator guifg=NONE guibg=#efefff gui=bold
@@ -89,6 +90,7 @@ highlight FloatBorder guifg=NONE guibg=#cfcfcf gui=bold
                 \ ctermfg=250 ctermbg=16 cterm=bold
 highlight Title guifg=#1f8f2f guibg=#ffeaf5 gui=bold,underline
                 \ ctermfg=35 ctermbg=NONE cterm=bold,underline
+
 " Visual: "{{{2
 highlight Visual guifg=#ffffff guibg=#0f3f8f gui=NONE
                 \ ctermfg=252 ctermbg=17 cterm=NONE
@@ -121,6 +123,8 @@ highlight Changed guifg=#af9f2f guibg=bg gui=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 " }}}2
+
+
 highlight SignColumn guifg=fg guibg=#efefff gui=NONE
                 \ ctermfg=180 ctermbg=bg cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
@@ -177,7 +181,7 @@ highlight SpellRare guifg=#0faf5f guibg=bg gui=undercurl
 
 
 " Pmenu: "{{{2
-highlight Pmenu guifg=#0f0f3f guibg=#ffffff gui=NONE
+highlight Pmenu guifg=#0f0f3f guibg=#efdfff gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuSel guifg=#ffffff guibg=#0f0faf gui=NONE
                 \ ctermfg=fg ctermbg=17 cterm=NONE

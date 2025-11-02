@@ -108,7 +108,7 @@ highlight FoldColumn guifg=#8f8fff guibg=#0f2f2f gui=bold
           \ ctermfg=105 ctermbg=29 cterm=bold
 
 
-" Diff: "{{{
+" Diff: "{{{2
 highlight DiffAdd guifg=fg guibg=#1f8f3f gui=NONE
           \ ctermfg=NONE ctermbg=30 cterm=NONE
 highlight DiffChange guifg=fg guibg=#af3f1f gui=NONE
@@ -125,8 +125,10 @@ highlight Changed guifg=#af9f2f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
-" }}}
-highlight SignColumn guifg=#ff5f7f guibg=bg gui=NONE
+" }}}2
+
+
+highlight SignColumn guifg=#ffffff guibg=#0f1f1f gui=NONE
           \ ctermfg=203 ctermbg=bg cterm=NONE
 highlight Conceal guifg=#ff5f7f guibg=bg gui=NONE
           \ ctermfg=203 ctermbg=bg cterm=NONE

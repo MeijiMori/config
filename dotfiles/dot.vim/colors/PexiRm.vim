@@ -21,9 +21,9 @@ let g:colors_name = expand('<sfile>:t:r')
 " #- Hilighting group for various occasions -#"{{{1
 highlight Normal guifg=#fdfdfd guibg=#1f1a1a gui=NONE
                 \ ctermfg=15 ctermbg=234 cterm=NONE
-highlight NonText guifg=#ffffff guibg=#383838 gui=bold
+highlight NonText guifg=#ffcfaf guibg=#1f1f2f gui=bold
                 \ ctermfg=15 ctermbg=234 cterm=bold
-highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
+highlight EndOfBuffer guifg=#8f7fff guibg=bg gui=bold
                 \ ctermfg=33 ctermbg=NONE cterm=bold
 highlight Directory guifg=#3fcfaf guibg=bg gui=bold
                 \ ctermfg=69 ctermbg=bg cterm=bold
@@ -34,7 +34,7 @@ highlight IncSearch guifg=#5f0f0f guibg=#cf2f5f gui=bold,underline
                 \ ctermfg=53 ctermbg=129 cterm=bold,underline
 highlight CurSearch guifg=#5f5f0f guibg=#efcf5f gui=bold,underline
                 \ ctermfg=17 ctermbg=81 cterm=bold,underline
-highlight Search guifg=#0f0f5f guibg=#2f8fff gui=bold,underline
+highlight Search guifg=#0f3f8f guibg=#2f8fff gui=bold,underline
                 \ ctermfg=17 ctermbg=39 cterm=bold,underline
 
 
@@ -47,7 +47,7 @@ highlight MsgArea guifg=fg guibg=#0f0f0f gui=NONE
                 \ ctermfg=242 ctermbg=252 cterm=NONE
 highlight ErrorMsg guifg=#8f0f0f guibg=#ff8faf gui=NONE
                 \ ctermfg=89 ctermbg=bg cterm=NONE
-highlight WarningMsg guifg=#5f5f0f guibg=#ffaf2f gui=NONE
+highlight WarningMsg guifg=#5f3f0f guibg=#ffaf2f gui=NONE
                 \ ctermfg=9 ctermbg=bg cterm=NONE
 highlight Question guifg=#0f8f2f guibg=#afffcf gui=NONE
                 \ ctermfg=36 ctermbg=bg cterm=NONE
@@ -110,7 +110,7 @@ highlight DiffChange guifg=#8f2f1f guibg=#ffdf8f gui=NONE
                 \ ctermfg=fg ctermbg=208 cterm=NONE
 highlight DiffDelete guifg=#8f0f0f guibg=#ff8faf gui=NONE
                 \ ctermfg=fg ctermbg=124 cterm=NONE
-highlight DiffText guifg=#c9cbce guibg=bg gui=bold
+highlight DiffText guifg=#c9cbce guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#5fcf8f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
@@ -245,7 +245,7 @@ endif
 " Cursorline: "{{{2
 highlight CursorLine guifg=NONE guibg=#3f2f0f gui=NONE
                 \ ctermfg=NONE ctermbg=232 cterm=NONE
-highlight CursorLineNr guifg=#6b6b6b guibg=#ffcfef gui=NONE
+highlight CursorLineNr guifg=#0f0f8f guibg=#afefff gui=NONE
                 \ ctermfg=238 ctermbg=248 cterm=NONE
 highlight CursorLineFold guifg=NONE guibg=#cfcfff gui=bold
                 \ ctermfg=93 ctermbg=16 cterm=bold

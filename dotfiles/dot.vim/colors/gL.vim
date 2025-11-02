@@ -111,17 +111,17 @@ highlight DiffAdd guifg=fg guibg=#8fffcf gui=NONE
                 \ ctermfg=NONE ctermbg=42 cterm=NONE
 highlight DiffChange guifg=fg guibg=#ffffcf gui=NONE
                 \ ctermfg=NONE ctermbg=180 cterm=NONE
-highlight DiffDelete guifg=fg guibg=#ffafcf gui=bold
+highlight DiffDelete guifg=fg guibg=#ffafcf gui=NONE
                 \ ctermfg=NONE ctermbg=213 cterm=NONE
 highlight DiffText guifg=#4f4f4f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
-highlight Added guifg=#2f8fcf guibg=bg gui=NONE
+highlight Added guifg=#0f8fcf guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
-highlight Changed guifg=#ef9f2f guibg=bg gui=NONE
+highlight Changed guifg=#cf8f0f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
-highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
+highlight Removed guifg=#cf2f5f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 " }}}
 
@@ -187,15 +187,15 @@ highlight Pmenu guifg=#ffffff guibg=#0f0f1f gui=NONE
                 \ ctermfg=251 ctermbg=232 cterm=NONE
 highlight PmenuSel guifg=#ffffff guibg=#1f2f8f gui=NONE
                 \ ctermfg=251 ctermbg=19 cterm=NONE
-highlight PmenuExtra guifg=#0f0f0f guibg=#dfdfff gui=NONE
+highlight PmenuExtra guifg=#ffffff guibg=#2f2f2f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuExtraSel guifg=#ffffff guibg=#003f8f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
-highlight PmenuKind guifg=#0f0f0f guibg=#dfdfff gui=NONE
+highlight PmenuKind guifg=#ffffff guibg=#1f1f1f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuKindSel guifg=#ffffff guibg=#003f8f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
-highlight PmenuMatch guifg=#0f0f0f guibg=#cfefff gui=NONE
+highlight PmenuMatch guifg=#ffffff guibg=#1f1f2f gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight PmenuMatchLead guifg=#0f0f0f guibg=#cfffff gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
@@ -203,9 +203,9 @@ highlight PmenuMatchSel guifg=#ffffff guibg=#003faf gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
 highlight ComplMatchIns guifg=#3f3f3f guibg=#cfcfff gui=NONE
                 \ ctermfg=fg ctermbg=16 cterm=NONE
-highlight PmenuSbar guifg=#cfcfcf guibg=#5f5f8f gui=NONE
+highlight PmenuSbar guifg=#ffffff guibg=#5f5f8f gui=NONE
                 \ ctermfg=fg ctermbg=232 cterm=NONE
-highlight PmenuThumb guifg=#cfcfcf guibg=#2f8fff gui=NONE
+highlight PmenuThumb guifg=#ffffff guibg=#2f8fff gui=NONE
                 \ ctermfg=fg ctermbg=89 cterm=NONE
 
 " Tabline: "{{{2
@@ -235,7 +235,7 @@ highlight ColorColumn guifg=#0f0f0f guibg=#efcfff gui=NONE
                 \ ctermfg=NONE ctermbg=17 cterm=NONE
 highlight lCursor guifg=#0f0f0f guibg=#7effff gui=NONE
                 \ ctermfg=232 ctermbg=30 cterm=NONE
-highlight Cursor guifg=#ffffff guibg=#5f1f3f gui=NONE
+highlight Cursor guifg=#ffffff guibg=#5f2fff gui=NONE
                 \ ctermfg=255 ctermbg=125 cterm=NONE
 highlight CmdlineCursor guifg=#000000 guibg=#cfffff gui=NONE
                 \ ctermfg=NONE ctermbg=250 cterm=NONE
@@ -275,7 +275,7 @@ endif
 
 
 " #- syntax highlighting groups -# "{{{1
-highlight MatchParen guifg=#ffffff guibg=#2f438f gui=bold,underline
+highlight MatchParen guifg=#ffcf3f guibg=#2f438f gui=bold,underline
                 \ ctermfg=17 ctermbg=26 cterm=bold,underline
 highlight comment guifg=#1f4faf guibg=bg gui=NONE
                 \ ctermfg=25 ctermbg=bg cterm=NONE

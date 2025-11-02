@@ -144,7 +144,8 @@ if s:is_vinary_t "{{{2
   highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
                   \ ctermfg=fg ctermbg=bg cterm=NONE
   " }}}3
-  highlight SignColumn guifg=#bf2f3f guibg=bg gui=NONE
+
+  highlight SignColumn guifg=fg guibg=#0f0f0f gui=NONE
                  \ ctermfg=161 ctermbg=bg cterm=NONE
   highlight Conceal guifg=#bf2f3f guibg=bg gui=NONE
                  \ ctermfg=146 ctermbg=99 cterm=NONE
@@ -373,7 +374,7 @@ highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
                   \ ctermfg=fg ctermbg=bg cterm=NONE
   " }}}3
 
-  highlight SignColumn guifg=#7f2f4f guibg=bg gui=NONE
+  highlight SignColumn guifg=fg guibg=#cfdfff gui=NONE
                  \ ctermfg=152 ctermbg=NONE cterm=NONE
   highlight Conceal guifg=#7f2f4f guibg=bg gui=NONE
                  \ ctermfg=141 ctermbg=93 cterm=NONE

@@ -140,7 +140,17 @@ highlight Menu guifg=#2f2f2f guibg=#3fafcf gui=None
 
 " Quickfix: "{{{2
 highlight QuickFixLine guifg=#1f3f2f guibg=#3fcfff gui=bold
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=fg ctermbg=bg cterm=bold
+highlight link qfError Error
+highlight link qfFileName Directory
+highlight qfLineNr guifg=#af3fff guibg=bg gui=bold
+                \ ctermfg=fg ctermbg=bg cterm=bold
+highlight qfSeparator1 guifg=#8fffff guibg=bg gui=bold
+                \ ctermfg=fg ctermbg=bg cterm=bold
+highlight qfSeparator2 guifg=#8fffff guibg=bg gui=bold
+                \ ctermfg=fg ctermbg=bg cterm=bold
+highlight link qfText Normal
+
 
 
 " Toolbar: "{{{2

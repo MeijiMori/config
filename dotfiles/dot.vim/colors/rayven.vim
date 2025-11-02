@@ -123,7 +123,7 @@ highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
 "}}}2
 
 
-highlight SignColumn guifg=#ffffb0 guibg=bg gui=NONE
+highlight SignColumn guifg=fg guibg=#8f0f3f gui=NONE
                 \ ctermfg=221 ctermbg=bg cterm=NONE
 highlight Conceal guifg=#ffffb0 guibg=bg gui=NONE
                 \ ctermfg=221 ctermbg=197 cterm=NONE
@@ -146,19 +146,19 @@ highlight Menu guifg=#2f2f2f guibg=#3fafcf gui=None
 
 
 " Quickfix: "{{{2
-highlight QuickFixLine guifg=#0f0f0f guibg=#cfafff gui=bold
+highlight QuickFixLine guifg=#ffffff guibg=#8f0f8f gui=bold
       \ ctermfg=fg ctermbg=bg cterm=NONE
 
 
 " Toolbar: "{{{2
-highlight ToolbarButton guifg=#5f5f8f guibg=#cfefff gui=bold
+highlight ToolbarButton guifg=#cfcfcf guibg=#0f0f1f gui=bold
                 \ ctermfg=180 ctermbg=bg cterm=NONE
-highlight ToolbarLine guifg=fg guibg=#efcfff gui=NONE
+highlight ToolbarLine guifg=fg guibg=#3f3f3f gui=NONE
                 \ ctermfg=180 ctermbg=bg cterm=NONE
 
 
 " Tooltip: "{{{2
-highlight Tooltip guifg=#0f0f0f guibg=#efefff gui=None
+highlight Tooltip guifg=#cfcfcf guibg=#5f0f2f gui=None
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 
 
@@ -206,10 +206,8 @@ highlight TabLine guifg=#8f8f8f guibg=#0f0f0f gui=underline
                 \ ctermfg=245 ctermbg=233 cterm=underline
 highlight TabLineSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
                 \ ctermfg=255 ctermbg=17 cterm=NONE
-highlight TabLineFill guifg=#ff0f2f guibg=#0f0f0f gui=NONE
+highlight TabLineFill guifg=#ff0f2f guibg=#0f0f1f gui=NONE
                 \ ctermfg=196 ctermbg=0 cterm=NONE
-highlight TabPanelTitle guifg=#000000 guibg=#efefff gui=NONE
-                \ ctermfg=232 ctermbg=244 cterm=NONE
 
 
 " Tabpanel: "{{{2
@@ -217,8 +215,10 @@ highlight TabPanel guifg=#8f8f8f guibg=#0f0f0f gui=NONE
                 \ ctermfg=245 ctermbg=233 cterm=NONE
 highlight TabPanelSel guifg=#cfcfcf guibg=#0f1f3f gui=NONE
                 \ ctermfg=255 ctermbg=17 cterm=NONE
-highlight TabPanelFill guifg=#ff0f2f guibg=#0f0f0f gui=NONE
+highlight TabPanelFill guifg=#ff0f2f guibg=#0f0f1f gui=bold
                 \ ctermfg=196 ctermbg=0 cterm=NONE
+highlight TabPanelTitle guifg=#ffafcf guibg=#4f2f3f gui=NONE
+                \ ctermfg=232 ctermbg=244 cterm=NONE
 
 
 " Cursor: "{{{2
@@ -277,7 +277,7 @@ highlight Identifier guifg=#ff5f3f guibg=bg gui=NONE
                 \ ctermfg=9 ctermbg=bg cterm=NONE
 highlight Special guifg=#aeffed guibg=bg gui=NONE
                 \ ctermfg=14 ctermbg=bg cterm=NONE
-highlight Statement guifg=#af1f3f guibg=bg gui=NONE
+highlight Statement guifg=#ff2f5f guibg=bg gui=NONE
                 \ ctermfg=160 ctermbg=bg cterm=NONE
 highlight PreProc guifg=#8f5fcf guibg=bg gui=NONE
                 \ ctermfg=93 ctermbg=bg cterm=NONE

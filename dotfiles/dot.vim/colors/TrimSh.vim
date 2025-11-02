@@ -116,12 +116,14 @@ highlight Changed guifg=#af9f2f guibg=bg gui=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 " }}}2
-highlight SignColumn guifg=#8f1f3f guibg=bg gui=NONE
+
+highlight SignColumn guifg=fg guibg=#dfdfff gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
           \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#af3f5f guibg=bg gui=NONE
           \ ctermfg=196 ctermbg=bg cterm=NONE
+
 " Spell: "{{{2
 highlight SpellBad guifg=#5f2f7f guibg=bg gui=NONE
           \ ctermfg=161 ctermbg=bg cterm=NONE

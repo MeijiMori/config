@@ -122,7 +122,7 @@ highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
 
 
 
-highlight SignColumn guifg=#cf4f8f guibg=bg gui=NONE
+highlight SignColumn guifg=fg guibg=#0f3f5f gui=NONE
                 \ ctermfg=200 ctermbg=bg cterm=NONE
 highlight Conceal guifg=#cf4f8f guibg=bg gui=NONE
                 \ ctermfg=124 ctermbg=20 cterm=NONE

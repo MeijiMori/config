@@ -29,11 +29,11 @@ highlight Directory guifg=#cf2fff guibg=NONE gui=bold
 
 
 " Search: "{{{2
-highlight CurSearch guifg=#5f1f3f guibg=#736ff5 gui=bold
+highlight CurSearch guifg=#3f0f3f guibg=#ff6fff gui=bold,underline
           \ ctermfg=161 ctermbg=170 cterm=bold,underline
-highlight IncSearch guifg=#8f3f5f guibg=#c35ff5 gui=bold
+highlight IncSearch guifg=#5f0f3f guibg=#cf5ff5 gui=bold,underline
           \ ctermfg=161 ctermbg=170 cterm=bold,underline
-highlight Search guifg=#5f2f3f guibg=#cf7fff gui=bold
+highlight Search guifg=#5f0f3f guibg=#cf7fff gui=bold,underline
           \ ctermfg=25 ctermbg=147 cterm=bold,underline
 
 
@@ -122,7 +122,7 @@ highlight Removed guifg=#ff2faf guibg=bg gui=NONE
 " }}}
 
 
-highlight SignColumn guifg=#f6577f guibg=#dfc8ff gui=NONE
+highlight SignColumn guifg=#0f0f0f guibg=#cfafff gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Conceal guifg=#0f0f0f guibg=#7ea3e6 gui=NONE
           \ ctermfg=fg ctermbg=39 cterm=NONE
@@ -196,7 +196,7 @@ highlight PmenuKind guifg=NONE guibg=#ffcfcf gui=NONE
           \ ctermfg=NONE ctermbg=NONE cterm=NONE
 highlight PmenuKindSel guifg=NONE guibg=#5f8fff gui=NONE
           \ ctermfg=NONE ctermbg=NONE cterm=NONE
-highlight ComplMatchIns guifg=NONE guibg=#7f1f2f gui=NONE
+highlight ComplMatchIns guifg=#3f0f0f guibg=#af8fff gui=NONE
           \ ctermfg=gray ctermbg=gray cterm=NONE
 highlight PmenuSbar guifg=fg guibg=#cfafff gui=NONE
           \ ctermfg=fg ctermbg=132 cterm=NONE
@@ -224,9 +224,9 @@ highlight TabPanelTitle guifg=#3f1f5f guibg=#efcfff gui=NONE
 
 
 " Cursor: "{{{2
-highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
+highlight CursorColumn guifg=#000000 guibg=#afafef gui=NONE
           \ ctermfg=bg ctermbg=fg cterm=NONE
-highlight ColorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
+highlight ColorColumn guifg=#000000 guibg=#cfafff gui=NONE
           \ ctermfg=bg ctermbg=fg cterm=NONE
 highlight lCursor guifg=#0f0f0f guibg=#7ea3a6 gui=NONE
           \ ctermfg=fg ctermbg=39 cterm=NONE
@@ -270,7 +270,7 @@ endif
 
 
 " #- syntax highlighting groups -# "{{{1
-highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold
+highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold,underline
           \ ctermfg=232 ctermbg=26 cterm=bold,underline
 highlight comment guifg=#2f8f5f guibg=bg gui=NONE
           \ ctermfg=25 ctermbg=bg cterm=NONE
@@ -280,11 +280,11 @@ highlight Special guifg=#3f8fcf guibg=bg gui=NONE
           \ ctermfg=147 ctermbg=bg cterm=NONE
 highlight Identifier guifg=#8f2faf guibg=bg gui=NONE
           \ ctermfg=214 ctermbg=bg cterm=NONE
-highlight Statement guifg=#cf7f7f guibg=bg gui=NONE
+highlight Statement guifg=#cf5f2f guibg=bg gui=NONE
           \ ctermfg=53 ctermbg=bg cterm=NONE
 highlight PreProc guifg=#cf0f8f guibg=bg gui=NONE
           \ ctermfg=89 ctermbg=bg cterm=NONE
-highlight type guifg=#9f7faf guibg=bg gui=NONE
+highlight type guifg=#7f5f9f guibg=bg gui=NONE
           \ ctermfg=22 ctermbg=bg cterm=NONE
 highlight underlined guifg=#8f5fff guibg=bg gui=underline
           \ ctermfg=29 ctermbg=bg cterm=underline
