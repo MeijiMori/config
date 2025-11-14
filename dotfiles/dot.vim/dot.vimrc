@@ -4,6 +4,9 @@
 "use vim not vi
 set nocompatible
 
+" Language
+let $LANG="ja"
+
 " Windows
 let s:iswin = has('win16') || has('win32') || has('win64')
 " Mac
@@ -20,12 +23,12 @@ unlet s:tmp
 
 " Even Windows use "$HOME/.vim".
 set shellslash
-let &rtp = substitute(&rtp,
+let &runtimepath = substitute(&rtp,
   \ escape($HOME, '\') . '/vimfiles', escape($HOME, '\') . '/.vim', 'g')
 
 let s:tmp = &runtimepath
 if s:iswin
-  "use path separete '/'
+  "use path separete '/' in windows
   let s:tmp = substitute(s:tmp, '\\', '\/', 'g')
 endif
 
@@ -68,13 +71,13 @@ let g:vim_info_dir = g:vim_dir . '/info'
 let g:vim_misc_dir = g:vim_dir . '/bundle/misc'
 " Make directory "{{{3
 if !isdirectory(g:vim_dir)
-  call mkdir(g:vim_dir, 'p')
+  call mkdir(g:vim_dir, 'p', 0o744)
 endif
 if !isdirectory(g:vim_info_dir)
-  call mkdir(g:vim_info_dir, 'p')
+  call mkdir(g:vim_info_dir, 'p', 0o744)
 endif
 if !isdirectory(g:vim_misc_dir)
-  call mkdir(g:vim_misc_dir, 'p')
+  call mkdir(g:vim_misc_dir, 'p', 0o744)
 endif "}}}2
 
 if s:iswin
@@ -91,20 +94,21 @@ filetype indent on
 
 " Edit now colorschem file
 nnoremap <silent><Space>ec :call <SID>EditNowColorScheme()<CR>
-function! s:EditNowColorScheme() "{{{
+" Get name of colorscheme file "{{{2
+function! s:EditNowColorScheme()  abort
   if exists('g:colors_name')
-    let nowcolorscheme = g:colors_name
+    let l:nowcolorscheme = g:colors_name
   else
     finish
   endif
-  let colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
+  let l:colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
       \'[fnamemodify(v:val, ":t:r"), fnamemodify(v:val, ":h")]')
-  let pos = 0
-  for c in colorlist
-    if nowcolorscheme  =~# c[0]
+  let l:pos = 0
+  for l:c in l:colorlist
+    if l:nowcolorscheme  =~# c[0]
       break
     endif
-    let pos += 1
+    let l:pos += 1
   endfor
   " Edit way tab, other tab "{{{
   "if (tabpagenr('$') <= 1 &&  (line('$') <= 1 && col('.') <= 1)) || g:colors_name =~? expand('%:t:r')
@@ -116,10 +120,10 @@ function! s:EditNowColorScheme() "{{{
   unlet! colorlist
   unlet! nowcolorscheme
   unlet! pos
-endfunction "}}}
+endfunction
 
-" Edit rcfile way
-function! s:EditRcFileWay(ui) "{{{2
+" Edit rcfile way "{{{2
+function! s:EditRcFileWay(ui) abort
   if a:ui =~? 'cui'
     if tabpagenr('$') <= 1 || (line('$') <= 1 && col('.') <= 1) || bufname('#') =~? '.vimrc'
       edit $MYVIMRC
@@ -136,7 +140,8 @@ function! s:EditRcFileWay(ui) "{{{2
   endif
 endfunction
 
-function! s:SnipMid(str, len, mask) "{{{2
+" Skip display "{{{2
+function! s:SnipMid(str, len, mask) abort
   if a:len >= len(a:str)
     return a:str
   elseif a:len <= len(a:mask)
@@ -150,8 +155,8 @@ function! s:SnipMid(str, len, mask) "{{{2
 endfunction
 
 
-" Omit file types (filetype(array) initlaize flag state, and,or?)
-function! s:omitfiletype(fts, flagini, aor) "{{{2
+" Omit file types (filetype(array) initlaize flag state, and,or?) "{{{2
+function! s:omitfiletype(fts, flagini, aor) abort
   let flag = a:flagini
   let unflag = a:flagini ? 0 : 1
   if a:aor
@@ -174,36 +179,37 @@ function! s:omitfiletype(fts, flagini, aor) "{{{2
   return flag
 endfunction "}}}2
 " Anywhere SID. "{{{2
-function! s:SID_PREFIX()
+function! s:SID_PREFIX() abort
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
 endfunction
 
 
-" SNR  "{{{2
-function! s:SNR(map)
+" SNR "{{{2
+function! s:SNR(map) abort
     return printf("<SNR>%d_%s", s:SID(), a:map)
 endfunction
 
 
 " include path "{{{2
-function! s:invatepath(partpath)
+function! s:invatepath(partpath) abort
   return globpath(&rtp, a:partpath) != '' ? 1 : 0
 endfunction
 
 
-" Get name of colorscheme file "{{{2
-function! s:ColorschemeRandom()
-  let colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
+" Get name of colorscheme file Rondom "{{{2
+function! s:ColorschemeRandom() abort
+  let s:colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
   \'[fnamemodify(v:val, ":t:r"), fnamemodify(v:val, ":h")]')
-  let s:limit = len(colorlist)
-  let number  = float2nr(s:limit / sqrt(s:limit))
-  let csname = colorlist[number][0]
+  let s:limit = len(s:colorlist)
+  let s:number  = float2nr(s:limit / sqrt(s:limit))
+  let s:csname = s:colorlist[number][0]
   unlet s:limit
-  return (csname)
+  return (s:csname)
 endfunction
 
 
-function! s:syntax_additional() "{{{2
+" syntax additional "{{{2
+function! s:syntax_additional() abort
   let preset = exists('w:syntax_additional')
   if &l:list
     if !preset
@@ -215,34 +221,39 @@ function! s:syntax_additional() "{{{2
   endif
 endfunction
 
-function! s:highlight_additional() "{{{2
+
+" highlight additional "{{{2
+function! s:highlight_additional() abort
   " Highlight "ZenkakuSpace".
-  highlight ZenkakuSpace term=underline ctermbg=9 gui=NONE guifg=#cfcfcf guibg=#4f304f
+  highlight ZenkakuSpace term=underline ctermbg=9 guifg=#cfcfcf guibg=#4f304f gui=bold,underline
   " Change the cursor color when IME is on.
   highlight CursorIM  gui=NONE guifg=#000000 guibg=#7f0f2f
   let env = has('gui_running') ? 'gui' : 'cterm'
-  " for hi in ['TabLine', 'TabLineSel']
-  "   let bg = synIDattr(synIDtrans(hlID(hi)), 'bg', env)
-  "   let bg = bg != '-1' ? env . 'bg=' . bg : ''
-  "   "echo bg
-  "   execute 'highlight ' . hi . 'Number ' . env . 'fg=DarkMagenta ' . bg
-  " endfor
+  for hi in ['TabLine', 'TabLineSel']
+    let bg = synIDattr(synIDtrans(hlID(hi)), 'bg', env)
+    let bg = bg != '-1' ? env . 'bg=' . bg : ''
+    "echo bg
+    execute 'highlight ' . hi . 'Number ' . env . 'fg=DarkMagenta ' . bg
+  endfor
 endfunction
 
-function! s:syntax_misc() "{{{2
+
+" syntax misc "{{{2
+function! s:syntax_misc() abort
   if bufname('%') =~? 'Highlight test'
     setlocal nolist
   endif
 endfunction
 
 
-" Get buffer name
-function!  s:GetBufferName(bufnr) "{{{2
+" Get buffer name "{{{2
+function! GetBufferName(bufnr) abort
   let l:bufname = ''
   if l:bufname == ''
     let l:bufname = fnamemodify(bufname(a:bufnr),':t')
+    let l:buftype = getbufvar(a:bufnr, '&buftype')
     if l:bufname == ''
-      if &buftype == 'quickfix'
+      if l:buftype == 'Quickfix'
         let l:bufname = '[Quickfix List]'
       else
         let l:bufname = '[No Name]'
@@ -274,6 +285,7 @@ endif
 set number
 set numberwidth=10
 set list
+"set listchars=tab:>-,trail:_,multispace:---+,lead:.,conceal:@
 set listchars=tab:>-,trail:_
 set fillchars&
 set wrap
@@ -339,6 +351,39 @@ inoremap <ESC> <ESC>:set iminsert=0<CR>
 nnoremap / <ESC>:set imsearch=0<CR>/
 
 " Colorscheme: "{{{2
+" Get name of colorscheme file "{{{
+function! s:ColorschemeRandom()
+  let colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
+  \'[fnamemodify(v:val, ":t:r"), fnamemodify(v:val, ":h")]')
+  let s:limit = len(colorlist)
+  let number  = float2nr(s:limit / sqrt(s:limit))
+  let csname = colorlist[number][0]
+  unlet s:limit
+  return (csname)
+endfunction "}}}
+
+" Toggle color setting.
+function! s:ColorToggle() "{{{
+  let l:colorlist = map(split(globpath(&runtimepath, 'colors/*.vim'), '\n'),
+  \ '[fnamemodify(v:val, ":t:r"), fnamemodify(v:val, ":h")]')
+  let l:index = 0
+  let l:limit = len(colorlist)
+  while l:index < l:limit
+    if l:colorlist[l:index][0] !~# g:colors_name
+      let l:index += 1
+    else
+      break
+    endif
+  endwhile
+  if  l:index == l:limit - 1
+    let l:index = 0
+  elseif l:index < l:limit - 1
+    let l:index += 1
+  endif
+  execute 'colorscheme ' colorlist[l:index][0]
+endfunction " }}}
+nnoremap <silent> ,ct :<C-u>call <SID>ColorToggle() \| redraw \| echomsg "colorscheme <"g:colors_name">"<CR>
+
 
 " Enable syntax color.
 syntax enable
@@ -347,13 +392,13 @@ let s:save_color_dir = g:vim_info_dir . "/color"
 let s:save_color_file = s:save_color_dir . "/.vimcolor"
 
 if !isdirectory(s:save_color_dir)
-  call mkdir(s:save_color_dir, 'p')
+  call mkdir(s:save_color_dir, 'p', 0o744)
 endif "}}}3
 " Save colorschme
 augroup SaveColor "{{{3
   autocmd!
   autocmd VimLeavePre * call s:save_color()
-  function! s:save_color() "{{{4
+  function! s:save_color() abort "{{{4
     let options = [
     \ 'colorscheme ' . g:colors_name
     \]
@@ -364,7 +409,6 @@ augroup END "}}}3
 if filereadable(s:save_color_file)
   try
     execute 'source ' s:save_color_file
-    color Layven
   catch /E185/
     " Not sloved colorscheme ...
     let csname = <SID>ColorschemeRandom()
@@ -373,7 +417,7 @@ if filereadable(s:save_color_file)
   endtry
 endif
 
-" Terminal "{{{2
+" Terminal: "{{{2
 if has('terminal')
 
   if &term =~# 'g:bulitin_gui'
@@ -409,8 +453,8 @@ set titlelen=999
 function! Titlestr() abort
   let l:tstr = ''
   let l:tstr .= '%t'
-  "let l:tstr .= s:GetBufferName('%')
-  let l:tstr .= "%(%m%r%w %)"
+  "let l:tstr .= GetBufferName('%')
+  let l:tstr .= "%(%m%r%w%h %)"
   let l:tstr .= "%q"
   let l:tstr .= "%y"
   let l:tstr .= "%([%{fnamemodify(expand('%:h'), ':~')}]%)"
@@ -436,16 +480,19 @@ function! My_tabline() abort
     let l:bufnrs = tabpagebuflist(l:i)
     let l:curbufnr = l:bufnrs[tabpagewinnr(l:i) - 1]  " first window, first appears
 
-    let l:no = (l:i <= 10 ? l:i-1 : '#')  " display 0-origin tabpagenr.
+    "let l:no = (l:i <= 10 ? l:i-1 : '#')  " display 0-origin tabpagenr.
+    let l:no = l:i - 1  " display 0-origin tabpagenr.
     let l:mod = len(filter(bufnrs, 'getbufvar(v:val, "&modified")')) ? '+' : ' '
     let l:title = gettabwinvar(l:i, tabpagewinnr(l:i), 'title')
     if l:title == ''
-      let l:title = s:GetBufferName(l:curbufnr)
+      let l:title = GetBufferName(l:curbufnr)
     endif
 
     let l:stabn = l:i
-    if &showtabpanel > 1
-      let l:stabn += 1
+    if has('tabpanel')
+      if &showtabpanel > 1
+        let l:stabn -= 1
+      endif
     endif
 
     let l:s .= '%'. l:stabn .'T'
@@ -465,11 +512,13 @@ set tabline=%!My_tabline()
 
 " Tabpanel: "{{{2
 if has('tabpanel')
-  set fillchars=tpl_vert:\
-  set tabpanelopt=align:left,vert,columns:25
+  let s:tabpanelwidth=25
+  set fillchars+=tpl_vert:\|
+  "execute 'set tabpanelopt=align:left,columns:' .. s:tabpanelwidth
+  execute 'set tabpanelopt=align:left,vert,columns:' .. s:tabpanelwidth
 
 
-  function! s:tabpage_label() abort
+  function! s:tabpage_label() abort "{{{3
 
     let l:ret = "\n"
 
@@ -478,73 +527,105 @@ if has('tabpanel')
     let l:bufname = ''
     let l:mod = ''
     let l:markcurbuf = ''
-    let l:buflist = tabpagebuflist(l:tabnr)
-    for l:bufnr in l:buflist
-      let l:bufname = s:GetBufferName(l:bufnr)
+    let l:number = 1
+    let l:tabwininfo = gettabinfo(l:tabnr)
+    let l:winidlist = l:tabwininfo[0]['windows']
+    for l:windowid in l:winidlist
+      let l:wininfo = getwininfo(l:windowid)
+      let l:bufnr = l:wininfo[0]['bufnr']
+      let l:bufname = GetBufferName(l:bufnr)
       let l:mod = getbufvar(l:bufnr, "&modified") ? '+' : ' '
-      let l:mrkcurbuf = l:bufnr ==# bufnr('%') ? '>>' : printf("%2s", ' ')
-    let l:label .= l:mrkcurbuf .. l:bufname .. l:mod .. l:ret
+      let l:mrkcurbuf = win_getid() ==# l:windowid ? printf("%s",  '>>') : printf("%2s", ' ')
+      "let l:mrkcurbuf = l:bufnr ==# bufnr('%') ? printf("%s",  '>>') : printf("%2s", ' ')
+      let l:tabpanellabelline = l:mrkcurbuf .. l:number .. ':' .. l:bufname .. l:mod
+      let l:tabpanellabellinesize = len(l:tabpanellabelline)
+      let l:tmplabel = s:labeldispcut(l:tabpanellabelline, l:tabpanellabellinesize, s:tabpanelwidth)
+      let l:label .= l:tmplabel .. l:ret
+      let l:number += 1
     endfor
 
     let l:hi = l:tabnr is tabpagenr() ? '%#TabPanelSel#' : '%#TabPanel#'
 
     let l:title = gettabwinvar(l:bufnr, tabpagewinnr(l:bufnr), 'title')
     if l:title ==# ''
-      let l:title = printf("%s:%02d", "tabpage", l:tabnr)
+      "let l:title = printf("%s:%2d", "tabpage", l:tabnr)
+      let l:pretitle = fnamemodify(getcwd(-1, l:tabnr), ":~:t")
+      let l:title = printf("%2d:[%s]", l:tabnr, l:pretitle)
     endif
 
-    return l:hi .. '%' .. l:tabnr .. 'T' .. l:title ..  l:ret ..   l:label .. '%T'
+    let l:hitl = '%#TabPanelTitle#'
+    return  '%' .. l:tabnr .. 'T' .. l:hitl .. l:title ..  l:ret .. l:hi ..  l:label .. '%T'
 
   endfunction
 
 
-  " tabpanel "{{{3
-  function! My_tabpanel() abort
+  function! s:labeldispcut(text, labelsize, tabpanelsize) abort "{{{3
+    "echomsg printf("text : %s", a:text)
+    let l:labelsize = a:labelsize
+    let l:flabelsize = printf("%f", l:labelsize)
+    let l:tabpanelsize = a:tabpanelsize
+    let l:prototext = a:text
+    let l:label = ''
+    if (l:flabelsize / l:tabpanelsize) > 0.8
+      let l:cutlen = l:tabpanelsize - l:flabelsize
+      if l:cutlen < 0
+        let l:cutlen = -(l:cutlen) - 5
+      endif
+      let l:harflen = l:labelsize / 2
+      let l:label = strpart(l:prototext, 0, l:harflen) .. '.' .. strpart(l:prototext, l:harflen+l:cutlen)
+    else
+      let l:label = l:prototext
+    endif
+    return l:label
+  endfunction
+
+
+  function! My_tabpanel() abort "{{{3
     let l:label = s:tabpage_label()
     return l:label
-  endfunction "}}}3
+  endfunction
 
 
-  function! s:tabpanel_update()
+  function! s:tabpanel_update() abort "{{{3
     if &columns > 125
       set showtabpanel=2
       redrawtabpanel
     else
       set showtabpanel=0
     endif
-  endfunction
+  endfunction "}}}3
 
 
   set tabpanel=%!My_tabpanel()
 
   augroup vim-tabpanel-display
     autocmd!
-
     " show tabpanel ?
-    autocmd VimResized * call s:tabpanel_update()
+    autocmd VimEnter,VimResized * call s:tabpanel_update()
   augroup END
 endif
 
 
-"  Statusline "{{{2
+"  Statusline: "{{{2
 " Always display statusline.
 set laststatus=2
 "makes statusline "{{{3
 function! Makestatusline() abort
   " mode
   let l:sts = ''
-  let l:sts .= s:GetBufferName('%')
-  let l:sts .= '%m'
+  let l:sts .= '%t'
+  "let l:sts .= GetBufferName('%t')
+  let l:sts .= ' '
+  let l:sts .= "%{'['.(&fileencoding!='' ? &fileencoding : &encoding)}"
+  let l:sts .= ":"
+  let l:sts .= "%{&fileformat}]"
+  let l:sts .= "%y"
   let l:sts .= '%r'
   let l:sts .= '%h'
   let l:sts .= '%w'
   let l:sts .= '%q'
-  let l:sts .= " "
-  let l:sts .= "%{'['.(&fileencoding!='' ? &fileencoding : &encoding)}"
-  let l:sts .= "|"
-  let l:sts .= "%{&fileformat}]"
-  let l:sts .= "%y"
-
+  "let l:sts .= "%{(&modified ?  '[+]' : printf('%3s', ' '))}"
+  let l:sts .= "%m"
   let l:sts .= "%="
   let l:sts .= "%S"
   let l:sts .= "%("
@@ -557,11 +638,11 @@ endfunction "}}}3
 set statusline=%!Makestatusline()
 
 
-" Ruler "{{{2
+" Ruler: "{{{2
 set ruler
 set rulerformat=%15(%c%V\ %3p%%%) "}}}2
-" Guitablabel "{{{2
-function GuiTabLabel()
+" Guitablabel: "{{{2
+function GuiTabLabel() abort
   let label = ''
   let bufnrlist = tabpagebuflist(v:lnum)
 
@@ -611,12 +692,13 @@ set belloff=all
 set wildmenu
 set wildmode=list:longest,full
 " Increase history amount.
-set history=200
+set history=1000
 " Display all the information of the tag by the supplement of the Insert mode.
 set showfulltag
 " Can supplement a tag in a command-line.
 set wildoptions=tagfile
-set wildoptions+=pum
+"set wildoptions+=pum
+set wildoptions+=fuzzy
 
 " Enable spell check.
 set spelllang=en_us
@@ -680,7 +762,7 @@ let g:scrolloff = 10    " see below
 " Implement 'scrolloff' by auto-command to control the fire.
 autocmd MyAutoCmd CursorMoved * call s:reinventing_scrolloff()
 let s:last_lnum = -1
-function! s:reinventing_scrolloff() "{{{3
+function! s:reinventing_scrolloff() abort "{{{3
     if g:scrolloff ==# 0 || s:last_lnum > 0 && line('.') ==# s:last_lnum
         return
     endif
@@ -728,7 +810,7 @@ set backupcopy=auto
 " Make directory "{{{3
 let s:bkupdir = g:vim_info_dir . '/.bkup'
 if !isdirectory(s:bkupdir)
-  call mkdir(s:bkupdir, 'p', '700')
+  call mkdir(s:bkupdir, 'p', '700', 0o744)
 endif
 let &backupdir=s:bkupdir
 unlet s:bkupdir
@@ -740,8 +822,8 @@ set directory-=.
 " Make directory. "{{{3
 let s:swapdir = g:vim_info_dir . '/.swap'
 if !isdirectory(s:swapdir)
-  call mkdir(s:swapdir, 'p')
-endif
+  call mkdir(s:swapdir, 'p', 0o744)
+endif "}}}3
 let &directory=s:swapdir
 unlet s:swapdir
 
@@ -753,7 +835,7 @@ set viewoptions-=options
 let &viewdir = g:vim_info_dir . '/view'
 " Make directory "{{{3
 if !isdirectory(&viewdir)
-  call mkdir(&viewdir, 'p')
+  call mkdir(&viewdir, 'p', 0o744)
 endif "}}}3
 augroup MyAutoCmd
     autocmd BufWritePost *
@@ -771,10 +853,10 @@ set sessionoptions=buffers,curdir,folds,tabpages
 " Make directory "{{{3
 let s:session_dir = g:vim_info_dir . '/.session'
 if !isdirectory(s:session_dir)
-  call mkdir(s:session_dir, 'p')
+  call mkdir(s:session_dir, 'p', 0o744)
 endif
 let s:session_file = s:session_dir . '/session.vim'
-function! s:save_session() "{{{3
+function! s:save_session() abort "{{{3
   let cwd = getcwd()
   " echomsg "cwd : " . cwd
   " echomsg "s:session_dir : " . s:session_dir
@@ -798,7 +880,7 @@ function! s:save_session() "{{{3
   endtry
 endfunction
 
-function! s:load_session() "{{{3
+function! s:load_session() abort "{{{3
     if filereadable(s:session_file)
         let cwd = getcwd()
         cd ~
@@ -810,16 +892,16 @@ endfunction
 
 " Undo: "{{{2
 if has('persistent_undo')
-  " Set undofile.
-  set undofile
-  "let &undodir=&directory
   " Make directory "{{{3
   let s:undorectory = g:vim_info_dir . '/.undo'
   if !isdirectory(s:undorectory)
-    call mkdir(s:undorectory, 'p')
+    call mkdir(s:undorectory, 'p', 0o744)
   endif "}}}3
   let &undodir=s:undorectory
   unlet s:undorectory
+  " Set undofile.
+  set undofile
+  set undolevels=1000
 endif
 
 
@@ -829,7 +911,7 @@ endif
 " Make directory "{{{3
 let s:verbosedir = g:vim_info_dir . '/.verbose'
 if !isdirectory(s:verbosedir)
-  call mkdir(s:verbosedir, 'p')
+  call mkdir(s:verbosedir, 'p', 0o744)
 endif
 let $VIMVERBOSEINFO=s:verbosedir
 " set verbosefile=$VIMVERBOSEINFO/verboseinfo.txt "}}}3
@@ -840,7 +922,7 @@ unlet s:verbosedir
 " Make directory "{{{3
 let s:infodir = g:vim_info_dir . '/info'
 if !isdirectory(s:infodir)
-  call mkdir(s:infodir, 'p')
+  call mkdir(s:infodir, 'p', 0o744)
 endif "}}}3
 let $VIMINFO=s:infodir
 unlet! s:infodir
@@ -868,7 +950,7 @@ if executable('rg')
 elseif executable('grep')
   set grepprg='grep -n $* /dev/null'
 else
-  set grepprg='internal'
+  set grepprg=internal
 endif
 
 
@@ -879,6 +961,14 @@ let g:no_vim_maps = 1
 
 " python "{{{3
 let g:python_recommended_style = 0
+
+
+" Encryption: "{{{2
+if has('crypt-blowfish2')
+  set cryptmethod=blowfish2
+elseif has('blowfish')
+  set cryptmethod=blowfish
+endif
 
 
 " Autocmd: "{{{1
@@ -894,7 +984,7 @@ augroup vim-delete-space-end-of-line
   autocmd BufWritePre * let expr_ft = s:omitfiletype(s:rtm_filetypes, 1, 0)
   autocmd BufWritePre * if expr_ft | call s:RTrim() | endif
 
-  function! s:RTrim() "{{{3
+  function! s:RTrim() abort "{{{3
     let s:cursor = getpos(".")
     %s/\s\+$//e
     call setpos(".", s:cursor)
@@ -909,6 +999,7 @@ augroup vimrc-auto-cursorline
   let expr_ft = 0
 
   " Omit filetypes
+  " Don't draw cursorline that filetype is vimshell and more
   let s:cl_filetypes = [
     \ 'vimshell',
     \ 'vimfiler',
@@ -918,16 +1009,15 @@ augroup vimrc-auto-cursorline
     \ ]
 
   autocmd!
-  " Don't draw cursorline that filetype is vimshell and more
   autocmd CursorHold,WinEnter,BufEnter,CursorMoved,CursorMovedI,WinLeave *
-  \       let expr_ft = s:omitfiletype(s:cl_filetypes, 1, 0)
+        \       let expr_ft = s:omitfiletype(s:cl_filetypes, 1, 0)
   autocmd CursorMoved,CursorMovedI * if expr_ft | call s:auto_cursorline('CursorMoved') | endif
   autocmd CursorHold,CursorHoldI * if expr_ft | call s:auto_cursorline('CursorHold') | endif
   autocmd WinEnter * if expr_ft | call s:auto_cursorline('WinEnter') | endif
   autocmd WinLeave * call s:auto_cursorline('WinLeave')
 
   let s:cursorline_lock = 0
-  function! s:auto_cursorline(event) "{{{3
+  function! s:auto_cursorline(event) abort "{{{3
     if a:event ==# 'WinEnter'
       setlocal cursorline
       let s:cursorline_lock = 2
@@ -972,13 +1062,12 @@ augroup vimrc-highlight "{{{2
    \ 'txt',
    \ 'text',
    \ 'help',
-   \ 'vimfiler',
    \ ]
 
   autocmd!
   " Special Characters
-  autocmd ColorScheme * let expr_ft = s:omitfiletype(s:hi_filetypes, 1, 0)
-  autocmd ColorScheme * if expr_ft | call s:highlight_additional() | endif
+  autocmd ColorScheme,VimEnter,WinEnter * let expr_ft = s:omitfiletype(s:hi_filetypes, 1, 0)
+  autocmd ColorScheme,VimEnter,WinEnter * if expr_ft | call s:highlight_additional() | endif
   autocmd VimEnter,WinEnter * call s:syntax_additional()
   " Misc
   autocmd ColorScheme * call s:syntax_misc()
@@ -999,10 +1088,11 @@ augroup MyAutoCmd "{{{2
   autocmd FileType vim setl textwidth=0
 
   " Easily load VimScript.
-  autocmd FileType vim nnoremap <silent><buffer> [Space]so :write \| source % \| echo "source " . bufname('%')<CR>
+  autocmd FileType vim nnoremap <silent><buffer> [Space]so :write \| source % \| echo "source " .. bufname('%')<CR>
 
   " Auto reload VimScript.
-  autocmd BufWritePost,FileWritePost *.vim if &autoread | source <afile> | echo "source " . bufname('%') | endif
+  autocmd BufWritePost,FileWritePost *.vim if &autoread && expand('~/.vim/after/ftplugin/*') | source <afile> | echo "source " .. bufname('%') | endif
+  autocmd BufWritePost,FileWritePost ~/.vim/colors/*.vim if &autoread | source <afile> | echo "source " .. bufname('%') | endif
 
   " Manage long Rakefile easily
   autocmd BufNewfile,BufRead Rakefile foldmethod=syntax foldnestmax=1
@@ -1020,6 +1110,8 @@ augroup MyAutoCmd "{{{2
   "autocmd FileType c setlocal ts=4 sw=4 sts=4 foldmethod=syntax
   autocmd FileType c setlocal ts=4 sw=4 sts=4
 
+  " cmdline window
+  autocmd CmdwinEnter [/?] startinsert
 
 augroup END
 
@@ -1036,9 +1128,55 @@ augroup display-window-size
   autocmd!
   autocmd VimResized * call s:display_window_size()
 
-  function s:display_window_size()
+  function! s:display_window_size() abort "{{{3
+    "let l:proptypename = 'display_size'
+    "call prop_type_add(l:proptypename, {})
     echo(printf("Columns : %d - Lines : %d", &columns, &lines))
-  endfunction
+    let l:dispcolumns = &columns
+    let l:displines = &lines
+    let l:disptime = &updatetime
+    let l:dispvimsize = printf("Columns : %d - Lines : %d", l:dispcolumns, l:displines)
+    let l:lnum = l:displines
+    let l:col = l:dispcolumns
+    let l:len = len(l:dispvimsize)
+    let l:propid = 885
+
+    let l:winid = popup_create([], #{
+          \   line : l:displines - 10,
+          \   col : l:dispcolumns - 10,
+          \   maxheight : 20,
+          \   minheight : 2,
+          \   maxwidth : l:displines + 15,
+          \   minwidth : 10,
+          \   time : l:disptime,
+          \   title : '[ SIZE ]',
+          \   pos : 'topleft',
+          \   fixed : 'FALSE',
+          \   flip : 'TRUE',
+          \   firstline : 10,
+          \   wrap : 'TRUE',
+          \   resize : 'TRUE',
+          \   close : 'click',
+          \   highlight : 'Pmenu',
+          \   padding : [1, 1, 1, 1],
+          \   border : [1, 1, 1, 1],
+          \   borderhighlight : ['Pmenu', 'Pmenu', 'Pmenu', 'Pmenu'],
+          \   scrollbar : 1,
+          \   scrollbarhighlight : 'PmenuSbar',
+          \   thubhighlight : 'PmenuThumb',
+          \   zindex : 5,
+          \   moved : 'any',
+          \   cursorline : 'TRUE',
+          \})
+
+    call popup_move(l:winid, #{
+          \   line : l:displines - 10,
+          \   columns : l:dispcolumns - 10,
+          \})
+    call popup_settext(l:winid, l:dispvimsize)
+
+  endfunction "}}}3
+
 
 augroup END
 
@@ -1048,10 +1186,10 @@ augroup vimrc-misc
   autocmd!
 
   autocmd InsertLeave * if &paste | set nopaste | endif
-  autocmd FocusGained,WinEnter * if &autoread | checktime %
-   " Auto open/close Quickfix/location window.
+  autocmd FocusGained,WinEnter *  checktime %
+   " Auto open Quickfix/location window.
   autocmd QuickFixCmdPost [^l]* leftabove cwindow | redraw!
-  autocmd QuickFixCmdPost l* lwindow | redraw!
+  autocmd QuickFixCmdPost l* leftabove lwindow | redraw!
 augroup END
 
 
@@ -1150,8 +1288,8 @@ nnoremap <silent> <C-l>    :<C-u>redraw!<CR>
 nnoremap <silent> Y y$
 
 " quickfix
-nmap Q [Qucik_Fix]
-nnoremap [Quick_Fix] <Nop>
+nmap [Quick_Fix] <Nop>
+nnoremap Q [Qucik_Fix]
 
 nnoremap [Quick_Fix]n cn
 nnoremap [Quick_Fix]p cp
@@ -1201,12 +1339,42 @@ endfunction
 
 " Plugins: "{{{1
 
+let &packpath = substitute(&packpath,
+  \ escape($HOME, '\') . '/vimfiles', escape($HOME, '\') . '/.vim', 'g')
+let &packpath = substitute(&packpath, '/vimfiles', '/.vim', 'g')
+let &packpath = substitute(&packpath, '\\', '\/', 'g')
+
 " matchit
 packadd! matchit
 
 " help:
-"packadd! ~/.vim/bundle/vimdoc-ja
-set runtimepath+=~/.vim/pack/vimdoc-ja
+packadd! vimdoc-ja
+
+" denops
+packadd! denops.vim
+
+" skkelecton "{{{2
+packadd! skkeleton.vim
+
+function! s:skkeleton_init() abort "{{{3
+  call skkeleton#config({
+    \ 'eggLikeNewline' : v:true,
+    \ 'globalDictinaries' : ['~/.skk/SKK-JISYO.L']
+    \ })
+  call skkeleton#register_kanatable('rom', {
+    \ "z\<Space>": ["\u3000", ''],
+    \ })
+endfunction
+
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
+tmap <C-j> <Plug>(skkeleton-enable)
+
+augroup skkeleton-initialize-pre "{{{3
+  autocmd!
+  autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+augroup END
+
 
 
 " Command: "{{{1
@@ -1227,14 +1395,14 @@ command!
 \  call s:cmd_capture([<f-args>], <bang>0)
 
 
-function! C(cmd) "{{{3
+function! C(cmd) abort "{{{3
   redir => result
   silent execute a:cmd
   redir END
   return result
 endfunction
 
-function! s:cmd_capture(args, banged) "{{{3
+function! s:cmd_capture(args, banged) abort "{{{3
   new
   silent put =C(join(a:args))
   1,2delete _
@@ -1247,6 +1415,11 @@ command!
 \  AllMaps
 \  map <args> | map! <args> | lmap <args>
 
+
+" Backup file "{{{2
+command!
+\  Backupfile
+\  call writefile([], (expand('#:p') .. '-' .. strftime('%Y-%m-%d')))
 
 
 " Misc: "{{{1
