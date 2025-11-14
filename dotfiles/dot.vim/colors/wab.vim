@@ -266,11 +266,11 @@ else
 
 
   " Diff: "{{{3
-  highlight DiffAdd guifg=fg guibg=#bfffbf gui=NONE
-  highlight DiffChange guifg=fg guibg=#ffffbf gui=NONE
-  highlight DiffDelete guifg=fg guibg=#ffbfbf gui=bold
+  highlight DiffAdd guifg=fg guibg=#efefff gui=NONE
+  highlight DiffChange guifg=fg guibg=#efdfff gui=NONE
+  highlight DiffDelete guifg=fg guibg=#cfcfff gui=bold
   highlight DiffText guifg=fg guibg=bg gui=NONE
-  highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
+  highlight DiffTextAdd guifg=#8f8f8f guibg=bg gui=NONE
   highlight Added guifg=#2faf3f guibg=bg gui=NONE
   highlight Changed guifg=#af9f2f guibg=bg gui=NONE
   highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
@@ -332,16 +332,16 @@ else
 
 
   " Tabline: "{{{3
-  highlight TabLine guifg=#1f1f1f guibg=#cfcfcf gui=underline
-  highlight TabLineSel guifg=#0f0f0f guibg=#efefef gui=underline
-  highlight TabLineFill guifg=#1f1f1f guibg=#cfcfcf gui=underline
+  highlight TabLine guifg=#5f5f5f guibg=#efefff gui=underline
+  highlight TabLineSel guifg=#ffffff guibg=#3f3f3f gui=underline
+  highlight TabLineFill guifg=#1f1f1f guibg=#cfcfff gui=bold,underline
 
 
   " Tabpanel: "{{{3
-  highlight TabPanel guifg=#1f1f1f guibg=#cfcfcf gui=NONE
-  highlight TabPanelSel guifg=#0f0f0f guibg=#ffffff gui=NONE
-  highlight TabPanelFill guifg=#1f1f1f guibg=#cfcfcf gui=NONE
-  highlight TabPanelTitle guifg=#5f5f5f guibg=#dfdfdf gui=underline
+  highlight TabPanel guifg=#1f1f1f guibg=#cfcfff gui=NONE
+  highlight TabPanelSel guifg=#ffffff guibg=#1f1f2f gui=NONE
+  highlight TabPanelFill guifg=#1f1f1f guibg=#dfdfff gui=NONE
+  highlight TabPanelTitle guifg=#5f5f5f guibg=#dfdfff gui=underline
 
 
   " Cursor: "{{{3
@@ -359,8 +359,8 @@ else
 
 
   " Cursorline: "{{{3
-  highlight CursorLine guifg=NONE guibg=#ffffff gui=NONE
-  highlight CursorLineNr guifg=#0f0f0f guibg=#efefff gui=NONE
+  highlight CursorLine guifg=NONE guibg=#efefff gui=NONE
+  highlight CursorLineNr guifg=#8f8f8f guibg=#dfdfdf gui=NONE
   highlight CursorLineSign guifg=NONE guibg=#efefef gui=bold
   highlight CursorLineFold guifg=NONE guibg=#cfcfcf gui=bold
 
@@ -399,19 +399,19 @@ if s:is_wab_t
   highlight String guifg=#afafaf guibg=bg gui=NONE
 else
   "Light: "{{{2
-  highlight MatchParen guifg=#000000 guibg=#ffffff gui=bold,underline
+  highlight MatchParen guifg=#000000 guibg=#cfcfff gui=bold,underline
   highlight comment guifg=#3f3f3f guibg=bg gui=NONE
   highlight Constant guifg=#9f9f9f guibg=bg gui=NONE
   highlight Special guifg=#bfbfbf guibg=bg gui=NONE
   highlight Identifier guifg=#afafaf guibg=bg gui=NONE
-  highlight Statement guifg=#404040 guibg=bg gui=NONE
+  highlight Statement guifg=#7f7f7f guibg=bg gui=NONE
   highlight PreProc guifg=#6f6f6f guibg=bg gui=NONE
   highlight type guifg=#5f5f5f guibg=bg gui=NONE
   highlight underlined guifg=#8f8f8f guibg=#cfcfcf gui=underline,bold
   highlight Ignore guifg=#0c0c0c guibg=bg gui=bold
   highlight Error guifg=#0f0f0f guibg=#afafaf gui=NONE
   highlight Todo guifg=#7f7f7f guibg=#dfdfdf gui=underline,bold
-  highlight String guifg=#7f7f7f guibg=bg gui=NONE
+  highlight String guifg=#5f5f5f guibg=bg gui=NONE
 endif
 
 

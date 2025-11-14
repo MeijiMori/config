@@ -26,10 +26,10 @@ highlight NonText guifg=#3f7f5f guibg=bg gui=bold
           \ ctermfg=2 ctermbg=bg cterm=bold
 highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
           \ ctermfg=33 ctermbg=NONE cterm=NONE
-highlight Directory guifg=#1f4f6f guibg=NONE gui=bold
+highlight Directory guifg=#3f5fff guibg=NONE gui=bold
           \ ctermfg=26 ctermbg=bg cterm=bold
 " Search: "{{{2
-highlight IncSearch guifg=#5f1f3f guibg=#c3afc5 gui=bold,underline
+highlight IncSearch guifg=#5f1f3f guibg=#ff5faf gui=bold,underline
           \ ctermfg=89 ctermbg=183 cterm=bold,underline
 highlight CurSearch guifg=#5f5f0f guibg=#efcf5f gui=bold,underline
           \ ctermfg=17 ctermbg=81 cterm=bold,underline
@@ -54,8 +54,8 @@ highlight stderrMsg guifg=#8f2f3f guibg=bg gui=NONE
           \ ctermfg=85 ctermbg=bg cterm=NONE
 highlight stdoutMsg guifg=#3f3f3f guibg=bg gui=NONE
           \ ctermfg=85 ctermbg=bg cterm=NONE
-highlight WildMenu guifg=#cfcfcf guibg=#0f1f3f gui=bold
-          \ ctermfg=254 ctermbg=17 cterm=bold
+highlight WildMenu guifg=#ffffff guibg=#2f3f8f gui=bold,underline
+          \ ctermfg=254 ctermbg=17 cterm=bold,underline
 
 
 " LineNr: "{{{2
@@ -106,13 +106,13 @@ highlight DiffChange guifg=fg guibg=#ffffcf gui=NONE
           \ ctermfg=fg ctermbg=229 cterm=NONE
 highlight DiffDelete guifg=fg guibg=#ffafcf gui=NONE
           \ ctermfg=fg ctermbg=219 cterm=NONE
-highlight DiffText guifg=#6f6f6f guibg=bg gui=NONE
+highlight DiffText guifg=fg guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Added guifg=#2faf3f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
-highlight Changed guifg=#af9f2f guibg=bg gui=NONE
+highlight Changed guifg=#cf3f0f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
@@ -198,27 +198,27 @@ highlight PmenuThumb guifg=fg guibg=#dfcfef gui=NONE
 " Tabline: "{{{2
 highlight TabLine guifg=#afafaf guibg=#0f1f2f gui=NONE
           \ ctermfg=248 ctermbg=233 cterm=NONE
-highlight TabLineSel guifg=#cfcfcf guibg=#0f2f5f gui=NONE
+highlight TabLineSel guifg=#ffffff guibg=#0f3f8f gui=NONE
           \ ctermfg=253 ctermbg=17 cterm=NONE
-highlight TabLineFill guifg=#af2f5f guibg=#0f1f2f gui=NONE
-          \ ctermfg=89 ctermbg=16 cterm=NONE
+highlight TabLineFill guifg=#ff8f2f guibg=#0f1f2f gui=bold
+          \ ctermfg=89 ctermbg=16 cterm=bold
 
 
 " Tabpanel: "{{{2
 highlight TabPanel guifg=#afafaf guibg=#0f1f2f gui=NONE
           \ ctermfg=248 ctermbg=233 cterm=NONE
-highlight TabPanelSel guifg=#cfcfcf guibg=#0f2f5f gui=NONE
+highlight TabPanelSel guifg=#ffffff guibg=#0f3f8f gui=NONE
           \ ctermfg=253 ctermbg=17 cterm=NONE
 highlight TabPanelFill guifg=#af2f5f guibg=#0f1f2f gui=NONE
           \ ctermfg=89 ctermbg=16 cterm=NONE
-highlight TabPanelTitle guifg=#000000 guibg=#efefff gui=NONE
+highlight TabPanelTitle guifg=#ffffff guibg=#0f0f0f gui=NONE
           \ ctermfg=232 ctermbg=244 cterm=NONE
 
 
 " Cursor: "{{{2
-highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
+highlight ColorColumn guifg=NONE guibg=#ff8f8f gui=NONE
           \ ctermfg=NONE ctermbg=234 cterm=NONE
-highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
+highlight CursorColumn guifg=#000000 guibg=#ffcfef gui=NONE
           \ ctermfg=fg ctermbg=213 cterm=NONE
 highlight lCursor guifg=#0f0f0f guibg=#7fafff gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
@@ -262,17 +262,17 @@ endif
 " #- Syntax highlighting groups -# "{{{1
 highlight MatchParen guifg=#000000 guibg=#8f8fff gui=bold,underline
           \ ctermfg=18 ctermbg=25 cterm=bold,underline
-highlight comment guifg=#3f4f8f guibg=bg gui=NONE
+highlight comment guifg=#3f8fff guibg=bg gui=NONE
           \ ctermfg=25 ctermbg=bg cterm=NONE
-highlight Constant guifg=#1f6f3f guibg=bg gui=NONE
+highlight Constant guifg=#1faf8f guibg=bg gui=NONE
           \ ctermfg=23 ctermbg=bg cterm=NONE
 highlight Special guifg=#5f5f7f guibg=bg gui=NONE
           \ ctermfg=63 ctermbg=bg cterm=NONE
-highlight Identifier guifg=#8f5f2f guibg=bg gui=NONE
+highlight Identifier guifg=#cf8f2f guibg=bg gui=NONE
           \ ctermfg=94 ctermbg=bg cterm=NONE
-highlight Statement guifg=#3f1f5f guibg=bg gui=NONE
+highlight Statement guifg=#6f3faf guibg=bg gui=NONE
           \ ctermfg=17 ctermbg=bg cterm=NONE
-highlight PreProc guifg=#7f0f3f guibg=bg gui=NONE
+highlight PreProc guifg=#bf0f3f guibg=bg gui=NONE
           \ ctermfg=125 ctermbg=bg cterm=NONE
 highlight type guifg=#0f5f3f guibg=bg gui=NONE
           \ ctermfg=22 ctermbg=bg cterm=NONE
