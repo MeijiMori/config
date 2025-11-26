@@ -1,0 +1,125 @@
+live_config_reload = true
+
+[window]
+dimensions = { columns = 125, lines = 30 }
+padding = { x = 8, y = 4 }
+opacity = 0.85
+title='alacritty'
+dynamic_title = true
+decorations = 'Full'
+decorations_theme_variant = 'Dark'
+level = 'Normal'
+
+
+[cursor]
+style = { shape = "Block", blinking = 'Never' }
+unfocused_hollow = true
+thickness = 1.0
+
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+
+[mouse]
+hide_when_typing = true
+
+[font]
+normal = { family = "Inconsolata", style = "Regular" }
+bold = { family = "Inconsolata", style = "Bold" }
+italic = { family = "Inconsolata", style = "Italic" }
+bold_italic = { family = "Inconsolata", style = "Bold Italic" }
+size = 14.0
+offset = { x = 0, y = 2 }
+builtin_box_drawing = true
+
+[colors]
+
+indexed_colors = []
+
+transparent_background_colors = false
+
+[colors.primary]
+foreground = '#ffffff'
+background = '#000f1f'
+dim_foreground = '#0f0f3f'
+bright_foreground = '#efefef'
+
+
+[colors.cursor]
+text = '#0f0f0f'
+cursor = '#cfcfcf'
+
+
+[colors.vi_mode_cursor]
+text = '#ffffff'
+cursor = '#0f0f0f'
+
+
+[colors.search.matches]
+foreground = '#3f2f5f'
+background = '#af7fcf'
+
+
+[colors.search.focused_match]
+foreground = '#0f2f5f'
+background = '#5f7faf'
+
+
+[colors.hints.start]
+foreground = '#3f3f3f'
+background = '#afafaf'
+
+
+[colors.hints.end]
+foreground = '#3f3f3f'
+background = '#cfcfff'
+
+
+[colors.line_indicator]
+foreground = '#afafaf'
+background = '#2f2f2f'
+
+
+[colors.footer_bar]
+foreground = '#efefef'
+background = '#0f0f2f'
+
+
+[colors.selection]
+foreground = '#ffffff'
+background = '#0f3f8f'
+
+
+[colors.normal]
+black = '#0f0f0f'
+red = '#ff8f8f'
+green = '#2fcf8f'
+yellow = '#ffaf2f'
+blue = '#3f5fff'
+magenta = '#cf6fcf'
+cyan = '#8fcfff'
+white = '#efefef'
+
+
+[colors.bright]
+black = '#5f5f5f'
+red = '#ffafaf'
+green = '#8fffcf'
+yellow = '#ffdfaf'
+blue = '#5fafff'
+magenta = '#ffafef'
+cyan = '#afefff'
+white = '#ffffff'
+
+
+[colors.dim]
+black = '#000000'
+red = '#cf3f3f'
+green = '#0faf5f'
+yellow = '#bf7f2f'
+blue = '#0f3faf'
+magenta = '#af2faf'
+cyan = '#2f8faf'
+white = '#afafaf'
