@@ -288,7 +288,7 @@ highlight Special guifg=#cfffcf guibg=bg gui=NONE
           \ ctermfg=152 ctermbg=bg cterm=NONE
 highlight Identifier guifg=#5fff8f guibg=bg gui=NONE
           \ ctermfg=41 ctermbg=bg cterm=NONE
-highlight Statement guifg=#5f5fff guibg=bg gui=NONE
+highlight Statement guifg=#7f7fff guibg=bg gui=NONE
           \ ctermfg=12 ctermbg=bg cterm=NONE
 highlight PreProc guifg=#ffaf8f guibg=bg gui=NONE
           \ ctermfg=209 ctermbg=bg cterm=NONE

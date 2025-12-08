@@ -239,7 +239,7 @@ endif
 
 
 " Cursorline: "{{{2
-highlight CursorLine guifg=NONE guibg=#efdfff gui=NONE
+highlight CursorLine guifg=NONE guibg=#ffefdf gui=NONE
                 \ ctermfg=NONE ctermbg=16 cterm=NONE
 highlight CursorLineNr guifg=#3f3fcf guibg=#8f8fff gui=bold
                 \ ctermfg=93 ctermbg=16 cterm=bold

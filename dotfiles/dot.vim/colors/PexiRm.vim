@@ -55,7 +55,7 @@ highlight stderrMsg guifg=#8f2f3f guibg=bg gui=NONE
                 \ ctermfg=85 ctermbg=bg cterm=NONE
 highlight stdoutMsg guifg=#3f3f3f guibg=bg gui=NONE
                 \ ctermfg=85 ctermbg=bg cterm=NONE
-highlight WildMenu guifg=#6380c5 guibg=#2f2f5f gui=NONE
+highlight WildMenu guifg=#ffffff guibg=#0f3f8f gui=NONE
                 \ ctermfg=252 ctermbg=17 cterm=NONE
 
 
@@ -69,9 +69,9 @@ highlight LineNrBelow guifg=#9f9f7f guibg=NONE gui=NONE
 
 
 " Statusline: "{{{2
-highlight StatusLine guifg=#ffffff guibg=#35353f gui=NONE
+highlight StatusLine guifg=#0f0f0f guibg=#dfdfef gui=NONE
                 \ ctermfg=255 ctermbg=233 cterm=NONE
-highlight StatusLineNC guifg=#3b3835 guibg=#636363 gui=NONE
+highlight StatusLineNC guifg=#6f6f6f guibg=#efefff gui=NONE
                 \ ctermfg=236 ctermbg=240 cterm=NONE
 highlight StatusLineTerm guifg=#afafaf guibg=#0f0f1f gui=NONE
                 \ ctermfg=0 ctermbg=10 cterm=NONE
@@ -168,13 +168,13 @@ highlight Scrollbar guifg=#ffffff guibg=#1f1f0f gui=None
 
 
 " Spell: "{{{2
-highlight SpellBad guifg=#795099 guibg=bg gui=undercurl
+highlight SpellBad guifg=fg guibg=bg gui=undercurl
                 \ ctermfg=129 ctermbg=bg cterm=undercurl
-highlight SpellCap guifg=#506399 guibg=bg gui=undercurl
+highlight SpellCap guifg=fg guibg=bg gui=undercurl
                 \ ctermfg=27 ctermbg=bg cterm=undercurl
-highlight SpellRare guifg=#509982 guibg=bg gui=undercurl
+highlight SpellRare guifg=fg guibg=bg gui=undercurl
                 \ ctermfg=35 ctermbg=bg cterm=undercurl
-highlight SpellLocal guifg=#998c50 guibg=bg gui=undercurl
+highlight SpellLocal guifg=fg guibg=bg gui=undercurl
                 \ ctermfg=220 ctermbg=bg cterm=undercurl
 
 "Pmenu: "{{{2
@@ -204,22 +204,22 @@ highlight PmenuThumb guifg=#ffffff guibg=#0f0f2f gui=NONE
                 \ ctermfg=fg ctermbg=232 cterm=NONE
 
 " Tabline: "{{{2
-highlight TabLine guifg=#80a990 guibg=bg gui=NONE
-                \ ctermfg=35 ctermbg=233 cterm=NONE
-highlight TabLineSel guifg=#cfcfcf guibg=#152046 gui=NONE
+highlight TabLine guifg=#0f0f0f guibg=#dfdfff gui=underline
+                \ ctermfg=35 ctermbg=233 cterm=underline
+highlight TabLineSel guifg=#ffffff guibg=#0f0f2f gui=NONE
                 \ ctermfg=255 ctermbg=17 cterm=NONE
-highlight TabLineFill guifg=#769950 guibg=bg gui=underline
-                \ ctermfg=29 ctermbg=bg cterm=underline
+highlight TabLineFill guifg=#0f0f0f guibg=#dfdfff gui=bold,underline
+                \ ctermfg=29 ctermbg=bg cterm=bold,underline
 
 
 " Tabpanel: "{{{2
-highlight TabPanel guifg=#80a990 guibg=bg gui=NONE
+highlight TabPanel guifg=#6f6f6f guibg=#dfdfff gui=NONE
                 \ ctermfg=35 ctermbg=233 cterm=NONE
-highlight TabPanelSel guifg=#cfcfcf guibg=#152046 gui=NONE
+highlight TabPanelSel guifg=#ffffff guibg=#1f204f gui=NONE
                 \ ctermfg=255 ctermbg=17 cterm=NONE
-highlight TabPanelFill guifg=#769950 guibg=bg gui=NONE
+highlight TabPanelFill guifg=#7f9f5f guibg=#1f1f2f gui=NONE
                 \ ctermfg=29 ctermbg=bg cterm=NONE
-highlight TabPanelTitle guifg=#000000 guibg=#efefff gui=bold
+highlight TabPanelTitle guifg=#6f6f6f guibg=#efefff gui=bold
                 \ ctermfg=232 ctermbg=244 cterm=bold
 
 
@@ -282,7 +282,7 @@ highlight Statement guifg=#5c71ff guibg=NONE gui=NONE
                 \ ctermfg=12 ctermbg=bg cterm=NONE
 highlight PreProc guifg=#3f5fff guibg=bg gui=NONE
                 \ ctermfg=134 ctermbg=bg cterm=NONE
-highlight type guifg=#8fcfcf guibg=NONE gui=NONE
+highlight type guifg=#ff2faf guibg=NONE gui=NONE
                 \ ctermfg=66 ctermbg=bg cterm=NONE
 highlight underlined guifg=#afdfaf guibg=bg gui=underline
                 \ ctermfg=47 ctermbg=235 cterm=underline
@@ -292,7 +292,7 @@ highlight Error guifg=#ff4f7e guibg=bg gui=NONE
                 \ ctermfg=125 ctermbg=bg cterm=NONE
 highlight Todo guifg=#8f5fff guibg=#0f0f0f gui=bold,underline
                 \ ctermfg=57 ctermbg=237 cterm=bold,underline
-highlight string guifg=#7dac8f guibg=bg gui=NONE
+highlight string guifg=#ffcf8f guibg=bg gui=NONE
                 \ ctermfg=42 ctermbg=bg cterm=NONE
 
 " #- END -# "{{{1
