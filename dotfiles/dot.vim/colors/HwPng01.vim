@@ -24,6 +24,8 @@ highlight EndOfBuffer guifg=#6f79ff guibg=bg gui=bold
                 \ ctermfg=33 ctermbg=NONE cterm=NONE
 highlight Directory guifg=#3993d3 guibg=bg gui=NONE
                 \ ctermfg=33 ctermbg=bg cterm=bold
+
+
 " Search: "{{{2
 highlight IncSearch guifg=#cfcfcf guibg=#7f0f3f gui=bold
                 \ ctermfg=250 ctermbg=52 cterm=bold,underline
@@ -35,7 +37,7 @@ highlight Search guifg=#cfcfcf guibg=#0f1f5f gui=bold
 highlight MoreMsg guifg=#af8fff guibg=bg gui=NONE
                 \ ctermfg=69 ctermbg=bg cterm=NONE
 highlight ModeMsg guifg=#3f5fff guibg=bg gui=NONE
-                \ ctermfg=27 ctermbg=bg cterm=NONE
+                \ ctermfg=26 ctermbg=bg cterm=NONE
 highlight MsgArea guifg=fg guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight ErrorMsg guifg=#ff3f3f guibg=bg gui=NONE
@@ -49,7 +51,7 @@ highlight stderrMsg guifg=#8f2f3f guibg=bg gui=NONE
 highlight stdoutMsg guifg=#3f3f3f guibg=bg gui=NONE
                 \ ctermfg=85 ctermbg=bg cterm=NONE
 highlight WildMenu guifg=#0f2f3f guibg=#afafcf gui=NONE
-                \ ctermfg=103 ctermbg=238 cterm=NONE
+                \ ctermfg=235 ctermbg=189 cterm=NONE
 
 
 " LineNr: "{{{2
@@ -67,7 +69,7 @@ highlight StatusLine guifg=#cfcfcf guibg=#000f1f gui=NONE
 highlight StatusLineNC guifg=#4f4f4f guibg=#afafcf gui=NONE
                 \ ctermfg=238 ctermbg=249 cterm=NONE
 highlight StatusLineTerm guifg=#cfcfcf guibg=#1f2f4f gui=NONE
-                \ ctermfg=253 ctermbg=232 cterm=NONE
+                \ ctermfg=253 ctermbg=67 cterm=NONE
 highlight StatusLineTermNC guifg=#4f4f4f guibg=#afafcf gui=bold
                 \ ctermfg=238 ctermbg=249 cterm=NONE
 "}}}2
@@ -81,37 +83,41 @@ highlight Title guifg=#6666c2 guibg=bg gui=NONE
                 \ ctermfg=63 ctermbg=bg cterm=underline
 " Visual: "{{{2
 highlight Visual gui=NONE guifg=#cfcfcf guibg=#0f1f2f
-                \ ctermfg=7 ctermbg=234 cterm=NONE
+                \ ctermfg=15 ctermbg=17 cterm=NONE
 highlight VisualNOS term=underline,bold gui=underline,bold guifg=#65c06d guibg=bg
                 \ ctermfg=47 ctermbg=bg cterm=bold,underline
-"}}}2
+
+
 " Fold: "{{{2
 highlight Folded guifg=#20202f guibg=#afafcf gui=underline
-                \ ctermfg=236 ctermbg=250 cterm=underline
+                \ ctermfg=236 ctermbg=189 cterm=underline
 highlight FoldColumn guifg=#3b54ec guibg=bg gui=bold
-                \ ctermfg=27 ctermbg=233 cterm=bold
+                \ ctermfg=62 ctermbg=233 cterm=bold
+
 
 " Diff: "{{{2
 highlight DiffAdd guifg=#0f0f0f guibg=#a47e7e gui=NONE
-                \ ctermfg=fg ctermbg=89 cterm=NONE
+                \ ctermfg=NONE ctermbg=35 cterm=NONE
 highlight DiffChange guifg=#0f0f0f guibg=#9f8fbf gui=NONE
-                \ ctermfg=fg ctermbg=130 cterm=NONE
+                \ ctermfg=NONE ctermbg=178 cterm=NONE
 highlight DiffDelete guifg=#0f0f0f guibg=#af2f7f gui=bold
-                \ ctermfg=fg ctermbg=88 cterm=NONE
+                \ ctermfg=fg ctermbg=197 cterm=NONE
 highlight DiffText guifg=#c9cbce guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=37 ctermbg=bg cterm=NONE
 highlight Added guifg=#2faf3f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=33 ctermbg=bg cterm=NONE
 highlight Changed guifg=#af9f2f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=208 ctermbg=bg cterm=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=161 ctermbg=bg cterm=NONE
+
+
 "}}}2
 
 highlight SignColumn guifg=#ffffff guibg=#8f8fff gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=16 ctermbg=104 cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
                 \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#734cce guibg=bg gui=NONE
@@ -254,14 +260,14 @@ endif
 
 
 " #- syntax highighting group "{{{1
-highlight MatchParen guifg=#000000 guibg=#3f5f5f gui=bold
+highlight MatchParen guifg=#000000 guibg=#3f5f5f gui=bold,underline
                 \ ctermfg=232 ctermbg=30 cterm=bold,underline
 highlight Comment guifg=#3f3fcf guibg=bg gui=NONE
                 \ ctermfg=26 ctermbg=bg cterm=NONE
 highlight Constant guifg=#3faf8f guibg=bg gui=NONE
                 \ ctermfg=35 ctermbg=bg cterm=NONE
 highlight Special guifg=#cfcfff guibg=bg gui=NONE
-                \ ctermfg=250 ctermbg=bg cterm=NONE
+                \ ctermfg=189 ctermbg=bg cterm=NONE
 highlight Identifier guifg=#5f3fff guibg=bg gui=NONE
                 \ ctermfg=25 ctermbg=bg cterm=NONE
 highlight Statement guifg=#bf5faf guibg=bg gui=NONE

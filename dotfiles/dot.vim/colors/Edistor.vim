@@ -41,7 +41,7 @@ highlight MoreMsg guifg=#1f2f5f guibg=#7f7fff gui=underline
 highlight ModeMsg guifg=#5f2f3f guibg=#ff7f7f gui=underline
                 \ ctermfg=52 ctermbg=9 cterm=underline
 highlight MsgArea guifg=#0f5f5f guibg=#fff0f5 gui=NONE
-                \ ctermfg=242 ctermbg=252 cterm=NONE
+                \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight ErrorMsg guifg=#5f2f0f guibg=#ffaf8f gui=underline
                 \ ctermfg=94 ctermbg=209 cterm=underline
 highlight WarningMsg guifg=#db7bda guibg=#fbe0ff gui=NONE
@@ -71,7 +71,7 @@ highlight StatusLine guifg=#fdfdfd guibg=#1f293c gui=NONE
 highlight StatusLineNC guifg=#606080 guibg=#c8c8d8 gui=NONE
                 \ ctermfg=243 ctermbg=255 cterm=NONE
 highlight StatusLineTerm guifg=#1f293c guibg=#f8e0ff gui=NONE
-                \ ctermfg=255 ctermbg=233 cterm=NONE
+                \ ctermfg=52 ctermbg=225 cterm=NONE
 highlight StatusLineTermNC guifg=#606080 guibg=#c8c8d8 gui=NONE
                 \ ctermfg=243 ctermbg=255 cterm=NONE
 " }}}2
@@ -99,7 +99,7 @@ highlight FoldColumn guifg=#3150a6 guibg=#ffedfa gui=bold
 
 " Diff: "{{{2
 highlight DiffAdd guifg=fg guibg=#afffaf gui=NONE
-                \ ctermfg=fg ctermbg=42 cterm=NONE
+                \ ctermfg=fg ctermbg=154 cterm=NONE
 highlight DiffChange guifg=fg guibg=#ffffaf gui=NONE
                 \ ctermfg=fg ctermbg=228 cterm=NONE
 highlight DiffDelete guifg=fg guibg=#ffafaf gui=NONE
@@ -107,17 +107,17 @@ highlight DiffDelete guifg=fg guibg=#ffafaf gui=NONE
 highlight DiffText guifg=fg guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=22 ctermbg=bg cterm=NONE
 highlight Added guifg=#2faf3f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=24 ctermbg=bg cterm=NONE
 highlight Changed guifg=#af9f2f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=130 ctermbg=bg cterm=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=52 ctermbg=bg cterm=NONE
 " }}}2
 
-highlight SignColumn guifg=fg   guibg=#afafaf gui=NONE
-                \ ctermfg=NONE ctermbg=NONE cterm=NONE
+highlight SignColumn guifg=fg guibg=#afafaf gui=NONE
+                \ ctermfg=232 ctermbg=247 cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
                 \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#0f8f8f guibg=bg gui=NONE
@@ -140,7 +140,7 @@ highlight Menu guifg=#2f2f2f guibg=#3fafcf gui=None
 
 " Quickfix: "{{{2
 highlight QuickFixLine guifg=#0f0f0f guibg=#cfafff gui=bold
-      \ ctermfg=fg ctermbg=bg cterm=NONE
+      \ ctermfg=fg ctermbg=219 cterm=NONE
 
 
 " Toolbar: "{{{2
@@ -239,11 +239,11 @@ endif
 highlight CursorLine guifg=NONE guibg=#d6efff gui=NONE
                 \ ctermfg=NONE ctermbg=121 cterm=NONE
 highlight CursorLineNr guifg=#af0f0f guibg=#cfffff gui=NONE
-                \ ctermfg=178 ctermbg=183 cterm=bold
+                \ ctermfg=178 ctermbg=195 cterm=bold
 highlight CursorLineFold guifg=NONE guibg=#cfcfff gui=bold
                 \ ctermfg=93 ctermbg=16 cterm=bold
 highlight CursorLineSign guifg=NONE guibg=#8faf8f gui=bold
-                \ ctermfg=93 ctermbg=16 cterm=bold
+                \ ctermfg=93 ctermbg=17 cterm=bold
 
 
 " Terminal: "{{{2

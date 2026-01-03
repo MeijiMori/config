@@ -41,7 +41,7 @@ highlight MoreMsg guifg=#0f5f3f guibg=#3faf7f gui=underline
 highlight ModeMsg guifg=#6f6f8f guibg=#cfcfff gui=underline
           \ ctermfg=238 ctermbg=250 cterm=underline
 highlight MsgArea guifg=fg guibg=bg gui=NONE
-          \ ctermfg=242 ctermbg=252 cterm=NONE
+          \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight ErrorMsg guifg=#5f1f2f guibg=#cf8faf gui=underline
           \ ctermfg=88 ctermbg=176 cterm=underline
 highlight WarningMsg guifg=#5f2f0f guibg=#ff7f5f gui=underline
@@ -71,9 +71,9 @@ highlight StatusLine guifg=#aaaaaa guibg=#2f2f2f gui=NONE
 highlight StatusLineNC guifg=#6f6f8f guibg=#cfcfff gui=underline
           \ ctermfg=238 ctermbg=249 cterm=underline
 highlight StatusLineTerm guifg=#000f2f guibg=#cfccff gui=NONE
-          \ ctermfg=11 ctermbg=bg cterm=NONE
-highlight StatusLineTermNc guifg=#002f2f guibg=#8fafcf gui=NONE
-          \ ctermfg=11 ctermbg=bg cterm=NONE
+          \ ctermfg=24 ctermbg=195 cterm=NONE
+highlight StatusLineTermNC guifg=#002f2f guibg=#8fafcf gui=NONE
+          \ ctermfg=24 ctermbg=153 cterm=NONE
 "}}}2
 highlight VertSplit guifg=#1f5fdf guibg=#0f0f2f gui=NONE
           \ ctermfg=21 ctermbg=233 cterm=NONE
@@ -118,7 +118,7 @@ highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
 
 
 highlight SignColumn guifg=fg guibg=#1f1f3f gui=NONE
-          \ ctermfg=fg ctermbg=bg cterm=NONE
+          \ ctermfg=fg ctermbg=12 cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
           \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#8f5fff guibg=NONE gui=bold
@@ -217,7 +217,7 @@ highlight TabPanelTitle guifg=#000000 guibg=#efefff gui=NONE
 
 " Cursor: "{{{2
 highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
-          \ ctermfg=NONE ctermbg=234 cterm=NONE
+          \ ctermfg=NONE ctermbg=74 cterm=NONE
 highlight CursorColumn guifg=#000000 guibg=#2f2f2f gui=NONE
           \ ctermfg=NONE ctermbg=235 cterm=NONE
 highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE

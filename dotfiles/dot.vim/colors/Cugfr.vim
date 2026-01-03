@@ -43,7 +43,7 @@ highlight ModeMsg guifg=#0f2f5f guibg=#7f8fcf gui=NONE
 highlight ErrorMsg guifg=#ff3f8f guibg=bg gui=NONE
                 \ ctermfg=197 ctermbg=NONE cterm=NONE
 highlight MsgArea guifg=fg guibg=bg gui=NONE
-                \ ctermfg=242 ctermbg=252 cterm=NONE
+                \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight WarningMsg guifg=#ff2f5f guibg=bg gui=NONE
                 \ ctermfg=197 ctermbg=bg cterm=NONE
 highlight Question guifg=#2f8f5f guibg=#afcfcf gui=NONE
@@ -107,17 +107,17 @@ highlight DiffDelete guifg=#0f0f0f guibg=#af2f7f gui=bold
 highlight DiffText guifg=#0f0f0f guibg=#c9cbce gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=35 ctermbg=bg cterm=NONE
 highlight Added guifg=#2faf3f guibg=bg gui=NONE
                 \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight Changed guifg=#af9f2f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=226 ctermbg=bg cterm=NONE
 highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
-                \ ctermfg=fg ctermbg=bg cterm=NONE
+                \ ctermfg=196 ctermbg=bg cterm=NONE
 "}}}
 
 highlight SignColumn guifg=fg guibg=#1f1f1f gui=NONE
-                \ ctermfg=fg ctermbg=249 cterm=NONE
+                \ ctermfg=0 ctermbg=249 cterm=NONE
 highlight Conceal guifg=NONE guibg=#c0355f gui=NONE
                 \ ctermfg=fg ctermbg=0 cterm=NONE
 highlight SpecialKey guifg=#5842ff guibg=bg gui=NONE

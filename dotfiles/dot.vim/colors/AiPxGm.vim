@@ -40,7 +40,7 @@ highlight MoreMsg guifg=#ffffff guibg=#2f2f2f gui=NONE
 highlight ModeMsg guifg=#affff9 guibg=NONE gui=NONE
           \ ctermfg=121 ctermbg=NONE cterm=NONE
 highlight MsgArea guifg=#ffffff guibg=bg gui=NONE
-          \ ctermfg=242 ctermbg=252 cterm=NONE
+          \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight WarningMsg guifg=#ff3845 guibg=NONE gui=NONE
           \ ctermfg=197 ctermbg=bg cterm=NONE
 highlight Question guifg=#6ab3b5 guibg=NONE gui=NONE
@@ -69,7 +69,7 @@ highlight StatusLineNC guifg=#565234 guibg=#b2a089 gui=NONE
 highlight StatusLineTerm guifg=#202020 guibg=#bfbfbf gui=NONE
           \ ctermfg=236 ctermbg=251 cterm=NONE
 highlight StatusLineTermNC guifg=#565234 guibg=#b2a089 gui=NONE
-          \ ctermfg=237 ctermbg=180 cterm=NONE
+          \ ctermfg=237 ctermbg=138 cterm=NONE
 
 
 "}}}2
@@ -98,11 +98,11 @@ highlight FoldColumn guifg=#aaaaaa guibg=#0f2f4f gui=bold
 
 " Diff: "{{{2
 highlight DiffAdd guifg=#2f7fff guibg=NONE gui=NONE
-          \ ctermfg=fg ctermbg=18 cterm=NONE
+          \ ctermfg=fg ctermbg=35 cterm=NONE
 highlight DiffChange guifg=#ffff9f guibg=NONE gui=NONE
-          \ ctermfg=fg ctermbg=221 cterm=NONE
+          \ ctermfg=fg ctermbg=214 cterm=NONE
 highlight DiffDelete guifg=#f62c74 guibg=NONE gui=NONE
-          \ ctermfg=fg ctermbg=196 cterm=NONE
+          \ ctermfg=fg ctermbg=52 cterm=NONE
 highlight DiffText guifg=#c9cbce guibg=NONE gui=NONE
           \ ctermfg=fg ctermbg=bg cterm=NONE
 highlight DiffTextAdd guifg=#1f8f5f guibg=bg gui=NONE
@@ -116,7 +116,7 @@ highlight Removed guifg=#ef2f5f guibg=bg gui=NONE
 "}}}2
 
 highlight SignColumn guifg=#afdfff guibg=#0f0f1f gui=NONE
-          \ ctermfg=fg ctermbg=bg cterm=NONE
+          \ ctermfg=111 ctermbg=16 cterm=NONE
 highlight Conceal guifg=#ff5f7f guibg=bg gui=NONE
           \ ctermfg=161 ctermbg=bg cterm=NONE
 highlight SpecialKey guifg=#4f3fff guibg=NONE gui=NONE
@@ -213,9 +213,9 @@ highlight TabPanelTitle guifg=#cfcfcf guibg=#5f5f5f gui=NONE
 
 " Cursor: "{{{2
 highlight ColorColumn guifg=NONE guibg=#cfcfff gui=NONE
-          \ ctermfg=252 ctermbg=245 cterm=NONE
-highlight ColorColumn guifg=NONE guibg=#892f30 gui=NONE
-          \ ctermfg=250 ctermbg=124 cterm=NONE
+          \ ctermfg=231 ctermbg=88 cterm=NONE
+highlight CursorColumn guifg=NONE guibg=#892f30 gui=NONE
+          \ ctermfg=7 ctermbg=52 cterm=NONE
 highlight lCursor guifg=#575757 guibg=#7ea3a6 gui=NONE
           \ ctermfg=253 ctermbg=232 cterm=NONE
 highlight CmdlineCursor guifg=#000000 guibg=#cfffff gui=NONE
